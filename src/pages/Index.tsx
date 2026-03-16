@@ -3,20 +3,20 @@ import { motion } from "framer-motion";
 import { ShieldCheck, Zap, Lock, Trophy, MessageSquare, Package } from "lucide-react";
 
 const PRODUCTS = [
-  { id: 1, name: "10K RED PACKET CC", img: "https://i.ibb.co/KxqYpjD1", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", link: "https://rzp.io/rzp/pWMzS6S" },
-  { id: 2, name: "50K RED PACKET CC", img: "https://i.ibb.co/x8d00zj8", price: 1299, mrp: 5399, desc: "50,000 coins + 50,000 bonus", link: "https://rzp.io/rzp/IgGktT5" },
-  { id: 3, name: "10K GOLD CC", img: "https://i.ibb.co/DDmVY00t", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", link: "https://rzp.io/rzp/pWMzS6S" },
-  { id: 4, name: "50K GOLD CC", img: "https://i.ibb.co/fc3qwvz", price: 1299, mrp: 5399, desc: "50,000 coins + 5000 bonus + 1 Broad Absolute", link: "https://rzp.io/rzp/IgGktT5" },
-  { id: 5, name: "100K GOLD CC", img: "https://i.ibb.co/SXs6pdJV", price: 2199, mrp: 12000, desc: "1 Lakh coins + 10,000 bonus + 2 Broad Absolute", link: "https://rzp.io/rzp/1Thvvcy" },
-  { id: 6, name: "250K GOLD CC", img: "https://i.ibb.co/RGwWYr8W", price: 4200, mrp: 27000, desc: "2.5 Lakh coins + 25,000 bonus + 5 Broad Absolute", link: "https://rzp.io/rzp/y5vVPoSu" },
-  { id: 7, name: "500K GOLD CC", img: "https://i.ibb.co/F42KRj5B", price: 5999, mrp: 50000, desc: "5 Lakh coins + 50,000 bonus + 10 Broad Absolute", link: "https://rzp.io/rzp/aRxqcoS" },
+  { id: 1, name: "10K RED PACKET CC", img: "https://i.ibb.co/cSKD3KTJ/Gemini-Generated-Image-yy0rgmyy0rgmyy0r.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", link: "https://rzp.io/rzp/pWMzS6S" },
+  { id: 2, name: "50K RED PACKET CC", img: "https://i.ibb.co/S4mD86b7/Gemini-Generated-Image-vtkas1vtkas1vtka.png", price: 1299, mrp: 5399, desc: "50,000 coins + 50,000 bonus", link: "https://rzp.io/rzp/IgGktT5" },
+  { id: 3, name: "10K GOLD CC", img: "https://i.ibb.co/67QGZVkC/Gemini-Generated-Image-md8zx9md8zx9md8z.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", link: "https://rzp.io/rzp/pWMzS6S" },
+  { id: 4, name: "50K GOLD CC", img: "https://i.ibb.co/vCN4LnQz/Gemini-Generated-Image-79nvx179nvx179nv.png", price: 1299, mrp: 5399, desc: "50,000 coins + 5000 bonus + 1 Broad Absolute", link: "https://rzp.io/rzp/IgGktT5" },
+  { id: 5, name: "100K GOLD CC", img: "https://i.ibb.co/HT2nQycN/Gemini-Generated-Image-si6wdtsi6wdtsi6w-1.png", price: 2199, mrp: 12000, desc: "1 Lakh coins + 10,000 bonus + 2 Broad Absolute", link: "https://rzp.io/rzp/1Thvvcy" },
+  { id: 6, name: "250K GOLD CC", img: "https://i.ibb.co/7xmFjMhF/Gemini-Generated-Image-si6wdtsi6wdtsi6w.png", price: 4200, mrp: 27000, desc: "2.5 Lakh coins + 25,000 bonus + 5 Broad Absolute", link: "https://rzp.io/rzp/y5vVPoSu" },
+  { id: 7, name: "500K GOLD CC", img: "https://i.ibb.co/3m27gLp0/Gemini-Generated-Image-n9tkkdn9tkkdn9tk.png", price: 5999, mrp: 50000, desc: "5 Lakh coins + 50,000 bonus + 10 Broad Absolute", link: "https://rzp.io/rzp/aRxqcoS" },
 ];
 
 const PARTNERS = [
-  "https://i.ibb.co/twx0vTd3", "https://i.ibb.co/mVVZQRxZ", "https://i.ibb.co/v6bF9bpX",
-  "https://i.ibb.co/YBhT0rcY", "https://i.ibb.co/4gsXVfQD", "https://i.ibb.co/6R9HJ0j1",
-  "https://i.ibb.co/XkJCcrg1", "https://i.ibb.co/Gv4Hv81V", "https://i.ibb.co/6crzdvG9",
-  "https://i.ibb.co/fVmyT9Yt",
+  "https://i.ibb.co/0RR4Pnw4/IMG-20260207-WA0006-jpg.jpg", "https://i.ibb.co/PvRLkRKD/IMG-20260207-WA0008-jpg.jpg", "https://i.ibb.co/8ndyfLhX/IMG-20260207-WA0007-jpg.jpg",
+  "https://i.ibb.co/B2BKn1yd/IMG-20260207-WA0013-jpg.jpg", "https://i.ibb.co/mFv2cBxY/IMG-20260207-WA0012-jpg.jpg", "https://i.ibb.co/5Wprxhbn/IMG-20260207-WA0015-jpg.jpg",
+  "https://i.ibb.co/6JsWj7xz/IMG-20260207-WA0011-jpg.jpg", "https://i.ibb.co/xStFSBcM/IMG-20260207-WA0009-jpg.jpg", "https://i.ibb.co/zWQpk8C9/IMG-20260207-WA0014-jpg.jpg",
+  "https://i.ibb.co/BH8QYGVj/IMG-20260207-WA0005-jpg.jpg",
 ];
 
 const TRUST_BADGES = [
@@ -44,7 +44,7 @@ const Index = () => {
       {/* Nav */}
       <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <img src="https://i.ibb.co/KxqYpjD1" alt="Lowest Weplay" className="h-[50px] w-[150px] object-contain" />
+          <img src="https://i.ibb.co/vCHmxWCc/Gemini-Generated-Image-qxp195qxp195qxp1-removebg-preview.png" alt="Lowest Weplay" className="w-[150px] h-auto object-contain" />
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
             <a href="#products" className="hover:text-primary transition-colors">Products</a>
             <a href="#partners" className="hover:text-primary transition-colors">Partners</a>
