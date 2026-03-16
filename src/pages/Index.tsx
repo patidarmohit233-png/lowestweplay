@@ -187,7 +187,7 @@ const Index = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto"
           >
-            Official CC top-up partner. Guaranteed ID safety with instant delivery.
+            Official Weplay CC Top-up Partner. Guaranteed ID safety with instant delivery.
           </motion.p>
         </div>
       </header>
