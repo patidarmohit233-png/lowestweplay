@@ -168,7 +168,7 @@ const Index = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/8 border border-primary/15 text-primary text-xs md:text-sm font-bold mb-6"
           >
             <ShieldCheck size={14} />
-            OFFICIAL CC TOPUP PARTNER
+            OFFICIAL WEPLAY CC TOP-UP PARTNER
           </motion.div>
 
           <motion.h1
