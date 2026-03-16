@@ -104,16 +104,14 @@ function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: n
         </span>
       </div>
 
-      <motion.a
-        href={product.link}
-        target="_blank"
-        rel="noopener noreferrer"
+      <motion.button
+        onClick={() => navigate(`/checkout?product=${product.id}`)}
         whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
         whileTap={{ scale: 0.98 }}
         className="w-full py-3.5 bg-primary text-primary-foreground rounded-lg font-bold text-center flex items-center justify-center gap-2 text-sm transition-shadow duration-200 hover:shadow-[0_8px_24px_-4px_hsl(244_63%_58%/0.3)]"
       >
         BUY NOW <ArrowRight size={15} />
-      </motion.a>
+      </motion.button>
     </motion.div>
   );
 }
