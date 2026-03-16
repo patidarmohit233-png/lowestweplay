@@ -168,7 +168,7 @@ const Index = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/8 border border-primary/15 text-primary text-xs md:text-sm font-bold mb-6"
           >
             <ShieldCheck size={14} />
-            OFFICIAL WEPLAY TOPUP PARTNER
+            OFFICIAL CC TOPUP PARTNER
           </motion.div>
 
           <motion.h1
@@ -187,7 +187,7 @@ const Index = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto"
           >
-            Official WePlay top-up partner. Guaranteed ID safety with instant delivery.
+            Official CC top-up partner. Guaranteed ID safety with instant delivery.
           </motion.p>
         </div>
       </header>
