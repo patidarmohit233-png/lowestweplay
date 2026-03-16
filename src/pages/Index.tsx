@@ -44,7 +44,7 @@ const Index = () => {
       {/* Nav */}
       <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <img src="https://i.ibb.co/KxqYpjD1" alt="Lowest Weplay" className="h-[50px] w-[150px] object-contain" />
+          <img src="https://i.ibb.co/vCHmxWCc/Gemini-Generated-Image-qxp195qxp195qxp1-removebg-preview.png" alt="Lowest Weplay" className="w-[150px] h-auto object-contain" />
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
             <a href="#products" className="hover:text-primary transition-colors">Products</a>
             <a href="#partners" className="hover:text-primary transition-colors">Partners</a>
