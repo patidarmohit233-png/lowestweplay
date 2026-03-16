@@ -69,6 +69,7 @@ function SectionHeading({ title, subtitle }: { title: string; subtitle: string }
 
 /* ── Product Card ─────────────────────────────────────── */
 function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: number }) {
+  const navigate = useNavigate();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
 
