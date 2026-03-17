@@ -118,19 +118,41 @@ function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: n
   );
 }
 
-/* ── Floating particles for hero ──────────────────────── */
-function FloatingParticle({ delay, x, y, size }: { delay: number; x: string; y: string; size: number }) {
+/* ── Floating orb for hero ────────────────────────────── */
+function FloatingOrb({ delay, x, y, size, color = "primary" }: { delay: number; x: string; y: string; size: number; color?: string }) {
   return (
     <motion.div
-      className="absolute rounded-full bg-primary/10"
+      className={`absolute rounded-full ${color === "accent" ? "bg-accent/8" : "bg-primary/8"} blur-sm`}
       style={{ left: x, top: y, width: size, height: size }}
       animate={{
-        y: [0, -20, 0],
-        opacity: [0.3, 0.7, 0.3],
-        scale: [1, 1.2, 1],
+        y: [0, -30, 0],
+        x: [0, 10, 0],
+        opacity: [0.2, 0.6, 0.2],
+        scale: [1, 1.3, 1],
       }}
-      transition={{ duration: 4, delay, repeat: Infinity, ease: "easeInOut" }}
+      transition={{ duration: 5 + delay, delay, repeat: Infinity, ease: "easeInOut" }}
     />
+  );
+}
+
+/* ── Animated counter ─────────────────────────────────── */
+function AnimatedStat({ value, label, delay }: { value: string; label: string; delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.6, delay, type: "spring", stiffness: 150 }}
+      className="text-center relative group"
+    >
+      <motion.div
+        className="text-xl md:text-2xl font-display text-foreground"
+        whileHover={{ scale: 1.1 }}
+        transition={{ type: "spring", stiffness: 400 }}
+      >
+        {value}
+      </motion.div>
+      <div className="text-[10px] md:text-xs text-muted-foreground mt-1 tracking-wide uppercase">{label}</div>
+    </motion.div>
   );
 }
 
@@ -139,8 +161,9 @@ function FloatingParticle({ delay, x, y, size }: { delay: number; x: string; y: 
    ══════════════════════════════════════════════════════════ */
 const Index = () => {
   const { scrollY } = useScroll();
-  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const heroScale = useTransform(scrollY, [0, 300], [1, 0.95]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 400], [1, 0.92]);
+  const heroY = useTransform(scrollY, [0, 400], [0, 60]);
 
   useEffect(() => {
     const s1 = document.createElement("script");
@@ -157,47 +180,54 @@ const Index = () => {
 
       {/* ─── 1. PREMIUM STICKY HEADER ─────────────────────── */}
       <motion.nav
-        initial={{ y: -20, opacity: 0 }}
+        initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="sticky top-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/50"
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="sticky top-0 z-50 bg-background/70 backdrop-blur-2xl border-b border-border/40"
       >
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-[72px] flex items-center justify-between">
           <motion.img
             src="https://i.ibb.co/vCHmxWCc/Gemini-Generated-Image-qxp195qxp195qxp1-removebg-preview.png"
             alt="Lowest Weplay"
-            className="w-[120px] md:w-[150px] h-auto object-contain"
+            className="w-[110px] md:w-[150px] h-auto object-contain"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400 }}
           />
-          <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-muted-foreground">
-            {[
-              { label: "Products", href: "#products" },
-              { label: "Partners", href: "#partners" },
-              { label: "How It Works", href: "#how-it-works" },
-            ].map((item) => (
-              <motion.a
-                key={item.label}
-                href={item.href}
-                className="relative hover:text-primary transition-colors duration-300"
-                whileHover={{ y: -1 }}
-              >
-                {item.label}
-                <motion.span
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full"
-                  initial={{ scaleX: 0 }}
-                  whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.2 }}
-                />
-              </motion.a>
-            ))}
-            <div className="h-5 w-px bg-border" />
+          <div className="flex items-center gap-3 md:gap-8">
+            <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-muted-foreground">
+              {[
+                { label: "Products", href: "#products" },
+                { label: "Partners", href: "#partners" },
+                { label: "How It Works", href: "#how-it-works" },
+              ].map((item) => (
+                <motion.a
+                  key={item.label}
+                  href={item.href}
+                  className="relative hover:text-primary transition-colors duration-300"
+                  whileHover={{ y: -1 }}
+                >
+                  {item.label}
+                  <motion.span
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full origin-left"
+                    initial={{ scaleX: 0 }}
+                    whileHover={{ scaleX: 1 }}
+                    transition={{ duration: 0.2 }}
+                  />
+                </motion.a>
+              ))}
+            </div>
             <motion.span
-              className="flex items-center gap-1.5 text-accent font-bold text-xs px-3 py-1.5 rounded-full bg-accent/8 border border-accent/15"
-              animate={{ boxShadow: ["0 0 0px hsl(var(--accent)/0)", "0 0 12px hsl(var(--accent)/0.15)", "0 0 0px hsl(var(--accent)/0)"] }}
+              className="flex items-center gap-1.5 text-accent font-bold text-[10px] md:text-xs px-3 py-1.5 rounded-full bg-accent/8 border border-accent/15"
+              animate={{
+                boxShadow: [
+                  "0 0 0px hsl(var(--accent)/0)",
+                  "0 0 16px hsl(var(--accent)/0.2)",
+                  "0 0 0px hsl(var(--accent)/0)",
+                ],
+              }}
               transition={{ duration: 2.5, repeat: Infinity }}
             >
-              <ShieldCheck size={14} /> ID Safe
+              <ShieldCheck size={13} /> ID Safe
             </motion.span>
           </div>
         </div>
@@ -205,105 +235,131 @@ const Index = () => {
 
       {/* ─── PREMIUM HERO ─────────────────────────────────── */}
       <motion.header
-        style={{ opacity: heroOpacity, scale: heroScale }}
-        className="relative pt-16 md:pt-24 pb-14 md:pb-20 px-4 md:px-6 overflow-hidden"
+        style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
+        className="relative pt-12 md:pt-24 pb-16 md:pb-24 px-4 md:px-6 overflow-hidden"
       >
-        {/* Background effects */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.04] via-primary/[0.02] to-background" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-primary/[0.06] rounded-full blur-[120px] pointer-events-none" />
+        {/* Layered background effects */}
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.04] via-transparent to-background" />
+        <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[800px] bg-primary/[0.05] rounded-full blur-[100px] md:blur-[150px] pointer-events-none" />
+        <div className="absolute top-[100px] right-[-100px] w-[300px] h-[300px] bg-accent/[0.04] rounded-full blur-[80px] pointer-events-none" />
 
-        {/* Floating particles */}
-        <FloatingParticle delay={0} x="15%" y="20%" size={8} />
-        <FloatingParticle delay={1} x="80%" y="15%" size={6} />
-        <FloatingParticle delay={2} x="70%" y="60%" size={10} />
-        <FloatingParticle delay={0.5} x="25%" y="70%" size={5} />
-        <FloatingParticle delay={1.5} x="90%" y="45%" size={7} />
+        {/* Floating orbs */}
+        <FloatingOrb delay={0} x="10%" y="15%" size={12} />
+        <FloatingOrb delay={1.2} x="85%" y="10%" size={8} color="accent" />
+        <FloatingOrb delay={0.6} x="75%" y="55%" size={14} />
+        <FloatingOrb delay={2} x="20%" y="65%" size={6} color="accent" />
+        <FloatingOrb delay={0.8} x="50%" y="80%" size={10} />
+        <FloatingOrb delay={1.5} x="92%" y="40%" size={9} />
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
+          {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            initial={{ opacity: 0, scale: 0.8, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.6, type: "spring", stiffness: 200 }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/8 border border-primary/15 text-primary text-xs md:text-sm font-bold mb-8"
+            transition={{ duration: 0.7, type: "spring", stiffness: 180, damping: 15 }}
+            className="inline-flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full bg-primary/8 border border-primary/15 text-primary text-[10px] md:text-sm font-bold mb-6 md:mb-8"
           >
             <motion.span
-              animate={{ rotate: [0, 15, -15, 0] }}
+              animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.2, 1] }}
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
             >
               <Crown size={14} />
             </motion.span>
             OFFICIAL WEPLAY CC TOP-UP PARTNER
-            <Sparkles size={14} className="text-primary/60" />
+            <motion.span
+              animate={{ rotate: [0, 180, 360] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            >
+              <Sparkles size={14} className="text-primary/60" />
+            </motion.span>
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-display leading-[1.05] mb-6"
-          >
-            Premium Coins.{" "}
-            <span className="relative">
-              <span className="text-primary">Lowest Prices.</span>
+          {/* Main heading with staggered word animation */}
+          <div className="overflow-hidden mb-5 md:mb-6">
+            <motion.h1
+              className="text-[2.5rem] leading-[1.08] md:text-7xl lg:text-8xl font-display"
+            >
               <motion.span
-                className="absolute -bottom-2 left-0 right-0 h-1 bg-primary/30 rounded-full"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-              />
-            </span>
-          </motion.h1>
+                initial={{ opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="inline-block"
+              >
+                Premium Coins.
+              </motion.span>{" "}
+              <motion.span
+                initial={{ opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                className="inline-block relative"
+              >
+                <span className="text-primary">Lowest Prices.</span>
+                <motion.span
+                  className="absolute -bottom-1 md:-bottom-2 left-0 right-0 h-[3px] md:h-1 bg-gradient-to-r from-primary/40 via-primary to-primary/40 rounded-full"
+                  initial={{ scaleX: 0, opacity: 0 }}
+                  animate={{ scaleX: 1, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
+                />
+              </motion.span>
+            </motion.h1>
+          </div>
 
+          {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto mb-10"
+            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="text-muted-foreground text-sm md:text-lg max-w-md md:max-w-xl mx-auto mb-8 md:mb-10 leading-relaxed"
           >
             Official Weplay CC Top-up Partner. Guaranteed ID safety with instant delivery.
           </motion.p>
 
+          {/* CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.45 }}
-            className="flex flex-wrap items-center justify-center gap-3"
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
           >
             <motion.a
               href="#products"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              className="px-8 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-sm flex items-center gap-2 transition-shadow duration-300 hover:shadow-[var(--shadow-primary)]"
+              whileHover={{ scale: 1.04, y: -3 }}
+              whileTap={{ scale: 0.96 }}
+              className="w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-shadow duration-300 hover:shadow-[var(--shadow-primary)] relative overflow-hidden group"
             >
-              Browse Packages <ArrowRight size={16} />
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-foreground/10 to-transparent"
+                initial={{ x: "-100%" }}
+                animate={{ x: "200%" }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
+              />
+              <span className="relative z-10 flex items-center gap-2">
+                Browse Packages <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </span>
             </motion.a>
             <motion.a
               href="#how-it-works"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              className="px-8 py-4 bg-card text-foreground rounded-xl font-bold text-sm border border-border flex items-center gap-2 hover:border-primary/20 transition-all duration-300"
+              whileHover={{ scale: 1.04, y: -3 }}
+              whileTap={{ scale: 0.96 }}
+              className="w-full sm:w-auto px-8 py-4 bg-card text-foreground rounded-2xl font-bold text-sm border border-border flex items-center justify-center gap-2 hover:border-primary/25 transition-all duration-300 hover:shadow-[var(--shadow-card)]"
             >
               How It Works
             </motion.a>
           </motion.div>
 
-          {/* Stats row */}
+          {/* Stats row with glassmorphism card */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="flex items-center justify-center gap-8 md:gap-12 mt-14"
+            transition={{ duration: 0.7, delay: 0.75 }}
+            className="mt-12 md:mt-16 inline-flex items-center gap-6 md:gap-10 px-6 md:px-10 py-4 md:py-5 rounded-2xl bg-card/60 backdrop-blur-xl border border-border/50"
+            style={{ boxShadow: "var(--shadow-card)" }}
           >
-            {[
-              { num: "10K+", label: "Happy Customers" },
-              { num: "₹50L+", label: "Coins Delivered" },
-              { num: "4.9★", label: "User Rating" },
-            ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <div className="text-xl md:text-2xl font-display text-foreground">{stat.num}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{stat.label}</div>
-              </div>
-            ))}
+            <AnimatedStat value="10K+" label="Customers" delay={0.9} />
+            <div className="w-px h-8 bg-border/60" />
+            <AnimatedStat value="₹50L+" label="Delivered" delay={1.0} />
+            <div className="w-px h-8 bg-border/60" />
+            <AnimatedStat value="4.9★" label="Rating" delay={1.1} />
           </motion.div>
         </div>
       </motion.header>
