@@ -478,10 +478,28 @@ const Index = () => {
       </section>
 
       {/* ─── 4. PRODUCTS ──────────────────────────────────── */}
-      <section id="products" className="py-16 md:py-24 px-4 md:px-6 bg-secondary">
-        <div className="max-w-7xl mx-auto">
-          <SectionHeading title="Available Packages" subtitle="Select your desired coin amount to proceed to secure checkout" />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section id="products" className="py-20 md:py-32 px-4 md:px-6 relative overflow-hidden">
+        {/* Section background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary/80 via-secondary to-secondary/80" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <FadeIn className="mb-14 md:mb-20 text-center">
+            <motion.span
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/6 border border-primary/12 text-primary text-[10px] font-bold mb-4 md:mb-5"
+            >
+              <Sparkles size={12} /> PREMIUM PACKAGES
+            </motion.span>
+            <h2 className="text-3xl md:text-5xl font-display text-foreground">
+              Choose Your <span className="text-primary">Package</span>
+            </h2>
+            <p className="text-muted-foreground mt-3 md:mt-4 text-sm md:text-base max-w-lg mx-auto">Select your desired coin amount and proceed to secure checkout</p>
+          </FadeIn>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-7">
             {PRODUCTS.map((product, i) => (
               <ProductCard key={product.id} product={product} index={i} />
             ))}
