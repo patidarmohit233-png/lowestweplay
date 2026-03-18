@@ -303,130 +303,140 @@ const Index = () => {
       {/* ─── PREMIUM HERO ─────────────────────────────────── */}
       <motion.header
         style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
-        className="relative pt-12 md:pt-24 pb-16 md:pb-24 px-4 md:px-6 overflow-hidden"
+        className="relative pt-10 md:pt-20 pb-20 md:pb-32 px-4 md:px-6 overflow-hidden"
       >
         {/* Layered background effects */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.04] via-transparent to-background" />
-        <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[800px] bg-primary/[0.05] rounded-full blur-[100px] md:blur-[150px] pointer-events-none" />
-        <div className="absolute top-[100px] right-[-100px] w-[300px] h-[300px] bg-accent/[0.04] rounded-full blur-[80px] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] via-background to-background" />
+        <div className="absolute top-[-300px] left-1/2 -translate-x-1/2 w-[700px] md:w-[1100px] h-[700px] md:h-[900px] bg-primary/[0.04] rounded-full blur-[120px] md:blur-[180px] pointer-events-none" />
+        <div className="absolute top-[50px] right-[-150px] w-[400px] h-[400px] bg-accent/[0.03] rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-[-100px] left-[-100px] w-[350px] h-[350px] bg-primary/[0.03] rounded-full blur-[100px] pointer-events-none" />
+
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
 
         {/* Floating orbs */}
-        <FloatingOrb delay={0} x="10%" y="15%" size={12} />
-        <FloatingOrb delay={1.2} x="85%" y="10%" size={8} color="accent" />
-        <FloatingOrb delay={0.6} x="75%" y="55%" size={14} />
-        <FloatingOrb delay={2} x="20%" y="65%" size={6} color="accent" />
-        <FloatingOrb delay={0.8} x="50%" y="80%" size={10} />
-        <FloatingOrb delay={1.5} x="92%" y="40%" size={9} />
+        <FloatingOrb delay={0} x="8%" y="20%" size={16} />
+        <FloatingOrb delay={1.2} x="88%" y="12%" size={10} color="accent" />
+        <FloatingOrb delay={0.6} x="78%" y="55%" size={18} />
+        <FloatingOrb delay={2} x="18%" y="68%" size={8} color="accent" />
+        <FloatingOrb delay={0.8} x="45%" y="82%" size={12} />
+        <FloatingOrb delay={1.5} x="92%" y="38%" size={11} />
+        <FloatingOrb delay={0.3} x="3%" y="45%" size={7} />
+        <FloatingOrb delay={1.8} x="60%" y="8%" size={9} color="accent" />
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
           {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 15 }}
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.7, type: "spring", stiffness: 180, damping: 15 }}
-            className="inline-flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full bg-primary/8 border border-primary/15 text-primary text-[10px] md:text-sm font-bold mb-6 md:mb-8"
+            transition={{ duration: 0.7, type: "spring", stiffness: 160, damping: 14 }}
+            className="inline-flex items-center gap-2.5 px-5 md:px-6 py-2.5 md:py-3 rounded-2xl bg-primary/6 border border-primary/12 text-primary text-[10px] md:text-xs font-bold mb-7 md:mb-10 backdrop-blur-md"
           >
             <motion.span
               animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.2, 1] }}
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
             >
-              <Crown size={14} />
+              <Crown size={15} />
             </motion.span>
             OFFICIAL WEPLAY CC TOP-UP PARTNER
             <motion.span
               animate={{ rotate: [0, 180, 360] }}
               transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
             >
-              <Sparkles size={14} className="text-primary/60" />
+              <Sparkles size={14} className="text-primary/50" />
             </motion.span>
           </motion.div>
 
-          {/* Main heading with staggered word animation */}
-          <div className="overflow-hidden mb-5 md:mb-6">
+          {/* Main heading */}
+          <div className="mb-5 md:mb-7">
             <motion.h1
-              className="text-[2.5rem] leading-[1.08] md:text-7xl lg:text-8xl font-display"
+              className="text-[2.8rem] leading-[1.05] md:text-7xl lg:text-[5.5rem] font-display"
             >
               <motion.span
-                initial={{ opacity: 0, y: 60 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                initial={{ opacity: 0, y: 70, rotateX: 45 }}
+                animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="inline-block"
               >
                 Premium Coins.
-              </motion.span>{" "}
+              </motion.span>
+              <br className="md:hidden" />
+              {" "}
               <motion.span
-                initial={{ opacity: 0, y: 60 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                initial={{ opacity: 0, y: 70, rotateX: 45 }}
+                animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
                 className="inline-block relative"
               >
-                <span className="text-primary">Lowest Prices.</span>
-                <motion.span
-                  className="absolute -bottom-1 md:-bottom-2 left-0 right-0 h-[3px] md:h-1 bg-gradient-to-r from-primary/40 via-primary to-primary/40 rounded-full"
-                  initial={{ scaleX: 0, opacity: 0 }}
-                  animate={{ scaleX: 1, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
-                />
+                <span className="text-primary relative">
+                  Lowest Prices.
+                  <motion.span
+                    className="absolute -bottom-1.5 md:-bottom-2.5 left-0 right-0 h-[3px] md:h-1 bg-gradient-to-r from-primary/30 via-primary to-primary/30 rounded-full"
+                    initial={{ scaleX: 0, opacity: 0 }}
+                    animate={{ scaleX: 1, opacity: 1 }}
+                    transition={{ duration: 1, delay: 1, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                </span>
               </motion.span>
             </motion.h1>
           </div>
 
           {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+            initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="text-muted-foreground text-sm md:text-lg max-w-md md:max-w-xl mx-auto mb-8 md:mb-10 leading-relaxed"
+            transition={{ duration: 0.8, delay: 0.45 }}
+            className="text-muted-foreground text-sm md:text-lg max-w-sm md:max-w-xl mx-auto mb-9 md:mb-12 leading-relaxed"
           >
-            Official Weplay CC Top-up Partner. Guaranteed ID safety with instant delivery.
+            India's most trusted Weplay CC topup service. Guaranteed ID safety, instant delivery & best prices.
           </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.55 }}
+            transition={{ duration: 0.7, delay: 0.6 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
           >
             <motion.a
               href="#products"
-              whileHover={{ scale: 1.04, y: -3 }}
+              whileHover={{ scale: 1.04, y: -4 }}
               whileTap={{ scale: 0.96 }}
-              className="w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-shadow duration-300 hover:shadow-[var(--shadow-primary)] relative overflow-hidden group"
+              className="w-full sm:w-auto px-10 py-4.5 bg-primary text-primary-foreground rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 hover:shadow-[0_12px_30px_-6px_hsl(var(--primary)/0.4)] relative overflow-hidden group"
             >
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-foreground/10 to-transparent"
                 initial={{ x: "-100%" }}
                 animate={{ x: "200%" }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
+                transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
               />
-              <span className="relative z-10 flex items-center gap-2">
-                Browse Packages <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              <span className="relative z-10 flex items-center gap-2.5">
+                Browse Packages <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform duration-300" />
               </span>
             </motion.a>
             <motion.a
               href="#how-it-works"
-              whileHover={{ scale: 1.04, y: -3 }}
+              whileHover={{ scale: 1.04, y: -4 }}
               whileTap={{ scale: 0.96 }}
-              className="w-full sm:w-auto px-8 py-4 bg-card text-foreground rounded-2xl font-bold text-sm border border-border flex items-center justify-center gap-2 hover:border-primary/25 transition-all duration-300 hover:shadow-[var(--shadow-card)]"
+              className="w-full sm:w-auto px-10 py-4.5 bg-card/80 backdrop-blur-md text-foreground rounded-2xl font-bold text-sm border border-border/60 flex items-center justify-center gap-2 hover:border-primary/25 transition-all duration-300 hover:shadow-[var(--shadow-elevated)]"
             >
               How It Works
             </motion.a>
           </motion.div>
 
-          {/* Stats row with glassmorphism card */}
+          {/* Stats row */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.75 }}
-            className="mt-12 md:mt-16 inline-flex items-center gap-6 md:gap-10 px-6 md:px-10 py-4 md:py-5 rounded-2xl bg-card/60 backdrop-blur-xl border border-border/50"
-            style={{ boxShadow: "var(--shadow-card)" }}
+            initial={{ opacity: 0, y: 35, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-14 md:mt-20 inline-flex items-center gap-5 md:gap-10 px-7 md:px-12 py-5 md:py-6 rounded-3xl bg-card/50 backdrop-blur-2xl border border-border/40"
+            style={{ boxShadow: "0 20px 50px -15px rgb(0 0 0 / 0.06), var(--shadow-glow)" }}
           >
-            <AnimatedStat value="10K+" label="Customers" delay={0.9} />
-            <div className="w-px h-8 bg-border/60" />
-            <AnimatedStat value="₹50L+" label="Delivered" delay={1.0} />
-            <div className="w-px h-8 bg-border/60" />
-            <AnimatedStat value="4.9★" label="Rating" delay={1.1} />
+            <AnimatedStat value="10K+" label="Customers" delay={1.0} />
+            <div className="w-px h-9 bg-border/50" />
+            <AnimatedStat value="₹50L+" label="Delivered" delay={1.1} />
+            <div className="w-px h-9 bg-border/50" />
+            <AnimatedStat value="4.9★" label="Rating" delay={1.2} />
           </motion.div>
         </div>
       </motion.header>
