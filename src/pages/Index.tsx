@@ -89,65 +89,98 @@ function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: n
   const navigate = useNavigate();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
+  const badge = PRODUCT_BADGES[product.id];
+  const discount = Math.round((1 - product.price / product.mrp) * 100);
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.07, ease: "easeOut" }}
-      whileHover={{ y: -6, transition: { duration: 0.3, type: "spring", stiffness: 300 } }}
-      className="group bg-card rounded-2xl p-5 border border-border flex flex-col hover:border-primary/20 transition-all duration-300"
+      initial={{ opacity: 0, y: 40, scale: 0.95 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -8, transition: { duration: 0.35, type: "spring", stiffness: 280, damping: 20 } }}
+      className="group relative bg-card rounded-3xl border border-border/60 flex flex-col hover:border-primary/25 transition-all duration-500 overflow-hidden"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
-      <div className="aspect-[4/3] rounded-xl bg-secondary overflow-hidden mb-5 relative">
+      {/* Top gradient accent line */}
+      <div className={`absolute top-0 left-0 right-0 h-[2px] ${badge?.color === "accent" ? "bg-gradient-to-r from-transparent via-accent to-transparent" : "bg-gradient-to-r from-transparent via-primary to-transparent"} opacity-60 group-hover:opacity-100 transition-opacity duration-500`} />
+
+      {/* Image section */}
+      <div className="aspect-[4/3] bg-gradient-to-br from-secondary via-secondary/80 to-secondary/40 overflow-hidden relative m-3 rounded-2xl">
         <img
           src={product.img}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+          className="w-full h-full object-cover group-hover:scale-[1.08] transition-transform duration-700 ease-out"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        {/* Product badge */}
-        {PRODUCT_BADGES[product.id] && (
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8, x: 10 }}
-            animate={inView ? { opacity: 1, scale: 1, x: 0 } : {}}
-            transition={{ delay: index * 0.07 + 0.3, type: "spring", stiffness: 300 }}
-            className={`absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold backdrop-blur-md ${
-              PRODUCT_BADGES[product.id].color === "accent"
-                ? "bg-accent/15 text-accent border border-accent/20"
-                : "bg-primary/15 text-primary border border-primary/20"
+        {/* Hover overlay with gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+        {/* Badge */}
+        {badge && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.7, y: -5 }}
+            animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
+            transition={{ delay: index * 0.08 + 0.35, type: "spring", stiffness: 300, damping: 15 }}
+            className={`absolute top-2.5 right-2.5 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold backdrop-blur-xl ${
+              badge.color === "accent"
+                ? "bg-accent/20 text-accent border border-accent/25 shadow-[0_2px_12px_-2px_hsl(var(--accent)/0.3)]"
+                : "bg-primary/20 text-primary border border-primary/25 shadow-[0_2px_12px_-2px_hsl(var(--primary)/0.3)]"
             }`}
           >
-            <motion.span animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}>
-              {PRODUCT_BADGES[product.id].icon}
+            <motion.span animate={{ scale: [1, 1.25, 1] }} transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2.5 }}>
+              {badge.icon}
             </motion.span>
-            {PRODUCT_BADGES[product.id].text}
-          </motion.span>
+            {badge.text}
+          </motion.div>
         )}
+
+        {/* Discount pill */}
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ delay: index * 0.08 + 0.4 }}
+          className="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-foreground/80 backdrop-blur-md text-background text-[10px] font-bold"
+        >
+          {discount}% OFF
+        </motion.div>
       </div>
 
-      <h3 className="text-lg font-bold text-foreground mb-1">{product.name}</h3>
-      <p className="text-muted-foreground text-sm mb-5 flex-grow leading-relaxed">{product.desc}</p>
+      {/* Content */}
+      <div className="px-5 pb-5 pt-2 flex flex-col flex-grow">
+        <h3 className="text-base font-bold text-foreground mb-1 tracking-tight">{product.name}</h3>
+        <p className="text-muted-foreground text-xs mb-4 flex-grow leading-relaxed">{product.desc}</p>
 
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold font-price text-foreground">₹{product.price}</span>
-          <span className="text-sm text-muted-foreground line-through">₹{product.mrp}</span>
+        <div className="flex items-end justify-between mb-4">
+          <div>
+            <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Price</span>
+            <div className="flex items-baseline gap-2 mt-0.5">
+              <span className="text-2xl font-bold font-price text-foreground">₹{product.price}</span>
+              <span className="text-xs text-muted-foreground line-through">₹{product.mrp}</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-1 text-[10px] text-accent font-semibold">
+            <Zap size={11} />
+            Instant
+          </div>
         </div>
-        <span className="px-2.5 py-1 rounded-full bg-accent/10 text-accent text-xs font-bold">
-          SAVE {Math.round((1 - product.price / product.mrp) * 100)}%
-        </span>
-      </div>
 
-      <motion.button
-        onClick={() => navigate(`/checkout?product=${product.id}`)}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.97 }}
-        className="w-full py-3.5 bg-primary text-primary-foreground rounded-xl font-bold text-center flex items-center justify-center gap-2 text-sm transition-all duration-200 hover:shadow-[var(--shadow-primary)]"
-      >
-        BUY NOW <ArrowRight size={15} />
-      </motion.button>
+        <motion.button
+          onClick={() => navigate(`/checkout?product=${product.id}`)}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.96 }}
+          className="w-full py-3.5 bg-primary text-primary-foreground rounded-2xl font-bold text-center flex items-center justify-center gap-2 text-sm transition-all duration-300 hover:shadow-[0_8px_24px_-4px_hsl(var(--primary)/0.35)] relative overflow-hidden group/btn"
+        >
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-foreground/10 to-transparent"
+            initial={{ x: "-100%" }}
+            whileHover={{ x: "200%" }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+          />
+          <span className="relative z-10 flex items-center gap-2">
+            BUY NOW <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+          </span>
+        </motion.button>
+      </div>
     </motion.div>
   );
 }
