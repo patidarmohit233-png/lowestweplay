@@ -4,8 +4,18 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import {
   ShieldCheck, Zap, Lock, Trophy, MessageSquare, Package,
   ArrowRight, Search, CreditCard, Download, CheckCircle2,
-  Sparkles, Star, Crown,
+  Sparkles, Star, Crown, Flame,
 } from "lucide-react";
+
+const PRODUCT_BADGES: Record<number, { text: string; icon: React.ReactNode; color: string }> = {
+  1: { text: "STARTER PICK", icon: <Zap size={11} />, color: "primary" },
+  2: { text: "BEST SELLER", icon: <Flame size={11} />, color: "accent" },
+  3: { text: "POPULAR", icon: <Star size={11} />, color: "primary" },
+  4: { text: "HOT DEAL", icon: <Flame size={11} />, color: "accent" },
+  5: { text: "MOST VALUE", icon: <Sparkles size={11} />, color: "primary" },
+  6: { text: "TOP CHOICE", icon: <Crown size={11} />, color: "accent" },
+  7: { text: "MEGA PACK", icon: <Crown size={11} />, color: "primary" },
+};
 
 const PRODUCTS = [
   { id: 1, name: "10K RED PACKET CC", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804999/Gemini_Generated_Image_yy0rgmyy0rgmyy0r_dfnma9.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", link: "https://rzp.io/rzp/pWMzS6S" },
