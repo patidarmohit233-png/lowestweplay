@@ -107,6 +107,24 @@ function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: n
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* Product badge */}
+        {PRODUCT_BADGES[product.id] && (
+          <motion.span
+            initial={{ opacity: 0, scale: 0.8, x: 10 }}
+            animate={inView ? { opacity: 1, scale: 1, x: 0 } : {}}
+            transition={{ delay: index * 0.07 + 0.3, type: "spring", stiffness: 300 }}
+            className={`absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold backdrop-blur-md ${
+              PRODUCT_BADGES[product.id].color === "accent"
+                ? "bg-accent/15 text-accent border border-accent/20"
+                : "bg-primary/15 text-primary border border-primary/20"
+            }`}
+          >
+            <motion.span animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}>
+              {PRODUCT_BADGES[product.id].icon}
+            </motion.span>
+            {PRODUCT_BADGES[product.id].text}
+          </motion.span>
+        )}
       </div>
 
       <h3 className="text-lg font-bold text-foreground mb-1">{product.name}</h3>
