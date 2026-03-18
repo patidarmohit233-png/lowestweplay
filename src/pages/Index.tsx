@@ -18,10 +18,16 @@ const PRODUCTS = [
 ];
 
 const PARTNERS = [
-  "https://i.ibb.co/0RR4Pnw4/IMG-20260207-WA0006-jpg.jpg", "https://i.ibb.co/PvRLkRKD/IMG-20260207-WA0008-jpg.jpg", "https://i.ibb.co/8ndyfLhX/IMG-20260207-WA0007-jpg.jpg",
-  "https://i.ibb.co/B2BKn1yd/IMG-20260207-WA0013-jpg.jpg", "https://i.ibb.co/mFv2cBxY/IMG-20260207-WA0012-jpg.jpg", "https://i.ibb.co/5Wprxhbn/IMG-20260207-WA0015-jpg.jpg",
-  "https://i.ibb.co/6JsWj7xz/IMG-20260207-WA0011-jpg.jpg", "https://i.ibb.co/xStFSBcM/IMG-20260207-WA0009-jpg.jpg", "https://i.ibb.co/zWQpk8C9/IMG-20260207-WA0014-jpg.jpg",
-  "https://i.ibb.co/BH8QYGVj/IMG-20260207-WA0005-jpg.jpg",
+  "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804948/IMG-20260207-WA0006.jpg_rbjusb.jpg",
+  "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804948/IMG-20260207-WA0008.jpg_zo89yq.jpg",
+  "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804949/IMG-20260207-WA0007.jpg_gp0oc0.jpg",
+  "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804949/IMG-20260207-WA0011.jpg_xrsxy2.jpg",
+  "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804951/IMG-20260207-WA0013.jpg_pr8igb.jpg",
+  "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804950/IMG-20260207-WA0012.jpg_zimzbe.jpg",
+  "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804950/IMG-20260207-WA0014.jpg_ptvehw.jpg",
+  "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804950/IMG-20260207-WA0015.jpg_qh2kbf.jpg",
+  "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804949/IMG-20260207-WA0009.jpg_e4z9te.jpg",
+  "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804949/IMG-20260207-WA0005.jpg_uxirw9.jpg",
 ];
 
 const TRUST_BADGES = [
