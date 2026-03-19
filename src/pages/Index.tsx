@@ -306,7 +306,7 @@ const Index = () => {
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="sticky top-0 z-50 bg-background/70 backdrop-blur-2xl border-b border-border/40"
+        className="sticky top-[36px] z-50 bg-background/70 backdrop-blur-2xl border-b border-border/40"
       >
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-[72px] flex items-center justify-between">
           <motion.img
