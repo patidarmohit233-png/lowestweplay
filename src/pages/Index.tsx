@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import {
@@ -223,6 +223,61 @@ function AnimatedStat({ value, label, delay }: { value: string; label: string; d
   );
 }
 
+/* ── Daily Countdown Bar ───────────────────────────────── */
+function DailyCountdownBar() {
+  const [time, setTime] = useState({ h: 0, m: 0, s: 0 });
+
+  useEffect(() => {
+    function update() {
+      const now = new Date();
+      const midnight = new Date(now);
+      midnight.setHours(24, 0, 0, 0);
+      const diff = midnight.getTime() - now.getTime();
+      if (diff <= 0) return;
+      setTime({
+        h: Math.floor(diff / 3600000),
+        m: Math.floor((diff % 3600000) / 60000),
+        s: Math.floor((diff % 60000) / 1000),
+      });
+    }
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+
+  return (
+    <div
+      className="sticky top-0 z-[60] w-full py-2 px-3 flex items-center justify-center gap-2 flex-wrap text-white text-sm"
+      style={{
+        background: "linear-gradient(135deg, #4F46E5, #6366F1)",
+        fontFamily: "'Inter', 'Poppins', sans-serif",
+        fontSize: "14px",
+      }}
+    >
+      <span className="font-semibold tracking-wide">🔥 70% SALES ENDS IN:</span>
+      <div className="flex items-center gap-1">
+        {[
+          { val: pad(time.h), label: "h" },
+          { val: pad(time.m), label: "m" },
+          { val: pad(time.s), label: "s" },
+        ].map((t) => (
+          <span
+            key={t.label}
+            className="inline-flex items-center justify-center min-w-[32px] px-1.5 py-0.5 rounded-md font-bold tabular-nums"
+            style={{ background: "rgba(255,255,255,0.2)", backdropFilter: "blur(4px)" }}
+          >
+            {t.val}{t.label}
+          </span>
+        ))}
+      </div>
+      <span className="text-white/80 text-xs font-medium hidden sm:inline">• Limited Time Offer</span>
+      <span className="text-white/80 text-xs font-medium sm:hidden">• Limited Offer</span>
+    </div>
+  );
+}
+
 /* ══════════════════════════════════════════════════════════
    MAIN PAGE
    ══════════════════════════════════════════════════════════ */
@@ -243,13 +298,15 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
+      {/* ─── 0. DAILY COUNTDOWN BAR ───────────────────────── */}
+      <DailyCountdownBar />
 
       {/* ─── 1. PREMIUM STICKY HEADER ─────────────────────── */}
       <motion.nav
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="sticky top-0 z-50 bg-background/70 backdrop-blur-2xl border-b border-border/40"
+        className="sticky top-[36px] z-50 bg-background/70 backdrop-blur-2xl border-b border-border/40"
       >
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-[72px] flex items-center justify-between">
           <motion.img
