@@ -349,7 +349,7 @@ const Index = () => {
           {/* Main heading */}
           <div className="mb-5 md:mb-7">
             <motion.h1
-              className="text-[2.8rem] leading-[1.05] md:text-7xl lg:text-[5.5rem] font-display"
+              className="text-[2.8rem] leading-[1.05] md:text-7xl lg:text-[5.5rem] font-display tracking-tight"
             >
               <motion.span
                 initial={{ opacity: 0, y: 70, rotateX: 45 }}
@@ -357,7 +357,7 @@ const Index = () => {
                 transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="inline-block"
               >
-                Premium Coins.
+                Get More.
               </motion.span>
               <br className="md:hidden" />
               {" "}
@@ -367,13 +367,15 @@ const Index = () => {
                 transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
                 className="inline-block relative"
               >
-                <span className="text-primary relative">
-                  Lowest Prices.
+                <span className="relative">
+                  <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+                    Pay Less.
+                  </span>
                   <motion.span
-                    className="absolute -bottom-1.5 md:-bottom-2.5 left-0 right-0 h-[3px] md:h-1 bg-gradient-to-r from-primary/30 via-primary to-primary/30 rounded-full"
+                    className="absolute -bottom-1.5 md:-bottom-2.5 left-0 right-0 h-[3px] md:h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full"
                     initial={{ scaleX: 0, opacity: 0 }}
                     animate={{ scaleX: 1, opacity: 1 }}
-                    transition={{ duration: 1, delay: 1, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 1.2, delay: 1, ease: [0.22, 1, 0.36, 1] }}
                   />
                 </span>
               </motion.span>
