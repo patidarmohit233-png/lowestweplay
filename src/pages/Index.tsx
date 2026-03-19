@@ -243,6 +243,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
+      {/* ─── 0. DAILY COUNTDOWN BAR ───────────────────────── */}
+      <DailyCountdownBar />
 
       {/* ─── 1. PREMIUM STICKY HEADER ─────────────────────── */}
       <motion.nav
