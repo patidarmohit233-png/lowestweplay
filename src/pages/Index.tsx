@@ -644,6 +644,35 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ─── CUSTOMER REVIEWS ────────────────────────────── */}
+      <section className="py-16 px-4 md:px-6 bg-secondary/50">
+        <div className="max-w-6xl mx-auto">
+          <SectionHeading title="Customer Reviews" subtitle="Real feedback from our happy gamers" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { name: "Rahul", text: "Very nice this website is very good for your weplay life dont wast your money come hare and enjoy" },
+              { name: "Ankit G", text: "Maine 50K RED PACKET liya tha. Payment ke baad 10 minute tak kuch nahi aaya toh thoda tension hua. Phir support se baat ki aur 2 minute mein coins aa gaye. Good service" },
+              { name: "Eren R", text: "Bhai kya mst website hai phle trust nhi hua tha but ab roj topup karta hu yahi se" },
+              { name: "Deepak Kumar", text: "Pehle lag raha tha scam hoga kyunki ID maang rahe the. But unhone bola sirf ID chahiye password nahi. Safe hai bhai" },
+              { name: "Neha Jhaal", text: "Raat 1 baje order kiya tha, socha tha kal subah tak wait karna padega coins aa gaye. Thoda slow tha par aa gaya. Trusted website hai" },
+              { name: "Amit Tiwari", text: "Sabse sasta recharge yahi mila. Ab yahi se lunga hamesha." },
+              { name: "Rohit Yadav", text: "Bhai pehle dar lag raha tha par 2 min mein recharge aa gaya. Highly recommended!" },
+              { name: "Sneha", text: "Best experience, trusted hai guys go for it" },
+              { name: "Akash007", text: "Legit site hai, coins turant credit ho gaye account mein." },
+              { name: "Priya S", text: "ID dalte time dar lag raha tha, support se baat ki unhone bola 100% safe hai. Maine try kiya aur 5 minute mein coins aa gaye. Achi website hai, trusted hai." },
+            ].map((review, i) => (
+              <FadeIn key={i} delay={i * 0.05}>
+                <div className="bg-card rounded-xl border border-border p-5 h-full" style={{ boxShadow: "var(--shadow-soft)" }}>
+                  <div className="text-amber-400 text-sm mb-2">⭐⭐⭐⭐</div>
+                  <p className="text-foreground text-sm leading-relaxed mb-3">"{review.text}"</p>
+                  <p className="text-muted-foreground text-xs font-semibold">— {review.name}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─── 8. PREMIUM FOOTER ────────────────────────────── */}
       <footer className="py-12 px-4 md:px-6 border-t border-border bg-card">
         <div className="max-w-5xl mx-auto">
