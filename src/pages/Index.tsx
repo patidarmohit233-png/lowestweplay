@@ -454,31 +454,50 @@ const Index = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 shadow-none">
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
             
             <motion.a
               href="#products"
-              whileHover={{ scale: 1.04, y: -4 }}
-              whileTap={{ scale: 0.96 }}
-              className="w-full sm:w-auto px-10 py-4.5 bg-primary text-primary-foreground rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 hover:shadow-[0_12px_30px_-6px_hsl(var(--primary)/0.4)] relative overflow-hidden group">
+              whileHover={{ scale: 1.06, y: -6 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full sm:w-auto px-12 py-5 bg-gradient-to-r from-primary to-[hsl(244,80%,65%)] text-primary-foreground rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group"
+              style={{ boxShadow: "var(--shadow-primary), 0 0 40px hsl(244 63% 58% / 0.15)" }}>
               
+              {/* Shimmer sweep */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-foreground/10 to-transparent"
-                initial={{ x: "-100%" }}
-                animate={{ x: "200%" }}
-                transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }} />
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-foreground/15 to-transparent skew-x-[-20deg]"
+                initial={{ x: "-150%" }}
+                animate={{ x: "250%" }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }} />
               
+              {/* Glow ring on hover */}
+              <motion.div
+                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ boxShadow: "inset 0 0 20px hsl(244 63% 80% / 0.3), 0 0 30px hsl(244 63% 58% / 0.25)" }} />
+
               <span className="relative z-10 flex items-center gap-2.5">
-                Browse Packages <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform duration-300" />
+                <Sparkles size={15} className="group-hover:rotate-12 transition-transform duration-300" />
+                Browse Packages
+                <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-300" />
               </span>
             </motion.a>
+
             <motion.a
               href="#how-it-works"
-              whileHover={{ scale: 1.04, y: -4 }}
-              whileTap={{ scale: 0.96 }}
-              className="w-full sm:w-auto px-10 py-4.5 bg-card/80 backdrop-blur-md text-foreground rounded-2xl font-bold text-sm border border-border/60 flex items-center justify-center gap-2 hover:border-primary/25 transition-all duration-300 hover:shadow-[var(--shadow-elevated)]">
+              whileHover={{ scale: 1.06, y: -6 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full sm:w-auto px-12 py-5 bg-card/60 backdrop-blur-xl text-foreground rounded-2xl font-bold text-sm border border-border/50 flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group hover:border-primary/30"
+              style={{ boxShadow: "var(--shadow-card)" }}>
               
-              How It Works
+              {/* Subtle border glow on hover */}
+              <motion.div
+                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ boxShadow: "inset 0 0 15px hsl(244 63% 58% / 0.06)" }} />
+
+              <span className="relative z-10 flex items-center gap-2">
+                How It Works
+                <ArrowRight size={15} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+              </span>
             </motion.a>
           </motion.div>
 
