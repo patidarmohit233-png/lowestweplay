@@ -249,7 +249,7 @@ function DailyCountdownBar() {
 
   return (
     <div
-      className="sticky top-0 z-[60] w-full py-2 px-3 flex items-center justify-center gap-2 flex-wrap text-sm border-slate-900 text-primary-foreground bg-gray-950"
+      className="sticky top-0 z-[60] w-full py-2 items-center justify-center gap-2 flex-wrap text-sm border-slate-900 text-primary-foreground bg-gray-950 px-[11px] flex flex-row"
       style={{
         background: "linear-gradient(135deg, #4F46E5, #6366F1)",
         fontFamily: "'Inter', 'Poppins', sans-serif",
@@ -454,50 +454,31 @@ const Index = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 shadow-none">
             
             <motion.a
               href="#products"
-              whileHover={{ scale: 1.06, y: -6 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto px-12 py-5 bg-gradient-to-r from-primary to-[hsl(244,80%,65%)] text-primary-foreground rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group"
-              style={{ boxShadow: "var(--shadow-primary), 0 0 40px hsl(244 63% 58% / 0.15)" }}>
+              whileHover={{ scale: 1.04, y: -4 }}
+              whileTap={{ scale: 0.96 }}
+              className="w-full sm:w-auto px-10 py-4.5 bg-primary text-primary-foreground rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 hover:shadow-[0_12px_30px_-6px_hsl(var(--primary)/0.4)] relative overflow-hidden group">
               
-              {/* Shimmer sweep */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-foreground/15 to-transparent skew-x-[-20deg]"
-                initial={{ x: "-150%" }}
-                animate={{ x: "250%" }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }} />
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-foreground/10 to-transparent"
+                initial={{ x: "-100%" }}
+                animate={{ x: "200%" }}
+                transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }} />
               
-              {/* Glow ring on hover */}
-              <motion.div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{ boxShadow: "inset 0 0 20px hsl(244 63% 80% / 0.3), 0 0 30px hsl(244 63% 58% / 0.25)" }} />
-
               <span className="relative z-10 flex items-center gap-2.5">
-                <Sparkles size={15} className="group-hover:rotate-12 transition-transform duration-300" />
-                Browse Packages
-                <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-300" />
+                Browse Packages <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform duration-300" />
               </span>
             </motion.a>
-
             <motion.a
               href="#how-it-works"
-              whileHover={{ scale: 1.06, y: -6 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto px-12 py-5 bg-card/60 backdrop-blur-xl text-foreground rounded-2xl font-bold text-sm border border-border/50 flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group hover:border-primary/30"
-              style={{ boxShadow: "var(--shadow-card)" }}>
+              whileHover={{ scale: 1.04, y: -4 }}
+              whileTap={{ scale: 0.96 }}
+              className="w-full sm:w-auto px-10 py-4.5 bg-card/80 backdrop-blur-md text-foreground rounded-2xl font-bold text-sm border border-border/60 flex items-center justify-center gap-2 hover:border-primary/25 transition-all duration-300 hover:shadow-[var(--shadow-elevated)]">
               
-              {/* Subtle border glow on hover */}
-              <motion.div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{ boxShadow: "inset 0 0 15px hsl(244 63% 58% / 0.06)" }} />
-
-              <span className="relative z-10 flex items-center gap-2">
-                How It Works
-                <ArrowRight size={15} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-              </span>
+              How It Works
             </motion.a>
           </motion.div>
 
@@ -659,35 +640,6 @@ const Index = () => {
               }
               </FadeIn>
             )}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── CUSTOMER REVIEWS ────────────────────────────── */}
-      <section className="py-16 px-4 md:px-6 bg-secondary/50">
-        <div className="max-w-6xl mx-auto">
-          <SectionHeading title="Customer Reviews" subtitle="Real feedback from our happy gamers" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { name: "Rahul", text: "Very nice this website is very good for your weplay life dont wast your money come hare and enjoy" },
-              { name: "Ankit G", text: "Maine 50K RED PACKET liya tha. Payment ke baad 10 minute tak kuch nahi aaya toh thoda tension hua. Phir support se baat ki aur 2 minute mein coins aa gaye. Good service" },
-              { name: "Eren R", text: "Bhai kya mst website hai phle trust nhi hua tha but ab roj topup karta hu yahi se" },
-              { name: "Deepak Kumar", text: "Pehle lag raha tha scam hoga kyunki ID maang rahe the. But unhone bola sirf ID chahiye password nahi. Safe hai bhai" },
-              { name: "Neha Jhaal", text: "Raat 1 baje order kiya tha, socha tha kal subah tak wait karna padega coins aa gaye. Thoda slow tha par aa gaya. Trusted website hai" },
-              { name: "Amit Tiwari", text: "Sabse sasta recharge yahi mila. Ab yahi se lunga hamesha." },
-              { name: "Rohit Yadav", text: "Bhai pehle dar lag raha tha par 2 min mein recharge aa gaya. Highly recommended!" },
-              { name: "Sneha", text: "Best experience, trusted hai guys go for it" },
-              { name: "Akash007", text: "Legit site hai, coins turant credit ho gaye account mein." },
-              { name: "Priya S", text: "ID dalte time dar lag raha tha, support se baat ki unhone bola 100% safe hai. Maine try kiya aur 5 minute mein coins aa gaye. Achi website hai, trusted hai." },
-            ].map((review, i) => (
-              <FadeIn key={i} delay={i * 0.05}>
-                <div className="bg-card rounded-xl border border-border p-5 h-full" style={{ boxShadow: "var(--shadow-soft)" }}>
-                  <div className="text-amber-400 text-sm mb-2">⭐⭐⭐⭐</div>
-                  <p className="text-foreground text-sm leading-relaxed mb-3">"{review.text}"</p>
-                  <p className="text-muted-foreground text-xs font-semibold">— {review.name}</p>
-                </div>
-              </FadeIn>
-            ))}
           </div>
         </div>
       </section>
