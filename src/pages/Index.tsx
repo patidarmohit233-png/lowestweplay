@@ -249,7 +249,7 @@ function DailyCountdownBar() {
 
   return (
     <div
-      className="sticky top-0 z-[60] w-full py-2 px-3 flex items-center justify-center gap-2 flex-wrap text-sm text-card-foreground border-slate-900 bg-slate-950"
+      className="sticky top-0 z-[60] w-full py-2 px-3 flex items-center justify-center gap-2 flex-wrap text-sm border-slate-900 bg-slate-950 text-primary-foreground"
       style={{
         background: "linear-gradient(135deg, #4F46E5, #6366F1)",
         fontFamily: "'Inter', 'Poppins', sans-serif",
