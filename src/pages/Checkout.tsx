@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, ArrowRight, Gamepad2, User, Mail, Phone,
@@ -157,7 +158,7 @@ const Checkout = () => {
     setErrors((prev) => ({ ...prev, [field]: v[field] || "" }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const allTouched = { weplayId: true, weplayName: true, email: true, phone: true };
     setTouched(allTouched);
@@ -171,6 +172,22 @@ const Checkout = () => {
     } else {
       localStorage.removeItem("lw_customer");
     }
+
+    // Save order to database
+    try {
+      await supabase.from("orders").insert({
+        weplay_id: form.weplayId.trim(),
+        weplay_name: form.weplayName.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim() || null,
+        product_id: productId,
+        product_name: product.name,
+        price: product.price,
+      });
+    } catch (err) {
+      console.error("Failed to save order:", err);
+    }
+
     localStorage.setItem("lw_checkout", JSON.stringify({ productId, ...form }));
     setTimeout(() => navigate(`/payment?product=${productId}`), 400);
   };
