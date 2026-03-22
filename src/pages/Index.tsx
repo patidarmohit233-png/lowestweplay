@@ -361,14 +361,54 @@ const Index = () => {
         style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
         className="relative pt-10 md:pt-20 pb-20 md:pb-32 px-4 md:px-6 overflow-hidden">
         
-        {/* Layered background effects */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] via-background to-background" />
-        <div className="absolute top-[-300px] left-1/2 -translate-x-1/2 w-[700px] md:w-[1100px] h-[700px] md:h-[900px] bg-primary/[0.04] rounded-full blur-[120px] md:blur-[180px] pointer-events-none" />
-        <div className="absolute top-[50px] right-[-150px] w-[400px] h-[400px] bg-accent/[0.03] rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-[-100px] left-[-100px] w-[350px] h-[350px] bg-primary/[0.03] rounded-full blur-[100px] pointer-events-none" />
+        {/* Animated mesh gradient background */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.06] via-background to-accent/[0.04]" />
+          <motion.div
+            className="absolute inset-0"
+            animate={{ backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            style={{
+              backgroundImage: "radial-gradient(ellipse at 20% 50%, hsl(var(--primary) / 0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, hsl(var(--accent) / 0.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, hsl(var(--primary) / 0.05) 0%, transparent 50%)",
+              backgroundSize: "200% 200%"
+            }} />
+        </div>
 
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+        {/* Animated glowing orbs */}
+        <motion.div
+          className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[800px] rounded-full pointer-events-none"
+          animate={{ scale: [1, 1.1, 1], opacity: [0.04, 0.07, 0.04] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.12), transparent 70%)" }} />
+        <motion.div
+          className="absolute top-[100px] right-[-100px] w-[350px] h-[350px] rounded-full pointer-events-none"
+          animate={{ scale: [1, 1.15, 1], x: [0, 20, 0], opacity: [0.03, 0.06, 0.03] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          style={{ background: "radial-gradient(circle, hsl(var(--accent) / 0.15), transparent 70%)" }} />
+        <motion.div
+          className="absolute bottom-[-50px] left-[-80px] w-[300px] h-[300px] rounded-full pointer-events-none"
+          animate={{ scale: [1, 1.2, 1], y: [0, -15, 0], opacity: [0.03, 0.05, 0.03] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+          style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.1), transparent 70%)" }} />
+
+        {/* Animated grid pattern */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          animate={{ opacity: [0.015, 0.03, 0.015] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          style={{ backgroundImage: "radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+
+        {/* Subtle horizontal light streaks */}
+        <motion.div
+          className="absolute top-1/3 left-0 w-full h-[1px] pointer-events-none"
+          animate={{ opacity: [0, 0.06, 0], x: ["-100%", "100%"] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          style={{ background: "linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent)" }} />
+        <motion.div
+          className="absolute top-2/3 left-0 w-full h-[1px] pointer-events-none"
+          animate={{ opacity: [0, 0.04, 0], x: ["100%", "-100%"] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+          style={{ background: "linear-gradient(90deg, transparent, hsl(var(--accent) / 0.2), transparent)" }} />
 
         {/* Floating orbs */}
         <FloatingOrb delay={0} x="8%" y="20%" size={16} />
