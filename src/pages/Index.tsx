@@ -684,7 +684,13 @@ const Index = () => {
                 <div className="bg-card rounded-xl border border-border p-5 h-full" style={{ boxShadow: "var(--shadow-soft)" }}>
                   <div className="text-amber-400 text-sm mb-2">⭐⭐⭐⭐</div>
                   <p className="text-foreground text-sm leading-relaxed mb-3">"{review.text}"</p>
-                  <p className="text-muted-foreground text-xs font-semibold">— {review.name}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-muted-foreground text-xs font-semibold">— {review.name}</p>
+                    <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                      <svg className="w-3 h-3" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.403 12.652a3 3 0 010-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" /></svg>
+                      Verified Purchase
+                    </span>
+                  </div>
                 </div>
               </FadeIn>
             ))}
