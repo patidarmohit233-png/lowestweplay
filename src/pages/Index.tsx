@@ -616,42 +616,10 @@ const Index = () => {
             </h2>
             <p className="text-muted-foreground mt-3 md:mt-4 text-sm md:text-base max-w-lg mx-auto">Select your desired coin amount and proceed to secure checkout</p>
           </FadeIn>
-          {/* Red Packets */}
-          <div className="mb-10 md:mb-14">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="flex items-center gap-3 mb-6 md:mb-8"
-            >
-              <div className="h-8 w-1.5 rounded-full bg-gradient-to-b from-red-500 to-red-600" />
-              <h3 className="text-xl md:text-2xl font-display text-foreground">🔴 Red Packets</h3>
-              <div className="flex-1 h-px bg-gradient-to-r from-red-500/20 to-transparent" />
-            </motion.div>
-            <div className="grid grid-cols-2 gap-4 md:gap-6">
-              {PRODUCTS.filter(p => p.name.includes("RED")).map((product, i) =>
-                <ProductCard key={product.id} product={product} index={i} />
-              )}
-            </div>
-          </div>
-
-          {/* Gold Coins */}
-          <div>
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="flex items-center gap-3 mb-6 md:mb-8"
-            >
-              <div className="h-8 w-1.5 rounded-full bg-gradient-to-b from-yellow-500 to-amber-600" />
-              <h3 className="text-xl md:text-2xl font-display text-foreground">🪙 Gold Coins</h3>
-              <div className="flex-1 h-px bg-gradient-to-r from-yellow-500/20 to-transparent" />
-            </motion.div>
-            <div className="grid grid-cols-2 gap-4 md:gap-6">
-              {PRODUCTS.filter(p => p.name.includes("GOLD")).map((product, i) =>
-                <ProductCard key={product.id} product={product} index={i} />
-              )}
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-7">
+            {PRODUCTS.map((product, i) =>
+            <ProductCard key={product.id} product={product} index={i} />
+            )}
           </div>
         </div>
       </section>
