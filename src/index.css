@@ -85,14 +85,3 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-4px); }
 }
-
-/* Shimmer sweep for buttons */
-@keyframes shimmer {
-  0% { transform: translateX(-150%) skewX(-20deg); }
-  100% { transform: translateX(350%) skewX(-20deg); }
-}
-
-/* Optimize mobile touch */
-@media (hover: none) {
-  * { -webkit-tap-highlight-color: transparent; }
-}
