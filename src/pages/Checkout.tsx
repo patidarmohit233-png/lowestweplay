@@ -216,6 +216,32 @@ const Checkout = () => {
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className="w-full max-w-[520px] relative z-10"
       >
+        {/* Step progress indicator */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+          className="flex items-center justify-center gap-3 mb-6"
+        >
+          {["Details", "Review", "Payment"].map((s, i) => (
+            <div key={s} className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <motion.div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors duration-300 ${
+                    i === 0 ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground border border-border"
+                  }`}
+                  animate={i === 0 ? { boxShadow: ["0 0 0px hsl(var(--primary)/0)", "0 0 14px hsl(var(--primary)/0.3)", "0 0 0px hsl(var(--primary)/0)"] } : {}}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  {i + 1}
+                </motion.div>
+                <span className={`text-xs font-semibold hidden sm:inline ${i === 0 ? "text-foreground" : "text-muted-foreground"}`}>{s}</span>
+              </div>
+              {i < 2 && <div className="w-8 h-px bg-border" />}
+            </div>
+          ))}
+        </motion.div>
+
         {/* Premium glass card */}
         <div className="bg-card/70 backdrop-blur-2xl rounded-3xl border border-border/50 overflow-hidden" style={{ boxShadow: "0 25px 60px -15px rgba(0,0,0,0.08), 0 0 0 1px rgba(255,255,255,0.05) inset" }}>
 
