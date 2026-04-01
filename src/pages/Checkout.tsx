@@ -216,6 +216,32 @@ const Checkout = () => {
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className="w-full max-w-[520px] relative z-10"
       >
+        {/* Step progress indicator */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+          className="flex items-center justify-center gap-3 mb-6"
+        >
+          {["Details", "Review", "Payment"].map((s, i) => (
+            <div key={s} className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <motion.div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors duration-300 ${
+                    i === 0 ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground border border-border"
+                  }`}
+                  animate={i === 0 ? { boxShadow: ["0 0 0px hsl(var(--primary)/0)", "0 0 14px hsl(var(--primary)/0.3)", "0 0 0px hsl(var(--primary)/0)"] } : {}}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  {i + 1}
+                </motion.div>
+                <span className={`text-xs font-semibold hidden sm:inline ${i === 0 ? "text-foreground" : "text-muted-foreground"}`}>{s}</span>
+              </div>
+              {i < 2 && <div className="w-8 h-px bg-border" />}
+            </div>
+          ))}
+        </motion.div>
+
         {/* Premium glass card */}
         <div className="bg-card/70 backdrop-blur-2xl rounded-3xl border border-border/50 overflow-hidden" style={{ boxShadow: "0 25px 60px -15px rgba(0,0,0,0.08), 0 0 0 1px rgba(255,255,255,0.05) inset" }}>
 
@@ -410,7 +436,7 @@ const Checkout = () => {
               transition={{ delay: 0.65 }}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.97 }}
-              className="w-full py-4 rounded-2xl bg-gradient-to-r from-primary via-[hsl(260_55%_52%)] to-[hsl(270_60%_55%)] text-primary-foreground font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.4)] disabled:opacity-70 relative overflow-hidden group"
+              className="w-full py-4.5 rounded-2xl bg-gradient-to-r from-primary via-[hsl(260_55%_52%)] to-[hsl(270_60%_55%)] text-primary-foreground font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.4)] disabled:opacity-70 relative overflow-hidden group"
             >
               {/* Shimmer effect */}
               <motion.div
@@ -419,11 +445,19 @@ const Checkout = () => {
                 animate={{ x: "200%" }}
                 transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
               />
+              {/* Glow ring */}
+              <motion.div
+                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ boxShadow: "inset 0 0 20px hsl(244 63% 80% / 0.2), 0 0 30px hsl(244 63% 58% / 0.15)" }}
+              />
               {loading ? (
-                <Loader2 size={18} className="animate-spin relative z-10" />
-              ) : (
                 <span className="relative z-10 flex items-center gap-2">
-                  PROCEED TO PAYMENT <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  <Loader2 size={18} className="animate-spin" />
+                  Processing...
+                </span>
+              ) : (
+                <span className="relative z-10 flex items-center gap-2 uppercase tracking-wider text-[13px]">
+                  PROCEED TO PAYMENT <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform duration-300" />
                 </span>
               )}
             </motion.button>

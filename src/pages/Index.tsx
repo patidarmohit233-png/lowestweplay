@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck, Zap, Lock, Trophy, MessageSquare, Package,
   ArrowRight, Search, CreditCard, Download, CheckCircle2,
   Sparkles, Star, Crown, Flame } from
 "lucide-react";
+import SplashScreen from "@/components/SplashScreen";
 
 const PRODUCT_BADGES: Record<number, {text: string;icon: React.ReactNode;color: string;}> = {
   1: { text: "STARTER PICK", icon: <Zap size={11} />, color: "primary" },
@@ -304,6 +305,22 @@ const Index = () => {
   const heroScale = useTransform(scrollY, [0, 400], [1, 0.92]);
   const heroY = useTransform(scrollY, [0, 400], [0, 60]);
 
+  const [showSplash, setShowSplash] = useState(() => {
+    const seen = sessionStorage.getItem("lw_splash_seen");
+    return !seen;
+  });
+  const [splashDone, setSplashDone] = useState(false);
+
+  useEffect(() => {
+    if (showSplash) {
+      const t = setTimeout(() => {
+        setShowSplash(false);
+        sessionStorage.setItem("lw_splash_seen", "1");
+      }, 2800);
+      return () => clearTimeout(t);
+    }
+  }, [showSplash]);
+
   useEffect(() => {
     const s1 = document.createElement("script");
     s1.id = "chatway";
@@ -314,7 +331,9 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
+    <>
+    <SplashScreen show={showSplash} onComplete={() => setSplashDone(true)} />
+    <div className={`min-h-screen bg-background text-foreground antialiased overflow-x-hidden ${showSplash ? "overflow-hidden h-screen" : ""}`}>
       {/* ─── 0. DAILY COUNTDOWN BAR ───────────────────────── */}
       <DailyCountdownBar />
 
@@ -778,7 +797,8 @@ const Index = () => {
           </div>
         </div>
       </footer>
-    </div>);
+    </div>
+    </>);
 
 };
 
