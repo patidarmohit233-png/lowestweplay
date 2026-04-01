@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck, Zap, Lock, Trophy, MessageSquare, Package,
   ArrowRight, Search, CreditCard, Download, CheckCircle2,
   Sparkles, Star, Crown, Flame } from
 "lucide-react";
+import SplashScreen from "@/components/SplashScreen";
 
 const PRODUCT_BADGES: Record<number, {text: string;icon: React.ReactNode;color: string;}> = {
   1: { text: "STARTER PICK", icon: <Zap size={11} />, color: "primary" },
