@@ -237,7 +237,7 @@ const Checkout = () => {
                 </motion.div>
                 <span className={`text-xs font-semibold hidden sm:inline ${i === 0 ? "text-foreground" : "text-muted-foreground"}`}>{s}</span>
               </div>
-              {i < 2 && <div className="w-8 h-px bg-border" />}
+              {i < 2 && <div className="w-5 md:w-8 h-px bg-border" />}
             </div>
           ))}
         </motion.div>
