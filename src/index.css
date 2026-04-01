@@ -92,3 +92,29 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-4px); }
 }
+
+/* Mobile touch optimizations */
+@media (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  input, textarea, select {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+  }
+  .backdrop-blur-2xl {
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+}
+
+/* Smooth GPU-accelerated scrolling */
+.overflow-x-hidden {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Safe area padding for notched devices */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .sticky.top-0 {
+    padding-top: env(safe-area-inset-top);
+  }
+}

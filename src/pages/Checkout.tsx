@@ -193,12 +193,12 @@ const Checkout = () => {
   };
 
   const inputCls = (field: string) =>
-    `w-full h-12 rounded-xl border bg-background/60 backdrop-blur-sm px-4 text-sm font-medium text-foreground placeholder:text-muted-foreground/50 outline-none transition-all duration-300 focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-background/80 ${
+    `w-full h-11 md:h-12 rounded-xl border bg-background/60 backdrop-blur-sm px-3.5 md:px-4 text-base md:text-sm font-medium text-foreground placeholder:text-muted-foreground/50 outline-none transition-all duration-200 focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-background/80 ${
       errors[field] && touched[field] ? "border-destructive ring-1 ring-destructive/20" : isFieldValid(field) ? "border-accent/40 bg-accent/[0.03]" : "border-border hover:border-primary/25"
     }`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-secondary/20 to-background flex items-start justify-center px-4 py-8 md:py-16 relative overflow-hidden">
+    <div className="min-h-screen min-h-[100dvh] bg-gradient-to-b from-background via-secondary/20 to-background flex items-start justify-center px-3 md:px-4 py-5 md:py-16 relative overflow-hidden">
       {/* Background particles */}
       <FloatingParticle delay={0} x="8%" y="12%" size={14} />
       <FloatingParticle delay={1.5} x="88%" y="8%" size={10} />
@@ -221,13 +221,13 @@ const Checkout = () => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.5 }}
-          className="flex items-center justify-center gap-3 mb-6"
+          className="flex items-center justify-center gap-2 md:gap-3 mb-4 md:mb-6"
         >
           {["Details", "Review", "Payment"].map((s, i) => (
-            <div key={s} className="flex items-center gap-3">
+            <div key={s} className="flex items-center gap-2 md:gap-3">
               <div className="flex items-center gap-2">
                 <motion.div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors duration-300 ${
+                  className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-[11px] md:text-xs font-bold transition-colors duration-300 ${
                     i === 0 ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground border border-border"
                   }`}
                   animate={i === 0 ? { boxShadow: ["0 0 0px hsl(var(--primary)/0)", "0 0 14px hsl(var(--primary)/0.3)", "0 0 0px hsl(var(--primary)/0)"] } : {}}
@@ -237,7 +237,7 @@ const Checkout = () => {
                 </motion.div>
                 <span className={`text-xs font-semibold hidden sm:inline ${i === 0 ? "text-foreground" : "text-muted-foreground"}`}>{s}</span>
               </div>
-              {i < 2 && <div className="w-8 h-px bg-border" />}
+              {i < 2 && <div className="w-5 md:w-8 h-px bg-border" />}
             </div>
           ))}
         </motion.div>
@@ -246,7 +246,7 @@ const Checkout = () => {
         <div className="bg-card/70 backdrop-blur-2xl rounded-3xl border border-border/50 overflow-hidden" style={{ boxShadow: "0 25px 60px -15px rgba(0,0,0,0.08), 0 0 0 1px rgba(255,255,255,0.05) inset" }}>
 
           {/* ─── Header ─────────────────────────────────── */}
-          <div className="p-5 md:p-7 border-b border-border/40 relative overflow-hidden">
+          <div className="p-4 md:p-7 border-b border-border/40 relative overflow-hidden">
             {/* Subtle header gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.03] via-transparent to-accent/[0.02] pointer-events-none" />
 
@@ -265,8 +265,8 @@ const Checkout = () => {
               transition={{ delay: 0.15, duration: 0.5 }}
               className="relative"
             >
-              <h1 className="text-xl md:text-2xl font-display text-foreground mb-1">Complete Your Purchase</h1>
-              <p className="text-xs text-muted-foreground">Fill in your details to proceed securely</p>
+              <h1 className="text-lg md:text-2xl font-display text-foreground mb-0.5">Complete Your Purchase</h1>
+              <p className="text-[11px] md:text-xs text-muted-foreground">Fill in your details to proceed securely</p>
             </motion.div>
 
             {/* ─── Product summary card ──────────────────── */}
@@ -298,9 +298,9 @@ const Checkout = () => {
                 </motion.div>
               )}
 
-              <div className="flex items-center gap-4 p-4">
+              <div className="flex items-center gap-3 p-3 md:p-4">
                 <motion.div
-                  className="w-[72px] h-[72px] rounded-xl overflow-hidden bg-background/40 shrink-0 border border-border/20"
+                  className="w-[60px] h-[60px] md:w-[72px] md:h-[72px] rounded-xl overflow-hidden bg-background/40 shrink-0 border border-border/20"
                   whileHover={{ scale: 1.05, rotate: 2 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
@@ -331,7 +331,7 @@ const Checkout = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.35 }}
-            className="px-5 md:px-7 pt-4 pb-1"
+            className="px-4 md:px-7 pt-3 pb-1"
           >
             <div className="flex items-center justify-center gap-4 md:gap-6">
               {[
@@ -354,7 +354,7 @@ const Checkout = () => {
           </motion.div>
 
           {/* ─── Form ────────────────────────────────────── */}
-          <form onSubmit={handleSubmit} className="p-5 md:p-7 space-y-5">
+          <form onSubmit={handleSubmit} className="p-4 md:p-7 space-y-4 md:space-y-5">
             <FieldWrapper delay={0.3} icon={<Gamepad2 size={15} />} label="WePlay ID" helper="Enter your WePlay ID (e.g., WP123456)" error={touched.weplayId ? errors.weplayId : undefined} valid={isFieldValid("weplayId")}>
               <input
                 className={inputCls("weplayId")}
@@ -388,7 +388,7 @@ const Checkout = () => {
 
             <FieldWrapper delay={0.54} icon={<Phone size={15} />} label="Phone Number" helper="For delivery updates (optional)" error={touched.phone ? errors.phone : undefined} valid={isFieldValid("phone")}>
               <div className="flex gap-2">
-                <div className="h-12 px-3.5 rounded-xl border border-border bg-secondary/50 backdrop-blur-sm flex items-center text-sm font-semibold text-muted-foreground shrink-0">
+                <div className="h-11 md:h-12 px-3 rounded-xl border border-border bg-secondary/50 backdrop-blur-sm flex items-center text-sm font-semibold text-muted-foreground shrink-0">
                   🇮🇳 +91
                 </div>
                 <input
@@ -436,7 +436,7 @@ const Checkout = () => {
               transition={{ delay: 0.65 }}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.97 }}
-              className="w-full py-4.5 rounded-2xl bg-gradient-to-r from-primary via-[hsl(260_55%_52%)] to-[hsl(270_60%_55%)] text-primary-foreground font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.4)] disabled:opacity-70 relative overflow-hidden group"
+              className="w-full py-4 rounded-2xl bg-gradient-to-r from-primary via-[hsl(260_55%_52%)] to-[hsl(270_60%_55%)] text-primary-foreground font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.4)] disabled:opacity-70 relative overflow-hidden group active:scale-[0.96]"
             >
               {/* Shimmer effect */}
               <motion.div
@@ -486,11 +486,11 @@ const Checkout = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.85, duration: 0.5 }}
-          className="mt-4 p-3.5 rounded-2xl bg-card/50 backdrop-blur-xl border border-border/30 flex items-center justify-center gap-6 text-[11px] text-muted-foreground"
+          className="mt-3 md:mt-4 p-3 rounded-2xl bg-card/50 backdrop-blur-xl border border-border/30 flex items-center justify-center gap-3 md:gap-6 text-[10px] md:text-[11px] text-muted-foreground flex-wrap"
         >
-          <span className="flex items-center gap-1.5"><CheckCircle2 size={13} className="text-accent" /> Verified Seller</span>
-          <span className="flex items-center gap-1.5"><Star size={13} className="text-primary" /> 4.9★ Rating</span>
-          <span className="flex items-center gap-1.5"><Zap size={13} className="text-primary" /> 10K+ Orders</span>
+          <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-accent" /> Verified</span>
+          <span className="flex items-center gap-1"><Star size={12} className="text-primary" /> 4.9★</span>
+          <span className="flex items-center gap-1"><Zap size={12} className="text-primary" /> 10K+ Orders</span>
         </motion.div>
       </motion.div>
     </div>

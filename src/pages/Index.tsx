@@ -59,18 +59,17 @@ const STEPS = [
 /* ── Reusable fade-in wrapper ─────────────────────────── */
 function FadeIn({ children, className = "", delay = 0 }: {children: React.ReactNode;className?: string;delay?: number;}) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 18 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
-      className={className}>
-      
+      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+      className={className}
+      style={{ willChange: "transform, opacity" }}>
       {children}
     </motion.div>);
-
 }
 
 /* ── Section heading ──────────────────────────────────── */
@@ -96,12 +95,12 @@ function ProductCard({ product, index }: {product: typeof PRODUCTS[0];index: num
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50, scale: 0.92 }}
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -10, transition: { duration: 0.4, type: "spring", stiffness: 260, damping: 18 } }}
-      className="group relative bg-card rounded-3xl border border-border/40 flex flex-col transition-all duration-500 overflow-hidden"
-      style={{ boxShadow: "0 4px 24px -6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04)" }}>
+      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+      whileTap={{ scale: 0.97 }}
+      className="group relative bg-card rounded-3xl border border-border/40 flex flex-col transition-all duration-300 overflow-hidden active:scale-[0.97]"
+      style={{ boxShadow: "0 4px 24px -6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04)", willChange: "transform, opacity" }}>
       
       {/* Outer glow on hover */}
       <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-primary/20 via-accent/10 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-[1px] -z-10" />
@@ -267,14 +266,13 @@ function DailyCountdownBar() {
 
   return (
     <div
-      className="sticky top-0 z-[60] w-full py-2 px-3 flex items-center justify-center gap-2 flex-wrap text-sm border-slate-900 text-primary-foreground bg-gray-950"
+      className="sticky top-0 z-[60] w-full py-1.5 md:py-2 px-3 flex items-center justify-center gap-1.5 md:gap-2 flex-nowrap text-primary-foreground"
       style={{
         background: "linear-gradient(135deg, #4F46E5, #6366F1)",
-        fontFamily: "'Inter', 'Poppins', sans-serif",
-        fontSize: "14px"
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        fontSize: "12px"
       }}>
-      
-      <span className="font-semibold tracking-wide">🔥 70% SALES ENDS IN:</span>
+      <span className="font-semibold tracking-wide text-[11px] md:text-[14px] whitespace-nowrap">🔥 70% OFF ENDS IN:</span>
       <div className="flex items-center gap-1">
         {[
         { val: pad(time.h), label: "h" },
@@ -283,15 +281,13 @@ function DailyCountdownBar() {
         map((t) =>
         <span
           key={t.label}
-          className="inline-flex items-center justify-center min-w-[32px] px-1.5 py-0.5 rounded-md font-bold tabular-nums border-destructive"
-          style={{ background: "rgba(255,255,255,0.2)", backdropFilter: "blur(4px)" }}>
-          
+          className="inline-flex items-center justify-center min-w-[28px] md:min-w-[32px] px-1 md:px-1.5 py-0.5 rounded-md font-bold text-[11px] md:text-[14px] tabular-nums"
+          style={{ background: "rgba(255,255,255,0.2)" }}>
             {t.val}{t.label}
           </span>
         )}
       </div>
-      <span className="text-white/80 text-xs font-medium hidden sm:inline">• Limited Time Offer</span>
-      <span className="text-white/80 text-xs font-medium sm:hidden">• Limited Offer</span>
+      <span className="text-primary-foreground/70 text-[10px] md:text-xs font-medium hidden sm:inline whitespace-nowrap">• Limited Offer</span>
     </div>);
 
 }
@@ -342,13 +338,13 @@ const Index = () => {
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="sticky top-[36px] z-50 bg-background/70 backdrop-blur-2xl border-b border-border/40">
+        className="sticky top-[30px] md:top-[36px] z-50 bg-background/70 backdrop-blur-2xl border-b border-border/40">
         
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-[72px] flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-14 md:h-[72px] flex items-center justify-between">
           <motion.img
             src="https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png"
             alt="Lowest Weplay"
-            className="w-[110px] md:w-[150px] h-auto object-contain"
+            className="w-[90px] md:w-[150px] h-auto object-contain"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400 }} />
           
@@ -395,7 +391,7 @@ const Index = () => {
       {/* ─── PREMIUM HERO ─────────────────────────────────── */}
       <motion.header
         style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
-        className="relative pt-10 md:pt-20 pb-20 md:pb-32 px-4 md:px-6 overflow-hidden">
+        className="relative pt-8 md:pt-20 pb-14 md:pb-32 px-4 md:px-6 overflow-hidden">
         
         {/* Animated mesh gradient background */}
         <div className="absolute inset-0">
@@ -462,7 +458,7 @@ const Index = () => {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.7, type: "spring", stiffness: 160, damping: 14 }}
-            className="inline-flex items-center gap-2.5 px-5 md:px-6 py-2.5 md:py-3 rounded-2xl bg-primary/6 border border-primary/12 text-primary text-[10px] md:text-xs font-bold mb-7 md:mb-10 backdrop-blur-md">
+            className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 rounded-2xl bg-primary/6 border border-primary/12 text-primary text-[9px] md:text-xs font-bold mb-5 md:mb-10 backdrop-blur-md">
             
             <motion.span
               animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.2, 1] }}
@@ -482,7 +478,7 @@ const Index = () => {
           {/* Main heading */}
           <div className="mb-5 md:mb-7">
             <motion.h1
-              className="text-[2.8rem] leading-[1.05] md:text-7xl lg:text-[5.5rem] font-display tracking-tight">
+              className="text-[2.2rem] leading-[1.08] md:text-7xl lg:text-[5.5rem] font-display tracking-tight">
               
               <motion.span
                 initial={{ opacity: 0, y: 70, rotateX: 45 }}
@@ -520,7 +516,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.8, delay: 0.45 }}
-            className="text-muted-foreground text-sm md:text-lg max-w-sm md:max-w-xl mx-auto mb-9 md:mb-12 leading-relaxed">
+            className="text-muted-foreground text-xs md:text-lg max-w-sm md:max-w-xl mx-auto mb-7 md:mb-12 leading-relaxed px-2">
             
             India's most trusted Weplay CC topup service. Guaranteed ID safety, instant delivery & best prices.
           </motion.p>
@@ -530,13 +526,13 @@ const Index = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 px-2">
             
             <motion.a
               href="#products"
               whileHover={{ scale: 1.06, y: -6 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto px-12 py-5 bg-gradient-to-r from-primary to-[hsl(244,80%,65%)] text-primary-foreground rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group"
+              className="w-full sm:w-auto px-10 py-4 md:px-12 md:py-5 bg-gradient-to-r from-primary to-[hsl(244,80%,65%)] text-primary-foreground rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group active:scale-95"
               style={{ boxShadow: "var(--shadow-primary), 0 0 40px hsl(244 63% 58% / 0.15)" }}>
               
               {/* Shimmer sweep */}
@@ -562,7 +558,7 @@ const Index = () => {
               href="#how-it-works"
               whileHover={{ scale: 1.06, y: -6 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto px-12 py-5 bg-card/60 backdrop-blur-xl text-foreground rounded-2xl font-bold text-sm border border-border/50 flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group hover:border-primary/30"
+              className="w-full sm:w-auto px-10 py-4 md:px-12 md:py-5 bg-card/60 backdrop-blur-xl text-foreground rounded-2xl font-bold text-sm border border-border/50 flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group hover:border-primary/30 active:scale-95"
               style={{ boxShadow: "var(--shadow-card)" }}>
               
               {/* Subtle border glow on hover */}
@@ -582,8 +578,8 @@ const Index = () => {
             initial={{ opacity: 0, y: 35, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-14 md:mt-20 inline-flex items-center gap-5 md:gap-10 px-7 md:px-12 py-5 md:py-6 rounded-3xl bg-card/50 backdrop-blur-2xl border border-border/40"
-            style={{ boxShadow: "0 20px 50px -15px rgb(0 0 0 / 0.06), var(--shadow-glow)" }}>
+            className="mt-10 md:mt-20 inline-flex items-center gap-4 md:gap-10 px-5 md:px-12 py-4 md:py-6 rounded-3xl bg-card/50 backdrop-blur-2xl border border-border/40"
+            style={{ boxShadow: "0 20px 50px -15px rgb(0 0 0 / 0.06)" }}>
             
             <AnimatedStat value="10K+" label="Customers" delay={1.0} />
             <div className="w-px h-9 bg-border/50" />
