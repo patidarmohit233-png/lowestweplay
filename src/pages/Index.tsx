@@ -305,6 +305,22 @@ const Index = () => {
   const heroScale = useTransform(scrollY, [0, 400], [1, 0.92]);
   const heroY = useTransform(scrollY, [0, 400], [0, 60]);
 
+  const [showSplash, setShowSplash] = useState(() => {
+    const seen = sessionStorage.getItem("lw_splash_seen");
+    return !seen;
+  });
+  const [splashDone, setSplashDone] = useState(false);
+
+  useEffect(() => {
+    if (showSplash) {
+      const t = setTimeout(() => {
+        setShowSplash(false);
+        sessionStorage.setItem("lw_splash_seen", "1");
+      }, 2800);
+      return () => clearTimeout(t);
+    }
+  }, [showSplash]);
+
   useEffect(() => {
     const s1 = document.createElement("script");
     s1.id = "chatway";
@@ -315,7 +331,9 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
+    <>
+    <SplashScreen show={showSplash} onComplete={() => setSplashDone(true)} />
+    <div className={`min-h-screen bg-background text-foreground antialiased overflow-x-hidden ${showSplash ? "overflow-hidden h-screen" : ""}`}>
       {/* ─── 0. DAILY COUNTDOWN BAR ───────────────────────── */}
       <DailyCountdownBar />
 
