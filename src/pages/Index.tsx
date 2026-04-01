@@ -458,7 +458,7 @@ const Index = () => {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.7, type: "spring", stiffness: 160, damping: 14 }}
-            className="inline-flex items-center gap-2.5 px-5 md:px-6 py-2.5 md:py-3 rounded-2xl bg-primary/6 border border-primary/12 text-primary text-[10px] md:text-xs font-bold mb-7 md:mb-10 backdrop-blur-md">
+            className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 rounded-2xl bg-primary/6 border border-primary/12 text-primary text-[9px] md:text-xs font-bold mb-5 md:mb-10 backdrop-blur-md">
             
             <motion.span
               animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.2, 1] }}
