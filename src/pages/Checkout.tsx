@@ -354,7 +354,7 @@ const Checkout = () => {
           </motion.div>
 
           {/* ─── Form ────────────────────────────────────── */}
-          <form onSubmit={handleSubmit} className="p-5 md:p-7 space-y-5">
+          <form onSubmit={handleSubmit} className="p-4 md:p-7 space-y-4 md:space-y-5">
             <FieldWrapper delay={0.3} icon={<Gamepad2 size={15} />} label="WePlay ID" helper="Enter your WePlay ID (e.g., WP123456)" error={touched.weplayId ? errors.weplayId : undefined} valid={isFieldValid("weplayId")}>
               <input
                 className={inputCls("weplayId")}
