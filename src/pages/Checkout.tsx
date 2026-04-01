@@ -486,11 +486,11 @@ const Checkout = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.85, duration: 0.5 }}
-          className="mt-4 p-3.5 rounded-2xl bg-card/50 backdrop-blur-xl border border-border/30 flex items-center justify-center gap-6 text-[11px] text-muted-foreground"
+          className="mt-3 md:mt-4 p-3 rounded-2xl bg-card/50 backdrop-blur-xl border border-border/30 flex items-center justify-center gap-3 md:gap-6 text-[10px] md:text-[11px] text-muted-foreground flex-wrap"
         >
-          <span className="flex items-center gap-1.5"><CheckCircle2 size={13} className="text-accent" /> Verified Seller</span>
-          <span className="flex items-center gap-1.5"><Star size={13} className="text-primary" /> 4.9★ Rating</span>
-          <span className="flex items-center gap-1.5"><Zap size={13} className="text-primary" /> 10K+ Orders</span>
+          <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-accent" /> Verified</span>
+          <span className="flex items-center gap-1"><Star size={12} className="text-primary" /> 4.9★</span>
+          <span className="flex items-center gap-1"><Zap size={12} className="text-primary" /> 10K+ Orders</span>
         </motion.div>
       </motion.div>
     </div>
