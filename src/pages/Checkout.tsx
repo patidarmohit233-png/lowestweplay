@@ -224,7 +224,7 @@ const Checkout = () => {
           className="flex items-center justify-center gap-2 md:gap-3 mb-4 md:mb-6"
         >
           {["Details", "Review", "Payment"].map((s, i) => (
-            <div key={s} className="flex items-center gap-3">
+            <div key={s} className="flex items-center gap-2 md:gap-3">
               <div className="flex items-center gap-2">
                 <motion.div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors duration-300 ${
