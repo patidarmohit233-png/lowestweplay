@@ -298,7 +298,7 @@ const Checkout = () => {
                 </motion.div>
               )}
 
-              <div className="flex items-center gap-4 p-4">
+              <div className="flex items-center gap-3 p-3 md:p-4">
                 <motion.div
                   className="w-[72px] h-[72px] rounded-xl overflow-hidden bg-background/40 shrink-0 border border-border/20"
                   whileHover={{ scale: 1.05, rotate: 2 }}
