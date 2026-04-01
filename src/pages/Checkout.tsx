@@ -436,7 +436,7 @@ const Checkout = () => {
               transition={{ delay: 0.65 }}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.97 }}
-              className="w-full py-4.5 rounded-2xl bg-gradient-to-r from-primary via-[hsl(260_55%_52%)] to-[hsl(270_60%_55%)] text-primary-foreground font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.4)] disabled:opacity-70 relative overflow-hidden group"
+              className="w-full py-4 rounded-2xl bg-gradient-to-r from-primary via-[hsl(260_55%_52%)] to-[hsl(270_60%_55%)] text-primary-foreground font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.4)] disabled:opacity-70 relative overflow-hidden group active:scale-[0.96]"
             >
               {/* Shimmer effect */}
               <motion.div
