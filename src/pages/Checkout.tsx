@@ -265,8 +265,8 @@ const Checkout = () => {
               transition={{ delay: 0.15, duration: 0.5 }}
               className="relative"
             >
-              <h1 className="text-xl md:text-2xl font-display text-foreground mb-1">Complete Your Purchase</h1>
-              <p className="text-xs text-muted-foreground">Fill in your details to proceed securely</p>
+              <h1 className="text-lg md:text-2xl font-display text-foreground mb-0.5">Complete Your Purchase</h1>
+              <p className="text-[11px] md:text-xs text-muted-foreground">Fill in your details to proceed securely</p>
             </motion.div>
 
             {/* ─── Product summary card ──────────────────── */}
