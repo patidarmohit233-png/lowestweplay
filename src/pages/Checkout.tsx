@@ -388,7 +388,7 @@ const Checkout = () => {
 
             <FieldWrapper delay={0.54} icon={<Phone size={15} />} label="Phone Number" helper="For delivery updates (optional)" error={touched.phone ? errors.phone : undefined} valid={isFieldValid("phone")}>
               <div className="flex gap-2">
-                <div className="h-12 px-3.5 rounded-xl border border-border bg-secondary/50 backdrop-blur-sm flex items-center text-sm font-semibold text-muted-foreground shrink-0">
+                <div className="h-11 md:h-12 px-3 rounded-xl border border-border bg-secondary/50 backdrop-blur-sm flex items-center text-sm font-semibold text-muted-foreground shrink-0">
                   🇮🇳 +91
                 </div>
                 <input
