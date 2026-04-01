@@ -198,7 +198,7 @@ const Checkout = () => {
     }`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-secondary/20 to-background flex items-start justify-center px-4 py-8 md:py-16 relative overflow-hidden">
+    <div className="min-h-screen min-h-[100dvh] bg-gradient-to-b from-background via-secondary/20 to-background flex items-start justify-center px-3 md:px-4 py-5 md:py-16 relative overflow-hidden">
       {/* Background particles */}
       <FloatingParticle delay={0} x="8%" y="12%" size={14} />
       <FloatingParticle delay={1.5} x="88%" y="8%" size={10} />
