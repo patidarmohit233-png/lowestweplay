@@ -578,8 +578,8 @@ const Index = () => {
             initial={{ opacity: 0, y: 35, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-14 md:mt-20 inline-flex items-center gap-5 md:gap-10 px-7 md:px-12 py-5 md:py-6 rounded-3xl bg-card/50 backdrop-blur-2xl border border-border/40"
-            style={{ boxShadow: "0 20px 50px -15px rgb(0 0 0 / 0.06), var(--shadow-glow)" }}>
+            className="mt-10 md:mt-20 inline-flex items-center gap-4 md:gap-10 px-5 md:px-12 py-4 md:py-6 rounded-3xl bg-card/50 backdrop-blur-2xl border border-border/40"
+            style={{ boxShadow: "0 20px 50px -15px rgb(0 0 0 / 0.06)" }}>
             
             <AnimatedStat value="10K+" label="Customers" delay={1.0} />
             <div className="w-px h-9 bg-border/50" />
