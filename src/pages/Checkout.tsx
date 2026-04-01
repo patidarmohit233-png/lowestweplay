@@ -436,7 +436,7 @@ const Checkout = () => {
               transition={{ delay: 0.65 }}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.97 }}
-              className="w-full py-4 rounded-2xl bg-gradient-to-r from-primary via-[hsl(260_55%_52%)] to-[hsl(270_60%_55%)] text-primary-foreground font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.4)] disabled:opacity-70 relative overflow-hidden group"
+              className="w-full py-4.5 rounded-2xl bg-gradient-to-r from-primary via-[hsl(260_55%_52%)] to-[hsl(270_60%_55%)] text-primary-foreground font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.4)] disabled:opacity-70 relative overflow-hidden group"
             >
               {/* Shimmer effect */}
               <motion.div
@@ -445,11 +445,19 @@ const Checkout = () => {
                 animate={{ x: "200%" }}
                 transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
               />
+              {/* Glow ring */}
+              <motion.div
+                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ boxShadow: "inset 0 0 20px hsl(244 63% 80% / 0.2), 0 0 30px hsl(244 63% 58% / 0.15)" }}
+              />
               {loading ? (
-                <Loader2 size={18} className="animate-spin relative z-10" />
-              ) : (
                 <span className="relative z-10 flex items-center gap-2">
-                  PROCEED TO PAYMENT <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  <Loader2 size={18} className="animate-spin" />
+                  Processing...
+                </span>
+              ) : (
+                <span className="relative z-10 flex items-center gap-2 uppercase tracking-wider text-[13px]">
+                  PROCEED TO PAYMENT <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform duration-300" />
                 </span>
               )}
             </motion.button>
