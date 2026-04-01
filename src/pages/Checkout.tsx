@@ -193,7 +193,7 @@ const Checkout = () => {
   };
 
   const inputCls = (field: string) =>
-    `w-full h-12 rounded-xl border bg-background/60 backdrop-blur-sm px-4 text-sm font-medium text-foreground placeholder:text-muted-foreground/50 outline-none transition-all duration-300 focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-background/80 ${
+    `w-full h-11 md:h-12 rounded-xl border bg-background/60 backdrop-blur-sm px-3.5 md:px-4 text-base md:text-sm font-medium text-foreground placeholder:text-muted-foreground/50 outline-none transition-all duration-200 focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-background/80 ${
       errors[field] && touched[field] ? "border-destructive ring-1 ring-destructive/20" : isFieldValid(field) ? "border-accent/40 bg-accent/[0.03]" : "border-border hover:border-primary/25"
     }`;
 
