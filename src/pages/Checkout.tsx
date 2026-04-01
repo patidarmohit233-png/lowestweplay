@@ -331,7 +331,7 @@ const Checkout = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.35 }}
-            className="px-5 md:px-7 pt-4 pb-1"
+            className="px-4 md:px-7 pt-3 pb-1"
           >
             <div className="flex items-center justify-center gap-4 md:gap-6">
               {[
