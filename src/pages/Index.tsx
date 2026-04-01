@@ -526,7 +526,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 px-2">
             
             <motion.a
               href="#products"
