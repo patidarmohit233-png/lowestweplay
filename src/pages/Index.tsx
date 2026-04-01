@@ -266,14 +266,13 @@ function DailyCountdownBar() {
 
   return (
     <div
-      className="sticky top-0 z-[60] w-full py-2 px-3 flex items-center justify-center gap-2 flex-wrap text-sm border-slate-900 text-primary-foreground bg-gray-950"
+      className="sticky top-0 z-[60] w-full py-1.5 md:py-2 px-3 flex items-center justify-center gap-1.5 md:gap-2 flex-nowrap text-primary-foreground"
       style={{
         background: "linear-gradient(135deg, #4F46E5, #6366F1)",
-        fontFamily: "'Inter', 'Poppins', sans-serif",
-        fontSize: "14px"
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        fontSize: "12px"
       }}>
-      
-      <span className="font-semibold tracking-wide">🔥 70% SALES ENDS IN:</span>
+      <span className="font-semibold tracking-wide text-[11px] md:text-[14px] whitespace-nowrap">🔥 70% OFF ENDS IN:</span>
       <div className="flex items-center gap-1">
         {[
         { val: pad(time.h), label: "h" },
@@ -282,15 +281,13 @@ function DailyCountdownBar() {
         map((t) =>
         <span
           key={t.label}
-          className="inline-flex items-center justify-center min-w-[32px] px-1.5 py-0.5 rounded-md font-bold tabular-nums border-destructive"
-          style={{ background: "rgba(255,255,255,0.2)", backdropFilter: "blur(4px)" }}>
-          
+          className="inline-flex items-center justify-center min-w-[28px] md:min-w-[32px] px-1 md:px-1.5 py-0.5 rounded-md font-bold text-[11px] md:text-[14px] tabular-nums"
+          style={{ background: "rgba(255,255,255,0.2)" }}>
             {t.val}{t.label}
           </span>
         )}
       </div>
-      <span className="text-white/80 text-xs font-medium hidden sm:inline">• Limited Time Offer</span>
-      <span className="text-white/80 text-xs font-medium sm:hidden">• Limited Offer</span>
+      <span className="text-primary-foreground/70 text-[10px] md:text-xs font-medium hidden sm:inline whitespace-nowrap">• Limited Offer</span>
     </div>);
 
 }
