@@ -532,7 +532,7 @@ const Index = () => {
               href="#products"
               whileHover={{ scale: 1.06, y: -6 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto px-12 py-5 bg-gradient-to-r from-primary to-[hsl(244,80%,65%)] text-primary-foreground rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group"
+              className="w-full sm:w-auto px-10 py-4 md:px-12 md:py-5 bg-gradient-to-r from-primary to-[hsl(244,80%,65%)] text-primary-foreground rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group active:scale-95"
               style={{ boxShadow: "var(--shadow-primary), 0 0 40px hsl(244 63% 58% / 0.15)" }}>
               
               {/* Shimmer sweep */}
