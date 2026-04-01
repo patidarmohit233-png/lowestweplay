@@ -516,7 +516,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.8, delay: 0.45 }}
-            className="text-muted-foreground text-sm md:text-lg max-w-sm md:max-w-xl mx-auto mb-9 md:mb-12 leading-relaxed">
+            className="text-muted-foreground text-xs md:text-lg max-w-sm md:max-w-xl mx-auto mb-7 md:mb-12 leading-relaxed px-2">
             
             India's most trusted Weplay CC topup service. Guaranteed ID safety, instant delivery & best prices.
           </motion.p>
