@@ -95,12 +95,12 @@ function ProductCard({ product, index }: {product: typeof PRODUCTS[0];index: num
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50, scale: 0.92 }}
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -10, transition: { duration: 0.4, type: "spring", stiffness: 260, damping: 18 } }}
-      className="group relative bg-card rounded-3xl border border-border/40 flex flex-col transition-all duration-500 overflow-hidden"
-      style={{ boxShadow: "0 4px 24px -6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04)" }}>
+      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+      whileTap={{ scale: 0.97 }}
+      className="group relative bg-card rounded-3xl border border-border/40 flex flex-col transition-all duration-300 overflow-hidden active:scale-[0.97]"
+      style={{ boxShadow: "0 4px 24px -6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04)", willChange: "transform, opacity" }}>
       
       {/* Outer glow on hover */}
       <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-primary/20 via-accent/10 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-[1px] -z-10" />
