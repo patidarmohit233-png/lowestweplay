@@ -558,7 +558,7 @@ const Index = () => {
               href="#how-it-works"
               whileHover={{ scale: 1.06, y: -6 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto px-12 py-5 bg-card/60 backdrop-blur-xl text-foreground rounded-2xl font-bold text-sm border border-border/50 flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group hover:border-primary/30"
+              className="w-full sm:w-auto px-10 py-4 md:px-12 md:py-5 bg-card/60 backdrop-blur-xl text-foreground rounded-2xl font-bold text-sm border border-border/50 flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group hover:border-primary/30 active:scale-95"
               style={{ boxShadow: "var(--shadow-card)" }}>
               
               {/* Subtle border glow on hover */}
