@@ -227,7 +227,7 @@ const Checkout = () => {
             <div key={s} className="flex items-center gap-2 md:gap-3">
               <div className="flex items-center gap-2">
                 <motion.div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors duration-300 ${
+                  className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-[11px] md:text-xs font-bold transition-colors duration-300 ${
                     i === 0 ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground border border-border"
                   }`}
                   animate={i === 0 ? { boxShadow: ["0 0 0px hsl(var(--primary)/0)", "0 0 14px hsl(var(--primary)/0.3)", "0 0 0px hsl(var(--primary)/0)"] } : {}}
