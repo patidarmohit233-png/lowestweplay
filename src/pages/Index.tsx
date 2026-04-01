@@ -340,7 +340,7 @@ const Index = () => {
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="sticky top-[30px] md:top-[36px] z-50 bg-background/70 backdrop-blur-2xl border-b border-border/40">
         
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-[72px] flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-14 md:h-[72px] flex items-center justify-between">
           <motion.img
             src="https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png"
             alt="Lowest Weplay"
