@@ -59,18 +59,17 @@ const STEPS = [
 /* ── Reusable fade-in wrapper ─────────────────────────── */
 function FadeIn({ children, className = "", delay = 0 }: {children: React.ReactNode;className?: string;delay?: number;}) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 18 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
-      className={className}>
-      
+      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+      className={className}
+      style={{ willChange: "transform, opacity" }}>
       {children}
     </motion.div>);
-
 }
 
 /* ── Section heading ──────────────────────────────────── */
