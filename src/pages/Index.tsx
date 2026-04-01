@@ -344,7 +344,7 @@ const Index = () => {
           <motion.img
             src="https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png"
             alt="Lowest Weplay"
-            className="w-[110px] md:w-[150px] h-auto object-contain"
+            className="w-[90px] md:w-[150px] h-auto object-contain"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400 }} />
           
