@@ -391,7 +391,7 @@ const Index = () => {
       {/* ─── PREMIUM HERO ─────────────────────────────────── */}
       <motion.header
         style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
-        className="relative pt-10 md:pt-20 pb-20 md:pb-32 px-4 md:px-6 overflow-hidden">
+        className="relative pt-8 md:pt-20 pb-14 md:pb-32 px-4 md:px-6 overflow-hidden">
         
         {/* Animated mesh gradient background */}
         <div className="absolute inset-0">
