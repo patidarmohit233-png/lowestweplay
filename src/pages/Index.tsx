@@ -478,7 +478,7 @@ const Index = () => {
           {/* Main heading */}
           <div className="mb-5 md:mb-7">
             <motion.h1
-              className="text-[2.8rem] leading-[1.05] md:text-7xl lg:text-[5.5rem] font-display tracking-tight">
+              className="text-[2.2rem] leading-[1.08] md:text-7xl lg:text-[5.5rem] font-display tracking-tight">
               
               <motion.span
                 initial={{ opacity: 0, y: 70, rotateX: 45 }}
