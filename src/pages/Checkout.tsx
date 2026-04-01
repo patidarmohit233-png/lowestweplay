@@ -246,7 +246,7 @@ const Checkout = () => {
         <div className="bg-card/70 backdrop-blur-2xl rounded-3xl border border-border/50 overflow-hidden" style={{ boxShadow: "0 25px 60px -15px rgba(0,0,0,0.08), 0 0 0 1px rgba(255,255,255,0.05) inset" }}>
 
           {/* ─── Header ─────────────────────────────────── */}
-          <div className="p-5 md:p-7 border-b border-border/40 relative overflow-hidden">
+          <div className="p-4 md:p-7 border-b border-border/40 relative overflow-hidden">
             {/* Subtle header gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.03] via-transparent to-accent/[0.02] pointer-events-none" />
 
