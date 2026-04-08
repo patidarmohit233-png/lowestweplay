@@ -174,8 +174,9 @@ const Checkout = () => {
     }
 
     // Save order to database
+    let orderId = "";
     try {
-      await supabase.from("orders").insert({
+      const { data } = await supabase.from("orders").insert({
         weplay_id: form.weplayId.trim(),
         weplay_name: form.weplayName.trim(),
         email: form.email.trim(),
@@ -183,12 +184,14 @@ const Checkout = () => {
         product_id: productId,
         product_name: product.name,
         price: product.price,
-      });
+      }).select("id").single();
+      if (data) orderId = data.id;
     } catch (err) {
       console.error("Failed to save order:", err);
     }
 
     localStorage.setItem("lw_checkout", JSON.stringify({ productId, ...form }));
+    localStorage.setItem("lw_pending_order", JSON.stringify({ orderId, productId, productName: product.name }));
     setTimeout(() => navigate(`/payment?product=${productId}`), 400);
   };
 
