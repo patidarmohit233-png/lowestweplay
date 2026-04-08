@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import Payment from "./pages/Payment.tsx";
+import OrderConfirmation from "./pages/OrderConfirmation.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import RefundPolicy from "./pages/RefundPolicy.tsx";
 import TermsOfService from "./pages/TermsOfService.tsx";
