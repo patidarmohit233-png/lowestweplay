@@ -27,8 +27,17 @@ const Payment = () => {
       setProgress((p) => Math.min(p + 2, 100));
     }, 30);
 
+    // Read pending order info for confirmation page
+    const pendingOrder = JSON.parse(localStorage.getItem("lw_pending_order") || "{}");
+
     const timer = setTimeout(() => {
-      window.location.href = link;
+      // Open Razorpay in new tab and navigate to confirmation
+      window.open(link, "_blank");
+      const confirmParams = new URLSearchParams();
+      if (pendingOrder.productName) confirmParams.set("product", pendingOrder.productName);
+      if (pendingOrder.orderId) confirmParams.set("order", pendingOrder.orderId);
+      localStorage.removeItem("lw_pending_order");
+      navigate(`/order-confirmation?${confirmParams.toString()}`);
     }, 1500);
 
     return () => { clearTimeout(timer); clearInterval(interval); };
@@ -43,7 +52,6 @@ const Payment = () => {
         className="w-full max-w-[420px] bg-card/80 backdrop-blur-2xl rounded-2xl border border-border/60 p-8 md:p-10 text-center"
         style={{ boxShadow: "var(--shadow-elevated)" }}
       >
-        {/* Animated lock */}
         <motion.div
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -55,7 +63,6 @@ const Payment = () => {
         <h1 className="text-xl font-display text-foreground mb-2">Preparing Secure Payment</h1>
         <p className="text-sm text-muted-foreground mb-8">You'll be redirected to Razorpay</p>
 
-        {/* Progress bar */}
         <div className="w-full h-1.5 rounded-full bg-secondary overflow-hidden mb-6">
           <motion.div
             className="h-full rounded-full bg-gradient-to-r from-primary to-[hsl(270_60%_55%)]"
@@ -64,7 +71,6 @@ const Payment = () => {
           />
         </div>
 
-        {/* Spinner */}
         <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-6">
           <Loader2 size={16} className="animate-spin text-primary" />
           Redirecting...
