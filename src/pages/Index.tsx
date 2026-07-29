@@ -759,7 +759,7 @@ const Index = () => {
       <section className="py-16 px-4 md:px-6 bg-secondary/50">
         <div className="max-w-6xl mx-auto">
           <SectionHeading title="Customer Reviews" subtitle="Real feedback from our happy gamers" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 [perspective:1400px]">
             {[
               { name: "Rahul", text: "Very nice this website is very good for your weplay life dont wast your money come hare and enjoy" },
               { name: "Ankit G", text: "Maine 50K RED PACKET liya tha. Payment ke baad 10 minute tak kuch nahi aaya toh thoda tension hua. Phir support se baat ki aur 2 minute mein coins aa gaye. Good service" },
