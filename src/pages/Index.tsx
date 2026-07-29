@@ -820,7 +820,7 @@ const Index = () => {
           </FadeIn>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-7">
             {PRODUCTS.map((product, i) =>
-            <ProductCard key={product.id} product={product} index={i} />
+            <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} />
             )}
           </div>
         </div>
