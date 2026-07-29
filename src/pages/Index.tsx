@@ -600,16 +600,29 @@ const Index = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.3 + i * 0.06 }}
-            whileHover={{ scale: 1.05, y: -3, transition: { type: "spring", stiffness: 400 } }}
-            className="flex flex-col items-center p-4 rounded-xl bg-card border border-border cursor-default transition-all duration-300 hover:border-primary/20 hover:shadow-[var(--shadow-elevated)]">
-            
-              <div className="text-primary mb-2">{badge.icon}</div>
-              <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground mb-0.5">{badge.label}</span>
-              <span className="text-sm font-bold text-foreground">{badge.val}</span>
+      {/* ─── 2. TRUST BADGES ──────────────────────────────── */}
+      <section className="py-6 md:py-10 px-4 md:px-6">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-3 [perspective:1200px]">
+          {TRUST_BADGES.map((badge, i) =>
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 24, rotateX: -20 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.55, delay: 0.15 + i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ scale: 1.06, y: -5, rotateX: 6, rotateY: -4, transition: { type: "spring", stiffness: 400 } }}
+            className="group relative flex flex-col items-center p-4 rounded-2xl bg-card border border-border cursor-default transition-colors duration-300 hover:border-primary/30 [transform-style:preserve-3d]"
+            style={{ boxShadow: "0 10px 30px -12px rgba(79,70,229,0.18), 0 2px 6px rgba(0,0,0,0.04)" }}>
+
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="text-primary mb-2 [transform:translateZ(20px)] group-hover:scale-110 transition-transform duration-300">{badge.icon}</div>
+              <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground mb-0.5 relative">{badge.label}</span>
+              <span className="text-sm font-bold text-foreground relative">{badge.val}</span>
             </motion.div>
           )}
         </div>
       </section>
+
 
       {/* ─── 3. PARTNERS CAROUSEL ─────────────────────────── */}
       <section id="partners" className="py-14 md:py-20 overflow-hidden">
