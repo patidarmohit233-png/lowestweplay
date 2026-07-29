@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck, Zap, Lock, Trophy, MessageSquare, Package,
   ArrowRight, Search, CreditCard, Download, CheckCircle2,
@@ -288,10 +288,11 @@ function DailyCountdownBar() {
    MAIN PAGE
    ══════════════════════════════════════════════════════════ */
 const Index = () => {
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
   const heroScale = useTransform(scrollY, [0, 400], [1, 0.92]);
   const heroY = useTransform(scrollY, [0, 400], [0, 60]);
+  const progressScale = useSpring(scrollYProgress, { stiffness: 120, damping: 24, mass: 0.3 });
 
   const [showSplash, setShowSplash] = useState(() => {
     const seen = sessionStorage.getItem("lw_splash_seen");
@@ -322,8 +323,16 @@ const Index = () => {
     <>
     <SplashScreen show={showSplash} onComplete={() => setSplashDone(true)} />
     <div className={`min-h-screen bg-background text-foreground antialiased overflow-x-hidden ${showSplash ? "overflow-hidden h-screen" : ""}`}>
+      {/* ─── SCROLL PROGRESS BAR ──────────────────────────── */}
+      <motion.div
+        aria-hidden
+        style={{ scaleX: progressScale, transformOrigin: "0% 50%" }}
+        className="fixed top-0 left-0 right-0 h-[3px] z-[80] bg-gradient-to-r from-primary via-accent to-primary shadow-[0_0_12px_hsl(var(--primary)/0.6)] pointer-events-none"
+      />
+
       {/* ─── 0. DAILY COUNTDOWN BAR ───────────────────────── */}
       <DailyCountdownBar />
+
 
       {/* ─── 1. PREMIUM STICKY HEADER ─────────────────────── */}
       <motion.nav
@@ -584,23 +593,27 @@ const Index = () => {
 
       {/* ─── 2. TRUST BADGES ──────────────────────────────── */}
       <section className="py-6 md:py-10 px-4 md:px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-3">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-3 [perspective:1200px]">
           {TRUST_BADGES.map((badge, i) =>
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 + i * 0.06 }}
-            whileHover={{ scale: 1.05, y: -3, transition: { type: "spring", stiffness: 400 } }}
-            className="flex flex-col items-center p-4 rounded-xl bg-card border border-border cursor-default transition-all duration-300 hover:border-primary/20 hover:shadow-[var(--shadow-elevated)]">
-            
-              <div className="text-primary mb-2">{badge.icon}</div>
-              <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground mb-0.5">{badge.label}</span>
-              <span className="text-sm font-bold text-foreground">{badge.val}</span>
+            initial={{ opacity: 0, y: 24, rotateX: -20 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.55, delay: 0.15 + i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ scale: 1.06, y: -5, rotateX: 6, rotateY: -4, transition: { type: "spring", stiffness: 400 } }}
+            className="group relative flex flex-col items-center p-4 rounded-2xl bg-card border border-border cursor-default transition-colors duration-300 hover:border-primary/30 [transform-style:preserve-3d]"
+            style={{ boxShadow: "0 10px 30px -12px rgba(79,70,229,0.18), 0 2px 6px rgba(0,0,0,0.04)" }}>
+
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="text-primary mb-2 [transform:translateZ(20px)] group-hover:scale-110 transition-transform duration-300">{badge.icon}</div>
+              <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground mb-0.5 relative">{badge.label}</span>
+              <span className="text-sm font-bold text-foreground relative">{badge.val}</span>
             </motion.div>
           )}
         </div>
       </section>
+
 
       {/* ─── 3. PARTNERS CAROUSEL ─────────────────────────── */}
       <section id="partners" className="py-14 md:py-20 overflow-hidden">
@@ -701,29 +714,44 @@ const Index = () => {
       <section id="how-it-works" className="py-16 md:py-24 px-4 md:px-6 bg-secondary">
         <div className="max-w-5xl mx-auto">
           <SectionHeading title="How It Works" subtitle="Get your coins in 4 simple steps" />
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 [perspective:1400px]">
             {STEPS.map((step, i) =>
             <FadeIn key={i} delay={i * 0.1} className="relative">
                 <motion.div
-                whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                className="bg-card rounded-2xl border border-border p-6 text-center h-full hover:border-primary/20 transition-all duration-300"
-                style={{ boxShadow: "var(--shadow-soft)" }}>
-                
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/8 text-primary mb-4" style={{ animation: `step-bounce 3s ease-in-out ${i * 0.5}s infinite` }}>
+                initial={{ opacity: 0, y: 40, rotateX: -18 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -8, rotateX: 6, rotateY: -4, transition: { duration: 0.25 } }}
+                className="group relative bg-card rounded-2xl border border-border p-6 text-center h-full hover:border-primary/30 transition-colors duration-300 [transform-style:preserve-3d] overflow-hidden"
+                style={{ boxShadow: "0 12px 34px -14px rgba(79,70,229,0.2), 0 2px 6px rgba(0,0,0,0.04)" }}>
+
+                  {/* Step number watermark */}
+                  <span aria-hidden className="absolute -top-4 -right-2 text-[6rem] font-display text-primary/[0.06] leading-none select-none pointer-events-none [transform:translateZ(0)]">
+                    {i + 1}
+                  </span>
+                  {/* Gradient glow on hover */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/8 via-transparent to-accent/8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                  <div className="relative inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 text-primary mb-4 [transform:translateZ(30px)] group-hover:scale-110 group-hover:shadow-[0_10px_25px_-8px_hsl(var(--primary)/0.5)] transition-all duration-300" style={{ animation: `step-bounce 3s ease-in-out ${i * 0.5}s infinite` }}>
                     {step.icon}
                   </div>
-                  <div className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-widest">Step {i + 1}</div>
-                  <h3 className="text-base font-bold text-foreground mb-2">{step.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
+                  <div className="relative text-xs font-bold text-muted-foreground mb-2 uppercase tracking-widest">Step {i + 1}</div>
+                  <h3 className="relative text-base font-bold text-foreground mb-2">{step.title}</h3>
+                  <p className="relative text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
                 </motion.div>
                 {i < 3 &&
-              <div className="hidden md:block absolute top-1/2 -right-3 text-border">
+              <motion.div
+                animate={{ x: [0, 4, 0], opacity: [0.4, 0.9, 0.4] }}
+                transition={{ duration: 2, repeat: Infinity, delay: i * 0.3, ease: "easeInOut" }}
+                className="hidden md:block absolute top-1/2 -right-3 text-primary/50">
                     <ArrowRight size={18} />
-                  </div>
+                  </motion.div>
               }
               </FadeIn>
             )}
           </div>
+
         </div>
       </section>
 
@@ -731,7 +759,7 @@ const Index = () => {
       <section className="py-16 px-4 md:px-6 bg-secondary/50">
         <div className="max-w-6xl mx-auto">
           <SectionHeading title="Customer Reviews" subtitle="Real feedback from our happy gamers" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 [perspective:1400px]">
             {[
               { name: "Rahul", text: "Very nice this website is very good for your weplay life dont wast your money come hare and enjoy" },
               { name: "Ankit G", text: "Maine 50K RED PACKET liya tha. Payment ke baad 10 minute tak kuch nahi aaya toh thoda tension hua. Phir support se baat ki aur 2 minute mein coins aa gaye. Good service" },
@@ -745,18 +773,23 @@ const Index = () => {
               { name: "Priya S", text: "ID dalte time dar lag raha tha, support se baat ki unhone bola 100% safe hai. Maine try kiya aur 5 minute mein coins aa gaye. Achi website hai, trusted hai." },
             ].map((review, i) => (
               <FadeIn key={i} delay={i * 0.05}>
-                <div className="bg-card rounded-xl border border-border p-5 h-full" style={{ boxShadow: "var(--shadow-soft)" }}>
-                  <div className="text-amber-400 text-sm mb-2">⭐⭐⭐⭐</div>
-                  <p className="text-foreground text-sm leading-relaxed mb-3">"{review.text}"</p>
-                  <div className="flex items-center gap-2">
+                <motion.div
+                  whileHover={{ y: -6, rotateX: 4, rotateY: -3, transition: { type: "spring", stiffness: 300 } }}
+                  className="group relative bg-card rounded-2xl border border-border p-5 h-full transition-colors duration-300 hover:border-primary/30 [transform-style:preserve-3d]"
+                  style={{ boxShadow: "0 10px 28px -14px rgba(79,70,229,0.18), 0 2px 6px rgba(0,0,0,0.04)" }}>
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  <div className="relative text-amber-400 text-sm mb-2">⭐⭐⭐⭐</div>
+                  <p className="relative text-foreground text-sm leading-relaxed mb-3">"{review.text}"</p>
+                  <div className="relative flex items-center gap-2 flex-wrap">
                     <p className="text-muted-foreground text-xs font-semibold">— {review.name}</p>
                     <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
                       <svg className="w-3 h-3" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.403 12.652a3 3 0 010-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" /></svg>
                       Verified Purchase
                     </span>
                   </div>
-                </div>
+                </motion.div>
               </FadeIn>
+
             ))}
           </div>
         </div>
