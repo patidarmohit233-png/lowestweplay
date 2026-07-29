@@ -559,64 +559,16 @@ const Index = () => {
         style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
         className="relative pt-8 md:pt-20 pb-14 md:pb-32 px-4 md:px-6 overflow-hidden">
         
-        {/* Animated mesh gradient background */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.06] via-background to-accent/[0.04]" />
-          <motion.div
-            className="absolute inset-0"
-            animate={{ backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            style={{
-              backgroundImage: "radial-gradient(ellipse at 20% 50%, hsl(var(--primary) / 0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, hsl(var(--accent) / 0.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, hsl(var(--primary) / 0.05) 0%, transparent 50%)",
-              backgroundSize: "200% 200%"
-            }} />
-        </div>
-
-        {/* Animated glowing orbs */}
-        <motion.div
-          className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[800px] rounded-full pointer-events-none"
-          animate={{ scale: [1, 1.1, 1], opacity: [0.04, 0.07, 0.04] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.12), transparent 70%)" }} />
-        <motion.div
-          className="absolute top-[100px] right-[-100px] w-[350px] h-[350px] rounded-full pointer-events-none"
-          animate={{ scale: [1, 1.15, 1], x: [0, 20, 0], opacity: [0.03, 0.06, 0.03] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          style={{ background: "radial-gradient(circle, hsl(var(--accent) / 0.15), transparent 70%)" }} />
-        <motion.div
-          className="absolute bottom-[-50px] left-[-80px] w-[300px] h-[300px] rounded-full pointer-events-none"
-          animate={{ scale: [1, 1.2, 1], y: [0, -15, 0], opacity: [0.03, 0.05, 0.03] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-          style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.1), transparent 70%)" }} />
-
-        {/* Animated grid pattern */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          animate={{ opacity: [0.015, 0.03, 0.015] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          style={{ backgroundImage: "radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-
-        {/* Subtle horizontal light streaks */}
-        <motion.div
-          className="absolute top-1/3 left-0 w-full h-[1px] pointer-events-none"
-          animate={{ opacity: [0, 0.06, 0], x: ["-100%", "100%"] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          style={{ background: "linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent)" }} />
-        <motion.div
-          className="absolute top-2/3 left-0 w-full h-[1px] pointer-events-none"
-          animate={{ opacity: [0, 0.04, 0], x: ["100%", "-100%"] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-          style={{ background: "linear-gradient(90deg, transparent, hsl(var(--accent) / 0.2), transparent)" }} />
-
-        {/* Floating orbs */}
-        <FloatingOrb delay={0} x="8%" y="20%" size={16} />
-        <FloatingOrb delay={1.2} x="88%" y="12%" size={10} color="accent" />
-        <FloatingOrb delay={0.6} x="78%" y="55%" size={18} />
-        <FloatingOrb delay={2} x="18%" y="68%" size={8} color="accent" />
-        <FloatingOrb delay={0.8} x="45%" y="82%" size={12} />
-        <FloatingOrb delay={1.5} x="92%" y="38%" size={11} />
-        <FloatingOrb delay={0.3} x="3%" y="45%" size={7} />
-        <FloatingOrb delay={1.8} x="60%" y="8%" size={9} color="accent" />
+        {/* Layered light background */}
+        <div className="absolute inset-0 bg-mesh" />
+        <div className="absolute inset-0 bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
+        <div className="absolute inset-0 bg-noise opacity-[0.35] pointer-events-none mix-blend-overlay" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full pointer-events-none animate-aurora"
+          style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.14), transparent 60%)" }} />
+        <div className="absolute top-40 -right-40 w-[500px] h-[500px] rounded-full pointer-events-none animate-aurora"
+          style={{ background: "radial-gradient(circle, hsl(var(--primary-glow)/0.16), transparent 65%)", animationDelay: "-6s" }} />
+        <div className="absolute bottom-0 -left-32 w-[420px] h-[420px] rounded-full pointer-events-none animate-aurora"
+          style={{ background: "radial-gradient(circle, hsl(var(--accent)/0.10), transparent 65%)", animationDelay: "-12s" }} />
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
           {/* Badge */}
