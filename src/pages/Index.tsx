@@ -123,6 +123,28 @@ function ProductCard({ product, index, buyer, onRequireVerify }: {product: typeo
     toast({ title: "Order created", description: "Complete payment in the new tab. Coins credit within minutes." });
   };
 
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(1000px) rotateY(${px * 8}deg) rotateX(${-py * 8}deg) translateZ(0)`;
+  };
+  const resetTilt = () => {
+    const el = ref.current;
+    if (el) el.style.transform = "";
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40, scale: 0.9, rotateX: -15 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1, rotateX: 0 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+      whileTap={{ scale: 0.97 }}
+      onMouseMove={handleMove}
+      onMouseLeave={resetTilt}
       className="group relative bg-card rounded-2xl md:rounded-3xl border border-border/40 flex flex-col transition-[box-shadow,border-color,transform] duration-300 overflow-hidden active:scale-[0.97] [transform-style:preserve-3d]"
       style={{ boxShadow: "0 8px 30px -8px rgba(79,70,229,0.15), 0 2px 6px rgba(0,0,0,0.04)", willChange: "transform, opacity" }}>
 
