@@ -573,24 +573,16 @@ const Index = () => {
         <div className="max-w-5xl mx-auto text-center relative z-10">
           {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.7, type: "spring", stiffness: 160, damping: 14 }}
-            className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 rounded-2xl bg-primary/6 border border-primary/12 text-primary text-[9px] md:text-xs font-bold mb-5 md:mb-10 backdrop-blur-md">
-            
-            <motion.span
-              animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}>
-              
-              <Crown size={15} />
-            </motion.span>
-            OFFICIAL WEPLAY CC TOP-UP PARTNER
-            <motion.span
-              animate={{ rotate: [0, 180, 360] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}>
-              
-              <Sparkles size={14} className="text-primary/50" />
-            </motion.span>
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full glass text-[10px] md:text-xs font-semibold mb-6 md:mb-10 shadow-card">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[9px] md:text-[10px] font-bold uppercase tracking-wider">
+              <Crown size={11} /> Official
+            </span>
+            <span className="text-muted-foreground">WePlay CC Top-up Partner</span>
+            <span className="w-1 h-1 rounded-full bg-accent animate-pulse" />
+            <span className="text-accent font-bold">Live</span>
           </motion.div>
 
           {/* Main heading */}
