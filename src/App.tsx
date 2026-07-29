@@ -22,7 +22,6 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/verify" element={<Verify />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/auth" element={<AdminAuth />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
