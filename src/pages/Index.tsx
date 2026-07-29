@@ -732,13 +732,11 @@ const Index = () => {
       {/* ─── 3. PARTNERS CAROUSEL ─────────────────────────── */}
       <section id="partners" className="py-14 md:py-20 overflow-hidden">
         <SectionHeading title="Top Partners" subtitle="Trusted by the biggest names in the community" />
-        <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-28 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-28 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-          <div className="flex gap-5 animate-scroll-left whitespace-nowrap">
+        <div className="relative mask-fade-x">
+          <div className="flex gap-5 animate-scroll-left whitespace-nowrap will-change-transform">
             {[...PARTNERS, ...PARTNERS].map((src, i) =>
-            <div key={i} className="flex-shrink-0 h-72 w-56 md:h-80 md:w-64 rounded-2xl overflow-hidden border border-border bg-card p-2 hover:scale-[1.03] transition-transform duration-500" style={{ boxShadow: "0 10px 30px -8px rgba(79,70,229,0.18)" }}>
-                <img src={src} alt="Partner" className="w-full h-full object-cover rounded-xl" />
+            <div key={i} className="flex-shrink-0 h-72 w-56 md:h-80 md:w-64 rounded-3xl overflow-hidden bg-card p-1.5 hover:scale-[1.03] transition-transform duration-500 shadow-card border border-border/60">
+                <img src={src} alt="Partner" className="w-full h-full object-cover rounded-2xl" />
               </div>
             )}
           </div>
