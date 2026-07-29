@@ -323,8 +323,16 @@ const Index = () => {
     <>
     <SplashScreen show={showSplash} onComplete={() => setSplashDone(true)} />
     <div className={`min-h-screen bg-background text-foreground antialiased overflow-x-hidden ${showSplash ? "overflow-hidden h-screen" : ""}`}>
+      {/* ─── SCROLL PROGRESS BAR ──────────────────────────── */}
+      <motion.div
+        aria-hidden
+        style={{ scaleX: progressScale, transformOrigin: "0% 50%" }}
+        className="fixed top-0 left-0 right-0 h-[3px] z-[80] bg-gradient-to-r from-primary via-accent to-primary shadow-[0_0_12px_hsl(var(--primary)/0.6)] pointer-events-none"
+      />
+
       {/* ─── 0. DAILY COUNTDOWN BAR ───────────────────────── */}
       <DailyCountdownBar />
+
 
       {/* ─── 1. PREMIUM STICKY HEADER ─────────────────────── */}
       <motion.nav
