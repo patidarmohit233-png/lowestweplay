@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion, useInView, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck, Zap, Lock, Trophy, MessageSquare, Package,
   ArrowRight, Search, CreditCard, Download, CheckCircle2,
-  Sparkles, Star, Crown, Flame } from
+  Sparkles, Star, Crown, Flame, UserCheck, Loader2, Pencil } from
 "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+type VerifiedBuyer = { weplay_id: string; weplay_name: string };
+const VERIFY_KEY = "lw_verified_buyer";
 
 const PRODUCT_BADGES: Record<number, {text: string;icon: React.ReactNode;color: string;}> = {
   1: { text: "STARTER PICK", icon: <Zap size={11} />, color: "primary" },
@@ -85,14 +91,38 @@ function SectionHeading({ title, subtitle }: {title: string;subtitle: string;}) 
 }
 
 /* ── Product Card ─────────────────────────────────────── */
-function ProductCard({ product, index }: {product: typeof PRODUCTS[0];index: number;}) {
-  const navigate = useNavigate();
+function ProductCard({ product, index, buyer, onRequireVerify }: {product: typeof PRODUCTS[0];index: number;buyer: VerifiedBuyer | null;onRequireVerify: () => void;}) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
   const badge = PRODUCT_BADGES[product.id];
   const discount = Math.round((1 - product.price / product.mrp) * 100);
+  const [buying, setBuying] = useState(false);
 
-  // 3D tilt on pointer move (desktop) – graceful no-op on touch
+  const handleBuy = async () => {
+    if (!buyer) {
+      onRequireVerify();
+      return;
+    }
+    setBuying(true);
+    const { error } = await supabase.from("orders").insert({
+      weplay_id: buyer.weplay_id,
+      weplay_name: buyer.weplay_name,
+      email: "",
+      phone: null,
+      product_id: String(product.id),
+      product_name: product.name,
+      price: product.price,
+      status: "pending",
+    });
+    setBuying(false);
+    if (error) {
+      toast({ title: "Could not start order", description: error.message, variant: "destructive" });
+      return;
+    }
+    window.open(product.link, "_blank", "noopener,noreferrer");
+    toast({ title: "Order created", description: "Complete payment in the new tab. Coins credit within minutes." });
+  };
+
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = ref.current;
     if (!el) return;
@@ -174,13 +204,11 @@ function ProductCard({ product, index }: {product: typeof PRODUCTS[0];index: num
         </div>
 
         <motion.button
-          onClick={() => {
-            window.open(product.link, "_blank", "noopener,noreferrer");
-            navigate(`/verify?product=${product.id}`);
-          }}
+          onClick={handleBuy}
+          disabled={buying}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.95 }}
-          className="w-full py-2.5 md:py-4 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground rounded-xl md:rounded-2xl font-extrabold text-center flex items-center justify-center gap-1.5 md:gap-2 text-xs md:text-sm transition-all duration-300 hover:shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.4)] relative overflow-hidden group/btn">
+          className="w-full py-2.5 md:py-4 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground rounded-xl md:rounded-2xl font-extrabold text-center flex items-center justify-center gap-1.5 md:gap-2 text-xs md:text-sm transition-all duration-300 hover:shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.4)] relative overflow-hidden group/btn disabled:opacity-70">
 
           <motion.div
             className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-foreground/15 to-transparent"
@@ -188,8 +216,13 @@ function ProductCard({ product, index }: {product: typeof PRODUCTS[0];index: num
             transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }} />
 
           <span className="relative z-10 flex items-center gap-1.5 md:gap-2 uppercase tracking-wider text-[10px] md:text-[13px]">
-            Buy Now <ArrowRight size={12} className="md:hidden" />
-            <ArrowRight size={15} className="hidden md:inline group-hover/btn:translate-x-1.5 transition-transform duration-300" />
+            {buying ? (
+              <><Loader2 size={13} className="animate-spin" /> Processing…</>
+            ) : buyer ? (
+              <>Buy Now <ArrowRight size={12} className="md:hidden" /><ArrowRight size={15} className="hidden md:inline group-hover/btn:translate-x-1.5 transition-transform duration-300" /></>
+            ) : (
+              <><UserCheck size={13} /> Verify to Buy</>
+            )}
           </span>
         </motion.button>
       </div>
@@ -287,6 +320,117 @@ function DailyCountdownBar() {
 
 }
 
+
+/* ── Verification Panel ────────────────────────────────── */
+const verifySchema = z.object({
+  weplay_id: z.string().trim().min(3, "WePlay ID must be at least 3 characters").max(40, "Too long"),
+  weplay_name: z.string().trim().min(2, "Name required").max(60, "Too long"),
+});
+
+function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null; onVerified: (b: VerifiedBuyer | null) => void }) {
+  const [form, setForm] = useState<VerifiedBuyer>({ weplay_id: buyer?.weplay_id ?? "", weplay_name: buyer?.weplay_name ?? "" });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [editing, setEditing] = useState(!buyer);
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const parsed = verifySchema.safeParse(form);
+    if (!parsed.success) {
+      const flat: Record<string, string> = {};
+      parsed.error.issues.forEach((i) => (flat[i.path[0] as string] = i.message));
+      setErrors(flat);
+      return;
+    }
+    setErrors({});
+    onVerified(parsed.data as VerifiedBuyer);
+    setEditing(false);
+    toast({ title: "Verified ✓", description: "You can now top-up any package." });
+  };
+
+  return (
+    <section id="verify" className="px-4 md:px-6 pt-4 md:pt-6 pb-2 md:pb-4 relative z-10">
+      <div className="max-w-3xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="relative rounded-2xl md:rounded-3xl border border-primary/20 bg-card/80 backdrop-blur-xl p-4 md:p-6 overflow-hidden"
+          style={{ boxShadow: "0 20px 50px -20px hsl(var(--primary) / 0.25)" }}>
+
+          <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-16 -left-16 w-40 h-40 rounded-full bg-accent/10 blur-3xl pointer-events-none" />
+
+          <div className="relative flex items-center gap-2 mb-3 md:mb-4">
+            <span className={`inline-flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-xl ${buyer && !editing ? "bg-emerald-500/15 text-emerald-600" : "bg-primary/15 text-primary"}`}>
+              {buyer && !editing ? <CheckCircle2 size={18} /> : <UserCheck size={18} />}
+            </span>
+            <div className="flex-1 min-w-0">
+              <div className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Step 1 · Verify Your Player</div>
+              <h3 className="text-base md:text-xl font-display leading-tight text-foreground">
+                {buyer && !editing ? "You're verified — ready to top-up" : "Verify before top-up"}
+              </h3>
+            </div>
+            {buyer && !editing && (
+              <button
+                type="button"
+                onClick={() => setEditing(true)}
+                className="inline-flex items-center gap-1 text-[11px] md:text-xs font-bold text-primary hover:text-primary/80 px-2.5 py-1.5 rounded-lg border border-primary/20 bg-primary/5">
+                <Pencil size={12} /> Edit
+              </button>
+            )}
+          </div>
+
+          {buyer && !editing ? (
+            <div className="relative grid grid-cols-2 gap-2 md:gap-3">
+              <div className="rounded-xl border border-border/60 bg-secondary/50 px-3 py-2.5">
+                <div className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground">WePlay ID</div>
+                <div className="text-sm md:text-base font-extrabold text-foreground truncate">{buyer.weplay_id}</div>
+              </div>
+              <div className="rounded-xl border border-border/60 bg-secondary/50 px-3 py-2.5">
+                <div className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground">WePlay Name</div>
+                <div className="text-sm md:text-base font-extrabold text-foreground truncate">{buyer.weplay_name}</div>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={submit} className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2 md:gap-3">
+              <label className="block">
+                <span className="sr-only">WePlay ID</span>
+                <input
+                  value={form.weplay_id}
+                  onChange={(e) => setForm({ ...form, weplay_id: e.target.value })}
+                  placeholder="WePlay ID (e.g. WP123456)"
+                  className={`w-full px-4 py-3 rounded-xl border bg-background text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${errors.weplay_id ? "border-destructive" : "border-border"}`}
+                />
+                {errors.weplay_id && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_id}</span>}
+              </label>
+              <label className="block">
+                <span className="sr-only">WePlay Name</span>
+                <input
+                  value={form.weplay_name}
+                  onChange={(e) => setForm({ ...form, weplay_name: e.target.value })}
+                  placeholder="WePlay Name (in-game)"
+                  className={`w-full px-4 py-3 rounded-xl border bg-background text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${errors.weplay_name ? "border-destructive" : "border-border"}`}
+                />
+                {errors.weplay_name && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_name}</span>}
+              </label>
+              <button
+                type="submit"
+                className="py-3 md:py-3 px-5 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground rounded-xl font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.97] transition-all hover:shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.4)]">
+                Verify <CheckCircle2 size={14} />
+              </button>
+            </form>
+          )}
+
+          <p className="relative text-[10px] md:text-[11px] text-muted-foreground text-center md:text-left mt-3 leading-relaxed">
+            🔒 We only need your Player ID & Name — never your password. Verify once and top-up any plan.
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 /* ══════════════════════════════════════════════════════════
    MAIN PAGE
    ══════════════════════════════════════════════════════════ */
@@ -297,11 +441,29 @@ const Index = () => {
   const heroY = useTransform(scrollY, [0, 400], [0, 60]);
   const progressScale = useSpring(scrollYProgress, { stiffness: 120, damping: 24, mass: 0.3 });
 
+  const [buyer, setBuyer] = useState<VerifiedBuyer | null>(() => {
+    try {
+      const raw = localStorage.getItem(VERIFY_KEY);
+      return raw ? (JSON.parse(raw) as VerifiedBuyer) : null;
+    } catch { return null; }
+  });
+  const persistBuyer = (b: VerifiedBuyer | null) => {
+    setBuyer(b);
+    if (b) localStorage.setItem(VERIFY_KEY, JSON.stringify(b));
+    else localStorage.removeItem(VERIFY_KEY);
+  };
+  const scrollToVerify = () => {
+    const el = document.getElementById("verify");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    toast({ title: "Verify first", description: "Enter your WePlay ID & Name to unlock Buy Now." });
+  };
+
   const [showSplash, setShowSplash] = useState(() => {
     const seen = sessionStorage.getItem("lw_splash_seen");
     return !seen;
   });
   const [splashDone, setSplashDone] = useState(false);
+
 
   useEffect(() => {
     if (showSplash) {
@@ -635,6 +797,8 @@ const Index = () => {
       </section>
 
       {/* ─── 4. PRODUCTS ──────────────────────────────────── */}
+      <VerificationPanel buyer={buyer} onVerified={persistBuyer} />
+
       <section id="products" className="py-20 md:py-32 px-4 md:px-6 relative overflow-hidden">
         {/* Section background */}
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/80 via-secondary to-secondary/80" />
@@ -658,7 +822,7 @@ const Index = () => {
           </FadeIn>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-7">
             {PRODUCTS.map((product, i) =>
-            <ProductCard key={product.id} product={product} index={i} />
+            <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} />
             )}
           </div>
         </div>

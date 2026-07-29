@@ -4,7 +4,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
-import Verify from "./pages/Verify.tsx";
 import Admin from "./pages/Admin.tsx";
 import AdminAuth from "./pages/AdminAuth.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
@@ -23,7 +22,6 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/verify" element={<Verify />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/auth" element={<AdminAuth />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
