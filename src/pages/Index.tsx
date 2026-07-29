@@ -320,6 +320,117 @@ function DailyCountdownBar() {
 
 }
 
+
+/* ── Verification Panel ────────────────────────────────── */
+const verifySchema = z.object({
+  weplay_id: z.string().trim().min(3, "WePlay ID must be at least 3 characters").max(40, "Too long"),
+  weplay_name: z.string().trim().min(2, "Name required").max(60, "Too long"),
+});
+
+function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null; onVerified: (b: VerifiedBuyer | null) => void }) {
+  const [form, setForm] = useState<VerifiedBuyer>({ weplay_id: buyer?.weplay_id ?? "", weplay_name: buyer?.weplay_name ?? "" });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [editing, setEditing] = useState(!buyer);
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const parsed = verifySchema.safeParse(form);
+    if (!parsed.success) {
+      const flat: Record<string, string> = {};
+      parsed.error.issues.forEach((i) => (flat[i.path[0] as string] = i.message));
+      setErrors(flat);
+      return;
+    }
+    setErrors({});
+    onVerified(parsed.data);
+    setEditing(false);
+    toast({ title: "Verified ✓", description: "You can now top-up any package." });
+  };
+
+  return (
+    <section id="verify" className="px-4 md:px-6 pt-4 md:pt-6 pb-2 md:pb-4 relative z-10">
+      <div className="max-w-3xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="relative rounded-2xl md:rounded-3xl border border-primary/20 bg-card/80 backdrop-blur-xl p-4 md:p-6 overflow-hidden"
+          style={{ boxShadow: "0 20px 50px -20px hsl(var(--primary) / 0.25)" }}>
+
+          <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-16 -left-16 w-40 h-40 rounded-full bg-accent/10 blur-3xl pointer-events-none" />
+
+          <div className="relative flex items-center gap-2 mb-3 md:mb-4">
+            <span className={`inline-flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-xl ${buyer && !editing ? "bg-emerald-500/15 text-emerald-600" : "bg-primary/15 text-primary"}`}>
+              {buyer && !editing ? <CheckCircle2 size={18} /> : <UserCheck size={18} />}
+            </span>
+            <div className="flex-1 min-w-0">
+              <div className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Step 1 · Verify Your Player</div>
+              <h3 className="text-base md:text-xl font-display leading-tight text-foreground">
+                {buyer && !editing ? "You're verified — ready to top-up" : "Verify before top-up"}
+              </h3>
+            </div>
+            {buyer && !editing && (
+              <button
+                type="button"
+                onClick={() => setEditing(true)}
+                className="inline-flex items-center gap-1 text-[11px] md:text-xs font-bold text-primary hover:text-primary/80 px-2.5 py-1.5 rounded-lg border border-primary/20 bg-primary/5">
+                <Pencil size={12} /> Edit
+              </button>
+            )}
+          </div>
+
+          {buyer && !editing ? (
+            <div className="relative grid grid-cols-2 gap-2 md:gap-3">
+              <div className="rounded-xl border border-border/60 bg-secondary/50 px-3 py-2.5">
+                <div className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground">WePlay ID</div>
+                <div className="text-sm md:text-base font-extrabold text-foreground truncate">{buyer.weplay_id}</div>
+              </div>
+              <div className="rounded-xl border border-border/60 bg-secondary/50 px-3 py-2.5">
+                <div className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground">WePlay Name</div>
+                <div className="text-sm md:text-base font-extrabold text-foreground truncate">{buyer.weplay_name}</div>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={submit} className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2 md:gap-3">
+              <label className="block">
+                <span className="sr-only">WePlay ID</span>
+                <input
+                  value={form.weplay_id}
+                  onChange={(e) => setForm({ ...form, weplay_id: e.target.value })}
+                  placeholder="WePlay ID (e.g. WP123456)"
+                  className={`w-full px-4 py-3 rounded-xl border bg-background text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${errors.weplay_id ? "border-destructive" : "border-border"}`}
+                />
+                {errors.weplay_id && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_id}</span>}
+              </label>
+              <label className="block">
+                <span className="sr-only">WePlay Name</span>
+                <input
+                  value={form.weplay_name}
+                  onChange={(e) => setForm({ ...form, weplay_name: e.target.value })}
+                  placeholder="WePlay Name (in-game)"
+                  className={`w-full px-4 py-3 rounded-xl border bg-background text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${errors.weplay_name ? "border-destructive" : "border-border"}`}
+                />
+                {errors.weplay_name && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_name}</span>}
+              </label>
+              <button
+                type="submit"
+                className="py-3 md:py-3 px-5 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground rounded-xl font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.97] transition-all hover:shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.4)]">
+                Verify <CheckCircle2 size={14} />
+              </button>
+            </form>
+          )}
+
+          <p className="relative text-[10px] md:text-[11px] text-muted-foreground text-center md:text-left mt-3 leading-relaxed">
+            🔒 We only need your Player ID & Name — never your password. Verify once and top-up any plan.
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 /* ══════════════════════════════════════════════════════════
    MAIN PAGE
    ══════════════════════════════════════════════════════════ */
@@ -330,11 +441,29 @@ const Index = () => {
   const heroY = useTransform(scrollY, [0, 400], [0, 60]);
   const progressScale = useSpring(scrollYProgress, { stiffness: 120, damping: 24, mass: 0.3 });
 
+  const [buyer, setBuyer] = useState<VerifiedBuyer | null>(() => {
+    try {
+      const raw = localStorage.getItem(VERIFY_KEY);
+      return raw ? (JSON.parse(raw) as VerifiedBuyer) : null;
+    } catch { return null; }
+  });
+  const persistBuyer = (b: VerifiedBuyer | null) => {
+    setBuyer(b);
+    if (b) localStorage.setItem(VERIFY_KEY, JSON.stringify(b));
+    else localStorage.removeItem(VERIFY_KEY);
+  };
+  const scrollToVerify = () => {
+    const el = document.getElementById("verify");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    toast({ title: "Verify first", description: "Enter your WePlay ID & Name to unlock Buy Now." });
+  };
+
   const [showSplash, setShowSplash] = useState(() => {
     const seen = sessionStorage.getItem("lw_splash_seen");
     return !seen;
   });
   const [splashDone, setSplashDone] = useState(false);
+
 
   useEffect(() => {
     if (showSplash) {
