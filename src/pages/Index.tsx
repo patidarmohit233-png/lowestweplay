@@ -559,86 +559,30 @@ const Index = () => {
         style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
         className="relative pt-8 md:pt-20 pb-14 md:pb-32 px-4 md:px-6 overflow-hidden">
         
-        {/* Animated mesh gradient background */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.06] via-background to-accent/[0.04]" />
-          <motion.div
-            className="absolute inset-0"
-            animate={{ backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            style={{
-              backgroundImage: "radial-gradient(ellipse at 20% 50%, hsl(var(--primary) / 0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, hsl(var(--accent) / 0.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, hsl(var(--primary) / 0.05) 0%, transparent 50%)",
-              backgroundSize: "200% 200%"
-            }} />
-        </div>
-
-        {/* Animated glowing orbs */}
-        <motion.div
-          className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[600px] md:w-[900px] h-[600px] md:h-[800px] rounded-full pointer-events-none"
-          animate={{ scale: [1, 1.1, 1], opacity: [0.04, 0.07, 0.04] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.12), transparent 70%)" }} />
-        <motion.div
-          className="absolute top-[100px] right-[-100px] w-[350px] h-[350px] rounded-full pointer-events-none"
-          animate={{ scale: [1, 1.15, 1], x: [0, 20, 0], opacity: [0.03, 0.06, 0.03] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          style={{ background: "radial-gradient(circle, hsl(var(--accent) / 0.15), transparent 70%)" }} />
-        <motion.div
-          className="absolute bottom-[-50px] left-[-80px] w-[300px] h-[300px] rounded-full pointer-events-none"
-          animate={{ scale: [1, 1.2, 1], y: [0, -15, 0], opacity: [0.03, 0.05, 0.03] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-          style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.1), transparent 70%)" }} />
-
-        {/* Animated grid pattern */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          animate={{ opacity: [0.015, 0.03, 0.015] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          style={{ backgroundImage: "radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-
-        {/* Subtle horizontal light streaks */}
-        <motion.div
-          className="absolute top-1/3 left-0 w-full h-[1px] pointer-events-none"
-          animate={{ opacity: [0, 0.06, 0], x: ["-100%", "100%"] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          style={{ background: "linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent)" }} />
-        <motion.div
-          className="absolute top-2/3 left-0 w-full h-[1px] pointer-events-none"
-          animate={{ opacity: [0, 0.04, 0], x: ["100%", "-100%"] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-          style={{ background: "linear-gradient(90deg, transparent, hsl(var(--accent) / 0.2), transparent)" }} />
-
-        {/* Floating orbs */}
-        <FloatingOrb delay={0} x="8%" y="20%" size={16} />
-        <FloatingOrb delay={1.2} x="88%" y="12%" size={10} color="accent" />
-        <FloatingOrb delay={0.6} x="78%" y="55%" size={18} />
-        <FloatingOrb delay={2} x="18%" y="68%" size={8} color="accent" />
-        <FloatingOrb delay={0.8} x="45%" y="82%" size={12} />
-        <FloatingOrb delay={1.5} x="92%" y="38%" size={11} />
-        <FloatingOrb delay={0.3} x="3%" y="45%" size={7} />
-        <FloatingOrb delay={1.8} x="60%" y="8%" size={9} color="accent" />
+        {/* Layered light background */}
+        <div className="absolute inset-0 bg-mesh" />
+        <div className="absolute inset-0 bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
+        <div className="absolute inset-0 bg-noise opacity-[0.35] pointer-events-none mix-blend-overlay" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full pointer-events-none animate-aurora"
+          style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.14), transparent 60%)" }} />
+        <div className="absolute top-40 -right-40 w-[500px] h-[500px] rounded-full pointer-events-none animate-aurora"
+          style={{ background: "radial-gradient(circle, hsl(var(--primary-glow)/0.16), transparent 65%)", animationDelay: "-6s" }} />
+        <div className="absolute bottom-0 -left-32 w-[420px] h-[420px] rounded-full pointer-events-none animate-aurora"
+          style={{ background: "radial-gradient(circle, hsl(var(--accent)/0.10), transparent 65%)", animationDelay: "-12s" }} />
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
           {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.7, type: "spring", stiffness: 160, damping: 14 }}
-            className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 rounded-2xl bg-primary/6 border border-primary/12 text-primary text-[9px] md:text-xs font-bold mb-5 md:mb-10 backdrop-blur-md">
-            
-            <motion.span
-              animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}>
-              
-              <Crown size={15} />
-            </motion.span>
-            OFFICIAL WEPLAY CC TOP-UP PARTNER
-            <motion.span
-              animate={{ rotate: [0, 180, 360] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}>
-              
-              <Sparkles size={14} className="text-primary/50" />
-            </motion.span>
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full glass text-[10px] md:text-xs font-semibold mb-6 md:mb-10 shadow-card">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[9px] md:text-[10px] font-bold uppercase tracking-wider">
+              <Crown size={11} /> Official
+            </span>
+            <span className="text-muted-foreground">WePlay CC Top-up Partner</span>
+            <span className="w-1 h-1 rounded-full bg-accent animate-pulse" />
+            <span className="text-accent font-bold">Live</span>
           </motion.div>
 
           {/* Main heading */}
@@ -663,7 +607,7 @@ const Index = () => {
                 className="inline-block relative">
                 
                 <span className="relative">
-                  <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+                  <span className="text-gradient">
                     Pay Less.
                   </span>
                   <motion.span
@@ -757,25 +701,30 @@ const Index = () => {
       </motion.header>
 
       {/* ─── 2. TRUST BADGES ──────────────────────────────── */}
-      <section className="py-6 md:py-10 px-4 md:px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-3 [perspective:1200px]">
-          {TRUST_BADGES.map((badge, i) =>
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 24, rotateX: -20 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.55, delay: 0.15 + i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ scale: 1.06, y: -5, rotateX: 6, rotateY: -4, transition: { type: "spring", stiffness: 400 } }}
-            className="group relative flex flex-col items-center p-4 rounded-2xl bg-card border border-border cursor-default transition-colors duration-300 hover:border-primary/30 [transform-style:preserve-3d]"
-            style={{ boxShadow: "0 10px 30px -12px rgba(79,70,229,0.18), 0 2px 6px rgba(0,0,0,0.04)" }}>
-
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="text-primary mb-2 [transform:translateZ(20px)] group-hover:scale-110 transition-transform duration-300">{badge.icon}</div>
-              <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground mb-0.5 relative">{badge.label}</span>
-              <span className="text-sm font-bold text-foreground relative">{badge.val}</span>
-            </motion.div>
-          )}
+      <section className="py-8 md:py-14 px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="glass rounded-3xl p-2 md:p-3 shadow-elevated">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-1.5 md:gap-2">
+              {TRUST_BADGES.map((badge, i) =>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -2 }}
+                className="group relative flex items-center gap-3 p-3 md:p-4 rounded-2xl hover:bg-secondary/70 transition-colors duration-300">
+                <div className="flex-shrink-0 w-9 h-9 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 text-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  {badge.icon}
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">{badge.label}</span>
+                  <span className="text-xs md:text-sm font-extrabold text-foreground truncate">{badge.val}</span>
+                </div>
+              </motion.div>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -783,13 +732,11 @@ const Index = () => {
       {/* ─── 3. PARTNERS CAROUSEL ─────────────────────────── */}
       <section id="partners" className="py-14 md:py-20 overflow-hidden">
         <SectionHeading title="Top Partners" subtitle="Trusted by the biggest names in the community" />
-        <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-28 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-28 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-          <div className="flex gap-5 animate-scroll-left whitespace-nowrap">
+        <div className="relative mask-fade-x">
+          <div className="flex gap-5 animate-scroll-left whitespace-nowrap will-change-transform">
             {[...PARTNERS, ...PARTNERS].map((src, i) =>
-            <div key={i} className="flex-shrink-0 h-72 w-56 md:h-80 md:w-64 rounded-2xl overflow-hidden border border-border bg-card p-2 hover:scale-[1.03] transition-transform duration-500" style={{ boxShadow: "0 10px 30px -8px rgba(79,70,229,0.18)" }}>
-                <img src={src} alt="Partner" className="w-full h-full object-cover rounded-xl" />
+            <div key={i} className="flex-shrink-0 h-72 w-56 md:h-80 md:w-64 rounded-3xl overflow-hidden bg-card p-1.5 hover:scale-[1.03] transition-transform duration-500 shadow-card border border-border/60">
+                <img src={src} alt="Partner" className="w-full h-full object-cover rounded-2xl" />
               </div>
             )}
           </div>
