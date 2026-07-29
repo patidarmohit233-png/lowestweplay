@@ -607,7 +607,7 @@ const Index = () => {
                 className="inline-block relative">
                 
                 <span className="relative">
-                  <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+                  <span className="text-gradient">
                     Pay Less.
                   </span>
                   <motion.span
