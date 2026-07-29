@@ -797,6 +797,8 @@ const Index = () => {
       </section>
 
       {/* ─── 4. PRODUCTS ──────────────────────────────────── */}
+      <VerificationPanel buyer={buyer} onVerified={persistBuyer} />
+
       <section id="products" className="py-20 md:py-32 px-4 md:px-6 relative overflow-hidden">
         {/* Section background */}
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/80 via-secondary to-secondary/80" />
