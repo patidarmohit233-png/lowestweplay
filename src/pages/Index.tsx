@@ -288,10 +288,11 @@ function DailyCountdownBar() {
    MAIN PAGE
    ══════════════════════════════════════════════════════════ */
 const Index = () => {
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
   const heroScale = useTransform(scrollY, [0, 400], [1, 0.92]);
   const heroY = useTransform(scrollY, [0, 400], [0, 60]);
+  const progressScale = useSpring(scrollYProgress, { stiffness: 120, damping: 24, mass: 0.3 });
 
   const [showSplash, setShowSplash] = useState(() => {
     const seen = sessionStorage.getItem("lw_splash_seen");
