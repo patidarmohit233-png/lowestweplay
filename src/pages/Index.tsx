@@ -342,7 +342,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
       return;
     }
     setErrors({});
-    onVerified(parsed.data);
+    onVerified(parsed.data as VerifiedBuyer);
     setEditing(false);
     toast({ title: "Verified ✓", description: "You can now top-up any package." });
   };
