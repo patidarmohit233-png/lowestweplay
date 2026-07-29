@@ -87,97 +87,89 @@ function SectionHeading({ title, subtitle }: {title: string;subtitle: string;}) 
 /* ── Product Card ─────────────────────────────────────── */
 function ProductCard({ product, index }: {product: typeof PRODUCTS[0];index: number;}) {
   const navigate = useNavigate();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
   const badge = PRODUCT_BADGES[product.id];
   const discount = Math.round((1 - product.price / product.mrp) * 100);
 
+  // 3D tilt on pointer move (desktop) – graceful no-op on touch
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(1000px) rotateY(${px * 8}deg) rotateX(${-py * 8}deg) translateZ(0)`;
+  };
+  const resetTilt = () => {
+    const el = ref.current;
+    if (el) el.style.transform = "";
+  };
+
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
-      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+      initial={{ opacity: 0, y: 40, scale: 0.9, rotateX: -15 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1, rotateX: 0 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
       whileTap={{ scale: 0.97 }}
-      className="group relative bg-card rounded-3xl border border-border/40 flex flex-col transition-all duration-300 overflow-hidden active:scale-[0.97]"
-      style={{ boxShadow: "0 4px 24px -6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04)", willChange: "transform, opacity" }}>
-      
+      onMouseMove={handleMove}
+      onMouseLeave={resetTilt}
+      className="group relative bg-card rounded-2xl md:rounded-3xl border border-border/40 flex flex-col transition-[box-shadow,border-color,transform] duration-300 overflow-hidden active:scale-[0.97] [transform-style:preserve-3d]"
+      style={{ boxShadow: "0 8px 30px -8px rgba(79,70,229,0.15), 0 2px 6px rgba(0,0,0,0.04)", willChange: "transform, opacity" }}>
+
       {/* Outer glow on hover */}
-      <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-primary/20 via-accent/10 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-[1px] -z-10" />
-      
+      <div className="absolute -inset-[1px] rounded-2xl md:rounded-3xl bg-gradient-to-br from-primary/30 via-accent/15 to-primary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-[2px] -z-10" />
+
       {/* Top gradient accent line */}
       <div className={`absolute top-0 left-0 right-0 h-[3px] ${badge?.color === "accent" ? "bg-gradient-to-r from-accent/0 via-accent to-accent/0" : "bg-gradient-to-r from-primary/0 via-primary to-primary/0"} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
       {/* Image section */}
-      <div className="aspect-[4/3] bg-gradient-to-br from-secondary via-muted/60 to-secondary/30 overflow-hidden relative m-3 mb-0 rounded-2xl">
-        {/* Decorative corner sparkle */}
-        <div className="absolute top-3 left-3 w-8 h-8 bg-gradient-to-br from-primary/15 to-transparent rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        
+      <div className="aspect-square md:aspect-[4/3] bg-gradient-to-br from-secondary via-muted/60 to-secondary/30 overflow-hidden relative m-2 md:m-3 mb-0 rounded-xl md:rounded-2xl [transform:translateZ(30px)]">
         <img
           src={product.img}
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[900ms] ease-out" />
-        
-        {/* Premium overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 via-foreground/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        
-        {/* Shine sweep effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-background/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[1200ms] ease-in-out" />
 
-        {/* Badge */}
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 via-foreground/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-background/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[1200ms] ease-in-out" />
+
         {badge &&
         <motion.div
           initial={{ opacity: 0, scale: 0.6, rotate: -8 }}
           animate={inView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
           transition={{ delay: index * 0.1 + 0.35, type: "spring", stiffness: 300, damping: 14 }}
-          className={`absolute top-2.5 right-2.5 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-xl ${
+          className={`absolute top-1.5 right-1.5 md:top-2.5 md:right-2.5 flex items-center gap-1 md:gap-1.5 px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-md md:rounded-xl text-[7px] md:text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-xl ${
           badge.color === "accent" ?
           "bg-accent/25 text-accent border border-accent/30 shadow-[0_4px_16px_-3px_hsl(var(--accent)/0.4)]" :
           "bg-primary/25 text-primary border border-primary/30 shadow-[0_4px_16px_-3px_hsl(var(--primary)/0.4)]"}`
           }>
-          
-            <motion.span animate={{ scale: [1, 1.3, 1], rotate: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}>
+            <motion.span animate={{ scale: [1, 1.3, 1], rotate: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }} className="hidden md:inline-flex">
               {badge.icon}
             </motion.span>
             {badge.text}
           </motion.div>
         }
 
-        {/* Discount pill */}
         <motion.div
           initial={{ opacity: 0, x: -15 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ delay: index * 0.1 + 0.45, type: "spring", stiffness: 250 }}
-          className="absolute bottom-2.5 left-2.5 px-3 py-1.5 rounded-xl bg-foreground/85 backdrop-blur-lg text-background text-[10px] font-extrabold tracking-wide shadow-lg">
-          
-          <span className="text-accent">SAVE</span> {discount}%
+          className="absolute bottom-1.5 left-1.5 md:bottom-2.5 md:left-2.5 px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-md md:rounded-xl bg-foreground/85 backdrop-blur-lg text-background text-[8px] md:text-[10px] font-extrabold tracking-wide shadow-lg">
+          <span className="text-accent">-</span>{discount}%
         </motion.div>
       </div>
 
       {/* Content */}
-      <div className="px-5 pb-5 pt-4 flex flex-col flex-grow">
-        <div className="flex items-start justify-between mb-1">
-          <h3 className="text-[15px] font-extrabold text-foreground tracking-tight leading-tight">{product.name}</h3>
-        </div>
-        <p className="text-muted-foreground text-xs mb-4 flex-grow leading-relaxed">{product.desc}</p>
+      <div className="px-3 pb-3 pt-2.5 md:px-5 md:pb-5 md:pt-4 flex flex-col flex-grow">
+        <h3 className="text-[11px] md:text-[15px] font-extrabold text-foreground tracking-tight leading-tight line-clamp-1">{product.name}</h3>
+        <p className="text-muted-foreground text-[9px] md:text-xs mb-2 md:mb-4 mt-0.5 md:mt-1 flex-grow leading-snug line-clamp-2">{product.desc}</p>
 
-        {/* Price section with premium styling */}
-        <div className="bg-secondary/80 rounded-2xl p-3.5 mb-4 border border-border/30">
-          <div className="flex items-end justify-between">
-            <div>
-              <span className="text-[9px] text-muted-foreground font-semibold uppercase tracking-[0.15em]">Your Price</span>
-              <div className="flex items-baseline gap-2 mt-0.5">
-                <span className="text-2xl font-extrabold font-price text-foreground">₹{product.price}</span>
-                <span className="text-xs text-muted-foreground line-through decoration-destructive/50">₹{product.mrp}</span>
-              </div>
-            </div>
-            <motion.div 
-              className="flex items-center gap-1 text-[10px] text-accent font-bold bg-accent/10 px-2.5 py-1.5 rounded-lg border border-accent/15"
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}>
-              <Zap size={11} />
-              Instant
-            </motion.div>
+        <div className="bg-secondary/80 rounded-lg md:rounded-2xl p-2 md:p-3.5 mb-2.5 md:mb-4 border border-border/30">
+          <span className="text-[7px] md:text-[9px] text-muted-foreground font-semibold uppercase tracking-[0.15em] hidden md:block">Your Price</span>
+          <div className="flex items-baseline gap-1.5 md:gap-2 md:mt-0.5">
+            <span className="text-base md:text-2xl font-extrabold font-price text-foreground">₹{product.price}</span>
+            <span className="text-[10px] md:text-xs text-muted-foreground line-through decoration-destructive/50">₹{product.mrp}</span>
           </div>
         </div>
 
@@ -185,16 +177,16 @@ function ProductCard({ product, index }: {product: typeof PRODUCTS[0];index: num
           onClick={() => navigate(`/checkout?product=${product.id}`)}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.95 }}
-          className="w-full py-4 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground rounded-2xl font-extrabold text-center flex items-center justify-center gap-2 text-sm transition-all duration-300 hover:shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.4)] relative overflow-hidden group/btn">
-          
-          {/* Shimmer effect */}
+          className="w-full py-2.5 md:py-4 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground rounded-xl md:rounded-2xl font-extrabold text-center flex items-center justify-center gap-1.5 md:gap-2 text-xs md:text-sm transition-all duration-300 hover:shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.4)] relative overflow-hidden group/btn">
+
           <motion.div
             className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-foreground/15 to-transparent"
             animate={{ x: ["-100%", "200%"] }}
             transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }} />
-          
-          <span className="relative z-10 flex items-center gap-2 uppercase tracking-wider text-[13px]">
-            Buy Now <ArrowRight size={15} className="group-hover/btn:translate-x-1.5 transition-transform duration-300" />
+
+          <span className="relative z-10 flex items-center gap-1.5 md:gap-2 uppercase tracking-wider text-[10px] md:text-[13px]">
+            Buy Now <ArrowRight size={12} className="md:hidden" />
+            <ArrowRight size={15} className="hidden md:inline group-hover/btn:translate-x-1.5 transition-transform duration-300" />
           </span>
         </motion.button>
       </div>
