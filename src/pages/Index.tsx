@@ -174,7 +174,10 @@ function ProductCard({ product, index }: {product: typeof PRODUCTS[0];index: num
         </div>
 
         <motion.button
-          onClick={() => navigate(`/checkout?product=${product.id}`)}
+          onClick={() => {
+            window.open(product.link, "_blank", "noopener,noreferrer");
+            navigate(`/verify?product=${product.id}`);
+          }}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.95 }}
           className="w-full py-2.5 md:py-4 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground rounded-xl md:rounded-2xl font-extrabold text-center flex items-center justify-center gap-1.5 md:gap-2 text-xs md:text-sm transition-all duration-300 hover:shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.4)] relative overflow-hidden group/btn">
