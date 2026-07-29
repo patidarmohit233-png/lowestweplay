@@ -610,8 +610,8 @@ const Index = () => {
           <div className="absolute right-0 top-0 bottom-0 w-16 md:w-28 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
           <div className="flex gap-5 animate-scroll-left whitespace-nowrap">
             {[...PARTNERS, ...PARTNERS].map((src, i) =>
-            <div key={i} className="flex-shrink-0 h-52 w-40 md:h-60 md:w-44 rounded-xl overflow-hidden border border-border bg-card p-1.5" style={{ boxShadow: "var(--shadow-card)" }}>
-                <img src={src} alt="Partner" className="w-full h-full object-cover rounded-lg" />
+            <div key={i} className="flex-shrink-0 h-72 w-56 md:h-80 md:w-64 rounded-2xl overflow-hidden border border-border bg-card p-2 hover:scale-[1.03] transition-transform duration-500" style={{ boxShadow: "0 10px 30px -8px rgba(79,70,229,0.18)" }}>
+                <img src={src} alt="Partner" className="w-full h-full object-cover rounded-xl" />
               </div>
             )}
           </div>
