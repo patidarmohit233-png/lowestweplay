@@ -593,15 +593,6 @@ const Index = () => {
 
       {/* ─── 2. TRUST BADGES ──────────────────────────────── */}
       <section className="py-6 md:py-10 px-4 md:px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-3">
-          {TRUST_BADGES.map((badge, i) =>
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 + i * 0.06 }}
-      {/* ─── 2. TRUST BADGES ──────────────────────────────── */}
-      <section className="py-6 md:py-10 px-4 md:px-6">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-3 [perspective:1200px]">
           {TRUST_BADGES.map((badge, i) =>
           <motion.div
