@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion, useInView, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck, Zap, Lock, Trophy, MessageSquare, Package,
   ArrowRight, Search, CreditCard, Download, CheckCircle2,
-  Sparkles, Star, Crown, Flame } from
+  Sparkles, Star, Crown, Flame, UserCheck, Loader2, Pencil } from
 "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+type VerifiedBuyer = { weplay_id: string; weplay_name: string };
+const VERIFY_KEY = "lw_verified_buyer";
 
 const PRODUCT_BADGES: Record<number, {text: string;icon: React.ReactNode;color: string;}> = {
   1: { text: "STARTER PICK", icon: <Zap size={11} />, color: "primary" },
