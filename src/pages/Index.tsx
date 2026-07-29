@@ -640,7 +640,7 @@ const Index = () => {
             </h2>
             <p className="text-muted-foreground mt-3 md:mt-4 text-sm md:text-base max-w-lg mx-auto">Select your desired coin amount and proceed to secure checkout</p>
           </FadeIn>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-7">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-7">
             {PRODUCTS.map((product, i) =>
             <ProductCard key={product.id} product={product} index={i} />
             )}
