@@ -714,29 +714,44 @@ const Index = () => {
       <section id="how-it-works" className="py-16 md:py-24 px-4 md:px-6 bg-secondary">
         <div className="max-w-5xl mx-auto">
           <SectionHeading title="How It Works" subtitle="Get your coins in 4 simple steps" />
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 [perspective:1400px]">
             {STEPS.map((step, i) =>
             <FadeIn key={i} delay={i * 0.1} className="relative">
                 <motion.div
-                whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                className="bg-card rounded-2xl border border-border p-6 text-center h-full hover:border-primary/20 transition-all duration-300"
-                style={{ boxShadow: "var(--shadow-soft)" }}>
-                
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/8 text-primary mb-4" style={{ animation: `step-bounce 3s ease-in-out ${i * 0.5}s infinite` }}>
+                initial={{ opacity: 0, y: 40, rotateX: -18 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -8, rotateX: 6, rotateY: -4, transition: { duration: 0.25 } }}
+                className="group relative bg-card rounded-2xl border border-border p-6 text-center h-full hover:border-primary/30 transition-colors duration-300 [transform-style:preserve-3d] overflow-hidden"
+                style={{ boxShadow: "0 12px 34px -14px rgba(79,70,229,0.2), 0 2px 6px rgba(0,0,0,0.04)" }}>
+
+                  {/* Step number watermark */}
+                  <span aria-hidden className="absolute -top-4 -right-2 text-[6rem] font-display text-primary/[0.06] leading-none select-none pointer-events-none [transform:translateZ(0)]">
+                    {i + 1}
+                  </span>
+                  {/* Gradient glow on hover */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/8 via-transparent to-accent/8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                  <div className="relative inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 text-primary mb-4 [transform:translateZ(30px)] group-hover:scale-110 group-hover:shadow-[0_10px_25px_-8px_hsl(var(--primary)/0.5)] transition-all duration-300" style={{ animation: `step-bounce 3s ease-in-out ${i * 0.5}s infinite` }}>
                     {step.icon}
                   </div>
-                  <div className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-widest">Step {i + 1}</div>
-                  <h3 className="text-base font-bold text-foreground mb-2">{step.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
+                  <div className="relative text-xs font-bold text-muted-foreground mb-2 uppercase tracking-widest">Step {i + 1}</div>
+                  <h3 className="relative text-base font-bold text-foreground mb-2">{step.title}</h3>
+                  <p className="relative text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
                 </motion.div>
                 {i < 3 &&
-              <div className="hidden md:block absolute top-1/2 -right-3 text-border">
+              <motion.div
+                animate={{ x: [0, 4, 0], opacity: [0.4, 0.9, 0.4] }}
+                transition={{ duration: 2, repeat: Infinity, delay: i * 0.3, ease: "easeInOut" }}
+                className="hidden md:block absolute top-1/2 -right-3 text-primary/50">
                     <ArrowRight size={18} />
-                  </div>
+                  </motion.div>
               }
               </FadeIn>
             )}
           </div>
+
         </div>
       </section>
 
