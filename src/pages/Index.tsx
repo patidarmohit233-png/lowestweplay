@@ -701,25 +701,30 @@ const Index = () => {
       </motion.header>
 
       {/* ─── 2. TRUST BADGES ──────────────────────────────── */}
-      <section className="py-6 md:py-10 px-4 md:px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-3 [perspective:1200px]">
-          {TRUST_BADGES.map((badge, i) =>
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 24, rotateX: -20 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.55, delay: 0.15 + i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ scale: 1.06, y: -5, rotateX: 6, rotateY: -4, transition: { type: "spring", stiffness: 400 } }}
-            className="group relative flex flex-col items-center p-4 rounded-2xl bg-card border border-border cursor-default transition-colors duration-300 hover:border-primary/30 [transform-style:preserve-3d]"
-            style={{ boxShadow: "0 10px 30px -12px rgba(79,70,229,0.18), 0 2px 6px rgba(0,0,0,0.04)" }}>
-
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="text-primary mb-2 [transform:translateZ(20px)] group-hover:scale-110 transition-transform duration-300">{badge.icon}</div>
-              <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground mb-0.5 relative">{badge.label}</span>
-              <span className="text-sm font-bold text-foreground relative">{badge.val}</span>
-            </motion.div>
-          )}
+      <section className="py-8 md:py-14 px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="glass rounded-3xl p-2 md:p-3 shadow-elevated">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-1.5 md:gap-2">
+              {TRUST_BADGES.map((badge, i) =>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -2 }}
+                className="group relative flex items-center gap-3 p-3 md:p-4 rounded-2xl hover:bg-secondary/70 transition-colors duration-300">
+                <div className="flex-shrink-0 w-9 h-9 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 text-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  {badge.icon}
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">{badge.label}</span>
+                  <span className="text-xs md:text-sm font-extrabold text-foreground truncate">{badge.val}</span>
+                </div>
+              </motion.div>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
