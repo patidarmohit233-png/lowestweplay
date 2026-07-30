@@ -339,14 +339,26 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
               </div>
 
               {buyer && !editing ?
-              <div className="relative grid grid-cols-2 gap-2.5 md:gap-3">
+              <div className="relative space-y-3">
+                  <div className="rounded-2xl border border-accent/25 bg-accent/8 px-4 py-3">
+                    <p className="text-[13px] md:text-[14.5px] font-extrabold text-foreground">Welcome back, {buyer.weplay_name}! 👋</p>
+                    <p className="text-[11px] md:text-[12px] text-muted-foreground mt-0.5">You're logged in — your WePlay ID is your permanent account ID.</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2.5 md:gap-3">
                   {[{ k: "WePlay ID", v: buyer.weplay_id }, { k: "WePlay Name", v: buyer.weplay_name }].map((f) =>
                 <div key={f.k} className="rounded-2xl border border-border bg-secondary/70 px-3.5 py-3">
                       <div className="text-[8.5px] md:text-[10px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">{f.k}</div>
                       <div className="text-sm md:text-base font-extrabold text-foreground truncate mt-0.5">{f.v}</div>
                     </div>
                 )}
+                  </div>
+                  <Link to="/my-account"
+                    className="w-full py-3.5 px-6 rounded-2xl text-primary-foreground font-extrabold text-[11.5px] uppercase tracking-[0.14em] flex items-center justify-center gap-2 active:scale-[0.97] transition-transform"
+                    style={{ background: "var(--gradient-primary)" }}>
+                    Open My Account <ArrowRight size={14} />
+                  </Link>
                 </div> :
+
 
               <form onSubmit={submit} className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2.5 md:gap-3">
                   <label className="block">
