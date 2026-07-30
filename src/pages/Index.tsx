@@ -7,9 +7,12 @@ import {
   Sparkles, Star, Crown, Flame, UserCheck, Loader2, Pencil, PlayCircle } from
 "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
+import Seo, { SITE_URL } from "@/components/Seo";
+import { PRODUCTS as ALL_PRODUCTS, FAQS } from "@/data/products";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
+
 
 type VerifiedBuyer = { weplay_id: string; weplay_name: string };
 const VERIFY_KEY = "lw_verified_buyer";
@@ -26,14 +29,8 @@ const PRODUCT_BADGES: Record<number, { text: string; icon: React.ReactNode; colo
   7: { text: "MEGA PACK", icon: <Crown size={11} />, color: "primary" }
 };
 
-const PRODUCTS = [
-{ id: 1, name: "10K RED PACKET", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804999/Gemini_Generated_Image_yy0rgmyy0rgmyy0r_dfnma9.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", link: "https://rzp.io/rzp/pWMzS6S" },
-{ id: 2, name: "50K RED PACKET", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804998/Gemini_Generated_Image_vtkas1vtkas1vtka_oumu7o.png", price: 1299, mrp: 5399, desc: "50,000 coins + 50,000 bonus", link: "https://rzp.io/rzp/IgGktT5" },
-{ id: 3, name: "10K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804982/Gemini_Generated_Image_md8zx9md8zx9md8z_yegmmu.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", link: "https://rzp.io/rzp/pWMzS6S" },
-{ id: 4, name: "50K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804978/Gemini_Generated_Image_79nvx179nvx179nv_xg3bis.png", price: 1299, mrp: 5399, desc: "50,000 coins + 5000 bonus + 1 Broad Absolute", link: "https://rzp.io/rzp/IgGktT5" },
-{ id: 5, name: "100K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804980/Gemini_Generated_Image_si6wdtsi6wdtsi6w_1_ob3o8v.png", price: 2199, mrp: 12000, desc: "1 Lakh coins + 10,000 bonus + 2 Broad Absolute", link: "https://rzp.io/rzp/1Thvvcy" },
-{ id: 6, name: "250K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804982/Gemini_Generated_Image_si6wdtsi6wdtsi6w_w9aomo.png", price: 4200, mrp: 27000, desc: "2.5 Lakh coins + 25,000 bonus + 5 Broad Absolute", link: "https://rzp.io/rzp/y5vVPoSu" },
-{ id: 7, name: "500K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804980/Gemini_Generated_Image_n9tkkdn9tkkdn9tk_ljcct9.png", price: 5999, mrp: 50000, desc: "5 Lakh coins + 50,000 bonus + 10 Broad Absolute", link: "https://rzp.io/rzp/aRxqcoS" }];
+const PRODUCTS = ALL_PRODUCTS;
+
 
 
 const PARTNERS = [
@@ -440,7 +437,53 @@ const Index = () => {
 
   return (
     <>
+    <Seo
+      title="WePlay Top Up — Cheapest Coins & Red Packet | Lowest Weplay"
+      description="Buy WePlay coins, recharge packs and Red Packets at India's lowest prices from ₹479. Instant delivery, 100% ID safety, secure payments and 24x7 support."
+      path="/"
+      jsonLd={[
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "Lowest Weplay",
+        url: `${SITE_URL}/`,
+        inLanguage: "en-IN"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "WePlay top-up packages",
+        itemListElement: PRODUCTS.map((p, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          item: {
+            "@type": "Product",
+            name: `WePlay ${p.name}`,
+            description: p.desc,
+            image: p.img,
+            brand: { "@type": "Brand", name: "WePlay" },
+            offers: {
+              "@type": "Offer",
+              price: p.price,
+              priceCurrency: "INR",
+              availability: "https://schema.org/InStock",
+              url: `${SITE_URL}/#products`
+            }
+          }
+        }))
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: FAQS.slice(0, 5).map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a }
+        }))
+      }]} />
+
     <SplashScreen show={showSplash} onComplete={() => {}} />
+
     <div className={`min-h-screen bg-background text-foreground antialiased overflow-x-hidden ${showSplash ? "overflow-hidden h-screen" : ""}`}>
       {/* scroll progress */}
       <motion.div
@@ -795,10 +838,16 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-7 mb-8">
             <img src={LOGO} alt="Lowest Weplay" loading="lazy" className="w-[130px] h-auto opacity-70" />
             <nav className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-[13px] text-muted-foreground">
+              <Link to="/weplay-recharge" className="hover:text-primary transition-colors">WePlay Recharge</Link>
+              <Link to="/weplay-red-packet" className="hover:text-primary transition-colors">Red Packet</Link>
+              <Link to="/weplay-top-up-price-list" className="hover:text-primary transition-colors">Price List</Link>
+              <Link to="/how-to-top-up-weplay" className="hover:text-primary transition-colors">How to Top Up</Link>
+              <Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link>
               <Link to="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</Link>
               <Link to="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>
               <Link to="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link>
               <Link to="/contact" className="hover:text-primary transition-colors">Contact Us</Link>
+
             </nav>
           </div>
           <div className="divider-fade mb-6" />

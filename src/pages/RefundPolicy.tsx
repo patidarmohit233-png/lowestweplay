@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, RotateCcw } from "lucide-react";
+import Seo from "@/components/Seo";
 
 const RefundPolicy = () => (
+  <>
+  <Seo
+    title="Refund Policy | Lowest Weplay"
+    description="When a WePlay top-up qualifies for a refund, what is not covered, and how to request one. Refunds processed in 3-5 business days."
+    path="/refund-policy"
+  />
   <div className="min-h-screen bg-background text-foreground">
+
     <nav className="sticky top-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/50">
       <div className="max-w-4xl mx-auto px-4 md:px-6 h-16 flex items-center">
         <Link to="/" className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary transition-colors">
@@ -64,6 +72,8 @@ const RefundPolicy = () => (
       </div>
     </motion.div>
   </div>
+  </>
 );
+
 
 export default RefundPolicy;

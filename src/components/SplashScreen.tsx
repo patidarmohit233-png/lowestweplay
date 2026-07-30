@@ -61,7 +61,7 @@ const SplashScreen = ({ show, onComplete }: SplashScreenProps) => {
 
             {/* Brand text */}
             <motion.div className="text-center">
-              <motion.h1
+              <motion.p
                 className="text-2xl md:text-5xl font-display text-foreground"
                 initial={{ opacity: 0, y: 25, letterSpacing: "0.25em" }}
                 animate={{ opacity: 1, y: 0, letterSpacing: "0.05em" }}
@@ -72,7 +72,7 @@ const SplashScreen = ({ show, onComplete }: SplashScreenProps) => {
                 <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
                   Weplay
                 </span>
-              </motion.h1>
+              </motion.p>
               <motion.p
                 className="text-muted-foreground text-xs md:text-sm mt-2 tracking-[0.15em] md:tracking-[0.2em] uppercase"
                 initial={{ opacity: 0, y: 8 }}

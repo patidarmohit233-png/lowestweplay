@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, FileText } from "lucide-react";
+import Seo from "@/components/Seo";
 
 const TermsOfService = () => (
+  <>
+  <Seo
+    title="Terms of Service | Lowest Weplay"
+    description="The terms that apply when you buy a WePlay top-up from Lowest Weplay — payments, delivery times, user responsibilities and liability."
+    path="/terms-of-service"
+  />
   <div className="min-h-screen bg-background text-foreground">
+
     <nav className="sticky top-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/50">
       <div className="max-w-4xl mx-auto px-4 md:px-6 h-16 flex items-center">
         <Link to="/" className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary transition-colors">
@@ -68,6 +76,8 @@ const TermsOfService = () => (
       </div>
     </motion.div>
   </div>
+  </>
 );
+
 
 export default TermsOfService;

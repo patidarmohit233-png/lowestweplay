@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Mail, Clock, MessageSquare, ShieldCheck, Headphones } from "lucide-react";
+import Seo from "@/components/Seo";
 
 const Contact = () => (
+  <>
+  <Seo
+    title="Contact Lowest Weplay — 24x7 WePlay Top-Up Support"
+    description="Need help with a WePlay top-up order? Email us or use live chat — support is available 24x7 for delivery, refunds and ID safety questions."
+    path="/contact"
+  />
   <div className="min-h-screen bg-background text-foreground">
+
     <nav className="sticky top-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/50">
       <div className="max-w-4xl mx-auto px-4 md:px-6 h-16 flex items-center">
         <Link to="/" className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary transition-colors">
@@ -108,6 +116,8 @@ const Contact = () => (
       </motion.div>
     </motion.div>
   </div>
+  </>
 );
+
 
 export default Contact;
