@@ -15,7 +15,9 @@ import WeplayRedPacket from "./pages/WeplayRedPacket.tsx";
 import PriceList from "./pages/PriceList.tsx";
 import HowToTopUp from "./pages/HowToTopUp.tsx";
 import Faq from "./pages/Faq.tsx";
+import TrackOrder from "./pages/TrackOrder.tsx";
 import NotFound from "./pages/NotFound.tsx";
+
 
 const queryClient = new QueryClient();
 
