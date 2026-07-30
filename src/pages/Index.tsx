@@ -27,13 +27,13 @@ const PRODUCT_BADGES: Record<number, { text: string; icon: React.ReactNode; colo
 };
 
 const PRODUCTS = [
-{ id: 1, name: "10K RED PACKET CC", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804999/Gemini_Generated_Image_yy0rgmyy0rgmyy0r_dfnma9.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", link: "https://rzp.io/rzp/pWMzS6S" },
-{ id: 2, name: "50K RED PACKET CC", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804998/Gemini_Generated_Image_vtkas1vtkas1vtka_oumu7o.png", price: 1299, mrp: 5399, desc: "50,000 coins + 50,000 bonus", link: "https://rzp.io/rzp/IgGktT5" },
-{ id: 3, name: "10K GOLD CC", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804982/Gemini_Generated_Image_md8zx9md8zx9md8z_yegmmu.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", link: "https://rzp.io/rzp/pWMzS6S" },
-{ id: 4, name: "50K GOLD CC", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804978/Gemini_Generated_Image_79nvx179nvx179nv_xg3bis.png", price: 1299, mrp: 5399, desc: "50,000 coins + 5000 bonus + 1 Broad Absolute", link: "https://rzp.io/rzp/IgGktT5" },
-{ id: 5, name: "100K GOLD CC", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804980/Gemini_Generated_Image_si6wdtsi6wdtsi6w_1_ob3o8v.png", price: 2199, mrp: 12000, desc: "1 Lakh coins + 10,000 bonus + 2 Broad Absolute", link: "https://rzp.io/rzp/1Thvvcy" },
-{ id: 6, name: "250K GOLD CC", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804982/Gemini_Generated_Image_si6wdtsi6wdtsi6w_w9aomo.png", price: 4200, mrp: 27000, desc: "2.5 Lakh coins + 25,000 bonus + 5 Broad Absolute", link: "https://rzp.io/rzp/y5vVPoSu" },
-{ id: 7, name: "500K GOLD CC", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804980/Gemini_Generated_Image_n9tkkdn9tkkdn9tk_ljcct9.png", price: 5999, mrp: 50000, desc: "5 Lakh coins + 50,000 bonus + 10 Broad Absolute", link: "https://rzp.io/rzp/aRxqcoS" }];
+{ id: 1, name: "10K RED PACKET", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804999/Gemini_Generated_Image_yy0rgmyy0rgmyy0r_dfnma9.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", link: "https://rzp.io/rzp/pWMzS6S" },
+{ id: 2, name: "50K RED PACKET", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804998/Gemini_Generated_Image_vtkas1vtkas1vtka_oumu7o.png", price: 1299, mrp: 5399, desc: "50,000 coins + 50,000 bonus", link: "https://rzp.io/rzp/IgGktT5" },
+{ id: 3, name: "10K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804982/Gemini_Generated_Image_md8zx9md8zx9md8z_yegmmu.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", link: "https://rzp.io/rzp/pWMzS6S" },
+{ id: 4, name: "50K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804978/Gemini_Generated_Image_79nvx179nvx179nv_xg3bis.png", price: 1299, mrp: 5399, desc: "50,000 coins + 5000 bonus + 1 Broad Absolute", link: "https://rzp.io/rzp/IgGktT5" },
+{ id: 5, name: "100K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804980/Gemini_Generated_Image_si6wdtsi6wdtsi6w_1_ob3o8v.png", price: 2199, mrp: 12000, desc: "1 Lakh coins + 10,000 bonus + 2 Broad Absolute", link: "https://rzp.io/rzp/1Thvvcy" },
+{ id: 6, name: "250K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804982/Gemini_Generated_Image_si6wdtsi6wdtsi6w_w9aomo.png", price: 4200, mrp: 27000, desc: "2.5 Lakh coins + 25,000 bonus + 5 Broad Absolute", link: "https://rzp.io/rzp/y5vVPoSu" },
+{ id: 7, name: "500K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804980/Gemini_Generated_Image_n9tkkdn9tkkdn9tk_ljcct9.png", price: 5999, mrp: 50000, desc: "5 Lakh coins + 50,000 bonus + 10 Broad Absolute", link: "https://rzp.io/rzp/aRxqcoS" }];
 
 
 const PARTNERS = [
@@ -485,7 +485,7 @@ const Index = () => {
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} />
             <img
               src={LOGO}
-              alt="Lowest Weplay — official WePlay CC top-up store"
+              alt="Lowest Weplay — official WePlay top-up store"
               className="relative w-[165px] md:w-[250px] h-auto object-contain" />
           </motion.div>
 
@@ -520,7 +520,7 @@ const Index = () => {
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-foreground text-background text-[9px] md:text-[10px] font-extrabold uppercase tracking-[0.14em]">
               <Crown size={10} /> Official
             </span>
-            <span className="text-muted-foreground">WePlay CC Top-up Partner</span>
+            <span className="text-muted-foreground">WePlay Top-up Partner</span>
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
             <span className="text-accent font-extrabold">Live</span>
           </motion.div>
@@ -543,7 +543,7 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.45, ease: EASE }}
             className="text-muted-foreground text-[13.5px] md:text-lg max-w-[19rem] md:max-w-xl mx-auto mt-5 md:mt-7 leading-relaxed">
-            India's most trusted WePlay CC top-up service — guaranteed ID safety, instant delivery and the lowest prices.
+            India's most trusted WePlay top-up service — guaranteed ID safety, instant delivery and the lowest prices.
           </motion.p>
 
           <motion.div
@@ -656,11 +656,23 @@ const Index = () => {
             title="Choose Your"
             highlight="Package"
             subtitle="Pick a coin bundle and pay securely — coins are credited within minutes." />
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-            {PRODUCTS.map((product, i) =>
-            <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} />
+          {[
+            { key: "redpacket", label: "Red Packet", items: PRODUCTS.filter((p) => p.name.includes("RED PACKET")) },
+            { key: "recharge", label: "Recharge", items: PRODUCTS.filter((p) => !p.name.includes("RED PACKET")) }].
+            map((group) =>
+            <div key={group.key} className="mb-10 md:mb-14 last:mb-0">
+                <div className="flex items-center gap-3 mb-4 md:mb-6">
+                  <h3 className="font-display text-lg md:text-2xl font-bold tracking-tight">{group.label}</h3>
+                  <span className="h-px flex-1 bg-gradient-to-r from-border to-transparent" />
+                </div>
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+                  {group.items.map((product, i) =>
+                <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} />
+                )}
+                </div>
+              </div>
             )}
-          </div>
+
         </div>
       </section>
 
@@ -791,7 +803,7 @@ const Index = () => {
           </div>
           <div className="divider-fade mb-6" />
           <p className="text-muted-foreground text-[11.5px] text-center">
-            © {new Date().getFullYear()} Lowest Weplay. All rights reserved. Official WePlay CC top-up partner.
+            © {new Date().getFullYear()} Lowest Weplay. All rights reserved. Official WePlay top-up partner.
           </p>
         </div>
       </footer>

@@ -33,7 +33,7 @@ const TermsOfService = () => (
 
         <section>
           <h2 className="text-lg font-bold text-foreground mb-2">2. Services</h2>
-          <p>Lowest Weplay provides WePlay CC coin top-up services. We are an official top-up partner and facilitate the purchase and delivery of in-game coins to your WePlay account.</p>
+          <p>Lowest Weplay provides WePlay coin top-up services. We are an official top-up partner and facilitate the purchase and delivery of in-game coins to your WePlay account.</p>
         </section>
 
         <section>
