@@ -602,25 +602,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ─── VERIFICATION ─────────────────────────────────── */}
-      <VerificationPanel buyer={buyer} onVerified={persistBuyer} />
-
-      {/* ─── PRODUCTS ─────────────────────────────────────── */}
-      <section id="products" className="relative py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <SectionHeading
-            eyebrow="Premium Packages"
-            title="Choose Your"
-            highlight="Package"
-            subtitle="Pick a coin bundle and pay securely — coins are credited within minutes." />
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-            {PRODUCTS.map((product, i) =>
-            <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} />
-            )}
-          </div>
-        </div>
-      </section>
-
       {/* ─── PARTNERS ─────────────────────────────────────── */}
       <section id="partners" className="py-14 md:py-24 overflow-hidden bg-secondary/60 border-y border-border/70 scroll-mt-36">
         <div className="px-4 md:px-6">
@@ -640,6 +621,49 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* ─── DEMO VIDEO ───────────────────────────────────── */}
+      <section className="py-14 md:py-24 px-4 md:px-6">
+        <div className="max-w-4xl mx-auto">
+          <SectionHeading
+            eyebrow="Walkthrough"
+            title="Watch The"
+            highlight="Demo"
+            subtitle="See how fast and simple the top-up process really is." />
+          <Reveal>
+            <div className="aspect-video rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border border-border bg-card shadow-elevated">
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/wGYGm31bhZM"
+                title="Lowest Weplay top-up demo"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ─── VERIFICATION ─────────────────────────────────── */}
+      <VerificationPanel buyer={buyer} onVerified={persistBuyer} />
+
+      {/* ─── PRODUCTS ─────────────────────────────────────── */}
+      <section id="products" className="relative py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <SectionHeading
+            eyebrow="Premium Packages"
+            title="Choose Your"
+            highlight="Package"
+            subtitle="Pick a coin bundle and pay securely — coins are credited within minutes." />
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+            {PRODUCTS.map((product, i) =>
+            <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} />
+            )}
+          </div>
+        </div>
+      </section>
+
 
       {/* ─── HOW IT WORKS ─────────────────────────────────── */}
       <section id="how-it-works" className="py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
