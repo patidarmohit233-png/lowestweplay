@@ -107,37 +107,21 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
 }
 
 /* ── Product Card ─────────────────────────────────────── */
-function ProductCard({ product, index, buyer, onRequireVerify }: { product: typeof PRODUCTS[0]; index: number; buyer: VerifiedBuyer | null; onRequireVerify: () => void }) {
+function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { product: typeof PRODUCTS[0]; index: number; buyer: VerifiedBuyer | null; onRequireVerify: () => void; onBuy: (p: typeof PRODUCTS[0]) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
   const badge = PRODUCT_BADGES[product.id];
   const discount = Math.round((1 - product.price / product.mrp) * 100);
-  const [buying, setBuying] = useState(false);
+  const [buying] = useState(false);
 
-  const handleBuy = async () => {
+  const handleBuy = () => {
     if (!buyer) {
       onRequireVerify();
       return;
     }
-    setBuying(true);
-    const { error } = await supabase.from("orders").insert({
-      weplay_id: buyer.weplay_id,
-      weplay_name: buyer.weplay_name,
-      email: "",
-      phone: null,
-      product_id: String(product.id),
-      product_name: product.name,
-      price: product.price,
-      status: "pending"
-    });
-    setBuying(false);
-    if (error) {
-      toast({ title: "Could not start order", description: error.message, variant: "destructive" });
-      return;
-    }
-    window.open(product.link, "_blank", "noopener,noreferrer");
-    toast({ title: "Order created", description: "Complete payment in the new tab. Coins credit within minutes." });
+    onBuy(product);
   };
+
 
   return (
     <motion.article
