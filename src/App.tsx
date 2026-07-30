@@ -30,7 +30,10 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin-lowest" element={<Admin />} />
           <Route path="/admin/auth" element={<AdminAuth />} />
+          <Route path="/track-order" element={<TrackOrder />} />
+
           <Route path="/weplay-recharge" element={<WeplayRecharge />} />
           <Route path="/weplay-red-packet" element={<WeplayRedPacket />} />
           <Route path="/weplay-top-up-price-list" element={<PriceList />} />
