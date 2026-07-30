@@ -56,6 +56,7 @@ export default function PaymentModal({
       p_product_name: product.name,
       p_price: product.price,
       p_coins: product.coins,
+      p_coins_amount: product.coinsAmount,
       p_payment_method: method
     });
     setCreating(false);

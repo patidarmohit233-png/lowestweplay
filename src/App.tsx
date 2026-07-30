@@ -16,6 +16,7 @@ import PriceList from "./pages/PriceList.tsx";
 import HowToTopUp from "./pages/HowToTopUp.tsx";
 import Faq from "./pages/Faq.tsx";
 import TrackOrder from "./pages/TrackOrder.tsx";
+import MyAccount from "./pages/MyAccount.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/admin-lowest" element={<Admin />} />
           <Route path="/admin/auth" element={<AdminAuth />} />
           <Route path="/track-order" element={<TrackOrder />} />
+          <Route path="/my-account" element={<MyAccount />} />
 
           <Route path="/weplay-recharge" element={<WeplayRecharge />} />
           <Route path="/weplay-red-packet" element={<WeplayRedPacket />} />
