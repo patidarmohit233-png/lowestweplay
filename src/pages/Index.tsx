@@ -614,7 +614,7 @@ const Index = () => {
         <div className="relative mask-fade-x">
           <div className="flex gap-4 md:gap-5 animate-scroll-left whitespace-nowrap will-change-transform">
             {[...PARTNERS, ...PARTNERS].map((src, i) =>
-            <div key={i} className="flex-shrink-0 h-60 w-44 md:h-80 md:w-64 rounded-3xl overflow-hidden bg-card p-1.5 border border-border shadow-card hover:scale-[1.03] transition-transform duration-500">
+            <div key={i} className="flex-shrink-0 h-72 w-52 md:h-[26rem] md:w-80 rounded-3xl overflow-hidden bg-card p-1.5 border border-border shadow-card hover:scale-[1.03] transition-transform duration-500">
                 <img src={src} alt="Partner creator" loading="lazy" className="w-full h-full object-cover rounded-[1.25rem]" />
               </div>
             )}
