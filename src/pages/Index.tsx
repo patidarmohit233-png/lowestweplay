@@ -564,7 +564,7 @@ const Index = () => {
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="sticky top-[44px] md:top-[56px] z-50 bg-background/75 backdrop-blur-2xl border-b border-border/40">
 
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-[84px] md:h-[110px] grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+        <div className="relative max-w-7xl mx-auto px-4 md:px-6 h-[84px] md:h-[110px] grid grid-cols-[1fr_auto_1fr] items-center gap-2">
           {/* left: nav links (desktop) */}
           <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-muted-foreground justify-start">
             {[
