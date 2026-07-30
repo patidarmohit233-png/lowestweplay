@@ -562,41 +562,59 @@ const Index = () => {
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="sticky top-[30px] md:top-[36px] z-50 bg-background/70 backdrop-blur-2xl border-b border-border/40">
-        
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-14 md:h-[72px] flex items-center justify-between">
-          <motion.img
-            src="https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png"
-            alt="Lowest Weplay"
-            className="w-[90px] md:w-[150px] h-auto object-contain"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 400 }} />
-          
-          <div className="flex items-center gap-3 md:gap-8">
-            <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-muted-foreground">
-              {[
-              { label: "Products", href: "#products" },
-              { label: "Partners", href: "#partners" },
-              { label: "How It Works", href: "#how-it-works" }].
-              map((item) =>
-              <motion.a
-                key={item.label}
-                href={item.href}
-                className="relative hover:text-primary transition-colors duration-300"
-                whileHover={{ y: -1 }}>
-                
-                  {item.label}
-                  <motion.span
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full origin-left"
-                  initial={{ scaleX: 0 }}
-                  whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.2 }} />
-                
-                </motion.a>
-              )}
-            </div>
+        className="sticky top-[44px] md:top-[56px] z-50 bg-background/75 backdrop-blur-2xl border-b border-border/40">
+
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-[84px] md:h-[110px] grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+          {/* left: nav links (desktop) */}
+          <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-muted-foreground justify-start">
+            {[
+            { label: "Products", href: "#products" },
+            { label: "Partners", href: "#partners" },
+            { label: "How It Works", href: "#how-it-works" }].
+            map((item) =>
+            <motion.a
+              key={item.label}
+              href={item.href}
+              className="relative hover:text-primary transition-colors duration-300"
+              whileHover={{ y: -1 }}>
+
+                {item.label}
+                <motion.span
+                className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full origin-left"
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+                transition={{ duration: 0.2 }} />
+
+              </motion.a>
+            )}
+          </div>
+          <div className="md:hidden" />
+
+          {/* center: big logo */}
+          <motion.div
+            className="relative flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.85, y: -8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}>
+            <motion.div
+              aria-hidden
+              className="absolute inset-0 -m-6 rounded-full blur-2xl pointer-events-none"
+              style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.22), transparent 70%)" }}
+              animate={{ opacity: [0.35, 0.75, 0.35], scale: [0.95, 1.08, 0.95] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.img
+              src="https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png"
+              alt="Lowest Weplay — Official WePlay CC top-up store"
+              className="relative w-[170px] md:w-[260px] h-auto object-contain drop-shadow-[0_6px_18px_hsl(var(--primary)/0.25)]"
+              whileHover={{ scale: 1.06 }}
+              transition={{ type: "spring", stiffness: 320, damping: 18 }} />
+          </motion.div>
+
+          {/* right: trust badge */}
+          <div className="flex items-center justify-end">
             <motion.span
-              className="flex items-center gap-1.5 text-accent font-bold text-[10px] md:text-xs px-3 py-1.5 rounded-full bg-accent/8 border border-accent/15"
+              className="flex items-center gap-1.5 text-accent font-bold text-[10px] md:text-xs px-3 py-1.5 rounded-full bg-accent/8 border border-accent/15 whitespace-nowrap"
               animate={{
                 boxShadow: [
                 "0 0 0px hsl(var(--accent)/0)",
@@ -605,11 +623,12 @@ const Index = () => {
 
               }}
               transition={{ duration: 2.5, repeat: Infinity }}>
-              
+
               <ShieldCheck size={13} /> ID Safe
             </motion.span>
           </div>
         </div>
+
       </motion.nav>
 
       {/* ─── PREMIUM HERO ─────────────────────────────────── */}
