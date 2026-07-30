@@ -407,7 +407,10 @@ const Index = () => {
     toast({ title: "Verify first", description: "Enter your WePlay ID & Name to unlock Buy Now." });
   };
 
+  const [payFor, setPayFor] = useState<typeof PRODUCTS[0] | null>(null);
+
   const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem("lw_splash_seen"));
+
 
   useEffect(() => {
     if (showSplash) {
