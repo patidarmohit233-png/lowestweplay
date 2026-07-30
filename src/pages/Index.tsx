@@ -592,7 +592,7 @@ const Index = () => {
 
           {/* center: big logo */}
           <motion.div
-            className="relative flex items-center justify-center"
+            className="absolute left-1/2 -translate-x-1/2 md:static md:left-auto md:translate-x-0 flex items-center justify-center"
             initial={{ opacity: 0, scale: 0.85, y: -8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}>
