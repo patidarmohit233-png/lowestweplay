@@ -728,29 +728,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ─── DEMO VIDEO ───────────────────────────────────── */}
-      <section className="py-14 md:py-24 px-4 md:px-6">
-        <div className="max-w-4xl mx-auto">
-          <SectionHeading
-            eyebrow="Walkthrough"
-            title="Watch The"
-            highlight="Demo"
-            subtitle="See how fast and simple the top-up process really is." />
-          <Reveal>
-            <div className="aspect-video rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border border-border bg-card shadow-elevated">
-              <iframe
-                width="100%"
-                height="100%"
-                src="https://www.youtube.com/embed/wGYGm31bhZM"
-                title="Lowest Weplay top-up demo"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
       {/* ─── REVIEWS ──────────────────────────────────────── */}
       <section className="py-14 md:py-24 px-4 md:px-6 bg-secondary/60 border-y border-border/70">
         <div className="max-w-6xl mx-auto">
