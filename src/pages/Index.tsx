@@ -656,11 +656,23 @@ const Index = () => {
             title="Choose Your"
             highlight="Package"
             subtitle="Pick a coin bundle and pay securely — coins are credited within minutes." />
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-            {PRODUCTS.map((product, i) =>
-            <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} />
+          {[
+            { key: "redpacket", label: "Red Packet", items: PRODUCTS.filter((p) => p.name.includes("RED PACKET")) },
+            { key: "recharge", label: "Recharge", items: PRODUCTS.filter((p) => !p.name.includes("RED PACKET")) }].
+            map((group) =>
+            <div key={group.key} className="mb-10 md:mb-14 last:mb-0">
+                <div className="flex items-center gap-3 mb-4 md:mb-6">
+                  <h3 className="font-display text-lg md:text-2xl font-bold tracking-tight">{group.label}</h3>
+                  <span className="h-px flex-1 bg-gradient-to-r from-border to-transparent" />
+                </div>
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+                  {group.items.map((product, i) =>
+                <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} />
+                )}
+                </div>
+              </div>
             )}
-          </div>
+
         </div>
       </section>
 
