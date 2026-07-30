@@ -16,20 +16,32 @@ export type Database = {
     Tables: {
       customers: {
         Row: {
+          bonus_coins: number
           created_at: string
           last_active: string
+          loyalty_tier: string
+          milestones_reached: Json
+          total_coins: number
           weplay_id: string
           weplay_name: string
         }
         Insert: {
+          bonus_coins?: number
           created_at?: string
           last_active?: string
+          loyalty_tier?: string
+          milestones_reached?: Json
+          total_coins?: number
           weplay_id: string
           weplay_name: string
         }
         Update: {
+          bonus_coins?: number
           created_at?: string
           last_active?: string
+          loyalty_tier?: string
+          milestones_reached?: Json
+          total_coins?: number
           weplay_id?: string
           weplay_name?: string
         }
@@ -38,6 +50,7 @@ export type Database = {
       orders: {
         Row: {
           coins: string | null
+          coins_amount: number
           created_at: string
           email: string | null
           id: string
@@ -55,6 +68,7 @@ export type Database = {
         }
         Insert: {
           coins?: string | null
+          coins_amount?: number
           created_at?: string
           email?: string | null
           id?: string
@@ -72,6 +86,7 @@ export type Database = {
         }
         Update: {
           coins?: string | null
+          coins_amount?: number
           created_at?: string
           email?: string | null
           id?: string
@@ -119,21 +134,38 @@ export type Database = {
         Args: { p_order_id: string; p_transaction_id: string }
         Returns: boolean
       }
-      create_order: {
-        Args: {
-          p_coins: string
-          p_payment_method: string
-          p_price: number
-          p_product_id: string
-          p_product_name: string
-          p_weplay_id: string
-          p_weplay_name: string
-        }
-        Returns: {
-          id: string
-          order_code: string
-        }[]
-      }
+      create_order:
+        | {
+            Args: {
+              p_coins: string
+              p_coins_amount: number
+              p_payment_method: string
+              p_price: number
+              p_product_id: string
+              p_product_name: string
+              p_weplay_id: string
+              p_weplay_name: string
+            }
+            Returns: {
+              id: string
+              order_code: string
+            }[]
+          }
+        | {
+            Args: {
+              p_coins: string
+              p_payment_method: string
+              p_price: number
+              p_product_id: string
+              p_product_name: string
+              p_weplay_id: string
+              p_weplay_name: string
+            }
+            Returns: {
+              id: string
+              order_code: string
+            }[]
+          }
       get_customer_orders: {
         Args: { p_weplay_id: string }
         Returns: {
@@ -147,11 +179,33 @@ export type Database = {
           transaction_id: string
         }[]
       }
+      get_customer_profile: {
+        Args: { p_weplay_id: string }
+        Returns: {
+          bonus_coins: number
+          completed_count: number
+          loyalty_tier: string
+          milestones_reached: Json
+          order_count: number
+          total_coins: number
+          total_spent: number
+          weplay_id: string
+          weplay_name: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      recalc_customer_loyalty: {
+        Args: { p_weplay_id: string }
+        Returns: undefined
+      }
+      update_order_status: {
+        Args: { p_order_id: string; p_status: string }
         Returns: boolean
       }
       upsert_customer: {
