@@ -841,6 +841,7 @@ const Index = () => {
               <Link to="/weplay-top-up-price-list" className="hover:text-primary transition-colors">Price List</Link>
               <Link to="/how-to-top-up-weplay" className="hover:text-primary transition-colors">How to Top Up</Link>
               <Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link>
+              <Link to="/track-order" className="hover:text-primary transition-colors">Track Order</Link>
               <Link to="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</Link>
               <Link to="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>
               <Link to="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link>
