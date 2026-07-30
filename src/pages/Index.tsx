@@ -706,7 +706,7 @@ const Index = () => {
                 </div>
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                   {group.items.map((product, i) =>
-                <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} />
+                <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} onBuy={setPayFor} />
                 )}
                 </div>
               </div>
