@@ -437,7 +437,53 @@ const Index = () => {
 
   return (
     <>
+    <Seo
+      title="WePlay Top Up — Cheapest Coins & Red Packet | Lowest Weplay"
+      description="Buy WePlay coins, recharge packs and Red Packets at India's lowest prices from ₹479. Instant delivery, 100% ID safety, secure payments and 24x7 support."
+      path="/"
+      jsonLd={[
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "Lowest Weplay",
+        url: `${SITE_URL}/`,
+        inLanguage: "en-IN"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "WePlay top-up packages",
+        itemListElement: PRODUCTS.map((p, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          item: {
+            "@type": "Product",
+            name: `WePlay ${p.name}`,
+            description: p.desc,
+            image: p.img,
+            brand: { "@type": "Brand", name: "WePlay" },
+            offers: {
+              "@type": "Offer",
+              price: p.price,
+              priceCurrency: "INR",
+              availability: "https://schema.org/InStock",
+              url: `${SITE_URL}/#products`
+            }
+          }
+        }))
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: FAQS.slice(0, 5).map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a }
+        }))
+      }]} />
+
     <SplashScreen show={showSplash} onComplete={() => {}} />
+
     <div className={`min-h-screen bg-background text-foreground antialiased overflow-x-hidden ${showSplash ? "overflow-hidden h-screen" : ""}`}>
       {/* scroll progress */}
       <motion.div
