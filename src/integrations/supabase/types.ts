@@ -14,40 +14,76 @@ export type Database = {
   }
   public: {
     Tables: {
-      orders: {
+      customers: {
         Row: {
           created_at: string
-          email: string
-          id: string
-          phone: string | null
-          price: number
-          product_id: string
-          product_name: string
-          status: string
+          last_active: string
           weplay_id: string
           weplay_name: string
         }
         Insert: {
           created_at?: string
-          email: string
-          id?: string
-          phone?: string | null
-          price: number
-          product_id: string
-          product_name: string
-          status?: string
+          last_active?: string
           weplay_id: string
           weplay_name: string
         }
         Update: {
           created_at?: string
-          email?: string
+          last_active?: string
+          weplay_id?: string
+          weplay_name?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          coins: string | null
+          created_at: string
+          email: string | null
+          id: string
+          order_code: string
+          payment_method: string
+          phone: string | null
+          price: number
+          product_id: string
+          product_name: string
+          status: string
+          transaction_id: string | null
+          updated_at: string
+          weplay_id: string
+          weplay_name: string
+        }
+        Insert: {
+          coins?: string | null
+          created_at?: string
+          email?: string | null
           id?: string
+          order_code?: string
+          payment_method?: string
+          phone?: string | null
+          price: number
+          product_id: string
+          product_name: string
+          status?: string
+          transaction_id?: string | null
+          updated_at?: string
+          weplay_id: string
+          weplay_name: string
+        }
+        Update: {
+          coins?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          order_code?: string
+          payment_method?: string
           phone?: string | null
           price?: number
           product_id?: string
           product_name?: string
           status?: string
+          transaction_id?: string | null
+          updated_at?: string
           weplay_id?: string
           weplay_name?: string
         }
@@ -79,12 +115,48 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      attach_transaction: {
+        Args: { p_order_id: string; p_transaction_id: string }
+        Returns: boolean
+      }
+      create_order: {
+        Args: {
+          p_coins: string
+          p_payment_method: string
+          p_price: number
+          p_product_id: string
+          p_product_name: string
+          p_weplay_id: string
+          p_weplay_name: string
+        }
+        Returns: {
+          id: string
+          order_code: string
+        }[]
+      }
+      get_customer_orders: {
+        Args: { p_weplay_id: string }
+        Returns: {
+          coins: string
+          created_at: string
+          order_code: string
+          payment_method: string
+          price: number
+          product_name: string
+          status: string
+          transaction_id: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      upsert_customer: {
+        Args: { p_weplay_id: string; p_weplay_name: string }
+        Returns: undefined
       }
     }
     Enums: {
