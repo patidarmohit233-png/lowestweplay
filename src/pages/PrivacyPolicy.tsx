@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
+import Seo from "@/components/Seo";
 
 const PrivacyPolicy = () => (
+  <>
+  <Seo
+    title="Privacy Policy | Lowest Weplay"
+    description="How Lowest Weplay collects, uses and protects your data when you order a WePlay top-up. We never store passwords or payment details."
+    path="/privacy-policy"
+  />
   <div className="min-h-screen bg-background text-foreground">
+
     <nav className="sticky top-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/50">
       <div className="max-w-4xl mx-auto px-4 md:px-6 h-16 flex items-center">
         <Link to="/" className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary transition-colors">
@@ -58,6 +66,8 @@ const PrivacyPolicy = () => (
       </div>
     </motion.div>
   </div>
+  </>
 );
+
 
 export default PrivacyPolicy;

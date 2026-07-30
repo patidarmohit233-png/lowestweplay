@@ -10,6 +10,11 @@ import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import RefundPolicy from "./pages/RefundPolicy.tsx";
 import TermsOfService from "./pages/TermsOfService.tsx";
 import Contact from "./pages/Contact.tsx";
+import WeplayRecharge from "./pages/WeplayRecharge.tsx";
+import WeplayRedPacket from "./pages/WeplayRedPacket.tsx";
+import PriceList from "./pages/PriceList.tsx";
+import HowToTopUp from "./pages/HowToTopUp.tsx";
+import Faq from "./pages/Faq.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -24,6 +29,11 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/auth" element={<AdminAuth />} />
+          <Route path="/weplay-recharge" element={<WeplayRecharge />} />
+          <Route path="/weplay-red-packet" element={<WeplayRedPacket />} />
+          <Route path="/weplay-top-up-price-list" element={<PriceList />} />
+          <Route path="/how-to-top-up-weplay" element={<HowToTopUp />} />
+          <Route path="/faq" element={<Faq />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
