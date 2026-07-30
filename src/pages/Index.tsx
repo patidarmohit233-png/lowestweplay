@@ -838,10 +838,16 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-7 mb-8">
             <img src={LOGO} alt="Lowest Weplay" loading="lazy" className="w-[130px] h-auto opacity-70" />
             <nav className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-[13px] text-muted-foreground">
+              <Link to="/weplay-recharge" className="hover:text-primary transition-colors">WePlay Recharge</Link>
+              <Link to="/weplay-red-packet" className="hover:text-primary transition-colors">Red Packet</Link>
+              <Link to="/weplay-top-up-price-list" className="hover:text-primary transition-colors">Price List</Link>
+              <Link to="/how-to-top-up-weplay" className="hover:text-primary transition-colors">How to Top Up</Link>
+              <Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link>
               <Link to="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</Link>
               <Link to="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>
               <Link to="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link>
               <Link to="/contact" className="hover:text-primary transition-colors">Contact Us</Link>
+
             </nav>
           </div>
           <div className="divider-fade mb-6" />
