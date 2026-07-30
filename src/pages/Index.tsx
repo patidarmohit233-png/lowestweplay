@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useInView, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { motion, useInView, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck, Zap, Lock, Trophy, MessageSquare, Package,
   ArrowRight, Search, CreditCard, Download, CheckCircle2,
-  Sparkles, Star, Crown, Flame, UserCheck, Loader2, Pencil } from
+  Sparkles, Star, Crown, Flame, UserCheck, Loader2, Pencil, PlayCircle } from
 "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,8 +14,10 @@ import { z } from "zod";
 type VerifiedBuyer = { weplay_id: string; weplay_name: string };
 const VERIFY_KEY = "lw_verified_buyer";
 
-const PRODUCT_BADGES: Record<number, {text: string;icon: React.ReactNode;color: string;}> = {
-  1: { text: "STARTER PICK", icon: <Zap size={11} />, color: "primary" },
+const LOGO = "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png";
+
+const PRODUCT_BADGES: Record<number, { text: string; icon: React.ReactNode; color: "primary" | "accent" }> = {
+  1: { text: "STARTER", icon: <Zap size={11} />, color: "primary" },
   2: { text: "BEST SELLER", icon: <Flame size={11} />, color: "accent" },
   3: { text: "POPULAR", icon: <Star size={11} />, color: "primary" },
   4: { text: "HOT DEAL", icon: <Flame size={11} />, color: "accent" },
@@ -48,30 +50,45 @@ const PARTNERS = [
 
 
 const TRUST_BADGES = [
-{ icon: <Zap size={22} />, label: "Instant Delivery", val: "⚡ Instant" },
-{ icon: <Lock size={22} />, label: "Secure Payment", val: "🔒 Secure" },
-{ icon: <Trophy size={22} />, label: "Best Rates", val: "🏆 Lowest" },
-{ icon: <MessageSquare size={22} />, label: "Live Support", val: "💬 24/7" },
-{ icon: <Package size={22} />, label: "Happy Users", val: "📦 10k+" }];
+{ icon: <Zap size={18} />, label: "Delivery", val: "Instant" },
+{ icon: <Lock size={18} />, label: "Payment", val: "100% Secure" },
+{ icon: <Trophy size={18} />, label: "Pricing", val: "Lowest in India" },
+{ icon: <MessageSquare size={18} />, label: "Support", val: "24 / 7 Live" },
+{ icon: <Package size={18} />, label: "Community", val: "10,000+ Gamers" }];
 
 
 const STEPS = [
-{ icon: <Search size={28} />, title: "Choose Package", desc: "Browse our collection and pick your ideal coin bundle" },
-{ icon: <CreditCard size={28} />, title: "Secure Payment", desc: "Pay safely via Razorpay with UPI, cards or wallets" },
-{ icon: <Download size={28} />, title: "Instant Delivery", desc: "Coins are credited to your account within minutes" },
-{ icon: <CheckCircle2 size={28} />, title: "Start Playing", desc: "Enjoy your coins with full ID safety guarantee" }];
+{ icon: <Search size={22} />, title: "Choose Package", desc: "Browse and pick your ideal coin bundle." },
+{ icon: <UserCheck size={22} />, title: "Verify Player", desc: "Enter WePlay ID & name — no password ever." },
+{ icon: <CreditCard size={22} />, title: "Secure Payment", desc: "Pay via UPI, cards or wallets on Razorpay." },
+{ icon: <Download size={22} />, title: "Instant Delivery", desc: "Coins land in your account within minutes." }];
 
 
-/* ── Reusable fade-in wrapper ─────────────────────────── */
-function FadeIn({ children, className = "", delay = 0 }: {children: React.ReactNode;className?: string;delay?: number;}) {
+const REVIEWS = [
+{ name: "Rahul", text: "Very nice this website is very good for your weplay life dont wast your money come hare and enjoy" },
+{ name: "Ankit G", text: "Maine 50K RED PACKET liya tha. Payment ke baad 10 minute tak kuch nahi aaya toh thoda tension hua. Phir support se baat ki aur 2 minute mein coins aa gaye. Good service" },
+{ name: "Eren R", text: "Bhai kya mst website hai phle trust nhi hua tha but ab roj topup karta hu yahi se" },
+{ name: "Deepak Kumar", text: "Pehle lag raha tha scam hoga kyunki ID maang rahe the. But unhone bola sirf ID chahiye password nahi. Safe hai bhai" },
+{ name: "Neha Jhaal", text: "Raat 1 baje order kiya tha, socha tha kal subah tak wait karna padega coins aa gaye. Trusted website hai" },
+{ name: "Amit Tiwari", text: "Sabse sasta recharge yahi mila. Ab yahi se lunga hamesha." },
+{ name: "Rohit Yadav", text: "Bhai pehle dar lag raha tha par 2 min mein recharge aa gaya. Highly recommended!" },
+{ name: "Sneha", text: "Best experience, trusted hai guys go for it" },
+{ name: "Akash007", text: "Legit site hai, coins turant credit ho gaye account mein." },
+{ name: "Priya S", text: "ID dalte time dar lag raha tha, support se baat ki unhone bola 100% safe hai. 5 minute mein coins aa gaye." }];
+
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+/* ── Reveal wrapper ───────────────────────────────────── */
+function Reveal({ children, className = "", delay = 0, y = 22 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 18 }}
+      initial={{ opacity: 0, y }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+      transition={{ duration: 0.7, delay, ease: EASE }}
       className={className}
       style={{ willChange: "transform, opacity" }}>
       {children}
@@ -79,21 +96,23 @@ function FadeIn({ children, className = "", delay = 0 }: {children: React.ReactN
 }
 
 /* ── Section heading ──────────────────────────────────── */
-function SectionHeading({ title, subtitle }: {title: string;subtitle: string;}) {
+function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: string; title: string; highlight?: string; subtitle: string }) {
   return (
-    <FadeIn className="mb-12 md:mb-16 text-center">
-      <h2 className="text-3xl md:text-4xl font-display text-foreground">
-        {title}
+    <Reveal className="mb-10 md:mb-16 text-center">
+      <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/6 border border-primary/12 text-primary text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.18em]">
+        <Sparkles size={11} /> {eyebrow}
+      </span>
+      <h2 className="mt-4 text-[1.75rem] leading-[1.12] md:text-5xl font-display text-foreground">
+        {title} {highlight && <span className="text-gradient">{highlight}</span>}
       </h2>
-      <p className="text-muted-foreground mt-3 text-base max-w-lg mx-auto">{subtitle}</p>
-    </FadeIn>);
-
+      <p className="text-muted-foreground mt-3 text-[13px] md:text-base max-w-md md:max-w-xl mx-auto leading-relaxed">{subtitle}</p>
+    </Reveal>);
 }
 
 /* ── Product Card ─────────────────────────────────────── */
-function ProductCard({ product, index, buyer, onRequireVerify }: {product: typeof PRODUCTS[0];index: number;buyer: VerifiedBuyer | null;onRequireVerify: () => void;}) {
+function ProductCard({ product, index, buyer, onRequireVerify }: { product: typeof PRODUCTS[0]; index: number; buyer: VerifiedBuyer | null; onRequireVerify: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const inView = useInView(ref, { once: true, margin: "-50px" });
   const badge = PRODUCT_BADGES[product.id];
   const discount = Math.round((1 - product.price / product.mrp) * 100);
   const [buying, setBuying] = useState(false);
@@ -112,7 +131,7 @@ function ProductCard({ product, index, buyer, onRequireVerify }: {product: typeo
       product_id: String(product.id),
       product_name: product.name,
       price: product.price,
-      status: "pending",
+      status: "pending"
     });
     setBuying(false);
     if (error) {
@@ -123,152 +142,73 @@ function ProductCard({ product, index, buyer, onRequireVerify }: {product: typeo
     toast({ title: "Order created", description: "Complete payment in the new tab. Coins credit within minutes." });
   };
 
-  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(1000px) rotateY(${px * 8}deg) rotateX(${-py * 8}deg) translateZ(0)`;
-  };
-  const resetTilt = () => {
-    const el = ref.current;
-    if (el) el.style.transform = "";
-  };
-
   return (
-    <motion.div
+    <motion.article
       ref={ref}
-      initial={{ opacity: 0, y: 40, scale: 0.9, rotateX: -15 }}
-      animate={inView ? { opacity: 1, y: 0, scale: 1, rotateX: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-      whileTap={{ scale: 0.97 }}
-      onMouseMove={handleMove}
-      onMouseLeave={resetTilt}
-      className="group relative bg-card rounded-2xl md:rounded-3xl border border-border/40 flex flex-col transition-[box-shadow,border-color,transform] duration-300 overflow-hidden active:scale-[0.97] [transform-style:preserve-3d]"
-      style={{ boxShadow: "0 8px 30px -8px rgba(79,70,229,0.15), 0 2px 6px rgba(0,0,0,0.04)", willChange: "transform, opacity" }}>
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: Math.min(index, 5) * 0.06, ease: EASE }}
+      className="group card-premium relative rounded-[1.25rem] md:rounded-[1.75rem] flex flex-col overflow-hidden active:scale-[0.98] transition-transform">
 
-      {/* Outer glow on hover */}
-      <div className="absolute -inset-[1px] rounded-2xl md:rounded-3xl bg-gradient-to-br from-primary/30 via-accent/15 to-primary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-[2px] -z-10" />
-
-      {/* Top gradient accent line */}
-      <div className={`absolute top-0 left-0 right-0 h-[3px] ${badge?.color === "accent" ? "bg-gradient-to-r from-accent/0 via-accent to-accent/0" : "bg-gradient-to-r from-primary/0 via-primary to-primary/0"} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-
-      {/* Image section */}
-      <div className="aspect-square md:aspect-[4/3] bg-gradient-to-br from-secondary via-muted/60 to-secondary/30 overflow-hidden relative m-2 md:m-3 mb-0 rounded-xl md:rounded-2xl [transform:translateZ(30px)]">
+      {/* image */}
+      <div className="relative m-1.5 md:m-2.5 mb-0 rounded-[0.95rem] md:rounded-[1.35rem] overflow-hidden aspect-square bg-gradient-to-br from-secondary to-muted">
         <img
           src={product.img}
-          alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[900ms] ease-out" />
+          alt={`${product.name} WePlay top-up pack`}
+          loading="lazy"
+          className="w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.08]" />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 via-foreground/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-background/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[1200ms] ease-in-out" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
         {badge &&
-        <motion.div
-          initial={{ opacity: 0, scale: 0.6, rotate: -8 }}
-          animate={inView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
-          transition={{ delay: index * 0.1 + 0.35, type: "spring", stiffness: 300, damping: 14 }}
-          className={`absolute top-1.5 right-1.5 md:top-2.5 md:right-2.5 flex items-center gap-1 md:gap-1.5 px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-md md:rounded-xl text-[7px] md:text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-xl ${
-          badge.color === "accent" ?
-          "bg-accent/25 text-accent border border-accent/30 shadow-[0_4px_16px_-3px_hsl(var(--accent)/0.4)]" :
-          "bg-primary/25 text-primary border border-primary/30 shadow-[0_4px_16px_-3px_hsl(var(--primary)/0.4)]"}`
-          }>
-            <motion.span animate={{ scale: [1, 1.3, 1], rotate: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }} className="hidden md:inline-flex">
-              {badge.icon}
-            </motion.span>
-            {badge.text}
-          </motion.div>
+        <span className={`absolute top-2 left-2 inline-flex items-center gap-1 px-2 py-[3px] md:px-2.5 md:py-1 rounded-full text-[7.5px] md:text-[9.5px] font-extrabold uppercase tracking-[0.12em] backdrop-blur-md border ${
+        badge.color === "accent" ?
+        "bg-accent/90 text-accent-foreground border-accent/40" :
+        "bg-primary/90 text-primary-foreground border-primary/40"}`}>
+            <span className="hidden md:inline-flex">{badge.icon}</span>{badge.text}
+          </span>
         }
 
-        <motion.div
-          initial={{ opacity: 0, x: -15 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ delay: index * 0.1 + 0.45, type: "spring", stiffness: 250 }}
-          className="absolute bottom-1.5 left-1.5 md:bottom-2.5 md:left-2.5 px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-md md:rounded-xl bg-foreground/85 backdrop-blur-lg text-background text-[8px] md:text-[10px] font-extrabold tracking-wide shadow-lg">
-          <span className="text-accent">-</span>{discount}%
-        </motion.div>
+        <span className="absolute bottom-2 left-2 px-2 py-[3px] md:px-2.5 md:py-1 rounded-full bg-foreground/85 backdrop-blur-md text-background text-[8px] md:text-[10px] font-extrabold tracking-wide">
+          {discount}% OFF
+        </span>
       </div>
 
-      {/* Content */}
-      <div className="px-3 pb-3 pt-2.5 md:px-5 md:pb-5 md:pt-4 flex flex-col flex-grow">
-        <h3 className="text-[11px] md:text-[15px] font-extrabold text-foreground tracking-tight leading-tight line-clamp-1">{product.name}</h3>
-        <p className="text-muted-foreground text-[9px] md:text-xs mb-2 md:mb-4 mt-0.5 md:mt-1 flex-grow leading-snug line-clamp-2">{product.desc}</p>
+      {/* content */}
+      <div className="px-3 pt-2.5 pb-3 md:px-5 md:pt-4 md:pb-5 flex flex-col flex-grow">
+        <h3 className="text-[11.5px] md:text-[15px] font-extrabold text-foreground leading-tight line-clamp-1">{product.name}</h3>
+        <p className="text-muted-foreground text-[9.5px] md:text-xs mt-1 mb-2.5 md:mb-4 flex-grow leading-snug line-clamp-2">{product.desc}</p>
 
-        <div className="bg-secondary/80 rounded-lg md:rounded-2xl p-2 md:p-3.5 mb-2.5 md:mb-4 border border-border/30">
-          <span className="text-[7px] md:text-[9px] text-muted-foreground font-semibold uppercase tracking-[0.15em] hidden md:block">Your Price</span>
-          <div className="flex items-baseline gap-1.5 md:gap-2 md:mt-0.5">
-            <span className="text-base md:text-2xl font-extrabold font-price text-foreground">₹{product.price}</span>
-            <span className="text-[10px] md:text-xs text-muted-foreground line-through decoration-destructive/50">₹{product.mrp}</span>
+        <div className="flex items-end justify-between gap-1 mb-2.5 md:mb-4">
+          <div className="flex flex-col">
+            <span className="text-[7.5px] md:text-[9px] text-muted-foreground font-bold uppercase tracking-[0.18em]">Price</span>
+            <span className="text-[17px] md:text-2xl font-extrabold font-price text-foreground leading-none mt-0.5">₹{product.price}</span>
           </div>
+          <span className="text-[10px] md:text-xs text-muted-foreground line-through decoration-destructive/60 mb-0.5">₹{product.mrp}</span>
         </div>
 
-        <motion.button
+        <button
           onClick={handleBuy}
           disabled={buying}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-full py-2.5 md:py-4 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground rounded-xl md:rounded-2xl font-extrabold text-center flex items-center justify-center gap-1.5 md:gap-2 text-xs md:text-sm transition-all duration-300 hover:shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.4)] relative overflow-hidden group/btn disabled:opacity-70">
+          aria-label={`Buy ${product.name}`}
+          className="relative w-full py-2.5 md:py-3.5 rounded-xl md:rounded-2xl font-extrabold text-primary-foreground overflow-hidden active:scale-[0.96] transition-all duration-300 disabled:opacity-70 hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.5)]"
+          style={{ background: "var(--gradient-primary)" }}>
+          <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-primary-foreground/25 blur-md animate-shine" />
+          <span className="relative z-10 flex items-center justify-center gap-1.5 uppercase tracking-[0.12em] text-[10px] md:text-[12.5px]">
+            {buying ?
+            <><Loader2 size={13} className="animate-spin" /> Processing…</> :
+            buyer ?
+            <>Buy Now <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" /></> :
 
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-foreground/15 to-transparent"
-            animate={{ x: ["-100%", "200%"] }}
-            transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }} />
-
-          <span className="relative z-10 flex items-center gap-1.5 md:gap-2 uppercase tracking-wider text-[10px] md:text-[13px]">
-            {buying ? (
-              <><Loader2 size={13} className="animate-spin" /> Processing…</>
-            ) : buyer ? (
-              <>Buy Now <ArrowRight size={12} className="md:hidden" /><ArrowRight size={15} className="hidden md:inline group-hover/btn:translate-x-1.5 transition-transform duration-300" /></>
-            ) : (
-              <><UserCheck size={13} /> Verify to Buy</>
-            )}
+            <><UserCheck size={13} /> Verify to Buy</>
+            }
           </span>
-        </motion.button>
+        </button>
       </div>
-    </motion.div>);
-
+    </motion.article>);
 }
 
-/* ── Floating orb for hero ────────────────────────────── */
-function FloatingOrb({ delay, x, y, size, color = "primary" }: {delay: number;x: string;y: string;size: number;color?: string;}) {
-  return (
-    <motion.div
-      className={`absolute rounded-full ${color === "accent" ? "bg-accent/8" : "bg-primary/8"} blur-sm`}
-      style={{ left: x, top: y, width: size, height: size }}
-      animate={{
-        y: [0, -30, 0],
-        x: [0, 10, 0],
-        opacity: [0.2, 0.6, 0.2],
-        scale: [1, 1.3, 1]
-      }}
-      transition={{ duration: 5 + delay, delay, repeat: Infinity, ease: "easeInOut" }} />);
-
-
-}
-
-/* ── Animated counter ─────────────────────────────────── */
-function AnimatedStat({ value, label, delay }: {value: string;label: string;delay: number;}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.6, delay, type: "spring", stiffness: 150 }}
-      className="text-center relative group">
-      
-      <motion.div
-        className="text-xl md:text-2xl font-display text-foreground"
-        whileHover={{ scale: 1.1 }}
-        transition={{ type: "spring", stiffness: 400 }}>
-        
-        {value}
-      </motion.div>
-      <div className="text-[10px] md:text-xs text-muted-foreground mt-1 tracking-wide uppercase">{label}</div>
-    </motion.div>);
-
-}
-
-/* ── Daily Countdown Bar ───────────────────────────────── */
+/* ── Daily Countdown Bar ──────────────────────────────── */
 function DailyCountdownBar() {
   const [time, setTime] = useState({ h: 0, m: 0, s: 0 });
 
@@ -294,95 +234,67 @@ function DailyCountdownBar() {
 
   return (
     <div className="sticky top-0 z-[60] w-full overflow-hidden text-primary-foreground"
-      style={{ background: "linear-gradient(100deg, #1E1B4B 0%, #4338CA 45%, #6366F1 70%, #1E1B4B 100%)" }}>
+      style={{ background: "linear-gradient(100deg, #14133B 0%, #3B32C4 45%, #6D5BF5 72%, #14133B 100%)" }}>
 
-      {/* animated shine sweep */}
       <motion.div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.28) 50%, transparent 65%)" }}
+        style={{ background: "linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.24) 50%, transparent 62%)" }}
         animate={{ x: ["-120%", "120%"] }}
-        transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.2 }}
-      />
-      {/* soft moving glow */}
-      <motion.div
-        aria-hidden
-        className="absolute -top-8 left-1/4 w-56 h-24 rounded-full blur-2xl pointer-events-none"
-        style={{ background: "rgba(255,255,255,0.22)" }}
-        animate={{ x: [-60, 120, -60], opacity: [0.25, 0.5, 0.25] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-      />
+        transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.4 }} />
 
       <div className="relative max-w-7xl mx-auto px-3 py-2 md:py-2.5 flex items-center justify-center gap-2 md:gap-3.5 flex-nowrap">
         <motion.span
-          className="text-base md:text-xl leading-none"
-          animate={{ scale: [1, 1.22, 1], rotate: [0, -8, 8, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}>
+          className="text-sm md:text-lg leading-none"
+          animate={{ scale: [1, 1.18, 1], rotate: [0, -8, 8, 0] }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}>
           🔥
         </motion.span>
 
-        <span className="font-display font-extrabold tracking-tight text-[12px] md:text-[17px] whitespace-nowrap">
+        <span className="font-display text-[11.5px] md:text-[16px] whitespace-nowrap">
           <span className="text-[#FDE68A]">70% OFF</span>
           <span className="hidden sm:inline text-primary-foreground/85"> · Mega Sale</span>
-          <span className="text-primary-foreground/70 font-semibold"> ends in</span>
+          <span className="text-primary-foreground/65 font-semibold"> ends in</span>
         </span>
 
         <div className="flex items-center gap-1 md:gap-1.5">
-          {[
-          { val: pad(time.h), label: "H" },
-          { val: pad(time.m), label: "M" },
-          { val: pad(time.s), label: "S" }].
-          map((t, i) =>
+          {[{ val: pad(time.h), label: "H" }, { val: pad(time.m), label: "M" }, { val: pad(time.s), label: "S" }].map((t, i) =>
           <div key={t.label} className="flex items-center gap-1 md:gap-1.5">
-              <div className="relative flex flex-col items-center justify-center min-w-[30px] md:min-w-[42px] px-1 md:px-2 py-1 md:py-1.5 rounded-lg md:rounded-xl border border-primary-foreground/25"
-                style={{ background: "rgba(255,255,255,0.14)", backdropFilter: "blur(6px)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3)" }}>
+              <div className="relative flex flex-col items-center justify-center min-w-[29px] md:min-w-[40px] px-1 md:px-2 py-1 md:py-1.5 rounded-lg md:rounded-xl border border-primary-foreground/25"
+              style={{ background: "rgba(255,255,255,0.13)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.28)" }}>
                 <AnimatePresence mode="popLayout" initial={false}>
                   <motion.span
-                    key={t.val}
-                    initial={{ y: -12, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: 12, opacity: 0 }}
-                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                    className="font-display font-extrabold text-[12px] md:text-[17px] tabular-nums leading-none">
+                  key={t.val}
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 10, opacity: 0 }}
+                  transition={{ duration: 0.26, ease: EASE }}
+                  className="font-display text-[11.5px] md:text-[16px] tabular-nums leading-none">
                     {t.val}
                   </motion.span>
                 </AnimatePresence>
-                <span className="text-[7px] md:text-[9px] font-bold tracking-widest text-primary-foreground/60 leading-none mt-0.5">{t.label}</span>
+                <span className="text-[6.5px] md:text-[8.5px] font-bold tracking-[0.2em] text-primary-foreground/60 leading-none mt-0.5">{t.label}</span>
               </div>
-              {i < 2 && <span className="text-primary-foreground/45 font-bold text-[11px] md:text-sm">:</span>}
+              {i < 2 && <span className="text-primary-foreground/40 font-bold text-[11px]">:</span>}
             </div>
           )}
         </div>
 
         <motion.a
           href="#products"
-          className="hidden sm:inline-flex items-center gap-1 text-[10px] md:text-[12px] font-extrabold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-foreground text-primary whitespace-nowrap"
+          className="hidden sm:inline-flex items-center gap-1 text-[11px] font-extrabold uppercase tracking-[0.12em] px-3 py-1.5 rounded-full bg-primary-foreground text-primary whitespace-nowrap"
           whileHover={{ scale: 1.06 }}
-          whileTap={{ scale: 0.96 }}
-          animate={{ boxShadow: ["0 0 0 0 rgba(255,255,255,0.5)", "0 0 0 8px rgba(255,255,255,0)"] }}
-          transition={{ boxShadow: { duration: 2, repeat: Infinity } }}>
+          whileTap={{ scale: 0.96 }}>
           Claim Now <ArrowRight size={12} />
         </motion.a>
       </div>
-
-      {/* bottom progress shimmer line */}
-      <motion.div
-        aria-hidden
-        className="absolute bottom-0 left-0 h-[2px] w-1/3"
-        style={{ background: "linear-gradient(90deg, transparent, #FDE68A, transparent)" }}
-        animate={{ x: ["-100%", "300%"] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-      />
     </div>);
-
 }
 
-
-
-/* ── Verification Panel ────────────────────────────────── */
+/* ── Verification Panel ───────────────────────────────── */
 const verifySchema = z.object({
   weplay_id: z.string().trim().min(3, "WePlay ID must be at least 3 characters").max(40, "Too long"),
-  weplay_name: z.string().trim().min(2, "Name required").max(60, "Too long"),
+  weplay_name: z.string().trim().min(2, "Name required").max(60, "Too long")
 });
 
 function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null; onVerified: (b: VerifiedBuyer | null) => void }) {
@@ -395,7 +307,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
     const parsed = verifySchema.safeParse(form);
     if (!parsed.success) {
       const flat: Record<string, string> = {};
-      parsed.error.issues.forEach((i) => (flat[i.path[0] as string] = i.message));
+      parsed.error.issues.forEach((i) => flat[i.path[0] as string] = i.message);
       setErrors(flat);
       return;
     }
@@ -406,122 +318,106 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
   };
 
   return (
-    <section id="verify" className="px-4 md:px-6 pt-4 md:pt-6 pb-2 md:pb-4 relative z-10">
+    <section id="verify" className="px-4 md:px-6 pt-10 md:pt-16 relative z-10 scroll-mt-40">
       <div className="max-w-3xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="relative rounded-2xl md:rounded-3xl border border-primary/20 bg-card/80 backdrop-blur-xl p-4 md:p-6 overflow-hidden"
-          style={{ boxShadow: "0 20px 50px -20px hsl(var(--primary) / 0.25)" }}>
+        <Reveal>
+          <div className="relative rounded-[1.5rem] md:rounded-[2rem] p-[1.5px] overflow-hidden"
+            style={{ background: "linear-gradient(135deg, hsl(var(--primary)/0.55), hsl(var(--primary-glow)/0.25), hsl(var(--accent)/0.35))" }}>
+            <div className="relative rounded-[1.4rem] md:rounded-[1.9rem] bg-card p-4 md:p-7 overflow-hidden shadow-elevated">
+              <div className="absolute -top-24 -right-16 w-52 h-52 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
 
-          <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-16 -left-16 w-40 h-40 rounded-full bg-accent/10 blur-3xl pointer-events-none" />
+              <div className="relative flex items-center gap-3 mb-4 md:mb-5">
+                <span className={`inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-2xl ${buyer && !editing ? "bg-accent/12 text-accent" : "bg-primary/10 text-primary"}`}>
+                  {buyer && !editing ? <CheckCircle2 size={20} /> : <UserCheck size={20} />}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[9.5px] md:text-[11px] font-extrabold uppercase tracking-[0.2em] text-muted-foreground">Step 1 · Player Verification</div>
+                  <h3 className="text-[15px] md:text-2xl font-display leading-tight text-foreground mt-0.5">
+                    {buyer && !editing ? "You're verified — ready to top-up" : "Verify before top-up"}
+                  </h3>
+                </div>
+                {buyer && !editing &&
+                <button
+                  type="button"
+                  onClick={() => setEditing(true)}
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-primary px-3 py-2 rounded-xl border border-primary/20 bg-primary/5 active:scale-[0.96] transition-transform">
+                    <Pencil size={12} /> Edit
+                  </button>
+                }
+              </div>
 
-          <div className="relative flex items-center gap-2 mb-3 md:mb-4">
-            <span className={`inline-flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-xl ${buyer && !editing ? "bg-emerald-500/15 text-emerald-600" : "bg-primary/15 text-primary"}`}>
-              {buyer && !editing ? <CheckCircle2 size={18} /> : <UserCheck size={18} />}
-            </span>
-            <div className="flex-1 min-w-0">
-              <div className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Step 1 · Verify Your Player</div>
-              <h3 className="text-base md:text-xl font-display leading-tight text-foreground">
-                {buyer && !editing ? "You're verified — ready to top-up" : "Verify before top-up"}
-              </h3>
+              {buyer && !editing ?
+              <div className="relative grid grid-cols-2 gap-2.5 md:gap-3">
+                  {[{ k: "WePlay ID", v: buyer.weplay_id }, { k: "WePlay Name", v: buyer.weplay_name }].map((f) =>
+                <div key={f.k} className="rounded-2xl border border-border bg-secondary/70 px-3.5 py-3">
+                      <div className="text-[8.5px] md:text-[10px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">{f.k}</div>
+                      <div className="text-sm md:text-base font-extrabold text-foreground truncate mt-0.5">{f.v}</div>
+                    </div>
+                )}
+                </div> :
+
+              <form onSubmit={submit} className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2.5 md:gap-3">
+                  <label className="block">
+                    <span className="sr-only">WePlay ID</span>
+                    <input
+                    value={form.weplay_id}
+                    onChange={(e) => setForm({ ...form, weplay_id: e.target.value })}
+                    placeholder="WePlay ID (e.g. WP123456)"
+                    className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.weplay_id ? "border-destructive" : "border-border"}`} />
+                    {errors.weplay_id && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_id}</span>}
+                  </label>
+                  <label className="block">
+                    <span className="sr-only">WePlay Name</span>
+                    <input
+                    value={form.weplay_name}
+                    onChange={(e) => setForm({ ...form, weplay_name: e.target.value })}
+                    placeholder="WePlay Name (in-game)"
+                    className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.weplay_name ? "border-destructive" : "border-border"}`} />
+                    {errors.weplay_name && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_name}</span>}
+                  </label>
+                  <button
+                  type="submit"
+                  className="py-3.5 px-6 text-primary-foreground rounded-2xl font-extrabold text-[11.5px] uppercase tracking-[0.14em] flex items-center justify-center gap-2 active:scale-[0.96] transition-all hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.5)]"
+                  style={{ background: "var(--gradient-primary)" }}>
+                    Verify <CheckCircle2 size={14} />
+                  </button>
+                </form>
+              }
+
+              <p className="relative text-[10.5px] md:text-[12px] text-muted-foreground mt-4 leading-relaxed">
+                🔒 We only need your Player ID & Name — never your password. Verify once, top-up any plan.
+              </p>
             </div>
-            {buyer && !editing && (
-              <button
-                type="button"
-                onClick={() => setEditing(true)}
-                className="inline-flex items-center gap-1 text-[11px] md:text-xs font-bold text-primary hover:text-primary/80 px-2.5 py-1.5 rounded-lg border border-primary/20 bg-primary/5">
-                <Pencil size={12} /> Edit
-              </button>
-            )}
           </div>
-
-          {buyer && !editing ? (
-            <div className="relative grid grid-cols-2 gap-2 md:gap-3">
-              <div className="rounded-xl border border-border/60 bg-secondary/50 px-3 py-2.5">
-                <div className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground">WePlay ID</div>
-                <div className="text-sm md:text-base font-extrabold text-foreground truncate">{buyer.weplay_id}</div>
-              </div>
-              <div className="rounded-xl border border-border/60 bg-secondary/50 px-3 py-2.5">
-                <div className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground">WePlay Name</div>
-                <div className="text-sm md:text-base font-extrabold text-foreground truncate">{buyer.weplay_name}</div>
-              </div>
-            </div>
-          ) : (
-            <form onSubmit={submit} className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2 md:gap-3">
-              <label className="block">
-                <span className="sr-only">WePlay ID</span>
-                <input
-                  value={form.weplay_id}
-                  onChange={(e) => setForm({ ...form, weplay_id: e.target.value })}
-                  placeholder="WePlay ID (e.g. WP123456)"
-                  className={`w-full px-4 py-3 rounded-xl border bg-background text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${errors.weplay_id ? "border-destructive" : "border-border"}`}
-                />
-                {errors.weplay_id && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_id}</span>}
-              </label>
-              <label className="block">
-                <span className="sr-only">WePlay Name</span>
-                <input
-                  value={form.weplay_name}
-                  onChange={(e) => setForm({ ...form, weplay_name: e.target.value })}
-                  placeholder="WePlay Name (in-game)"
-                  className={`w-full px-4 py-3 rounded-xl border bg-background text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors ${errors.weplay_name ? "border-destructive" : "border-border"}`}
-                />
-                {errors.weplay_name && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_name}</span>}
-              </label>
-              <button
-                type="submit"
-                className="py-3 md:py-3 px-5 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground rounded-xl font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.97] transition-all hover:shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.4)]">
-                Verify <CheckCircle2 size={14} />
-              </button>
-            </form>
-          )}
-
-          <p className="relative text-[10px] md:text-[11px] text-muted-foreground text-center md:text-left mt-3 leading-relaxed">
-            🔒 We only need your Player ID & Name — never your password. Verify once and top-up any plan.
-          </p>
-        </motion.div>
+        </Reveal>
       </div>
-    </section>
-  );
+    </section>);
 }
 
 /* ══════════════════════════════════════════════════════════
    MAIN PAGE
    ══════════════════════════════════════════════════════════ */
 const Index = () => {
-  const { scrollY, scrollYProgress } = useScroll();
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const heroScale = useTransform(scrollY, [0, 400], [1, 0.92]);
-  const heroY = useTransform(scrollY, [0, 400], [0, 60]);
+  const { scrollYProgress } = useScroll();
   const progressScale = useSpring(scrollYProgress, { stiffness: 120, damping: 24, mass: 0.3 });
 
   const [buyer, setBuyer] = useState<VerifiedBuyer | null>(() => {
     try {
       const raw = localStorage.getItem(VERIFY_KEY);
-      return raw ? (JSON.parse(raw) as VerifiedBuyer) : null;
-    } catch { return null; }
+      return raw ? JSON.parse(raw) as VerifiedBuyer : null;
+    } catch {return null;}
   });
   const persistBuyer = (b: VerifiedBuyer | null) => {
     setBuyer(b);
-    if (b) localStorage.setItem(VERIFY_KEY, JSON.stringify(b));
-    else localStorage.removeItem(VERIFY_KEY);
+    if (b) localStorage.setItem(VERIFY_KEY, JSON.stringify(b));else
+    localStorage.removeItem(VERIFY_KEY);
   };
   const scrollToVerify = () => {
-    const el = document.getElementById("verify");
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("verify")?.scrollIntoView({ behavior: "smooth", block: "center" });
     toast({ title: "Verify first", description: "Enter your WePlay ID & Name to unlock Buy Now." });
   };
 
-  const [showSplash, setShowSplash] = useState(() => {
-    const seen = sessionStorage.getItem("lw_splash_seen");
-    return !seen;
-  });
-  const [splashDone, setSplashDone] = useState(false);
-
+  const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem("lw_splash_seen"));
 
   useEffect(() => {
     if (showSplash) {
@@ -544,307 +440,180 @@ const Index = () => {
 
   return (
     <>
-    <SplashScreen show={showSplash} onComplete={() => setSplashDone(true)} />
+    <SplashScreen show={showSplash} onComplete={() => {}} />
     <div className={`min-h-screen bg-background text-foreground antialiased overflow-x-hidden ${showSplash ? "overflow-hidden h-screen" : ""}`}>
-      {/* ─── SCROLL PROGRESS BAR ──────────────────────────── */}
+      {/* scroll progress */}
       <motion.div
         aria-hidden
         style={{ scaleX: progressScale, transformOrigin: "0% 50%" }}
-        className="fixed top-0 left-0 right-0 h-[3px] z-[80] bg-gradient-to-r from-primary via-accent to-primary shadow-[0_0_12px_hsl(var(--primary)/0.6)] pointer-events-none"
-      />
+        className="fixed top-0 left-0 right-0 h-[3px] z-[80] bg-gradient-to-r from-primary via-primary-glow to-accent pointer-events-none" />
 
-      {/* ─── 0. DAILY COUNTDOWN BAR ───────────────────────── */}
       <DailyCountdownBar />
 
-
-      {/* ─── 1. PREMIUM STICKY HEADER ─────────────────────── */}
+      {/* ─── HEADER ───────────────────────────────────────── */}
       <motion.nav
-        initial={{ y: -40, opacity: 0 }}
+        initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="sticky top-[44px] md:top-[56px] z-50 bg-background/75 backdrop-blur-2xl border-b border-border/40">
+        transition={{ duration: 0.8, ease: EASE }}
+        className="sticky top-[44px] md:top-[56px] z-50 bg-background/80 backdrop-blur-2xl border-b border-border/60">
 
-        <div className="relative max-w-7xl mx-auto px-4 md:px-6 h-[84px] md:h-[110px] grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-          {/* left: nav links (desktop) */}
+        <div className="relative max-w-7xl mx-auto px-4 md:px-6 h-[80px] md:h-[104px] grid grid-cols-[1fr_auto_1fr] items-center gap-2">
           <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-muted-foreground justify-start">
             {[
-            { label: "Products", href: "#products" },
+            { label: "Packages", href: "#products" },
             { label: "Partners", href: "#partners" },
             { label: "How It Works", href: "#how-it-works" }].
             map((item) =>
-            <motion.a
-              key={item.label}
-              href={item.href}
-              className="relative hover:text-primary transition-colors duration-300"
-              whileHover={{ y: -1 }}>
-
+            <a key={item.label} href={item.href} className="relative group hover:text-foreground transition-colors duration-300">
                 {item.label}
-                <motion.span
-                className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full origin-left"
-                initial={{ scaleX: 0 }}
-                whileHover={{ scaleX: 1 }}
-                transition={{ duration: 0.2 }} />
-
-              </motion.a>
+                <span className="absolute -bottom-1.5 left-0 h-[2px] w-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full bg-primary" />
+              </a>
             )}
           </div>
           <div className="md:hidden" />
 
-          {/* center: big logo */}
           <motion.div
             className="absolute inset-x-0 mx-auto w-fit md:static md:mx-0 flex items-center justify-center"
-            initial={{ opacity: 0, scale: 0.85, y: -8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}>
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, ease: EASE, delay: 0.1 }}>
             <motion.div
               aria-hidden
               className="absolute inset-0 -m-6 rounded-full blur-2xl pointer-events-none"
-              style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.22), transparent 70%)" }}
-              animate={{ opacity: [0.35, 0.75, 0.35], scale: [0.95, 1.08, 0.95] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.img
-              src="https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png"
-              alt="Lowest Weplay — Official WePlay CC top-up store"
-              className="relative w-[170px] md:w-[260px] h-auto object-contain drop-shadow-[0_6px_18px_hsl(var(--primary)/0.25)]"
-              whileHover={{ scale: 1.06 }}
-              transition={{ type: "spring", stiffness: 320, damping: 18 }} />
+              style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.2), transparent 70%)" }}
+              animate={{ opacity: [0.35, 0.7, 0.35], scale: [0.95, 1.08, 0.95] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} />
+            <img
+              src={LOGO}
+              alt="Lowest Weplay — official WePlay CC top-up store"
+              className="relative w-[165px] md:w-[250px] h-auto object-contain" />
           </motion.div>
 
-          {/* right: trust badge */}
-          <div className="hidden md:flex items-center justify-end">
-            <motion.span
-              className="flex items-center gap-1.5 text-accent font-bold text-[10px] md:text-xs px-3 py-1.5 rounded-full bg-accent/8 border border-accent/15 whitespace-nowrap"
-              animate={{
-                boxShadow: [
-                "0 0 0px hsl(var(--accent)/0)",
-                "0 0 16px hsl(var(--accent)/0.2)",
-                "0 0 0px hsl(var(--accent)/0)"]
-
-              }}
-              transition={{ duration: 2.5, repeat: Infinity }}>
-
+          <div className="hidden md:flex items-center justify-end gap-3">
+            <span className="flex items-center gap-1.5 text-accent font-bold text-xs px-3 py-2 rounded-full bg-accent/8 border border-accent/15 whitespace-nowrap">
               <ShieldCheck size={13} /> ID Safe
-            </motion.span>
+            </span>
+            <a href="#products" className="inline-flex items-center gap-1.5 text-primary-foreground font-extrabold text-xs uppercase tracking-[0.12em] px-5 py-2.5 rounded-full shadow-primary hover:-translate-y-0.5 transition-transform"
+              style={{ background: "var(--gradient-primary)" }}>
+              Top-up <ArrowRight size={13} />
+            </a>
           </div>
         </div>
-
       </motion.nav>
 
-      {/* ─── PREMIUM HERO ─────────────────────────────────── */}
-      <motion.header
-        style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
-        className="relative pt-8 md:pt-20 pb-14 md:pb-32 px-4 md:px-6 overflow-hidden">
-        
-        {/* Layered light background */}
+      {/* ─── HERO ─────────────────────────────────────────── */}
+      <header className="relative pt-12 md:pt-24 pb-16 md:pb-28 px-4 md:px-6 overflow-hidden">
         <div className="absolute inset-0 bg-mesh" />
-        <div className="absolute inset-0 bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
-        <div className="absolute inset-0 bg-noise opacity-[0.35] pointer-events-none mix-blend-overlay" />
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full pointer-events-none animate-aurora"
-          style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.14), transparent 60%)" }} />
-        <div className="absolute top-40 -right-40 w-[500px] h-[500px] rounded-full pointer-events-none animate-aurora"
-          style={{ background: "radial-gradient(circle, hsl(var(--primary-glow)/0.16), transparent 65%)", animationDelay: "-6s" }} />
-        <div className="absolute bottom-0 -left-32 w-[420px] h-[420px] rounded-full pointer-events-none animate-aurora"
-          style={{ background: "radial-gradient(circle, hsl(var(--accent)/0.10), transparent 65%)", animationDelay: "-12s" }} />
+        <div className="absolute inset-0 bg-grid opacity-70 [mask-image:radial-gradient(ellipse_at_top,black_10%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-noise opacity-40 pointer-events-none mix-blend-overlay" />
+        <div className="absolute -top-52 left-1/2 -translate-x-1/2 w-[820px] h-[820px] rounded-full pointer-events-none animate-aurora"
+          style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.16), transparent 62%)" }} />
+        <div className="absolute top-28 -right-40 w-[440px] h-[440px] rounded-full pointer-events-none animate-aurora"
+          style={{ background: "radial-gradient(circle, hsl(var(--primary-glow)/0.16), transparent 65%)", animationDelay: "-7s" }} />
 
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          {/* Badge */}
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full glass text-[10px] md:text-xs font-semibold mb-6 md:mb-10 shadow-card">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[9px] md:text-[10px] font-bold uppercase tracking-wider">
-              <Crown size={11} /> Official
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="inline-flex items-center gap-2 pl-1.5 pr-3.5 py-1.5 rounded-full glass shadow-card text-[10px] md:text-xs font-semibold">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-foreground text-background text-[9px] md:text-[10px] font-extrabold uppercase tracking-[0.14em]">
+              <Crown size={10} /> Official
             </span>
             <span className="text-muted-foreground">WePlay CC Top-up Partner</span>
-            <span className="w-1 h-1 rounded-full bg-accent animate-pulse" />
-            <span className="text-accent font-bold">Live</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+            <span className="text-accent font-extrabold">Live</span>
           </motion.div>
 
-          {/* Main heading */}
-          <div className="mb-5 md:mb-7">
-            <motion.h1
-              className="text-[2.2rem] leading-[1.08] md:text-7xl lg:text-[5.5rem] font-display tracking-tight">
-              
-              <motion.span
-                initial={{ opacity: 0, y: 70, rotateX: 45 }}
-                animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="inline-block">
-                
-                Get More.
+          <h1 className="mt-6 md:mt-9 text-[2.6rem] leading-[0.98] md:text-[5.2rem] font-display text-foreground">
+            {["Get More.", "Pay Less."].map((line, i) =>
+            <motion.span
+              key={line}
+              initial={{ opacity: 0, y: 34, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.85, delay: 0.12 + i * 0.14, ease: EASE }}
+              className={`block ${i === 1 ? "text-gradient" : ""}`}>
+                {line}
               </motion.span>
-              <br className="md:hidden" />
-              {" "}
-              <motion.span
-                initial={{ opacity: 0, y: 70, rotateX: 45 }}
-                animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                className="inline-block relative">
-                
-                <span className="relative">
-                  <span className="text-gradient">
-                    Pay Less.
-                  </span>
-                  <motion.span
-                    className="absolute -bottom-1.5 md:-bottom-2.5 left-0 right-0 h-[3px] md:h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full"
-                    initial={{ scaleX: 0, opacity: 0 }}
-                    animate={{ scaleX: 1, opacity: 1 }}
-                    transition={{ duration: 1.2, delay: 1, ease: [0.22, 1, 0.36, 1] }} />
-                  
-                </span>
-              </motion.span>
-            </motion.h1>
-          </div>
+            )}
+          </h1>
 
-          {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.8, delay: 0.45 }}
-            className="text-muted-foreground text-xs md:text-lg max-w-sm md:max-w-xl mx-auto mb-7 md:mb-12 leading-relaxed px-2">
-            
-            India's most trusted Weplay CC topup service. Guaranteed ID safety, instant delivery & best prices.
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.45, ease: EASE }}
+            className="text-muted-foreground text-[13.5px] md:text-lg max-w-[19rem] md:max-w-xl mx-auto mt-5 md:mt-7 leading-relaxed">
+            India's most trusted WePlay CC top-up service — guaranteed ID safety, instant delivery and the lowest prices.
           </motion.p>
 
-          {/* CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 px-2">
-            
-            <motion.a
+            transition={{ duration: 0.75, delay: 0.58, ease: EASE }}
+            className="mt-8 md:mt-11 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            <a
               href="#products"
-              whileHover={{ scale: 1.06, y: -6 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto px-10 py-4 md:px-12 md:py-5 bg-gradient-to-r from-primary to-[hsl(244,80%,65%)] text-primary-foreground rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group active:scale-95"
-              style={{ boxShadow: "var(--shadow-primary), 0 0 40px hsl(244 63% 58% / 0.15)" }}>
-              
-              {/* Shimmer sweep */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-foreground/15 to-transparent skew-x-[-20deg]"
-                initial={{ x: "-150%" }}
-                animate={{ x: "250%" }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }} />
-              
-              {/* Glow ring on hover */}
-              <motion.div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{ boxShadow: "inset 0 0 20px hsl(244 63% 80% / 0.3), 0 0 30px hsl(244 63% 58% / 0.25)" }} />
-
-              <span className="relative z-10 flex items-center gap-2.5">
-                <Sparkles size={15} className="group-hover:rotate-12 transition-transform duration-300" />
-                Browse Packages
-                <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-300" />
-              </span>
-            </motion.a>
-
-            <motion.a
+              className="group relative w-full sm:w-auto overflow-hidden px-9 py-4 md:px-11 md:py-5 rounded-2xl text-primary-foreground font-extrabold text-[13px] md:text-sm flex items-center justify-center gap-2.5 active:scale-[0.97] transition-transform hover:-translate-y-1"
+              style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
+              <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-primary-foreground/25 blur-md animate-shine" />
+              <Sparkles size={16} className="relative z-10" />
+              <span className="relative z-10">Browse Packages</span>
+              <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1.5 transition-transform duration-300" />
+            </a>
+            <a
               href="#how-it-works"
-              whileHover={{ scale: 1.06, y: -6 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto px-10 py-4 md:px-12 md:py-5 bg-card/60 backdrop-blur-xl text-foreground rounded-2xl font-bold text-sm border border-border/50 flex items-center justify-center gap-2.5 transition-all duration-300 relative overflow-hidden group hover:border-primary/30 active:scale-95"
-              style={{ boxShadow: "var(--shadow-card)" }}>
-              
-              {/* Subtle border glow on hover */}
-              <motion.div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{ boxShadow: "inset 0 0 15px hsl(244 63% 58% / 0.06)" }} />
-
-              <span className="relative z-10 flex items-center gap-2">
-                How It Works
-                <ArrowRight size={15} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-              </span>
-            </motion.a>
+              className="w-full sm:w-auto px-9 py-4 md:px-11 md:py-5 rounded-2xl bg-card text-foreground font-extrabold text-[13px] md:text-sm border border-border flex items-center justify-center gap-2 shadow-card hover:border-primary/30 hover:-translate-y-1 active:scale-[0.97] transition-all">
+              <PlayCircle size={16} className="text-primary" /> How It Works
+            </a>
           </motion.div>
 
-          {/* Stats row */}
+          {/* stat strip */}
           <motion.div
-            initial={{ opacity: 0, y: 35, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 md:mt-20 inline-flex items-center gap-4 md:gap-10 px-5 md:px-12 py-4 md:py-6 rounded-3xl bg-card/50 backdrop-blur-2xl border border-border/40"
-            style={{ boxShadow: "0 20px 50px -15px rgb(0 0 0 / 0.06)" }}>
-            
-            <AnimatedStat value="10K+" label="Customers" delay={1.0} />
-            <div className="w-px h-9 bg-border/50" />
-            <AnimatedStat value="₹50L+" label="Delivered" delay={1.1} />
-            <div className="w-px h-9 bg-border/50" />
-            <AnimatedStat value="4.9★" label="Rating" delay={1.2} />
-          </motion.div>
-        </div>
-      </motion.header>
-
-      {/* ─── 2. TRUST BADGES ──────────────────────────────── */}
-      <section className="py-8 md:py-14 px-4 md:px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="glass rounded-3xl p-2 md:p-3 shadow-elevated">
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-1.5 md:gap-2">
-              {TRUST_BADGES.map((badge, i) =>
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -2 }}
-                className="group relative flex items-center gap-3 p-3 md:p-4 rounded-2xl hover:bg-secondary/70 transition-colors duration-300">
-                <div className="flex-shrink-0 w-9 h-9 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 text-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  {badge.icon}
-                </div>
-                <div className="flex flex-col min-w-0">
-                  <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">{badge.label}</span>
-                  <span className="text-xs md:text-sm font-extrabold text-foreground truncate">{badge.val}</span>
-                </div>
-              </motion.div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ─── 3. PARTNERS CAROUSEL ─────────────────────────── */}
-      <section id="partners" className="py-14 md:py-20 overflow-hidden">
-        <SectionHeading title="Top Partners" subtitle="Trusted by the biggest names in the community" />
-        <div className="relative mask-fade-x">
-          <div className="flex gap-5 animate-scroll-left whitespace-nowrap will-change-transform">
-            {[...PARTNERS, ...PARTNERS].map((src, i) =>
-            <div key={i} className="flex-shrink-0 h-72 w-56 md:h-80 md:w-64 rounded-3xl overflow-hidden bg-card p-1.5 hover:scale-[1.03] transition-transform duration-500 shadow-card border border-border/60">
-                <img src={src} alt="Partner" className="w-full h-full object-cover rounded-2xl" />
+            initial={{ opacity: 0, y: 26 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.75, ease: EASE }}
+            className="mt-10 md:mt-16 grid grid-cols-3 max-w-md md:max-w-xl mx-auto rounded-3xl glass shadow-card overflow-hidden">
+            {[{ v: "10K+", l: "Customers" }, { v: "₹50L+", l: "Delivered" }, { v: "4.9★", l: "Rating" }].map((s, i) =>
+            <div key={s.l} className={`py-4 md:py-6 px-2 text-center ${i < 2 ? "border-r border-border/70" : ""}`}>
+                <div className="text-lg md:text-3xl font-display text-foreground">{s.v}</div>
+                <div className="text-[9px] md:text-[11px] text-muted-foreground uppercase tracking-[0.16em] mt-1">{s.l}</div>
               </div>
             )}
-          </div>
+          </motion.div>
+        </div>
+      </header>
+
+      {/* ─── TRUST STRIP ──────────────────────────────────── */}
+      <section className="px-4 md:px-6 pb-4">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-2.5 md:gap-3">
+          {TRUST_BADGES.map((b, i) =>
+          <Reveal key={b.label} delay={i * 0.06} y={16} className={i === 4 ? "col-span-2 md:col-span-1" : ""}>
+              <div className="h-full card-premium rounded-2xl px-3.5 py-3.5 md:px-4 md:py-4 flex items-center gap-3">
+                <span className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-xl bg-primary/8 text-primary flex items-center justify-center">
+                  {b.icon}
+                </span>
+                <div className="min-w-0">
+                  <div className="text-[8.5px] md:text-[9.5px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">{b.label}</div>
+                  <div className="text-[12px] md:text-[13.5px] font-extrabold text-foreground truncate">{b.val}</div>
+                </div>
+              </div>
+            </Reveal>
+          )}
         </div>
       </section>
 
-      {/* ─── 4. PRODUCTS ──────────────────────────────────── */}
+      {/* ─── VERIFICATION ─────────────────────────────────── */}
       <VerificationPanel buyer={buyer} onVerified={persistBuyer} />
 
-      <section id="products" className="py-20 md:py-32 px-4 md:px-6 relative overflow-hidden">
-        {/* Section background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/80 via-secondary to-secondary/80" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-
+      {/* ─── PRODUCTS ─────────────────────────────────────── */}
+      <section id="products" className="relative py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
         <div className="max-w-7xl mx-auto relative z-10">
-          <FadeIn className="mb-14 md:mb-20 text-center">
-            <motion.span
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/6 border border-primary/12 text-primary text-[10px] font-bold mb-4 md:mb-5">
-              
-              <Sparkles size={12} /> PREMIUM PACKAGES
-            </motion.span>
-            <h2 className="text-3xl md:text-5xl font-display text-foreground">
-              Choose Your <span className="text-primary">Package</span>
-            </h2>
-            <p className="text-muted-foreground mt-3 md:mt-4 text-sm md:text-base max-w-lg mx-auto">Select your desired coin amount and proceed to secure checkout</p>
-          </FadeIn>
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-7">
+          <SectionHeading
+            eyebrow="Premium Packages"
+            title="Choose Your"
+            highlight="Package"
+            subtitle="Pick a coin bundle and pay securely — coins are credited within minutes." />
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
             {PRODUCTS.map((product, i) =>
             <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} />
             )}
@@ -852,161 +621,177 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ─── 5. YOUTUBE VIDEO ─────────────────────────────── */}
-      <section className="py-16 md:py-24 px-4 md:px-6">
+      {/* ─── PARTNERS ─────────────────────────────────────── */}
+      <section id="partners" className="py-14 md:py-24 overflow-hidden bg-secondary/60 border-y border-border/70 scroll-mt-36">
+        <div className="px-4 md:px-6">
+          <SectionHeading
+            eyebrow="Community"
+            title="Our Top"
+            highlight="Partners"
+            subtitle="Trusted by the biggest creators and clans in the WePlay community." />
+        </div>
+        <div className="relative mask-fade-x">
+          <div className="flex gap-4 md:gap-5 animate-scroll-left whitespace-nowrap will-change-transform">
+            {[...PARTNERS, ...PARTNERS].map((src, i) =>
+            <div key={i} className="flex-shrink-0 h-60 w-44 md:h-80 md:w-64 rounded-3xl overflow-hidden bg-card p-1.5 border border-border shadow-card hover:scale-[1.03] transition-transform duration-500">
+                <img src={src} alt="Partner creator" loading="lazy" className="w-full h-full object-cover rounded-[1.25rem]" />
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── HOW IT WORKS ─────────────────────────────────── */}
+      <section id="how-it-works" className="py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
+        <div className="max-w-6xl mx-auto">
+          <SectionHeading
+            eyebrow="Process"
+            title="How It"
+            highlight="Works"
+            subtitle="Four simple steps from picking a pack to playing with your coins." />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 md:gap-5">
+            {STEPS.map((step, i) =>
+            <Reveal key={step.title} delay={i * 0.08}>
+                <div className="group relative h-full card-premium rounded-3xl p-5 md:p-6 overflow-hidden">
+                  <span aria-hidden className="absolute -top-5 right-1 text-[5.5rem] font-display text-primary/[0.07] leading-none select-none pointer-events-none">
+                    {i + 1}
+                  </span>
+                  <div className="relative inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/8 text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
+                    {step.icon}
+                  </div>
+                  <div className="relative text-[9.5px] font-extrabold text-muted-foreground uppercase tracking-[0.2em] mb-1.5">Step {i + 1}</div>
+                  <h3 className="relative text-[15px] md:text-base font-extrabold text-foreground mb-1.5">{step.title}</h3>
+                  <p className="relative text-muted-foreground text-[12.5px] md:text-sm leading-relaxed">{step.desc}</p>
+                </div>
+              </Reveal>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── ID SAFE ──────────────────────────────────────── */}
+      <section className="py-6 md:py-10 px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
-          <SectionHeading title="Watch Demo" subtitle="See how easy and fast the topup process is" />
-          <FadeIn>
-            <div
-              className="aspect-video rounded-2xl overflow-hidden border border-border bg-card"
-              style={{ boxShadow: "var(--shadow-elevated)" }}>
-              
+          <Reveal>
+            <div className="relative overflow-hidden rounded-[1.75rem] md:rounded-[2.25rem] px-6 py-10 md:px-14 md:py-14 text-center text-primary-foreground"
+              style={{ background: "linear-gradient(135deg, #14133B 0%, #3B32C4 55%, #6D5BF5 100%)" }}>
+              <div className="absolute inset-0 bg-grid opacity-[0.12]" />
+              <motion.div
+                aria-hidden
+                className="absolute -top-24 left-1/4 w-72 h-72 rounded-full blur-3xl pointer-events-none"
+                style={{ background: "rgba(255,255,255,0.16)" }}
+                animate={{ x: [-40, 60, -40], opacity: [0.3, 0.55, 0.3] }}
+                transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }} />
+
+              <div className="relative">
+                <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-foreground/12 border border-primary-foreground/20 mb-5">
+                  <ShieldCheck size={26} />
+                </span>
+                <h2 className="text-2xl md:text-4xl font-display">ID Safe Guarantee</h2>
+                <p className="text-primary-foreground/75 max-w-xl mx-auto mt-4 text-[13.5px] md:text-base leading-relaxed">
+                  Your WePlay account is 100% safe. We're an official top-up partner using secure payment gateways — no password required, only your Player ID.
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-2.5 mt-7">
+                  {["No Password Needed", "Official Partner", "Instant Refund Policy"].map((item) =>
+                  <span key={item} className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-primary-foreground/10 border border-primary-foreground/15 text-[11.5px] md:text-[13px] font-bold">
+                      <CheckCircle2 size={14} /> {item}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ─── DEMO VIDEO ───────────────────────────────────── */}
+      <section className="py-14 md:py-24 px-4 md:px-6">
+        <div className="max-w-4xl mx-auto">
+          <SectionHeading
+            eyebrow="Walkthrough"
+            title="Watch The"
+            highlight="Demo"
+            subtitle="See how fast and simple the top-up process really is." />
+          <Reveal>
+            <div className="aspect-video rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border border-border bg-card shadow-elevated">
               <iframe
                 width="100%"
                 height="100%"
                 src="https://www.youtube.com/embed/wGYGm31bhZM"
-                title="YouTube video player"
-                frameBorder="0"
+                title="Lowest Weplay top-up demo"
+                loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen />
-              
             </div>
-          </FadeIn>
+          </Reveal>
         </div>
       </section>
 
-      {/* ─── 6. ID SAFE GUARANTEE ─────────────────────────── */}
-      <section className="py-14 md:py-20 px-4 md:px-6">
-        <div className="max-w-3xl mx-auto">
-          <FadeIn>
-            <div className="relative bg-card rounded-2xl border border-primary/15 p-8 md:p-12 text-center animate-gentle-glow">
-              <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground rounded-full p-3">
-                <ShieldCheck size={24} />
-              </div>
-              <h2 className="text-2xl md:text-3xl font-display text-foreground mt-4 mb-4">
-                ID Safe <span className="text-primary">Guarantee</span>
-              </h2>
-              <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed">
-                Your WePlay account ID is 100% safe with us. We are an official topup partner and use secure payment gateways. No password required — only your Player ID.
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-4 mt-8 text-sm font-semibold text-foreground">
-                {["No Password Needed", "Official Partner", "Instant Refund Policy"].map((item) =>
-                <span key={item} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent/8 text-accent border border-accent/15">
-                    <CheckCircle2 size={14} /> {item}
-                  </span>
-                )}
-              </div>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ─── 7. HOW IT WORKS ──────────────────────────────── */}
-      <section id="how-it-works" className="py-16 md:py-24 px-4 md:px-6 bg-secondary">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeading title="How It Works" subtitle="Get your coins in 4 simple steps" />
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 [perspective:1400px]">
-            {STEPS.map((step, i) =>
-            <FadeIn key={i} delay={i * 0.1} className="relative">
-                <motion.div
-                initial={{ opacity: 0, y: 40, rotateX: -18 }}
-                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -8, rotateX: 6, rotateY: -4, transition: { duration: 0.25 } }}
-                className="group relative bg-card rounded-2xl border border-border p-6 text-center h-full hover:border-primary/30 transition-colors duration-300 [transform-style:preserve-3d] overflow-hidden"
-                style={{ boxShadow: "0 12px 34px -14px rgba(79,70,229,0.2), 0 2px 6px rgba(0,0,0,0.04)" }}>
-
-                  {/* Step number watermark */}
-                  <span aria-hidden className="absolute -top-4 -right-2 text-[6rem] font-display text-primary/[0.06] leading-none select-none pointer-events-none [transform:translateZ(0)]">
-                    {i + 1}
-                  </span>
-                  {/* Gradient glow on hover */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/8 via-transparent to-accent/8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                  <div className="relative inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 text-primary mb-4 [transform:translateZ(30px)] group-hover:scale-110 group-hover:shadow-[0_10px_25px_-8px_hsl(var(--primary)/0.5)] transition-all duration-300" style={{ animation: `step-bounce 3s ease-in-out ${i * 0.5}s infinite` }}>
-                    {step.icon}
-                  </div>
-                  <div className="relative text-xs font-bold text-muted-foreground mb-2 uppercase tracking-widest">Step {i + 1}</div>
-                  <h3 className="relative text-base font-bold text-foreground mb-2">{step.title}</h3>
-                  <p className="relative text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
-                </motion.div>
-                {i < 3 &&
-              <motion.div
-                animate={{ x: [0, 4, 0], opacity: [0.4, 0.9, 0.4] }}
-                transition={{ duration: 2, repeat: Infinity, delay: i * 0.3, ease: "easeInOut" }}
-                className="hidden md:block absolute top-1/2 -right-3 text-primary/50">
-                    <ArrowRight size={18} />
-                  </motion.div>
-              }
-              </FadeIn>
+      {/* ─── REVIEWS ──────────────────────────────────────── */}
+      <section className="py-14 md:py-24 px-4 md:px-6 bg-secondary/60 border-y border-border/70">
+        <div className="max-w-6xl mx-auto">
+          <SectionHeading
+            eyebrow="Reviews"
+            title="Loved By"
+            highlight="Gamers"
+            subtitle="Real feedback from players who top-up with us every day." />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 md:gap-5">
+            {REVIEWS.map((review, i) =>
+            <Reveal key={review.name} delay={Math.min(i, 6) * 0.05}>
+                <figure className="h-full card-premium rounded-3xl p-5 flex flex-col">
+                  <div className="text-amber-400 text-sm mb-2.5" aria-label="5 star rating">★★★★★</div>
+                  <blockquote className="text-foreground text-[13px] md:text-sm leading-relaxed flex-grow">"{review.text}"</blockquote>
+                  <figcaption className="flex items-center gap-2.5 mt-4 pt-4 border-t border-border/70">
+                    <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-extrabold">
+                      {review.name.charAt(0)}
+                    </span>
+                    <span className="text-[12.5px] font-bold text-foreground">{review.name}</span>
+                    <span className="ml-auto inline-flex items-center gap-1 text-accent text-[10px] font-extrabold">
+                      <CheckCircle2 size={12} /> Verified
+                    </span>
+                  </figcaption>
+                </figure>
+              </Reveal>
             )}
           </div>
-
         </div>
       </section>
 
-      {/* ─── CUSTOMER REVIEWS ────────────────────────────── */}
-      <section className="py-16 px-4 md:px-6 bg-secondary/50">
-        <div className="max-w-6xl mx-auto">
-          <SectionHeading title="Customer Reviews" subtitle="Real feedback from our happy gamers" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 [perspective:1400px]">
-            {[
-              { name: "Rahul", text: "Very nice this website is very good for your weplay life dont wast your money come hare and enjoy" },
-              { name: "Ankit G", text: "Maine 50K RED PACKET liya tha. Payment ke baad 10 minute tak kuch nahi aaya toh thoda tension hua. Phir support se baat ki aur 2 minute mein coins aa gaye. Good service" },
-              { name: "Eren R", text: "Bhai kya mst website hai phle trust nhi hua tha but ab roj topup karta hu yahi se" },
-              { name: "Deepak Kumar", text: "Pehle lag raha tha scam hoga kyunki ID maang rahe the. But unhone bola sirf ID chahiye password nahi. Safe hai bhai" },
-              { name: "Neha Jhaal", text: "Raat 1 baje order kiya tha, socha tha kal subah tak wait karna padega coins aa gaye. Thoda slow tha par aa gaya. Trusted website hai" },
-              { name: "Amit Tiwari", text: "Sabse sasta recharge yahi mila. Ab yahi se lunga hamesha." },
-              { name: "Rohit Yadav", text: "Bhai pehle dar lag raha tha par 2 min mein recharge aa gaya. Highly recommended!" },
-              { name: "Sneha", text: "Best experience, trusted hai guys go for it" },
-              { name: "Akash007", text: "Legit site hai, coins turant credit ho gaye account mein." },
-              { name: "Priya S", text: "ID dalte time dar lag raha tha, support se baat ki unhone bola 100% safe hai. Maine try kiya aur 5 minute mein coins aa gaye. Achi website hai, trusted hai." },
-            ].map((review, i) => (
-              <FadeIn key={i} delay={i * 0.05}>
-                <motion.div
-                  whileHover={{ y: -6, rotateX: 4, rotateY: -3, transition: { type: "spring", stiffness: 300 } }}
-                  className="group relative bg-card rounded-2xl border border-border p-5 h-full transition-colors duration-300 hover:border-primary/30 [transform-style:preserve-3d]"
-                  style={{ boxShadow: "0 10px 28px -14px rgba(79,70,229,0.18), 0 2px 6px rgba(0,0,0,0.04)" }}>
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                  <div className="relative text-amber-400 text-sm mb-2">⭐⭐⭐⭐</div>
-                  <p className="relative text-foreground text-sm leading-relaxed mb-3">"{review.text}"</p>
-                  <div className="relative flex items-center gap-2 flex-wrap">
-                    <p className="text-muted-foreground text-xs font-semibold">— {review.name}</p>
-                    <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
-                      <svg className="w-3 h-3" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.403 12.652a3 3 0 010-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" /></svg>
-                      Verified Purchase
-                    </span>
-                  </div>
-                </motion.div>
-              </FadeIn>
-
-            ))}
-          </div>
-        </div>
+      {/* ─── FINAL CTA ────────────────────────────────────── */}
+      <section className="py-16 md:py-24 px-4 md:px-6 text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-mesh" />
+        <Reveal className="relative max-w-2xl mx-auto">
+          <h2 className="text-[1.9rem] leading-tight md:text-5xl font-display text-foreground">
+            Ready to <span className="text-gradient">top-up?</span>
+          </h2>
+          <p className="text-muted-foreground mt-3 text-[13.5px] md:text-base">Verify once, then grab any pack at up to 70% off.</p>
+          <a
+            href="#products"
+            className="group relative inline-flex overflow-hidden mt-7 px-10 py-4 md:px-12 md:py-5 rounded-2xl text-primary-foreground font-extrabold text-[13px] md:text-sm items-center justify-center gap-2.5 active:scale-[0.97] hover:-translate-y-1 transition-transform"
+            style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
+            <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-primary-foreground/25 blur-md animate-shine" />
+            <span className="relative z-10">Get My Coins</span>
+            <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1.5 transition-transform duration-300" />
+          </a>
+        </Reveal>
       </section>
 
-      {/* ─── 8. PREMIUM FOOTER ────────────────────────────── */}
+      {/* ─── FOOTER ───────────────────────────────────────── */}
       <footer className="py-12 px-4 md:px-6 border-t border-border bg-card">
         <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
-            <img
-              src="https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png"
-              alt="Lowest Weplay"
-              className="w-[100px] h-auto opacity-60" />
-            
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
-              <Link to="/refund-policy" className="hover:text-primary transition-colors duration-200">Refund Policy</Link>
-              <Link to="/privacy-policy" className="hover:text-primary transition-colors duration-200">Privacy Policy</Link>
-              <Link to="/terms-of-service" className="hover:text-primary transition-colors duration-200">Terms of Service</Link>
-              <Link to="/contact" className="hover:text-primary transition-colors duration-200">Contact Us</Link>
-            </div>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-7 mb-8">
+            <img src={LOGO} alt="Lowest Weplay" loading="lazy" className="w-[130px] h-auto opacity-70" />
+            <nav className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-[13px] text-muted-foreground">
+              <Link to="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</Link>
+              <Link to="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+              <Link to="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link>
+              <Link to="/contact" className="hover:text-primary transition-colors">Contact Us</Link>
+            </nav>
           </div>
-          <div className="border-t border-border pt-6 text-center">
-            <p className="text-muted-foreground text-xs">
-              © {new Date().getFullYear()} Lowest Weplay. All rights reserved. Official Partner.
-            </p>
-          </div>
+          <div className="divider-fade mb-6" />
+          <p className="text-muted-foreground text-[11.5px] text-center">
+            © {new Date().getFullYear()} Lowest Weplay. All rights reserved. Official WePlay CC top-up partner.
+          </p>
         </div>
       </footer>
     </div>
