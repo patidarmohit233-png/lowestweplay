@@ -7,6 +7,8 @@ import {
   Sparkles, Star, Crown, Flame, UserCheck, Loader2, Pencil, PlayCircle } from
 "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
+import PaymentModal from "@/components/PaymentModal";
+
 import Seo, { SITE_URL } from "@/components/Seo";
 import { PRODUCTS as ALL_PRODUCTS, FAQS } from "@/data/products";
 import { supabase } from "@/integrations/supabase/client";
@@ -107,37 +109,21 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
 }
 
 /* ── Product Card ─────────────────────────────────────── */
-function ProductCard({ product, index, buyer, onRequireVerify }: { product: typeof PRODUCTS[0]; index: number; buyer: VerifiedBuyer | null; onRequireVerify: () => void }) {
+function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { product: typeof PRODUCTS[0]; index: number; buyer: VerifiedBuyer | null; onRequireVerify: () => void; onBuy: (p: typeof PRODUCTS[0]) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
   const badge = PRODUCT_BADGES[product.id];
   const discount = Math.round((1 - product.price / product.mrp) * 100);
-  const [buying, setBuying] = useState(false);
+  const [buying] = useState(false);
 
-  const handleBuy = async () => {
+  const handleBuy = () => {
     if (!buyer) {
       onRequireVerify();
       return;
     }
-    setBuying(true);
-    const { error } = await supabase.from("orders").insert({
-      weplay_id: buyer.weplay_id,
-      weplay_name: buyer.weplay_name,
-      email: "",
-      phone: null,
-      product_id: String(product.id),
-      product_name: product.name,
-      price: product.price,
-      status: "pending"
-    });
-    setBuying(false);
-    if (error) {
-      toast({ title: "Could not start order", description: error.message, variant: "destructive" });
-      return;
-    }
-    window.open(product.link, "_blank", "noopener,noreferrer");
-    toast({ title: "Order created", description: "Complete payment in the new tab. Coins credit within minutes." });
+    onBuy(product);
   };
+
 
   return (
     <motion.article
@@ -299,7 +285,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [editing, setEditing] = useState(!buyer);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = verifySchema.safeParse(form);
     if (!parsed.success) {
@@ -309,10 +295,19 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
       return;
     }
     setErrors({});
+    const { error } = await supabase.rpc("upsert_customer", {
+      p_weplay_id: parsed.data.weplay_id,
+      p_weplay_name: parsed.data.weplay_name
+    });
+    if (error) {
+      toast({ title: "Verification failed", description: error.message, variant: "destructive" });
+      return;
+    }
     onVerified(parsed.data as VerifiedBuyer);
     setEditing(false);
-    toast({ title: "Verified ✓", description: "You can now top-up any package." });
+    toast({ title: "Verified ✓", description: "Your WePlay ID is now your customer ID." });
   };
+
 
   return (
     <section id="verify" className="px-4 md:px-6 pt-10 md:pt-16 relative z-10 scroll-mt-40">
@@ -414,7 +409,10 @@ const Index = () => {
     toast({ title: "Verify first", description: "Enter your WePlay ID & Name to unlock Buy Now." });
   };
 
+  const [payFor, setPayFor] = useState<typeof PRODUCTS[0] | null>(null);
+
   const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem("lw_splash_seen"));
+
 
   useEffect(() => {
     if (showSplash) {
@@ -710,7 +708,7 @@ const Index = () => {
                 </div>
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                   {group.items.map((product, i) =>
-                <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} />
+                <ProductCard key={product.id} product={product} index={i} buyer={buyer} onRequireVerify={scrollToVerify} onBuy={setPayFor} />
                 )}
                 </div>
               </div>
@@ -843,6 +841,7 @@ const Index = () => {
               <Link to="/weplay-top-up-price-list" className="hover:text-primary transition-colors">Price List</Link>
               <Link to="/how-to-top-up-weplay" className="hover:text-primary transition-colors">How to Top Up</Link>
               <Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link>
+              <Link to="/track-order" className="hover:text-primary transition-colors">Track Order</Link>
               <Link to="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</Link>
               <Link to="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>
               <Link to="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link>
@@ -856,8 +855,13 @@ const Index = () => {
           </p>
         </div>
       </footer>
+
+      {payFor && buyer &&
+      <PaymentModal product={payFor} buyer={buyer} onClose={() => setPayFor(null)} />
+      }
     </div>
     </>);
+
 
 };
 
