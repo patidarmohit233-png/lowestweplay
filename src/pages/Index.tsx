@@ -293,32 +293,90 @@ function DailyCountdownBar() {
   const pad = (n: number) => String(n).padStart(2, "0");
 
   return (
-    <div
-      className="sticky top-0 z-[60] w-full py-1.5 md:py-2 px-3 flex items-center justify-center gap-1.5 md:gap-2 flex-nowrap text-primary-foreground"
-      style={{
-        background: "linear-gradient(135deg, #4F46E5, #6366F1)",
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-        fontSize: "12px"
-      }}>
-      <span className="font-semibold tracking-wide text-[11px] md:text-[14px] whitespace-nowrap">🔥 70% OFF ENDS IN:</span>
-      <div className="flex items-center gap-1">
-        {[
-        { val: pad(time.h), label: "h" },
-        { val: pad(time.m), label: "m" },
-        { val: pad(time.s), label: "s" }].
-        map((t) =>
-        <span
-          key={t.label}
-          className="inline-flex items-center justify-center min-w-[28px] md:min-w-[32px] px-1 md:px-1.5 py-0.5 rounded-md font-bold text-[11px] md:text-[14px] tabular-nums"
-          style={{ background: "rgba(255,255,255,0.2)" }}>
-            {t.val}{t.label}
-          </span>
-        )}
+    <div className="sticky top-0 z-[60] w-full overflow-hidden text-primary-foreground"
+      style={{ background: "linear-gradient(100deg, #1E1B4B 0%, #4338CA 45%, #6366F1 70%, #1E1B4B 100%)" }}>
+
+      {/* animated shine sweep */}
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.28) 50%, transparent 65%)" }}
+        animate={{ x: ["-120%", "120%"] }}
+        transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.2 }}
+      />
+      {/* soft moving glow */}
+      <motion.div
+        aria-hidden
+        className="absolute -top-8 left-1/4 w-56 h-24 rounded-full blur-2xl pointer-events-none"
+        style={{ background: "rgba(255,255,255,0.22)" }}
+        animate={{ x: [-60, 120, -60], opacity: [0.25, 0.5, 0.25] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      <div className="relative max-w-7xl mx-auto px-3 py-2 md:py-2.5 flex items-center justify-center gap-2 md:gap-3.5 flex-nowrap">
+        <motion.span
+          className="text-base md:text-xl leading-none"
+          animate={{ scale: [1, 1.22, 1], rotate: [0, -8, 8, 0] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}>
+          🔥
+        </motion.span>
+
+        <span className="font-display font-extrabold tracking-tight text-[12px] md:text-[17px] whitespace-nowrap">
+          <span className="text-[#FDE68A]">70% OFF</span>
+          <span className="hidden sm:inline text-primary-foreground/85"> · Mega Sale</span>
+          <span className="text-primary-foreground/70 font-semibold"> ends in</span>
+        </span>
+
+        <div className="flex items-center gap-1 md:gap-1.5">
+          {[
+          { val: pad(time.h), label: "H" },
+          { val: pad(time.m), label: "M" },
+          { val: pad(time.s), label: "S" }].
+          map((t, i) =>
+          <div key={t.label} className="flex items-center gap-1 md:gap-1.5">
+              <div className="relative flex flex-col items-center justify-center min-w-[30px] md:min-w-[42px] px-1 md:px-2 py-1 md:py-1.5 rounded-lg md:rounded-xl border border-primary-foreground/25"
+                style={{ background: "rgba(255,255,255,0.14)", backdropFilter: "blur(6px)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3)" }}>
+                <AnimatePresence mode="popLayout" initial={false}>
+                  <motion.span
+                    key={t.val}
+                    initial={{ y: -12, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 12, opacity: 0 }}
+                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                    className="font-display font-extrabold text-[12px] md:text-[17px] tabular-nums leading-none">
+                    {t.val}
+                  </motion.span>
+                </AnimatePresence>
+                <span className="text-[7px] md:text-[9px] font-bold tracking-widest text-primary-foreground/60 leading-none mt-0.5">{t.label}</span>
+              </div>
+              {i < 2 && <span className="text-primary-foreground/45 font-bold text-[11px] md:text-sm">:</span>}
+            </div>
+          )}
+        </div>
+
+        <motion.a
+          href="#products"
+          className="hidden sm:inline-flex items-center gap-1 text-[10px] md:text-[12px] font-extrabold uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary-foreground text-primary whitespace-nowrap"
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.96 }}
+          animate={{ boxShadow: ["0 0 0 0 rgba(255,255,255,0.5)", "0 0 0 8px rgba(255,255,255,0)"] }}
+          transition={{ boxShadow: { duration: 2, repeat: Infinity } }}>
+          Claim Now <ArrowRight size={12} />
+        </motion.a>
       </div>
-      <span className="text-primary-foreground/70 text-[10px] md:text-xs font-medium hidden sm:inline whitespace-nowrap">• Limited Offer</span>
+
+      {/* bottom progress shimmer line */}
+      <motion.div
+        aria-hidden
+        className="absolute bottom-0 left-0 h-[2px] w-1/3"
+        style={{ background: "linear-gradient(90deg, transparent, #FDE68A, transparent)" }}
+        animate={{ x: ["-100%", "300%"] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+      />
     </div>);
 
 }
+
 
 
 /* ── Verification Panel ────────────────────────────────── */
@@ -504,41 +562,59 @@ const Index = () => {
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="sticky top-[30px] md:top-[36px] z-50 bg-background/70 backdrop-blur-2xl border-b border-border/40">
-        
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-14 md:h-[72px] flex items-center justify-between">
-          <motion.img
-            src="https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png"
-            alt="Lowest Weplay"
-            className="w-[90px] md:w-[150px] h-auto object-contain"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 400 }} />
-          
-          <div className="flex items-center gap-3 md:gap-8">
-            <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-muted-foreground">
-              {[
-              { label: "Products", href: "#products" },
-              { label: "Partners", href: "#partners" },
-              { label: "How It Works", href: "#how-it-works" }].
-              map((item) =>
-              <motion.a
-                key={item.label}
-                href={item.href}
-                className="relative hover:text-primary transition-colors duration-300"
-                whileHover={{ y: -1 }}>
-                
-                  {item.label}
-                  <motion.span
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full origin-left"
-                  initial={{ scaleX: 0 }}
-                  whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.2 }} />
-                
-                </motion.a>
-              )}
-            </div>
+        className="sticky top-[44px] md:top-[56px] z-50 bg-background/75 backdrop-blur-2xl border-b border-border/40">
+
+        <div className="relative max-w-7xl mx-auto px-4 md:px-6 h-[84px] md:h-[110px] grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+          {/* left: nav links (desktop) */}
+          <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-muted-foreground justify-start">
+            {[
+            { label: "Products", href: "#products" },
+            { label: "Partners", href: "#partners" },
+            { label: "How It Works", href: "#how-it-works" }].
+            map((item) =>
+            <motion.a
+              key={item.label}
+              href={item.href}
+              className="relative hover:text-primary transition-colors duration-300"
+              whileHover={{ y: -1 }}>
+
+                {item.label}
+                <motion.span
+                className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full origin-left"
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+                transition={{ duration: 0.2 }} />
+
+              </motion.a>
+            )}
+          </div>
+          <div className="md:hidden" />
+
+          {/* center: big logo */}
+          <motion.div
+            className="absolute inset-x-0 mx-auto w-fit md:static md:mx-0 flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.85, y: -8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}>
+            <motion.div
+              aria-hidden
+              className="absolute inset-0 -m-6 rounded-full blur-2xl pointer-events-none"
+              style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.22), transparent 70%)" }}
+              animate={{ opacity: [0.35, 0.75, 0.35], scale: [0.95, 1.08, 0.95] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.img
+              src="https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png"
+              alt="Lowest Weplay — Official WePlay CC top-up store"
+              className="relative w-[170px] md:w-[260px] h-auto object-contain drop-shadow-[0_6px_18px_hsl(var(--primary)/0.25)]"
+              whileHover={{ scale: 1.06 }}
+              transition={{ type: "spring", stiffness: 320, damping: 18 }} />
+          </motion.div>
+
+          {/* right: trust badge */}
+          <div className="hidden md:flex items-center justify-end">
             <motion.span
-              className="flex items-center gap-1.5 text-accent font-bold text-[10px] md:text-xs px-3 py-1.5 rounded-full bg-accent/8 border border-accent/15"
+              className="flex items-center gap-1.5 text-accent font-bold text-[10px] md:text-xs px-3 py-1.5 rounded-full bg-accent/8 border border-accent/15 whitespace-nowrap"
               animate={{
                 boxShadow: [
                 "0 0 0px hsl(var(--accent)/0)",
@@ -547,11 +623,12 @@ const Index = () => {
 
               }}
               transition={{ duration: 2.5, repeat: Infinity }}>
-              
+
               <ShieldCheck size={13} /> ID Safe
             </motion.span>
           </div>
         </div>
+
       </motion.nav>
 
       {/* ─── PREMIUM HERO ─────────────────────────────────── */}
