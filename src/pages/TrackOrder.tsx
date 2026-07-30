@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Search, Loader2, Package, ArrowLeft } from "lucide-react";
+import { Search, Loader2, Package, ArrowLeft, LogIn } from "lucide-react";
 import Seo from "@/components/Seo";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -91,6 +91,15 @@ export default function TrackOrder() {
             {loading ? <Loader2 size={14} className="animate-spin" /> : <Search size={14} />} Track
           </button>
         </form>
+
+        {orders !== null && orders.length > 0 &&
+        <div className="mt-6 flex justify-center">
+            <Link to={`/my-account?id=${encodeURIComponent(id.trim())}`}
+              className="inline-flex items-center gap-2 py-3 px-5 rounded-2xl border border-primary/25 bg-primary/8 text-primary font-extrabold text-[11px] uppercase tracking-[0.14em] active:scale-[0.96] transition-transform">
+              <LogIn size={13} /> Login to My Account
+            </Link>
+          </div>
+        }
 
         {orders !== null &&
         <div className="mt-8 space-y-3">
