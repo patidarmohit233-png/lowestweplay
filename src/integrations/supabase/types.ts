@@ -179,6 +179,20 @@ export type Database = {
           transaction_id: string
         }[]
       }
+      get_customer_profile: {
+        Args: { p_weplay_id: string }
+        Returns: {
+          bonus_coins: number
+          completed_count: number
+          loyalty_tier: string
+          milestones_reached: Json
+          order_count: number
+          total_coins: number
+          total_spent: number
+          weplay_id: string
+          weplay_name: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
