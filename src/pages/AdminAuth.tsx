@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
+import { useNoindex } from "@/hooks/use-noindex";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Loader2, Lock } from "lucide-react";
 
 export default function AdminAuth() {
+  useNoindex();
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
