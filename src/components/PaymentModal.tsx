@@ -15,7 +15,7 @@ const UPI_APPS = [
 { key: "paytm", name: "Paytm", scheme: "paytmmp://pay", logo: "https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" },
 { key: "bhim", name: "BHIM", scheme: "upi://pay", logo: "https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" },
 { key: "gpay", name: "Google Pay", scheme: "tez://upi/pay", logo: "https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" },
-{ key: "phonepe", name: "PhonePe", scheme: "phonepe://pay", logo: "https://upload.wikimedia.org/wikipedia/commons/5/5f/PhonePe-Logo.svg" }];
+{ key: "phonepe", name: "PhonePe", scheme: "phonepe://pay", logo: "https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" }];
 
 
 function upiQuery(amount: number, note: string) {
