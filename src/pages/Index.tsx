@@ -7,6 +7,8 @@ import {
   Sparkles, Star, Crown, Flame, UserCheck, Loader2, Pencil, PlayCircle } from
 "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
+import PaymentModal from "@/components/PaymentModal";
+
 import Seo, { SITE_URL } from "@/components/Seo";
 import { PRODUCTS as ALL_PRODUCTS, FAQS } from "@/data/products";
 import { supabase } from "@/integrations/supabase/client";
