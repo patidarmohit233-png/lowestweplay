@@ -283,7 +283,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [editing, setEditing] = useState(!buyer);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = verifySchema.safeParse(form);
     if (!parsed.success) {
@@ -293,10 +293,19 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
       return;
     }
     setErrors({});
+    const { error } = await supabase.rpc("upsert_customer", {
+      p_weplay_id: parsed.data.weplay_id,
+      p_weplay_name: parsed.data.weplay_name
+    });
+    if (error) {
+      toast({ title: "Verification failed", description: error.message, variant: "destructive" });
+      return;
+    }
     onVerified(parsed.data as VerifiedBuyer);
     setEditing(false);
-    toast({ title: "Verified ✓", description: "You can now top-up any package." });
+    toast({ title: "Verified ✓", description: "Your WePlay ID is now your customer ID." });
   };
+
 
   return (
     <section id="verify" className="px-4 md:px-6 pt-10 md:pt-16 relative z-10 scroll-mt-40">
