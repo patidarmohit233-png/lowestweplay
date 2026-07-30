@@ -612,7 +612,7 @@ const Index = () => {
           </motion.div>
 
           {/* right: trust badge */}
-          <div className="flex items-center justify-end">
+          <div className="hidden md:flex items-center justify-end">
             <motion.span
               className="flex items-center gap-1.5 text-accent font-bold text-[10px] md:text-xs px-3 py-1.5 rounded-full bg-accent/8 border border-accent/15 whitespace-nowrap"
               animate={{
