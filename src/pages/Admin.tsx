@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNoindex } from "@/hooks/use-noindex";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, LogOut, RefreshCw, ShieldCheck, Search, Users, Package, IndianRupee } from "lucide-react";
+import { Loader2, RefreshCw, Search, Users, Package, IndianRupee } from "lucide-react";
+
 
 type Order = {
   id: string;
