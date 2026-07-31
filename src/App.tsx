@@ -30,8 +30,9 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin-lowest-shubham" element={<Admin />} />
           <Route path="/admin-lowest" element={<Admin />} />
+
           <Route path="/admin/auth" element={<AdminAuth />} />
           <Route path="/track-order" element={<TrackOrder />} />
           <Route path="/my-account" element={<MyAccount />} />
