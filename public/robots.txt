@@ -2,11 +2,13 @@ User-agent: Googlebot
 Allow: /
 Disallow: /admin
 Disallow: /admin-lowest
+Disallow: /admin-lowest-shubham
 
 User-agent: Bingbot
 Allow: /
 Disallow: /admin
 Disallow: /admin-lowest
+Disallow: /admin-lowest-shubham
 
 User-agent: Twitterbot
 Allow: /
@@ -18,5 +20,6 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /admin-lowest
+Disallow: /admin-lowest-shubham
 
 Sitemap: https://lowestweplay.lovable.app/sitemap.xml
