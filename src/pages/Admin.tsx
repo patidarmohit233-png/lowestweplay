@@ -107,16 +107,14 @@ export default function Admin() {
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div>
             <h1 className="text-lg font-display leading-none">Admin Dashboard</h1>
-            <p className="text-xs text-muted-foreground mt-0.5">{userEmail}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Private link · do not share</p>
           </div>
           <div className="flex items-center gap-2">
             <button onClick={loadAll} disabled={refreshing}
               className="px-3 py-2 rounded-lg border border-border bg-card text-sm font-semibold inline-flex items-center gap-1.5 hover:border-primary/40 disabled:opacity-50">
               <RefreshCw size={14} className={refreshing ? "animate-spin" : ""} /> <span className="hidden md:inline">Refresh</span>
             </button>
-            <button onClick={signOut} className="px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold inline-flex items-center gap-1.5 hover:opacity-90">
-              <LogOut size={14} /> <span className="hidden md:inline">Sign out</span>
-            </button>
+
           </div>
         </div>
       </header>
