@@ -130,6 +130,17 @@
 }
 .animate-scroll-left { animation: scroll-left 44s linear infinite; }
 .animate-scroll-left:hover { animation-play-state: paused; }
+.animate-scroll-left:active { animation-play-state: paused; }
+
+/* faster on phones */
+@media (max-width: 768px) {
+  .animate-scroll-left { animation-duration: 18s; }
+}
+
+/* hide scrollbar but keep manual swipe scrolling */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
 
 @keyframes scroll-right {
   0% { transform: translateX(-50%); }
