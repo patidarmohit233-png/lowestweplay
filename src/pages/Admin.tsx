@@ -38,10 +38,7 @@ const STATUS_STYLES: Record<string, string> = {
 
 export default function Admin() {
   useNoindex();
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [authorized, setAuthorized] = useState(false);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -51,35 +48,7 @@ export default function Admin() {
 
   useEffect(() => {
     document.title = "Admin Dashboard · Lowest Weplay";
-    let mounted = true;
-
-    const check = async () => {
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session) {
-        navigate("/admin/auth", { replace: true });
-        return;
-      }
-      const user = sessionData.session.user;
-      if (mounted) setUserEmail(user.email ?? null);
-
-      const { data: roles } = await supabase.
-      from("user_roles").
-      select("role").
-      eq("user_id", user.id);
-
-      const isAdmin = !!roles?.some((r) => r.role === "admin");
-      if (!mounted) return;
-      setAuthorized(isAdmin);
-      setLoading(false);
-      if (isAdmin) loadAll();
-    };
-
-    check();
-
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (!session) navigate("/admin/auth", { replace: true });
-    });
-    return () => {mounted = false;sub.subscription.unsubscribe();};
+    loadAll().finally(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -98,18 +67,13 @@ export default function Admin() {
   const changeStatus = async (id: string, status: string) => {
     const prev = orders;
     setOrders((list) => list.map((o) => o.id === id ? { ...o, status } : o));
-    const { error } = await supabase.from("orders").update({ status }).eq("id", id);
+    const { error } = await supabase.rpc("update_order_status", { p_order_id: id, p_status: status });
     if (error) {
       setOrders(prev);
       toast({ title: "Update failed", description: error.message, variant: "destructive" });
       return;
     }
     toast({ title: `Status set to ${status}` });
-  };
-
-  const signOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/admin/auth", { replace: true });
   };
 
   const filteredOrders = useMemo(() => {
@@ -135,21 +99,7 @@ export default function Admin() {
 
   }
 
-  if (!authorized) {
-    return (
-      <div className="min-h-dvh grid place-items-center bg-background text-foreground px-4">
-        <div className="max-w-md text-center bg-card border border-border rounded-2xl p-8">
-          <ShieldCheck className="mx-auto mb-3 text-destructive" size={32} />
-          <h1 className="text-2xl font-display mb-2">Access denied</h1>
-          <p className="text-muted-foreground text-sm mb-1">Signed in as <span className="font-bold text-foreground">{userEmail}</span></p>
-          <p className="text-muted-foreground text-sm mb-6">This account does not have admin privileges.</p>
-          <button onClick={signOut} className="px-5 py-2.5 bg-primary text-primary-foreground rounded-xl font-bold text-sm inline-flex items-center gap-2 hover:opacity-90">
-            <LogOut size={14} /> Sign out
-          </button>
-        </div>
-      </div>);
 
-  }
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
