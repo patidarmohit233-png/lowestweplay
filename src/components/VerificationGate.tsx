@@ -62,7 +62,7 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
       <div
         aria-hidden
         className="absolute inset-0 backdrop-blur-[10px]"
-        style={{ background: "linear-gradient(160deg, hsl(var(--background)/0.86), hsl(var(--primary)/0.14) 55%, hsl(var(--primary-glow)/0.2))" }}
+        style={{ background: "linear-gradient(160deg, hsl(var(--background)/0.7), hsl(var(--primary)/0.12) 55%, hsl(var(--primary-glow)/0.18))" }}
       />
       <div aria-hidden className="absolute inset-0 bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_72%)]" />
       <div
@@ -136,13 +136,13 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
                   className="w-full py-4 rounded-2xl text-primary-foreground font-extrabold text-[11.5px] uppercase tracking-[0.16em] flex items-center justify-center gap-2 shadow-primary disabled:opacity-70"
                   style={{ background: "var(--gradient-primary)" }}
                 >
-                  {loading ? "Verifying…" : "🚀 Verify & Login"} <ArrowRight size={14} />
+                  {loading ? "Verifying…" : "🔓 Verify & Login"} <ArrowRight size={14} />
                 </motion.button>
               </form>
 
               <p className="mt-3.5 flex items-start gap-1.5 text-[11px] md:text-[12px] text-muted-foreground leading-relaxed">
                 <Lock size={13} className="mt-[1px] shrink-0 text-accent" />
-                We never ask for your password. Only your WePlay ID & Name.
+                We never ask for password. Only ID needed.
               </p>
             </div>
 
