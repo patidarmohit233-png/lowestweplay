@@ -567,8 +567,8 @@ const Index = () => {
 
       {buyer && <ProfileMenu buyer={buyer} onLogout={() => {persistBuyer(null);toast({ title: "Logged out", description: "Your session on this device has been cleared." });}} />}
 
-      {/* ─── STEP 1 · VERIFY & LOGIN (top of page) ─────────── */}
-      <VerificationPanel buyer={buyer} onVerified={persistBuyer} />
+      {/* ─── STEP 1 · VERIFY & LOGIN (top of page until verified) ─────────── */}
+      {!buyer && <VerificationPanel buyer={buyer} onVerified={persistBuyer} />}
 
 
       {/* ─── HERO ─────────────────────────────────────────── */}
@@ -721,6 +721,8 @@ const Index = () => {
       {/* ─── PRODUCTS ─────────────────────────────────────── */}
       <section id="products" className="relative py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
         <div className="max-w-7xl mx-auto relative z-10">
+          {/* verified users see their player card right above the packages */}
+          {buyer && <VerificationPanel buyer={buyer} onVerified={persistBuyer} />}
           <SectionHeading
             eyebrow="Premium Packages"
             title="Choose Your"
