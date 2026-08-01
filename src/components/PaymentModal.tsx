@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   X, Zap, Copy, Check, Loader2, ArrowRight,
-  CreditCard, QrCode, AlertTriangle, ArrowLeftRight, Receipt, Search, Star } from
+  CreditCard, QrCode, AlertTriangle, ArrowLeftRight, Receipt, Search, Star, ChevronDown } from
 "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -17,6 +17,7 @@ const UPI_APPS = [
 { key: "gpay", name: "G-Pay", scheme: "tez://upi/pay", logo: "https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" },
 { key: "phonepe", name: "PhonePe", scheme: "phonepe://pay", logo: "https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" }];
 
+
 const RAZORPAY_LOGO = "https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg";
 
 function upiQuery(amount: number, note: string) {
@@ -24,6 +25,7 @@ function upiQuery(amount: number, note: string) {
 }
 
 type Buyer = { weplay_id: string; weplay_name: string };
+type Method = "upi" | "razorpay";
 
 export default function PaymentModal({
   product,
@@ -34,7 +36,7 @@ export default function PaymentModal({
 
 
 }: {product: Product | null;buyer: Buyer;onClose: () => void;}) {
-  const [method, setMethod] = useState<"upi" | "razorpay">("upi");
+  const [method, setMethod] = useState<Method>("upi");
   const [orderId, setOrderId] = useState<string | null>(null);
   const [orderCode, setOrderCode] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
@@ -47,7 +49,7 @@ export default function PaymentModal({
   if (!product) return null;
   const note = `${product.name} · ${buyer.weplay_id}`;
 
-  const ensureOrder = async (m: "upi" | "razorpay") => {
+  const ensureOrder = async (m: Method) => {
     if (orderId) return orderId;
     setCreating(true);
     const { data, error } = await supabase.rpc("create_order", {
@@ -115,6 +117,48 @@ export default function PaymentModal({
     `upi://pay?${upiQuery(product.price, note)}`
   )}`;
 
+  /* shared verification block inside each card */
+  const VerifyBlock = ({ label, placeholder }: {label: string;placeholder: string;}) =>
+  done ?
+  <div className="mt-4 rounded-2xl border border-accent/30 bg-accent/10 px-4 py-3.5 flex items-start gap-3">
+      <span className="w-8 h-8 shrink-0 rounded-full bg-accent/20 text-accent grid place-items-center">
+        <Check size={15} strokeWidth={3} />
+      </span>
+      <p className="text-[12px] font-bold text-foreground leading-relaxed">
+        Order {orderCode} is now <span className="text-accent">processing</span>. Track it anytime with your WePlay ID.
+      </p>
+    </div> :
+
+  <div className="mt-4 rounded-2xl border-2 border-warning/50 bg-warning/[0.09] p-3.5">
+      <label className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-[0.12em] text-foreground">
+        <Search size={13} strokeWidth={3} /> {label}
+      </label>
+      <div className="relative mt-2">
+        <input
+      value={txn}
+      onChange={(e) => setTxn(e.target.value)}
+      placeholder={placeholder}
+      className="w-full pl-4 pr-11 py-3.5 rounded-2xl bg-card border-2 border-warning/50 text-base font-bold text-foreground placeholder:font-semibold placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" />
+
+        <Receipt size={17} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground/70 pointer-events-none" />
+      </div>
+      <button onClick={(e) => {e.stopPropagation();verify();}} disabled={verifying}
+    className="mt-3 w-full py-3.5 rounded-2xl font-extrabold text-primary-foreground active:scale-[0.98] transition-transform disabled:opacity-70"
+    style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
+        <span className="flex items-center justify-center gap-2 uppercase tracking-[0.12em] text-[12px]">
+          {verifying ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
+          Verify Payment
+        </span>
+      </button>
+      <p className="mt-2.5 text-[10.5px] text-muted-foreground font-semibold leading-relaxed flex items-start gap-1.5">
+        <AlertTriangle size={12} className="text-destructive shrink-0 mt-[1px]" />
+        Please enter your transaction ID after completing payment. Orders without transaction ID will not be processed.
+      </p>
+    </div>;
+
+
+  const expand = { initial: { height: 0, opacity: 0 }, animate: { height: "auto", opacity: 1 }, exit: { height: 0, opacity: 0 }, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const } };
+
   return (
     <AnimatePresence>
       <motion.div
@@ -131,10 +175,10 @@ export default function PaymentModal({
           exit={{ y: 40, opacity: 0 }}
           transition={{ type: "spring", stiffness: 280, damping: 28 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full md:max-w-[880px] max-h-[94dvh] flex flex-col bg-card border border-border/70 rounded-t-[2rem] md:rounded-[2rem] shadow-elevated overflow-hidden">
+          className="relative w-full md:max-w-[920px] max-h-[94dvh] flex flex-col bg-card/85 backdrop-blur-2xl border border-border/60 rounded-t-[2rem] md:rounded-[2rem] shadow-elevated overflow-hidden">
 
           {/* ── HEADER ─────────────── */}
-          <div className="relative shrink-0 px-5 pt-4 pb-5 md:px-7 md:pt-6 bg-gradient-to-b from-primary/[0.08] to-transparent">
+          <div className="relative shrink-0 px-5 pt-4 pb-5 md:px-7 md:pt-6 bg-gradient-to-b from-primary/[0.1] to-transparent">
             <div className="md:hidden mx-auto mb-4 h-1.5 w-11 rounded-full bg-border" />
 
             <div className="flex items-start justify-between gap-3">
@@ -161,7 +205,7 @@ export default function PaymentModal({
           </div>
 
           {/* ── SCROLL BODY ────────────────────────────── */}
-          <div className="flex-1 overflow-y-auto overscroll-contain px-5 md:px-7 pb-6">
+          <div className="flex-1 overflow-y-auto overscroll-contain px-5 md:px-7 pb-7">
             {/* receipt pill */}
             <div className="rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 flex items-center justify-between gap-3">
               <div className="min-w-0">
@@ -175,14 +219,16 @@ export default function PaymentModal({
               </div>
             </div>
 
-            {/* ── TWO OPTION CARDS ── */}
+            {/* ── TWO EXPANDABLE OPTION CARDS ── */}
             <div className="mt-5 grid gap-4 md:grid-cols-2 items-start">
 
               {/* OPTION 1 — UPI */}
               <motion.div
                 whileHover={{ y: -3 }}
                 onClick={() => setMethod("upi")}
-                className={`relative cursor-pointer rounded-[1.5rem] border-2 p-4 md:p-5 transition-all bg-gradient-to-br from-accent/12 via-accent/[0.06] to-card ${
+                role="button"
+                aria-expanded={method === "upi"}
+                className={`relative cursor-pointer rounded-[1.5rem] border-2 p-4 md:p-5 transition-all backdrop-blur-xl bg-gradient-to-br from-accent/12 via-accent/[0.06] to-card/70 ${
                 method === "upi" ? "border-accent shadow-[0_16px_40px_-18px_hsl(var(--accent)/0.55)]" : "border-accent/25 hover:border-accent/60 shadow-card"}`}>
 
                 <span className="absolute -top-3 left-4 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-accent text-accent-foreground text-[9px] font-black uppercase tracking-[0.12em] shadow-card">
@@ -191,13 +237,11 @@ export default function PaymentModal({
 
                 <div className="flex items-center justify-between gap-3 mt-1">
                   <h3 className="text-[15px] md:text-base font-extrabold text-foreground">⚡ UPI Payment (Fastest)</h3>
-                  <span className={`w-5 h-5 shrink-0 rounded-full border-2 grid place-items-center ${method === "upi" ? "border-accent bg-accent" : "border-border"}`}>
-                    {method === "upi" && <Check size={11} strokeWidth={4} className="text-accent-foreground" />}
-                  </span>
+                  <ChevronDown size={18} strokeWidth={3}
+                    className={`shrink-0 text-accent transition-transform duration-300 ${method === "upi" ? "rotate-180" : ""}`} />
                 </div>
-                <p className="mt-1 text-[11.5px] text-muted-foreground font-medium">Tap an app, scan the QR, or pay to our UPI ID.</p>
 
-                {/* app rail */}
+                {/* always-visible app logos */}
                 <div className="mt-4 grid grid-cols-4 gap-2.5">
                   {UPI_APPS.map((app) =>
                   <button key={app.key} onClick={(e) => {e.stopPropagation();payWithApp(app);}} disabled={creating}
@@ -215,41 +259,51 @@ export default function PaymentModal({
                   )}
                 </div>
 
-                {/* VPA row */}
-                <div className="mt-4 flex items-center justify-between gap-3 p-3 rounded-2xl bg-card border border-accent/25">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <span className="w-9 h-9 shrink-0 rounded-xl grid place-items-center bg-accent/15 text-accent">
-                      <ArrowLeftRight size={15} strokeWidth={2.5} />
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-[9px] font-extrabold uppercase tracking-[0.16em] text-muted-foreground">Pay to UPI ID</p>
-                      <p className="text-[13.5px] font-extrabold text-foreground truncate">{UPI_ID}</p>
-                    </div>
-                  </div>
-                  <button onClick={(e) => {e.stopPropagation();copyUpi();}}
-                    className="shrink-0 px-3 py-2 rounded-xl bg-secondary border border-border text-foreground text-[10px] font-extrabold uppercase tracking-wide inline-flex items-center gap-1.5 active:scale-95 transition-transform">
-                    {copied ? <Check size={12} strokeWidth={3} /> : <Copy size={12} strokeWidth={2.6} />}
-                    {copied ? "Copied" : "Copy"}
-                  </button>
-                </div>
+                <AnimatePresence initial={false}>
+                  {method === "upi" &&
+                  <motion.div {...expand} className="overflow-hidden">
+                      {/* VPA row */}
+                      <div className="mt-4 flex items-center justify-between gap-3 p-3 rounded-2xl bg-card border border-accent/25">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span className="w-9 h-9 shrink-0 rounded-xl grid place-items-center bg-accent/15 text-accent">
+                            <ArrowLeftRight size={15} strokeWidth={2.5} />
+                          </span>
+                          <div className="min-w-0">
+                            <p className="text-[9px] font-extrabold uppercase tracking-[0.16em] text-muted-foreground">Pay to UPI ID</p>
+                            <p className="text-[13.5px] font-extrabold text-foreground truncate">{UPI_ID}</p>
+                          </div>
+                        </div>
+                        <button onClick={(e) => {e.stopPropagation();copyUpi();}}
+                        className="shrink-0 px-3 py-2 rounded-xl bg-secondary border border-border text-foreground text-[10px] font-extrabold uppercase tracking-wide inline-flex items-center gap-1.5 active:scale-95 transition-transform">
+                          {copied ? <Check size={12} strokeWidth={3} /> : <Copy size={12} strokeWidth={2.6} />}
+                          {copied ? "Copied" : "Copy"}
+                        </button>
+                      </div>
 
-                {/* QR */}
-                <div className="mt-4 flex flex-col items-center">
-                  <div className="p-3.5 bg-card border border-border rounded-[1.5rem] shadow-elevated">
-                    <img src={qrSrc} alt={`UPI QR code to pay ₹${product.price}`} width={156} height={156}
-                      className="w-[156px] h-[156px] rounded-xl" />
-                  </div>
-                  <p className="mt-2.5 inline-flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">
-                    <QrCode size={12} /> Scan &amp; pay ₹{product.price}
-                  </p>
-                </div>
+                      {/* QR */}
+                      <div className="mt-4 flex flex-col items-center">
+                        <div className="p-3.5 bg-card border border-border rounded-[1.5rem] shadow-elevated">
+                          <img src={qrSrc} alt={`UPI QR code to pay ₹${product.price}`} width={156} height={156}
+                          className="w-[156px] h-[156px] rounded-xl" />
+                        </div>
+                        <p className="mt-2.5 inline-flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">
+                          <QrCode size={12} /> Scan &amp; pay ₹{product.price}
+                        </p>
+                      </div>
+
+                      <VerifyBlock label="🔍 Enter UTR / UPI Reference" placeholder="Type your UTR here (12 digits)" />
+                    </motion.div>
+                  }
+                </AnimatePresence>
               </motion.div>
 
               {/* OPTION 2 — RAZORPAY */}
               <motion.div
                 whileHover={{ y: -3 }}
                 onClick={() => setMethod("razorpay")}
-                className={`relative cursor-pointer rounded-[1.5rem] border-2 p-4 md:p-5 transition-all bg-gradient-to-br from-primary/12 via-primary/[0.06] to-card ${
+                role="button"
+                aria-expanded={method === "razorpay"}
+                className={`relative cursor-pointer rounded-[1.5rem] border-2 p-4 md:p-5 transition-all backdrop-blur-xl bg-gradient-to-br from-primary/12 via-primary/[0.06] to-card/70 ${
                 method === "razorpay" ? "border-primary shadow-[0_16px_40px_-18px_hsl(var(--primary)/0.55)]" : "border-primary/25 hover:border-primary/60 shadow-card"}`}>
 
                 <span className="absolute -top-3 left-4 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary text-primary-foreground text-[9px] font-black uppercase tracking-[0.12em] shadow-card">
@@ -258,34 +312,40 @@ export default function PaymentModal({
 
                 <div className="flex items-center justify-between gap-3 mt-1">
                   <h3 className="text-[15px] md:text-base font-extrabold text-foreground">💳 Razorpay Payment</h3>
-                  <span className={`w-5 h-5 shrink-0 rounded-full border-2 grid place-items-center ${method === "razorpay" ? "border-primary bg-primary" : "border-border"}`}>
-                    {method === "razorpay" && <Check size={11} strokeWidth={4} className="text-primary-foreground" />}
-                  </span>
+                  <ChevronDown size={18} strokeWidth={3}
+                    className={`shrink-0 text-primary transition-transform duration-300 ${method === "razorpay" ? "rotate-180" : ""}`} />
                 </div>
-                <p className="mt-1 text-[11.5px] text-muted-foreground font-medium">Secure checkout hosted by Razorpay.</p>
 
                 <div className="mt-4 rounded-2xl bg-card border border-primary/25 p-5 grid place-items-center">
                   <img src={RAZORPAY_LOGO} alt="Razorpay logo" loading="lazy" className="h-9 w-auto object-contain" />
                 </div>
 
-                <div className="mt-4 rounded-2xl border border-border bg-card/70 p-3.5 flex items-start gap-3">
-                  <span className="w-9 h-9 shrink-0 rounded-xl bg-primary/12 grid place-items-center text-primary">
-                    <Receipt size={16} />
-                  </span>
-                  <p className="text-[12px] text-muted-foreground leading-relaxed">
-                    Pay <span className="font-extrabold text-foreground">₹{product.price}</span> using UPI, cards, netbanking or wallets.
-                  </p>
-                </div>
+                <AnimatePresence initial={false}>
+                  {method === "razorpay" &&
+                  <motion.div {...expand} className="overflow-hidden">
+                      <div className="mt-4 rounded-2xl border border-border bg-card/70 p-3.5 flex items-start gap-3">
+                        <span className="w-9 h-9 shrink-0 rounded-xl bg-primary/12 grid place-items-center text-primary">
+                          <Receipt size={16} />
+                        </span>
+                        <p className="text-[12px] text-muted-foreground leading-relaxed">
+                          Pay <span className="font-extrabold text-foreground">₹{product.price}</span> using UPI, cards, netbanking or wallets.
+                        </p>
+                      </div>
 
-                <button onClick={(e) => {e.stopPropagation();openRazorpay();}} disabled={creating}
-                  className="relative mt-4 w-full py-4 rounded-2xl font-extrabold text-primary-foreground overflow-hidden active:scale-[0.98] transition-transform disabled:opacity-70"
-                  style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
-                  <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-primary-foreground/25 blur-md animate-shine" />
-                  <span className="relative z-10 flex items-center justify-center gap-2 uppercase tracking-[0.12em] text-[11.5px]">
-                    {creating ? <Loader2 size={14} className="animate-spin" /> : <CreditCard size={14} />}
-                    Continue to Payment <ArrowRight size={14} />
-                  </span>
-                </button>
+                      <button onClick={(e) => {e.stopPropagation();openRazorpay();}} disabled={creating}
+                      className="relative mt-4 w-full py-4 rounded-2xl font-extrabold text-primary-foreground overflow-hidden active:scale-[0.98] transition-transform disabled:opacity-70"
+                      style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
+                        <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-primary-foreground/25 blur-md animate-shine" />
+                        <span className="relative z-10 flex items-center justify-center gap-2 uppercase tracking-[0.12em] text-[11.5px]">
+                          {creating ? <Loader2 size={14} className="animate-spin" /> : <CreditCard size={14} />}
+                          Continue to Payment <ArrowRight size={14} />
+                        </span>
+                      </button>
+
+                      <VerifyBlock label="🔍 Enter Your Transaction ID" placeholder="Type your Razorpay Transaction ID" />
+                    </motion.div>
+                  }
+                </AnimatePresence>
               </motion.div>
             </div>
 
@@ -298,55 +358,6 @@ export default function PaymentModal({
                 </span>
               )}
             </div>
-          </div>
-
-          {/* ── STICKY TRANSACTION ID SECTION ───────────────────── */}
-          <div className="shrink-0 border-t-2 border-warning/40 bg-warning/[0.08] backdrop-blur-xl px-5 md:px-7 pt-4 pb-5">
-            {done ?
-            <div className="rounded-2xl border border-accent/30 bg-accent/10 px-4 py-3.5 flex items-start gap-3">
-                <span className="w-8 h-8 shrink-0 rounded-full bg-accent/20 text-accent grid place-items-center">
-                  <Check size={15} strokeWidth={3} />
-                </span>
-                <p className="text-[12px] font-bold text-foreground leading-relaxed">
-                  Order {orderCode} is now <span className="text-accent">processing</span>. Track it anytime with your WePlay ID.
-                </p>
-              </div> :
-
-            <div className="md:flex md:items-end md:gap-4">
-                <div className="flex-1">
-                  <label htmlFor="txn-id" className="flex items-center gap-1.5 text-[11.5px] font-black uppercase tracking-[0.12em] text-foreground">
-                    <Search size={13} strokeWidth={3} /> Enter Your Transaction ID
-                  </label>
-                  <div className="relative mt-2">
-                    <input
-                    id="txn-id"
-                    value={txn}
-                    onChange={(e) => setTxn(e.target.value)}
-                    aria-label={method === "upi" ? "UTR / UPI reference number" : "Razorpay transaction ID"}
-                    placeholder="Type your UTR / Transaction ID here"
-                    className="w-full pl-4 pr-11 py-3.5 rounded-2xl bg-card border-2 border-warning/50 text-base font-bold text-foreground placeholder:font-semibold placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" />
-
-                    <Receipt size={17} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground/70 pointer-events-none" />
-                  </div>
-                </div>
-
-                <button onClick={verify} disabled={verifying}
-                className="relative mt-3 md:mt-0 w-full md:w-auto md:px-8 py-4 rounded-2xl font-extrabold text-primary-foreground overflow-hidden active:scale-[0.98] transition-transform disabled:opacity-70 shrink-0"
-                style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
-                  <span className="relative z-10 flex items-center justify-center gap-2 uppercase tracking-[0.12em] text-[12px]">
-                    {verifying ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
-                    Verify Payment
-                  </span>
-                </button>
-              </div>
-            }
-
-            {!done &&
-            <p className="mt-3 text-[10.5px] text-center md:text-left text-muted-foreground font-semibold leading-relaxed flex items-start justify-center md:justify-start gap-1.5">
-                <AlertTriangle size={12} className="text-destructive shrink-0 mt-[1px]" />
-                Please enter your transaction ID after completing payment. Orders without transaction ID will not be processed.
-              </p>
-            }
           </div>
         </motion.div>
       </motion.div>

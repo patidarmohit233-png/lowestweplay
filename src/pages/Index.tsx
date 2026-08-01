@@ -8,6 +8,8 @@ import {
 "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
 import PaymentModal from "@/components/PaymentModal";
+import ProfileMenu from "@/components/ProfileMenu";
+
 
 import Seo, { SITE_URL } from "@/components/Seo";
 import { PRODUCTS as ALL_PRODUCTS, FAQS } from "@/data/products";
@@ -366,7 +368,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                     <input
                     value={form.weplay_id}
                     onChange={(e) => setForm({ ...form, weplay_id: e.target.value })}
-                    placeholder="WePlay ID (e.g. WP123456)"
+                    placeholder="Enter your WePlay ID"
                     className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.weplay_id ? "border-destructive" : "border-border"}`} />
                     {errors.weplay_id && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_id}</span>}
                   </label>
@@ -375,7 +377,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                     <input
                     value={form.weplay_name}
                     onChange={(e) => setForm({ ...form, weplay_name: e.target.value })}
-                    placeholder="WePlay Name (in-game)"
+                    placeholder="Enter your Name"
                     className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.weplay_name ? "border-destructive" : "border-border"}`} />
                     {errors.weplay_name && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_name}</span>}
                   </label>
@@ -383,7 +385,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                   type="submit"
                   className="py-3.5 px-6 text-primary-foreground rounded-2xl font-extrabold text-[11.5px] uppercase tracking-[0.14em] flex items-center justify-center gap-2 active:scale-[0.96] transition-all hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.5)]"
                   style={{ background: "var(--gradient-primary)" }}>
-                    Verify <CheckCircle2 size={14} />
+                    Verify & Login <CheckCircle2 size={14} />
                   </button>
                 </form>
               }
@@ -554,6 +556,12 @@ const Index = () => {
         </div>
       </motion.nav>
 
+      {buyer && <ProfileMenu buyer={buyer} onLogout={() => {persistBuyer(null);toast({ title: "Logged out", description: "Your session on this device has been cleared." });}} />}
+
+      {/* ─── STEP 1 · VERIFY & LOGIN (top of page) ─────────── */}
+      <VerificationPanel buyer={buyer} onVerified={persistBuyer} />
+
+
       {/* ─── HERO ─────────────────────────────────────────── */}
       <header className="relative pt-12 md:pt-24 pb-16 md:pb-28 px-4 md:px-6 overflow-hidden">
         <div className="absolute inset-0 bg-mesh" />
@@ -701,9 +709,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ─── VERIFICATION ─────────────────────────────────── */}
-      <VerificationPanel buyer={buyer} onVerified={persistBuyer} />
-
       {/* ─── PRODUCTS ─────────────────────────────────────── */}
       <section id="products" className="relative py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
         <div className="max-w-7xl mx-auto relative z-10">
@@ -712,7 +717,24 @@ const Index = () => {
             title="Choose Your"
             highlight="Package"
             subtitle="Pick a coin bundle and pay securely — coins are credited within minutes." />
-          {[
+          {!buyer ?
+            <Reveal>
+              <div className="max-w-xl mx-auto text-center rounded-[1.75rem] border border-border/70 bg-card/70 backdrop-blur-xl shadow-elevated px-6 py-10">
+                <span className="inline-flex w-14 h-14 rounded-2xl bg-primary/10 text-primary items-center justify-center">
+                  <Lock size={22} />
+                </span>
+                <h3 className="mt-4 text-lg md:text-xl font-display text-foreground">Plans are locked</h3>
+                <p className="mt-2 text-[13px] text-muted-foreground leading-relaxed">
+                  Verify your WePlay ID & Name at the top to unlock all packages.
+                </p>
+                <button onClick={scrollToVerify}
+                  className="mt-5 px-7 py-3.5 rounded-2xl text-primary-foreground font-extrabold text-[11.5px] uppercase tracking-[0.14em] inline-flex items-center gap-2 active:scale-[0.97] transition-transform"
+                  style={{ background: "var(--gradient-primary)" }}>
+                  Verify & Login <ArrowRight size={14} />
+                </button>
+              </div>
+            </Reveal> :
+          [
             { key: "redpacket", label: "Red Packet", items: PRODUCTS.filter((p) => p.name.includes("RED PACKET")) },
             { key: "recharge", label: "Recharge", items: PRODUCTS.filter((p) => !p.name.includes("RED PACKET")) }].
             map((group) =>
@@ -728,6 +750,7 @@ const Index = () => {
                 </div>
               </div>
             )}
+
 
         </div>
       </section>
