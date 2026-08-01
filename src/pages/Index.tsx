@@ -8,6 +8,8 @@ import {
 "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
 import PaymentModal from "@/components/PaymentModal";
+import ProfileMenu from "@/components/ProfileMenu";
+
 
 import Seo, { SITE_URL } from "@/components/Seo";
 import { PRODUCTS as ALL_PRODUCTS, FAQS } from "@/data/products";
