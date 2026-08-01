@@ -721,6 +721,8 @@ const Index = () => {
       {/* ─── PRODUCTS ─────────────────────────────────────── */}
       <section id="products" className="relative py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
         <div className="max-w-7xl mx-auto relative z-10">
+          {/* verified users see their player card right above the packages */}
+          {buyer && <VerificationPanel buyer={buyer} onVerified={persistBuyer} />}
           <SectionHeading
             eyebrow="Premium Packages"
             title="Choose Your"
