@@ -53,13 +53,16 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5, ease: EASE }}
-      className="min-h-[100dvh] w-full flex items-center justify-center px-4 py-10 relative overflow-hidden bg-background"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Verify your WePlay ID to continue"
+      className="fixed inset-0 z-[100] min-h-[100dvh] w-full flex items-center justify-center px-4 py-10 overflow-y-auto"
     >
       {/* soft white → purple gradient background */}
       <div
         aria-hidden
-        className="absolute inset-0"
-        style={{ background: "linear-gradient(160deg, hsl(var(--background)), hsl(var(--primary)/0.09) 55%, hsl(var(--primary-glow)/0.16))" }}
+        className="absolute inset-0 backdrop-blur-[10px]"
+        style={{ background: "linear-gradient(160deg, hsl(var(--background)/0.7), hsl(var(--primary)/0.12) 55%, hsl(var(--primary-glow)/0.18))" }}
       />
       <div aria-hidden className="absolute inset-0 bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_72%)]" />
       <div
@@ -83,7 +86,7 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
           className="rounded-[2rem] p-[1.5px] shadow-elevated"
           style={{ background: "linear-gradient(135deg, hsl(var(--primary)/0.5), hsl(var(--primary-glow)/0.25), hsl(var(--accent)/0.3))" }}
         >
-          <div className="rounded-[1.9rem] bg-card/90 backdrop-blur-2xl p-6 md:p-8">
+          <div className="rounded-[1.9rem] bg-card/90 backdrop-blur-2xl supports-[backdrop-filter]:bg-card/80 p-6 md:p-8">
             {/* brand */}
             <div className="text-center">
               <img src={LOGO} alt="Lowest Weplay — WePlay top-up store" className="mx-auto w-[180px] md:w-[210px] h-auto object-contain" />
@@ -133,13 +136,13 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
                   className="w-full py-4 rounded-2xl text-primary-foreground font-extrabold text-[11.5px] uppercase tracking-[0.16em] flex items-center justify-center gap-2 shadow-primary disabled:opacity-70"
                   style={{ background: "var(--gradient-primary)" }}
                 >
-                  {loading ? "Verifying…" : "🚀 Verify & Login"} <ArrowRight size={14} />
+                  {loading ? "Verifying…" : "🔓 Verify & Login"} <ArrowRight size={14} />
                 </motion.button>
               </form>
 
               <p className="mt-3.5 flex items-start gap-1.5 text-[11px] md:text-[12px] text-muted-foreground leading-relaxed">
                 <Lock size={13} className="mt-[1px] shrink-0 text-accent" />
-                We never ask for your password. Only your WePlay ID & Name.
+                We never ask for password. Only ID needed.
               </p>
             </div>
 
