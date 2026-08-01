@@ -497,6 +497,13 @@ const Index = () => {
 
     <SplashScreen show={showSplash} onComplete={() => {}} />
 
+    <AnimatePresence mode="wait">
+      {!buyer && !showSplash &&
+      <VerificationGate key="gate" onVerified={(b) => persistBuyer(b)} />
+      }
+    </AnimatePresence>
+
+    {buyer &&
     <div className={`min-h-screen bg-background text-foreground antialiased overflow-x-hidden ${showSplash ? "overflow-hidden h-screen" : ""}`}>
       {/* scroll progress */}
       <motion.div
