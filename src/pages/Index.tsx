@@ -727,6 +727,36 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ─── BUY & SELL ID (ESCROW) ────────────────────────── */}
+      <section className="px-4 md:px-6 pb-4 md:pb-8">
+        <div className="max-w-4xl mx-auto">
+          <Reveal>
+            <a
+              href="https://weplayescrow.lovable.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-3 md:gap-4 rounded-2xl border border-accent/25 bg-accent/[0.06] px-4 py-3.5 md:px-6 md:py-4 backdrop-blur-xl active:scale-[0.98] transition-transform">
+              <span className="w-10 h-10 shrink-0 rounded-xl grid place-items-center bg-accent/12 border border-accent/25 text-accent">
+                <ArrowLeftRight size={17} />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-[13px] md:text-[15px] font-extrabold text-foreground">
+                  Buy &amp; Sell WePlay ID
+                </span>
+                <span className="block text-[11px] md:text-[12.5px] text-muted-foreground">
+                  Safe escrow deals on our official partner site
+                </span>
+              </span>
+              <span className="inline-flex items-center gap-1 text-accent text-[11px] md:text-xs font-extrabold uppercase tracking-[0.12em] whitespace-nowrap">
+                Visit <ExternalLink size={12} />
+              </span>
+            </a>
+          </Reveal>
+        </div>
+      </section>
+
+
+
       {/* ─── PRODUCTS ─────────────────────────────────────── */}
       <section id="products" className="relative py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
         <div className="max-w-7xl mx-auto relative z-10">
