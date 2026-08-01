@@ -4,7 +4,7 @@ import { z } from "zod";
 import { ArrowRight, KeyRound, Lock, ShieldCheck, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import LOGO from "@/assets/logo.png";
+const LOGO = "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png";
 
 export type VerifiedBuyer = { weplay_id: string; weplay_name: string };
 
