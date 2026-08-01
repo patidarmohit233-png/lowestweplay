@@ -4,7 +4,8 @@ import { motion, useInView, useScroll, useSpring, AnimatePresence } from "framer
 import {
   ShieldCheck, Zap, Lock, Trophy, MessageSquare, Package,
   ArrowRight, Search, CreditCard, Download, CheckCircle2,
-  Sparkles, Star, Crown, Flame, UserCheck, Loader2, Pencil, PlayCircle } from
+  Sparkles, Star, Crown, Flame, UserCheck, Loader2, Pencil, PlayCircle,
+  ArrowLeftRight, ExternalLink } from
 "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
 import PaymentModal from "@/components/PaymentModal";
