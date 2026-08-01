@@ -49,8 +49,8 @@ export default function PaymentModal({
   if (!product) return null;
   const note = `${product.name} · ${buyer.weplay_id}`;
 
-  const ensureOrder = async (m: Method) => {
-    if (orderId) return orderId;
+  /* Order is created ONLY when the buyer verifies their transaction ID */
+  const createOrder = async (m: Method) => {
     setCreating(true);
     const { data, error } = await supabase.rpc("create_order", {
       p_weplay_id: buyer.weplay_id,
@@ -73,18 +73,14 @@ export default function PaymentModal({
     return row.id as string;
   };
 
-  const payWithApp = async (app: typeof UPI_APPS[0]) => {
+  const payWithApp = (app: typeof UPI_APPS[0]) => {
     setMethod("upi");
     setActiveApp(app.key);
-    const id = await ensureOrder("upi");
-    if (!id) return;
     window.location.href = `${app.scheme}?${upiQuery(product.price, note)}`;
   };
 
-  const openRazorpay = async () => {
+  const openRazorpay = () => {
     setMethod("razorpay");
-    const id = await ensureOrder("razorpay");
-    if (!id) return;
     window.open(product.link, "_blank", "noopener,noreferrer");
   };
 
@@ -94,9 +90,12 @@ export default function PaymentModal({
       toast({ title: "Enter a valid ID", description: method === "upi" ? "UTR is usually 12 digits." : "Paste your Razorpay transaction ID.", variant: "destructive" });
       return;
     }
-    const id = await ensureOrder(method ?? "upi");
-    if (!id) return;
     setVerifying(true);
+    const id = orderId ?? (await createOrder(method ?? "upi"));
+    if (!id) {
+      setVerifying(false);
+      return;
+    }
     const { error } = await supabase.rpc("attach_transaction", { p_order_id: id, p_transaction_id: value });
     setVerifying(false);
     if (error) {
