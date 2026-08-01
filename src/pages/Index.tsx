@@ -385,7 +385,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                   type="submit"
                   className="py-3.5 px-6 text-primary-foreground rounded-2xl font-extrabold text-[11.5px] uppercase tracking-[0.14em] flex items-center justify-center gap-2 active:scale-[0.96] transition-all hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.5)]"
                   style={{ background: "var(--gradient-primary)" }}>
-                    Verify <CheckCircle2 size={14} />
+                    Verify & Login <CheckCircle2 size={14} />
                   </button>
                 </form>
               }
