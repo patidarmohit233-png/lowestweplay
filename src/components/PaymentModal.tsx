@@ -36,7 +36,7 @@ export default function PaymentModal({
 
 
 }: {product: Product | null;buyer: Buyer;onClose: () => void;}) {
-  const [method, setMethod] = useState<Method>("upi");
+  const [method, setMethod] = useState<Method | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [orderCode, setOrderCode] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
@@ -94,7 +94,7 @@ export default function PaymentModal({
       toast({ title: "Enter a valid ID", description: method === "upi" ? "UTR is usually 12 digits." : "Paste your Razorpay transaction ID.", variant: "destructive" });
       return;
     }
-    const id = await ensureOrder(method);
+    const id = await ensureOrder(method ?? "upi");
     if (!id) return;
     setVerifying(true);
     const { error } = await supabase.rpc("attach_transaction", { p_order_id: id, p_transaction_id: value });
@@ -225,7 +225,7 @@ export default function PaymentModal({
               {/* OPTION 1 — UPI */}
               <motion.div
                 whileHover={{ y: -3 }}
-                onClick={() => setMethod("upi")}
+                onClick={() => setMethod((m) => m === "upi" ? null : "upi")}
                 role="button"
                 aria-expanded={method === "upi"}
                 className={`relative cursor-pointer rounded-[1.5rem] border-2 p-4 md:p-5 transition-all backdrop-blur-xl bg-gradient-to-br from-accent/12 via-accent/[0.06] to-card/70 ${
@@ -300,7 +300,7 @@ export default function PaymentModal({
               {/* OPTION 2 — RAZORPAY */}
               <motion.div
                 whileHover={{ y: -3 }}
-                onClick={() => setMethod("razorpay")}
+                onClick={() => setMethod((m) => m === "razorpay" ? null : "razorpay")}
                 role="button"
                 aria-expanded={method === "razorpay"}
                 className={`relative cursor-pointer rounded-[1.5rem] border-2 p-4 md:p-5 transition-all backdrop-blur-xl bg-gradient-to-br from-primary/12 via-primary/[0.06] to-card/70 ${
