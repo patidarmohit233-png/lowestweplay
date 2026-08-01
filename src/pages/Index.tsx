@@ -939,8 +939,16 @@ const Index = () => {
             </nav>
           </div>
           <div className="divider-fade mb-6" />
+          <div className="mb-5 rounded-xl border border-amber-500/25 bg-amber-500/[0.07] px-4 py-3">
+            <p className="text-[11.5px] md:text-xs text-center text-muted-foreground leading-relaxed">
+              <span aria-hidden className="mr-1">⚠️</span>
+              <span className="font-bold text-foreground">Disclaimer:</span> LowestWePlay is an independent third-party
+              service. We are <span className="font-bold text-foreground">NOT</span> affiliated with, endorsed by, or
+              sponsored by WePlay.
+            </p>
+          </div>
           <p className="text-muted-foreground text-[11.5px] text-center">
-            © {new Date().getFullYear()} Lowest Weplay. All rights reserved. Official WePlay top-up partner.
+            © {new Date().getFullYear()} Lowest Weplay. All rights reserved. Independent WePlay top-up service.
           </p>
         </div>
       </footer>
