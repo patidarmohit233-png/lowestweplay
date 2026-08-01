@@ -497,14 +497,15 @@ const Index = () => {
 
     <SplashScreen show={showSplash} onComplete={() => {}} />
 
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       {!buyer && !showSplash &&
       <VerificationGate key="gate" onVerified={(b) => persistBuyer(b)} />
       }
     </AnimatePresence>
 
-    {buyer &&
-    <div className={`min-h-screen bg-background text-foreground antialiased overflow-x-hidden ${showSplash ? "overflow-hidden h-screen" : ""}`}>
+    <div
+      aria-hidden={!buyer ? true : undefined}
+      className={`min-h-screen bg-background text-foreground antialiased overflow-x-hidden transition-[filter,opacity] duration-500 ${showSplash ? "overflow-hidden h-screen" : ""} ${!buyer && !showSplash ? "blur-[7px] scale-[1.01] opacity-95 pointer-events-none select-none max-h-screen overflow-hidden" : ""}`}>
       {/* scroll progress */}
       <motion.div
         aria-hidden
