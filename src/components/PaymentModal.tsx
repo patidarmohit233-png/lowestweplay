@@ -124,7 +124,7 @@ export default function PaymentModal({
         <Check size={15} strokeWidth={3} />
       </span>
       <p className="text-[12px] font-bold text-foreground leading-relaxed">
-        Order {orderCode} is now <span className="text-accent">processing</span>. Track it anytime with your WePlay ID.
+        Order {orderCode} is submitted and now <span className="text-accent">pending review</span>. Track it anytime with your WePlay ID.
       </p>
     </div> :
 
