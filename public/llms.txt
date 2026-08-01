@@ -1,0 +1,24 @@
+# Lowest Weplay (weplayrecharge.shop)
+
+> India's cheapest WePlay top-up store — buy WePlay coins, recharge packs and Red Packets from ₹479 with instant delivery to your WePlay ID.
+
+Lowest Weplay is an official WePlay top-up service for players in India.
+Customers verify their WePlay ID and in-game name on the homepage, choose a
+coin package, and pay by UPI (weplayrecharge@ybl) or Razorpay. Coins are
+usually credited within minutes. We never ask for passwords or OTPs.
+
+## Pages
+
+- [Home](https://weplayrecharge.shop/): All WePlay top-up packages, player verification panel and payment options.
+- [WePlay Recharge](https://weplayrecharge.shop/weplay-recharge): Gold recharge packs from 10K to 500K coins with bonus coins and Broad Absolute items.
+- [WePlay Red Packet](https://weplayrecharge.shop/weplay-red-packet): 10K and 50K Red Packet gifting bundles, including the double-bonus 50K pack.
+- [Price List](https://weplayrecharge.shop/weplay-top-up-price-list): Full price table for every WePlay pack in INR.
+- [How To Top Up](https://weplayrecharge.shop/how-to-top-up-weplay): Step-by-step guide to ordering a WePlay top-up.
+- [FAQ](https://weplayrecharge.shop/faq): Delivery times, ID safety, payment methods and refunds.
+- [Contact](https://weplayrecharge.shop/contact): Support email and response times.
+
+## Optional
+
+- [Terms of Service](https://weplayrecharge.shop/terms-of-service): Purchase terms and acceptable use.
+- [Privacy Policy](https://weplayrecharge.shop/privacy-policy): What data we collect and how it is used.
+- [Refund Policy](https://weplayrecharge.shop/refund-policy): Refund eligibility for undelivered orders.
