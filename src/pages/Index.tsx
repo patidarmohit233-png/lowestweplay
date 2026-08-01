@@ -907,7 +907,6 @@ const Index = () => {
       <PaymentModal product={payFor} buyer={buyer} onClose={() => setPayFor(null)} />
       }
     </div>
-    }
     </>);
 
 
