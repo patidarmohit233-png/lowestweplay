@@ -64,51 +64,56 @@ export default function LiveSocialProof() {
 
   return (
     <>
-      {/* live viewers pill */}
-      <div className="fixed bottom-4 right-4 z-[70] pointer-events-none">
+      <div
+        className="fixed inset-x-0 bottom-0 z-[70] flex flex-col-reverse items-start gap-2 px-3 pb-3 md:flex-row md:items-end md:justify-between md:px-4 md:pb-4 pointer-events-none"
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}>
+
+        {/* purchase popups */}
+        <div className="w-full md:w-auto max-w-[calc(100vw-1.5rem)] md:max-w-sm">
+          <AnimatePresence mode="wait">
+            {purchase && (
+              <motion.div
+                key={purchase.key}
+                initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="flex items-center gap-2.5 rounded-xl md:rounded-2xl border border-border/70 bg-card/92 backdrop-blur-xl px-2.5 py-2 md:px-3.5 md:py-3 shadow-lg md:shadow-xl">
+                <div className="grid place-items-center h-7 w-7 md:h-8 md:w-8 rounded-lg md:rounded-xl bg-emerald-500/12 text-emerald-600 shrink-0">
+                  <CheckCircle2 size={14} aria-hidden />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[11px] md:text-sm font-bold text-foreground leading-tight truncate">
+                    {purchase.name} <span className="font-semibold text-muted-foreground">· {purchase.city}</span>
+                  </p>
+                  <p className="text-[10px] md:text-xs text-muted-foreground leading-tight truncate">
+                    bought <span className="font-bold text-primary">{purchase.plan}</span> · {purchase.mins}m ago
+                  </p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* live viewers pill */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
-          className="flex items-center gap-2 rounded-full border border-border/70 bg-card/85 backdrop-blur-xl px-3 py-2 shadow-lg">
-          <span className="relative flex h-2 w-2">
+          className="flex items-center gap-1.5 md:gap-2 rounded-full border border-border/70 bg-card/90 backdrop-blur-xl px-2.5 py-1.5 md:px-3 md:py-2 shadow-md md:shadow-lg shrink-0">
+          <span className="relative flex h-1.5 w-1.5 md:h-2 md:w-2">
             <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-70 animate-ping" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+            <span className="relative inline-flex h-full w-full rounded-full bg-emerald-500" />
           </span>
-          <Eye size={14} className="text-muted-foreground" aria-hidden />
-          <p className="text-[11px] md:text-xs font-bold text-foreground tabular-nums">
+          <Eye size={12} className="text-muted-foreground md:hidden" aria-hidden />
+          <Eye size={14} className="text-muted-foreground hidden md:block" aria-hidden />
+          <p className="text-[10px] md:text-xs font-bold text-foreground tabular-nums whitespace-nowrap">
             {viewers.toLocaleString("en-IN")}
-            <span className="ml-1 font-semibold text-muted-foreground">watching now</span>
+            <span className="ml-1 font-semibold text-muted-foreground">watching</span>
           </p>
         </motion.div>
       </div>
-
-      {/* purchase popups */}
-      <div className="fixed bottom-4 left-4 z-[70] pointer-events-none max-w-[86vw]">
-        <AnimatePresence mode="wait">
-          {purchase && (
-            <motion.div
-              key={purchase.key}
-              initial={{ opacity: 0, x: -30, scale: 0.94 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: -20, scale: 0.96 }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-start gap-3 rounded-2xl border border-border/70 bg-card/90 backdrop-blur-xl px-3.5 py-3 shadow-xl">
-              <div className="mt-0.5 grid place-items-center h-8 w-8 rounded-xl bg-emerald-500/12 text-emerald-600 shrink-0">
-                <CheckCircle2 size={16} aria-hidden />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs md:text-sm font-bold text-foreground leading-snug truncate">
-                  {purchase.name} <span className="font-semibold text-muted-foreground">from {purchase.city}</span>
-                </p>
-                <p className="text-[11px] md:text-xs text-muted-foreground leading-snug">
-                  bought <span className="font-bold text-primary">{purchase.plan}</span> · {purchase.mins} min ago
-                </p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
     </>
+
   );
 }
