@@ -11,6 +11,7 @@ import SplashScreen from "@/components/SplashScreen";
 import PaymentModal from "@/components/PaymentModal";
 import ProfileMenu from "@/components/ProfileMenu";
 import VerificationGate from "@/components/VerificationGate";
+import LiveSocialProof from "@/components/LiveSocialProof";
 
 
 import Seo, { SITE_URL } from "@/components/Seo";
@@ -948,6 +949,7 @@ const Index = () => {
       <PaymentModal product={payFor} buyer={buyer} onClose={() => setPayFor(null)} />
       }
     </div>
+    {buyer && !showSplash && <LiveSocialProof />}
     </>);
 
 
