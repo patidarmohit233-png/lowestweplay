@@ -368,7 +368,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                     <input
                     value={form.weplay_id}
                     onChange={(e) => setForm({ ...form, weplay_id: e.target.value })}
-                    placeholder="WePlay ID (e.g. WP123456)"
+                    placeholder="Enter your WePlay ID"
                     className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.weplay_id ? "border-destructive" : "border-border"}`} />
                     {errors.weplay_id && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_id}</span>}
                   </label>
@@ -377,7 +377,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                     <input
                     value={form.weplay_name}
                     onChange={(e) => setForm({ ...form, weplay_name: e.target.value })}
-                    placeholder="WePlay Name (in-game)"
+                    placeholder="Enter your Name"
                     className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.weplay_name ? "border-destructive" : "border-border"}`} />
                     {errors.weplay_name && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_name}</span>}
                   </label>
