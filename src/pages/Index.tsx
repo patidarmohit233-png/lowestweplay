@@ -554,6 +554,12 @@ const Index = () => {
         </div>
       </motion.nav>
 
+      {buyer && <ProfileMenu buyer={buyer} onLogout={() => {persistBuyer(null);toast({ title: "Logged out", description: "Your session on this device has been cleared." });}} />}
+
+      {/* ─── STEP 1 · VERIFY & LOGIN (top of page) ─────────── */}
+      <VerificationPanel buyer={buyer} onVerified={persistBuyer} />
+
+
       {/* ─── HERO ─────────────────────────────────────────── */}
       <header className="relative pt-12 md:pt-24 pb-16 md:pb-28 px-4 md:px-6 overflow-hidden">
         <div className="absolute inset-0 bg-mesh" />
