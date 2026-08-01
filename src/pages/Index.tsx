@@ -567,8 +567,8 @@ const Index = () => {
 
       {buyer && <ProfileMenu buyer={buyer} onLogout={() => {persistBuyer(null);toast({ title: "Logged out", description: "Your session on this device has been cleared." });}} />}
 
-      {/* ─── STEP 1 · VERIFY & LOGIN (top of page) ─────────── */}
-      <VerificationPanel buyer={buyer} onVerified={persistBuyer} />
+      {/* ─── STEP 1 · VERIFY & LOGIN (top of page until verified) ─────────── */}
+      {!buyer && <VerificationPanel buyer={buyer} onVerified={persistBuyer} />}
 
 
       {/* ─── HERO ─────────────────────────────────────────── */}
