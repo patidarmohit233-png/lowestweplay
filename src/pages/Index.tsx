@@ -534,8 +534,16 @@ const Index = () => {
                 <span className="absolute -bottom-1.5 left-0 h-[2px] w-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full bg-primary" />
               </a>
             )}
+            <a
+              href="https://weplayescrow.lovable.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/8 text-accent text-xs font-extrabold hover:-translate-y-0.5 transition-transform">
+              <ArrowLeftRight size={13} /> Buy &amp; Sell ID
+            </a>
           </div>
           <div className="md:hidden" />
+
 
           <motion.div
             className="absolute inset-x-0 mx-auto w-fit md:static md:mx-0 flex items-center justify-center"
