@@ -701,9 +701,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ─── VERIFICATION ─────────────────────────────────── */}
-      <VerificationPanel buyer={buyer} onVerified={persistBuyer} />
-
       {/* ─── PRODUCTS ─────────────────────────────────────── */}
       <section id="products" className="relative py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
         <div className="max-w-7xl mx-auto relative z-10">
@@ -712,7 +709,24 @@ const Index = () => {
             title="Choose Your"
             highlight="Package"
             subtitle="Pick a coin bundle and pay securely — coins are credited within minutes." />
-          {[
+          {!buyer ?
+            <Reveal>
+              <div className="max-w-xl mx-auto text-center rounded-[1.75rem] border border-border/70 bg-card/70 backdrop-blur-xl shadow-elevated px-6 py-10">
+                <span className="inline-flex w-14 h-14 rounded-2xl bg-primary/10 text-primary items-center justify-center">
+                  <Lock size={22} />
+                </span>
+                <h3 className="mt-4 text-lg md:text-xl font-display text-foreground">Plans are locked</h3>
+                <p className="mt-2 text-[13px] text-muted-foreground leading-relaxed">
+                  Verify your WePlay ID & Name at the top to unlock all packages.
+                </p>
+                <button onClick={scrollToVerify}
+                  className="mt-5 px-7 py-3.5 rounded-2xl text-primary-foreground font-extrabold text-[11.5px] uppercase tracking-[0.14em] inline-flex items-center gap-2 active:scale-[0.97] transition-transform"
+                  style={{ background: "var(--gradient-primary)" }}>
+                  Verify & Login <ArrowRight size={14} />
+                </button>
+              </div>
+            </Reveal> :
+          [
             { key: "redpacket", label: "Red Packet", items: PRODUCTS.filter((p) => p.name.includes("RED PACKET")) },
             { key: "recharge", label: "Recharge", items: PRODUCTS.filter((p) => !p.name.includes("RED PACKET")) }].
             map((group) =>
@@ -728,6 +742,7 @@ const Index = () => {
                 </div>
               </div>
             )}
+
 
         </div>
       </section>
