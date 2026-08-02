@@ -718,10 +718,12 @@ const Index = () => {
               <iframe
                 width="100%"
                 height="100%"
-                src="https://www.youtube.com/embed/wGYGm31bhZM"
-                title="Lowest Weplay top-up demo"
+                src="https://www.youtube.com/embed/HmUCGgfNFDg?si=a7X3UqHTo0JHV1hM"
+                title="YouTube video player"
+                frameBorder="0"
                 loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen />
             </div>
           </Reveal>
