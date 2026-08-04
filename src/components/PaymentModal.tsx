@@ -129,7 +129,7 @@ export default function PaymentModal({
       </p>
     </div> :
 
-  <div className="mt-4 rounded-2xl border-2 border-warning/50 bg-warning/[0.09] p-3.5">
+  <div onClick={(e) => e.stopPropagation()} className="mt-4 rounded-2xl border-2 border-warning/50 bg-warning/[0.09] p-3.5">
       <label className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-[0.12em] text-foreground">
         <Search size={13} strokeWidth={3} /> {label}
       </label>
