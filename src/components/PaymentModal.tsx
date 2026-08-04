@@ -116,9 +116,10 @@ export default function PaymentModal({
     `upi://pay?${upiQuery(product.price, note)}`
   )}`;
 
-  /* shared verification block inside each card */
-  const VerifyBlock = ({ label, placeholder }: {label: string;placeholder: string;}) =>
+  /* shared verification block inside each card (plain render fn — keeps input mounted) */
+  const renderVerify = (label: string, placeholder: string) =>
   done ?
+
   <div className="mt-4 rounded-2xl border border-accent/30 bg-accent/10 px-4 py-3.5 flex items-start gap-3">
       <span className="w-8 h-8 shrink-0 rounded-full bg-accent/20 text-accent grid place-items-center">
         <Check size={15} strokeWidth={3} />
@@ -290,7 +291,7 @@ export default function PaymentModal({
                         </p>
                       </div>
 
-                      <VerifyBlock label="🔍 Enter UTR / UPI Reference" placeholder="Type your UTR here (12 digits)" />
+                      {renderVerify("🔍 Enter UTR / UPI Reference", "Type your UTR here (12 digits)")}
                     </motion.div>
                   }
                 </AnimatePresence>
@@ -341,7 +342,7 @@ export default function PaymentModal({
                         </span>
                       </button>
 
-                      <VerifyBlock label="🔍 Enter Your Transaction ID" placeholder="Type your Razorpay Transaction ID" />
+                      {renderVerify("🔍 Enter Your Transaction ID", "Type your Razorpay Transaction ID")}
                     </motion.div>
                   }
                 </AnimatePresence>
