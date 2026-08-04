@@ -56,17 +56,32 @@ const RefundPolicy = () => (
         </section>
 
         <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">3. Refund Process</h2>
+          <h2 className="text-lg font-bold text-foreground mb-2">3. Restricted IDs & Refused Packages</h2>
+          <p>We cannot process top-ups in the following situations:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>The WePlay ID is restricted, banned, or flagged by the game system</li>
+            <li>You purchase a package that we have explicitly refused or warned against in our YouTube video or support messages</li>
+          </ul>
+          <p>In these cases, the order will not be completed and a refund may not be issued unless otherwise stated below.</p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-bold text-foreground mb-2">4. ₹479 Pack Refund Condition</h2>
+          <p>For the ₹479 package, you may be required to purchase an additional pack before we can attempt processing. If the top-up still cannot be completed even after purchasing the additional pack, we will issue a refund.</p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-bold text-foreground mb-2">5. Refund Process</h2>
           <p>To request a refund, contact us at <a href="mailto:fluxfindindia@gmail.com" className="text-primary font-medium hover:underline">fluxfindindia@gmail.com</a> with your order details and reason for refund. Refunds are typically processed within 3-5 business days to your original payment method.</p>
         </section>
 
         <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">4. Partial Refunds</h2>
+          <h2 className="text-lg font-bold text-foreground mb-2">6. Partial Refunds</h2>
           <p>In some cases, partial refunds may be offered if only a portion of the order was affected. Our support team will evaluate each case individually.</p>
         </section>
 
         <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">5. Contact for Refunds</h2>
+          <h2 className="text-lg font-bold text-foreground mb-2">7. Contact for Refunds</h2>
           <p>For all refund queries, email us at <a href="mailto:fluxfindindia@gmail.com" className="text-primary font-medium hover:underline">fluxfindindia@gmail.com</a>. Our team is available 24x7 to assist you.</p>
         </section>
       </div>
