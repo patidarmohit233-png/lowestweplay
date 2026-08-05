@@ -8,7 +8,18 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import type { Product } from "@/data/products";
 
-export const UPI_ID = "weplayrecharge@ybl";
+export const UPI_IDS = [
+"shubhsharmaa@slc",
+"BHARATPE.9D0G0R0Y6T421308@unitype",
+"weplayrechargee@nyes",
+"lowestweplayy@axl",
+"lowestweplay@ibl",
+"weplayrecharge@ybl"];
+
+export const UPI_ID = UPI_IDS[UPI_IDS.length - 1];
+
+const pickUpiId = () => UPI_IDS[Math.floor(Math.random() * UPI_IDS.length)];
+
 const PAYEE = "Lowest Weplay";
 
 const UPI_APPS = [
@@ -20,8 +31,8 @@ const UPI_APPS = [
 
 const RAZORPAY_LOGO = "https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg";
 
-function upiQuery(amount: number, note: string) {
-  return `pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(PAYEE)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+function upiQuery(upiId: string, amount: number, note: string) {
+  return `pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(PAYEE)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
 }
 
 type Buyer = { weplay_id: string; weplay_name: string };
