@@ -15,6 +15,7 @@ type Order = {
   price: number;
   payment_method: string;
   transaction_id: string | null;
+  upi_id: string | null;
   status: string;
   created_at: string;
 };
