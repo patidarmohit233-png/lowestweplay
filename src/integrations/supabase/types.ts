@@ -63,6 +63,7 @@ export type Database = {
           status: string
           transaction_id: string | null
           updated_at: string
+          upi_id: string | null
           weplay_id: string
           weplay_name: string
         }
@@ -81,6 +82,7 @@ export type Database = {
           status?: string
           transaction_id?: string | null
           updated_at?: string
+          upi_id?: string | null
           weplay_id: string
           weplay_name: string
         }
@@ -99,6 +101,7 @@ export type Database = {
           status?: string
           transaction_id?: string | null
           updated_at?: string
+          upi_id?: string | null
           weplay_id?: string
           weplay_name?: string
         }
@@ -143,6 +146,23 @@ export type Database = {
               p_price: number
               p_product_id: string
               p_product_name: string
+              p_weplay_id: string
+              p_weplay_name: string
+            }
+            Returns: {
+              id: string
+              order_code: string
+            }[]
+          }
+        | {
+            Args: {
+              p_coins: string
+              p_coins_amount: number
+              p_payment_method: string
+              p_price: number
+              p_product_id: string
+              p_product_name: string
+              p_upi_id?: string
               p_weplay_id: string
               p_weplay_name: string
             }
