@@ -284,7 +284,7 @@ export default function PaymentModal({
                           </span>
                           <div className="min-w-0">
                             <p className="text-[9px] font-extrabold uppercase tracking-[0.16em] text-muted-foreground">Pay to UPI ID</p>
-                            <p className="text-[13.5px] font-extrabold text-foreground truncate">{UPI_ID}</p>
+                            <p className="text-[13.5px] font-extrabold text-foreground truncate">{assignedUpi}</p>
                           </div>
                         </div>
                         <button onClick={(e) => {e.stopPropagation();copyUpi();}}
