@@ -822,6 +822,37 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ─── PROOF OF DELIVERY ────────────────────────────── */}
+      <section id="proof" className="py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
+        <div className="max-w-4xl mx-auto">
+          <SectionHeading
+            eyebrow="Trust"
+            title="Proof of"
+            highlight="Delivery"
+            subtitle="Real proof of successful WePlay top-ups. No tricks, no scams. Just instant delivery." />
+          <Reveal>
+            <div className="flex flex-col items-center">
+              <div className="relative rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border border-border bg-card shadow-elevated"
+                style={{ width: "100%", maxWidth: "315px", aspectRatio: "9 / 16" }}>
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/aQeC9LdH-Mk"
+                  title="Proof of weplay carding in Lowestweplay"
+                  frameBorder="0"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen />
+              </div>
+              <p className="mt-5 text-[11px] md:text-xs text-center text-muted-foreground max-w-sm leading-relaxed">
+                <span aria-hidden className="mr-1">📹</span>
+                Video shows real top-up process. We never ask for password. Only WePlay ID needed.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
       {/* ─── HOW IT WORKS ─────────────────────────────────── */}
       <section id="how-it-works" className="py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
