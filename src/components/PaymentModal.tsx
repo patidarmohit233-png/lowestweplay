@@ -8,7 +8,18 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import type { Product } from "@/data/products";
 
-export const UPI_ID = "weplayrecharge@ybl";
+export const UPI_IDS = [
+"shubhsharmaa@slc",
+"BHARATPE.9D0G0R0Y6T421308@unitype",
+"weplayrechargee@nyes",
+"lowestweplayy@axl",
+"lowestweplay@ibl",
+"weplayrecharge@ybl"];
+
+export const UPI_ID = UPI_IDS[UPI_IDS.length - 1];
+
+const pickUpiId = () => UPI_IDS[Math.floor(Math.random() * UPI_IDS.length)];
+
 const PAYEE = "Lowest Weplay";
 
 const UPI_APPS = [
@@ -20,8 +31,8 @@ const UPI_APPS = [
 
 const RAZORPAY_LOGO = "https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg";
 
-function upiQuery(amount: number, note: string) {
-  return `pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(PAYEE)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+function upiQuery(upiId: string, amount: number, note: string) {
+  return `pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(PAYEE)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
 }
 
 type Buyer = { weplay_id: string; weplay_name: string };
@@ -45,6 +56,8 @@ export default function PaymentModal({
   const [verifying, setVerifying] = useState(false);
   const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);
+  /* one random UPI ID per checkout session, saved with the order */
+  const [assignedUpi] = useState(pickUpiId);
 
   if (!product) return null;
   const note = `${product.name} · ${buyer.weplay_id}`;
@@ -60,7 +73,8 @@ export default function PaymentModal({
       p_price: product.price,
       p_coins: product.coins,
       p_coins_amount: product.coinsAmount,
-      p_payment_method: m
+      p_payment_method: m,
+      p_upi_id: m === "upi" ? assignedUpi : null
     });
     setCreating(false);
     const row = Array.isArray(data) ? data[0] : null;
@@ -76,7 +90,7 @@ export default function PaymentModal({
   const payWithApp = (app: typeof UPI_APPS[0]) => {
     setMethod("upi");
     setActiveApp(app.key);
-    window.location.href = `${app.scheme}?${upiQuery(product.price, note)}`;
+    window.location.href = `${app.scheme}?${upiQuery(assignedUpi, product.price, note)}`;
   };
 
   const openRazorpay = () => {
@@ -107,13 +121,13 @@ export default function PaymentModal({
   };
 
   const copyUpi = async () => {
-    await navigator.clipboard.writeText(UPI_ID);
+    await navigator.clipboard.writeText(assignedUpi);
     setCopied(true);
     setTimeout(() => setCopied(false), 1800);
   };
 
   const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=6&data=${encodeURIComponent(
-    `upi://pay?${upiQuery(product.price, note)}`
+    `upi://pay?${upiQuery(assignedUpi, product.price, note)}`
   )}`;
 
   /* shared verification block inside each card (plain render fn — keeps input mounted) */
@@ -270,7 +284,7 @@ export default function PaymentModal({
                           </span>
                           <div className="min-w-0">
                             <p className="text-[9px] font-extrabold uppercase tracking-[0.16em] text-muted-foreground">Pay to UPI ID</p>
-                            <p className="text-[13.5px] font-extrabold text-foreground truncate">{UPI_ID}</p>
+                            <p className="text-[13.5px] font-extrabold text-foreground truncate">{assignedUpi}</p>
                           </div>
                         </div>
                         <button onClick={(e) => {e.stopPropagation();copyUpi();}}
