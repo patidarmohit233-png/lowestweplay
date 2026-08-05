@@ -174,7 +174,7 @@ export default function Admin() {
                 </thead>
                 <tbody>
                   {filteredOrders.length === 0 &&
-                <tr><td colSpan={9} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
+                <tr><td colSpan={10} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
                 }
                   {filteredOrders.map((o) =>
                 <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
@@ -188,6 +188,11 @@ export default function Admin() {
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{o.coins || "—"}</td>
                       <td className="px-4 py-3 text-right font-bold">₹{o.price}</td>
                       <td className="px-4 py-3 uppercase text-xs font-bold">{o.payment_method}</td>
+                      <td className="px-4 py-3 max-w-[190px]">
+                        {o.upi_id ?
+                    <span className="inline-block px-2 py-1 rounded-md bg-secondary border border-border text-[11px] font-bold break-all">{o.upi_id}</span> :
+                    <span className="text-muted-foreground">—</span>}
+                      </td>
                       <td className="px-4 py-3 text-muted-foreground max-w-[160px] truncate">{o.transaction_id || "—"}</td>
                       <td className="px-4 py-3">
                         <select
