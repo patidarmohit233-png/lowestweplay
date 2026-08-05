@@ -605,6 +605,20 @@ const Index = () => {
             <span className="text-accent font-extrabold">Live</span>
           </motion.div>
 
+          <motion.a
+            href="#proof"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: EASE }}
+            className="mt-3 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.06] backdrop-blur-md px-3.5 py-2 text-[11px] md:text-xs font-extrabold text-primary hover:bg-primary/[0.12] active:scale-[0.97] transition-all"
+          >
+            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-primary">
+              <PlayCircle size={12} />
+            </span>
+            Watch Proof of Delivery
+            <ArrowRight size={12} />
+          </motion.a>
+
           <h1 className="mt-6 md:mt-9 text-[2.6rem] leading-[0.98] md:text-[5.2rem] font-display text-foreground">
             {["Get More.", "Pay Less."].map((line, i) =>
             <motion.span
