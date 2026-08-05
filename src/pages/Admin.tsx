@@ -167,6 +167,7 @@ export default function Admin() {
                     <th className="text-left px-4 py-3">Coins</th>
                     <th className="text-right px-4 py-3">Amount</th>
                     <th className="text-left px-4 py-3">Method</th>
+                    <th className="text-left px-4 py-3">Paid To (UPI)</th>
                     <th className="text-left px-4 py-3">Txn ID</th>
                     <th className="text-left px-4 py-3">Status</th>
                   </tr>
