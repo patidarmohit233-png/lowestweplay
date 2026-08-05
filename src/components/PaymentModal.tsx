@@ -121,13 +121,13 @@ export default function PaymentModal({
   };
 
   const copyUpi = async () => {
-    await navigator.clipboard.writeText(UPI_ID);
+    await navigator.clipboard.writeText(assignedUpi);
     setCopied(true);
     setTimeout(() => setCopied(false), 1800);
   };
 
   const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=6&data=${encodeURIComponent(
-    `upi://pay?${upiQuery(product.price, note)}`
+    `upi://pay?${upiQuery(assignedUpi, product.price, note)}`
   )}`;
 
   /* shared verification block inside each card (plain render fn — keeps input mounted) */
