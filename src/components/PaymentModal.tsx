@@ -56,6 +56,8 @@ export default function PaymentModal({
   const [verifying, setVerifying] = useState(false);
   const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);
+  /* one random UPI ID per checkout session, saved with the order */
+  const [assignedUpi] = useState(pickUpiId);
 
   if (!product) return null;
   const note = `${product.name} · ${buyer.weplay_id}`;
@@ -71,7 +73,8 @@ export default function PaymentModal({
       p_price: product.price,
       p_coins: product.coins,
       p_coins_amount: product.coinsAmount,
-      p_payment_method: m
+      p_payment_method: m,
+      p_upi_id: m === "upi" ? assignedUpi : null
     });
     setCreating(false);
     const row = Array.isArray(data) ? data[0] : null;
@@ -87,7 +90,7 @@ export default function PaymentModal({
   const payWithApp = (app: typeof UPI_APPS[0]) => {
     setMethod("upi");
     setActiveApp(app.key);
-    window.location.href = `${app.scheme}?${upiQuery(product.price, note)}`;
+    window.location.href = `${app.scheme}?${upiQuery(assignedUpi, product.price, note)}`;
   };
 
   const openRazorpay = () => {
