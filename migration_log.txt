@@ -14,3 +14,4 @@ Retry 1 for user 48848: Error: Was there a typo in the url or port?
 Retry 2 for user 48848: Error: Unable to connect. Is the computer able to access the url?
 Failed to migrate user 48848 after retries.
 Retry 0 for user 29415560: Error: Was there a typo in the url or port?
+Retry 1 for user 29415560: Error: Unable to connect. Is the computer able to access the url?
