@@ -1,0 +1,444 @@
+Starting migration...
+Migrating customers...
+Found 313 customers. Processing sequentially...
+Error inserting user 59095488: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user WP777111: Error: Was there a typo in the url or port?
+Error inserting user 48848: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 29415560: Error: Was there a typo in the url or port?
+Error inserting user 23234935: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 36988870: Error: Was there a typo in the url or port?
+Error inserting user 34015724: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 46053023: Error: Was there a typo in the url or port?
+Error inserting user 15926494: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 69015626: Error: Was there a typo in the url or port?
+Error inserting user 63595031: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 17549360: Error: Was there a typo in the url or port?
+Error inserting user 96001998: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user WP999999: Error: Was there a typo in the url or port?
+Error inserting user 41069493: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user WP999111: Error: Was there a typo in the url or port?
+Error inserting user 232978930: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user TEST9911: Error: Was there a typo in the url or port?
+Error inserting user 44205370: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 490159335: Error: Was there a typo in the url or port?
+Error inserting user 63074352: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 415051911: Error: Was there a typo in the url or port?
+Error inserting user 408880487: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 831854317: Error: Was there a typo in the url or port?
+Error inserting user 59097215: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 44662561: Error: Was there a typo in the url or port?
+Error inserting user 21532721: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 13751970: Error: Was there a typo in the url or port?
+Error inserting user 256192184: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 38742945: Error: Was there a typo in the url or port?
+Error inserting user 476793980: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 44787888: Error: Was there a typo in the url or port?
+Error inserting user 31137995: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 82695617: Error: Was there a typo in the url or port?
+Error inserting user 477567675: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 477517177262626: Error: Was there a typo in the url or port?
+Error inserting user 805128332: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 70623281: Error: Was there a typo in the url or port?
+Error inserting user 713773469: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 19366922: Error: Was there a typo in the url or port?
+Error inserting user 19396022: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 254518513: Error: Was there a typo in the url or port?
+Error inserting user 777585348: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 354830296: Error: Was there a typo in the url or port?
+Error inserting user elijahkiyori: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 52809049: Error: Was there a typo in the url or port?
+Error inserting user 88352551: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 57792942: Error: Was there a typo in the url or port?
+Error inserting user 6544566665: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 24704984: Error: Was there a typo in the url or port?
+Error inserting user 876089218: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user ᏦƑ᭄𝙈𝘼𝘼𝙉 🕷️: Error: Was there a typo in the url or port?
+Error inserting user 570738267: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 899506633: Error: Was there a typo in the url or port?
+Error inserting user 750920863: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 34611668: Error: Was there a typo in the url or port?
+Error inserting user 32346565: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 35750970: Error: Was there a typo in the url or port?
+Error inserting user 49239089: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 760079056: Error: Was there a typo in the url or port?
+Error inserting user 15304627: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 878401636: Error: Was there a typo in the url or port?
+Error inserting user 15387912: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 402918117: Error: Was there a typo in the url or port?
+Error inserting user 596913113: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 618639603: Error: Was there a typo in the url or port?
+Error inserting user 20100683: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 42204805: Error: Was there a typo in the url or port?
+Error inserting user 596913115: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 987964385888: Error: Was there a typo in the url or port?
+Error inserting user 436340841: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 439706151: Error: Was there a typo in the url or port?
+Error inserting user 922003752: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 212772204: Error: Was there a typo in the url or port?
+Error inserting user 88143393: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 53072660: Error: Was there a typo in the url or port?
+Error inserting user 94357913: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 73743329: Error: Was there a typo in the url or port?
+Error inserting user 225603116: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 404538334: Error: Was there a typo in the url or port?
+Error inserting user 17772937: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 14614137: Error: Was there a typo in the url or port?
+Error inserting user 62829080: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 12345: Error: Was there a typo in the url or port?
+Error inserting user 734829037: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 299646234: Error: Was there a typo in the url or port?
+Error inserting user 343300137: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 95774486: Error: Was there a typo in the url or port?
+Error inserting user 785691847: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 760160073: Error: Was there a typo in the url or port?
+Error inserting user 45552222: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user stand4sumnnga: Error: Was there a typo in the url or port?
+Error inserting user 69172430: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 41025724: Error: Was there a typo in the url or port?
+Error inserting user 775181598: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 916051495: Error: Was there a typo in the url or port?
+Error inserting user 352060653: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 696350190: Error: Was there a typo in the url or port?
+Error inserting user 947942424: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 96339226: Error: Was there a typo in the url or port?
+Error inserting user 625537408: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 37404537: Error: Was there a typo in the url or port?
+Error inserting user 67334834: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 59742733: Error: Was there a typo in the url or port?
+Error inserting user 57457755: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 849829002: Error: Was there a typo in the url or port?
+Error inserting user 68278715: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 28746363: Error: Was there a typo in the url or port?
+Error inserting user 38995646: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 677833891: Error: Was there a typo in the url or port?
+Error inserting user 538282302: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user Fhjekskkwwkl: Error: Was there a typo in the url or port?
+Error inserting user 11648201: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 71009012: Error: Was there a typo in the url or port?
+Error inserting user 796812232: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user Dje: Error: Was there a typo in the url or port?
+Error inserting user 24410653: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 785692898: Error: Was there a typo in the url or port?
+Error inserting user 308385605: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 267288908: Error: Was there a typo in the url or port?
+Error inserting user 29123988: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 564417851: Error: Was there a typo in the url or port?
+Error inserting user 666241467: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 42908927: Error: Was there a typo in the url or port?
+Error inserting user 91027493: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 38906080: Error: Was there a typo in the url or port?
+Error inserting user 590650408: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 24053326: Error: Was there a typo in the url or port?
+Error inserting user 765336259: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 91095225: Error: Was there a typo in the url or port?
+Error inserting user 97093947: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 400886961: Error: Was there a typo in the url or port?
+Error inserting user 50983815: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user ownmy541@gmail.com: Error: Was there a typo in the url or port?
+Error inserting user 12896576: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 234890065: Error: Was there a typo in the url or port?
+Error inserting user 11857907: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 84638036: Error: Was there a typo in the url or port?
+Error inserting user 55860083: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 872236281: Error: Was there a typo in the url or port?
+Error inserting user 982158210: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 55873461: Error: Was there a typo in the url or port?
+Error inserting user 38329269: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 497405902: Error: Was there a typo in the url or port?
+Error inserting user 417431495: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 48699336: Error: Was there a typo in the url or port?
+Error inserting user 822758197: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 11600885: Error: Was there a typo in the url or port?
+Error inserting user 98345515: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 46237975: Error: Was there a typo in the url or port?
+Error inserting user 99723535: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 22898783: Error: Was there a typo in the url or port?
+Error inserting user 307026114: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 456062368: Error: Was there a typo in the url or port?
+Error inserting user 19566073: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 399349851: Error: Was there a typo in the url or port?
+Error inserting user 549709988: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 483829425: Error: Was there a typo in the url or port?
+Error inserting user 743359251: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 226457530: Error: Was there a typo in the url or port?
+Error inserting user 89533150: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 37680866: Error: Was there a typo in the url or port?
+Error inserting user 91800615: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 47129573: Error: Was there a typo in the url or port?
+Error inserting user 429791744: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 99154852: Error: Was there a typo in the url or port?
+Error inserting user 273940567: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 424115816: Error: Was there a typo in the url or port?
+Error inserting user 1234: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 980272318: Error: Was there a typo in the url or port?
+Error inserting user 970854725: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 490456358: Error: Was there a typo in the url or port?
+Error inserting user 99031805: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 18916852: Error: Was there a typo in the url or port?
+Error inserting user 923959893: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 70440529: Error: Was there a typo in the url or port?
+Error inserting user 22939285: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 936616486: Error: Was there a typo in the url or port?
+Error inserting user 992213438: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 44463631: Error: Was there a typo in the url or port?
+Error inserting user 29124642: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 63357504: Error: Was there a typo in the url or port?
+Error inserting user 230659711: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 743829450: Error: Was there a typo in the url or port?
+Error inserting user 63620666: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 808699020: Error: Was there a typo in the url or port?
+Error inserting user 85381652: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 12462535: Error: Was there a typo in the url or port?
+Error inserting user 592869738: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 704812489: Error: Was there a typo in the url or port?
+Error inserting user 771059059: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 60920790: Error: Was there a typo in the url or port?
+Error inserting user 939176046: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 967127997: Error: Was there a typo in the url or port?
+Error inserting user 77196492: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 83998477: Error: Was there a typo in the url or port?
+Error inserting user 487015609: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 22018030: Error: Was there a typo in the url or port?
+Error inserting user 374000741: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 25815685: Error: Was there a typo in the url or port?
+Error inserting user 93531330: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 872599013: Error: Was there a typo in the url or port?
+Error inserting user 211788513: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 40518052: Error: Was there a typo in the url or port?
+Error inserting user 517652412: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 61633768: Error: Was there a typo in the url or port?
+Error inserting user 40151504: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 38300959: Error: Was there a typo in the url or port?
+Error inserting user 30670022: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 25657797: Error: Was there a typo in the url or port?
+Error inserting user 59658011: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 11861676: Error: Was there a typo in the url or port?
+Error inserting user 281397487: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 45160730: Error: Was there a typo in the url or port?
+Error inserting user 37616277: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 97397536: Error: Was there a typo in the url or port?
+Error inserting user 674690675: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 13661401: Error: Was there a typo in the url or port?
+Error inserting user 264514553: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 11316446: Error: Was there a typo in the url or port?
+Error inserting user 852168637: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 519950132: Error: Was there a typo in the url or port?
+Error inserting user 476594866: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 909259644: Error: Was there a typo in the url or port?
+Error inserting user 836245634: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 99150334: Error: Was there a typo in the url or port?
+Error inserting user 80502095: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 990259976: Error: Was there a typo in the url or port?
+Error inserting user 90345247: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 218440337: Error: Was there a typo in the url or port?
+Error inserting user 400599132: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 57419270: Error: Was there a typo in the url or port?
+Error inserting user 803059009: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 379271370: Error: Was there a typo in the url or port?
+Error inserting user 86108081: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 45686672: Error: Was there a typo in the url or port?
+Error inserting user 64279534: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 858086334: Error: Was there a typo in the url or port?
+Error inserting user 465045474: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 940786263: Error: Was there a typo in the url or port?
+Error inserting user 19078949: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 60029108: Error: Was there a typo in the url or port?
+Error inserting user 99792749: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 310792256: Error: Was there a typo in the url or port?
+Error inserting user 61229789: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 755526047: Error: Was there a typo in the url or port?
+Error inserting user 97336103: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 705982890: Error: Was there a typo in the url or port?
+Error inserting user 676909336: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 800636076: Error: Was there a typo in the url or port?
+Error inserting user 1244: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 92558107: Error: Was there a typo in the url or port?
+Error inserting user Max: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 89700419: Error: Was there a typo in the url or port?
+Error inserting user 389469574: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user Abcd: Error: Was there a typo in the url or port?
+Error inserting user 54197027: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 94081857: Error: Was there a typo in the url or port?
+Error inserting user 85455697: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 754022812: Error: Was there a typo in the url or port?
+Error inserting user 524961416: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 970219172: Error: Was there a typo in the url or port?
+Error inserting user 684268853: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 35206241: Error: Was there a typo in the url or port?
+Error inserting user 70056701: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 41180294: Error: Was there a typo in the url or port?
+Error inserting user 1225496: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 16316885: Error: Was there a typo in the url or port?
+Error inserting user 97425597: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 77495292: Error: Was there a typo in the url or port?
+Error inserting user 281112967: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 671445203: Error: Was there a typo in the url or port?
+Error inserting user 352113650: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 8586868786768: Error: Was there a typo in the url or port?
+Error inserting user 733997858: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 274745767677: Error: Was there a typo in the url or port?
+Error inserting user 66010933: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 12976908: Error: Was there a typo in the url or port?
+Error inserting user 36926218: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 563302643: Error: Was there a typo in the url or port?
+Error inserting user 57953499: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 355055863: Error: Was there a typo in the url or port?
+Error inserting user AJhussle: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 68000563: Error: Was there a typo in the url or port?
+Error inserting user 680005633: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 48363042: Error: Was there a typo in the url or port?
+Error inserting user 669356292: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 552113525: Error: Was there a typo in the url or port?
+Error inserting user 621990607: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 539868369: Error: Was there a typo in the url or port?
+Error inserting user 19203959: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 80598661: Error: Was there a typo in the url or port?
+Error inserting user 55180049: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 935950804: Error: Was there a typo in the url or port?
+Error inserting user 59518802: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user Abcdosudb: Error: Was there a typo in the url or port?
+Error inserting user 16613947: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 577929323: Error: Was there a typo in the url or port?
+Error inserting user 91800485: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 498187159: Error: Was there a typo in the url or port?
+Error inserting user 545655203: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 43165319: Error: Was there a typo in the url or port?
+Error inserting user 47692716: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 58733397: Error: Was there a typo in the url or port?
+Error inserting user 54136847: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 36284054: Error: Was there a typo in the url or port?
+Error inserting user 73727829: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 49939220: Error: Was there a typo in the url or port?
+Error inserting user 45871986: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 738684261: Error: Was there a typo in the url or port?
+Error inserting user 45745397: Error: Unable to connect. Is the computer able to access the url?
+Error inserting user 67808260: Error: Was there a typo in the url or port?
+Error inserting user 918373164: Error: Unable to connect. Is the computer able to access the url?
+Customer migration done.
+Migrating orders...
+Found 123 orders. Processing sequentially...
+Error inserting order 91499B5D: Error: Was there a typo in the url or port?
+Error inserting order 10B4DE63: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 3D97DC8B: Error: Was there a typo in the url or port?
+Error inserting order 972BECA0: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order A1A06639: Error: Was there a typo in the url or port?
+Error inserting order FBE74FB6: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order D8795016: Error: Was there a typo in the url or port?
+Error inserting order 17396D52: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order E0D0B275: Error: Was there a typo in the url or port?
+Error inserting order E3AABF18: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 2EFCD9F1: Error: Was there a typo in the url or port?
+Error inserting order 3B51BBD4: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 2918491B: Error: Was there a typo in the url or port?
+Error inserting order FE25D98B: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order E6DAEF67: Error: Was there a typo in the url or port?
+Error inserting order 7399D225: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 1053B557: Error: Was there a typo in the url or port?
+Error inserting order E2A1DCFA: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order BD26EF54: Error: Was there a typo in the url or port?
+Error inserting order 7FB69430: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 80108E5A: Error: Was there a typo in the url or port?
+Error inserting order F382E7AB: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 2B874EFB: Error: Was there a typo in the url or port?
+Error inserting order 3C80D30C: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order FF886CC6: Error: Was there a typo in the url or port?
+Error inserting order 5E799C06: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order A9FEAEE4: Error: Was there a typo in the url or port?
+Error inserting order 38693BC7: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 7C5920B3: Error: Was there a typo in the url or port?
+Error inserting order FC9ED5E9: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 70429C78: Error: Was there a typo in the url or port?
+Error inserting order 35AA988E: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 1AFDE02D: Error: Was there a typo in the url or port?
+Error inserting order 2ACE34BC: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order D9375D77: Error: Was there a typo in the url or port?
+Error inserting order 94F869B1: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order AE35234C: Error: Was there a typo in the url or port?
+Error inserting order 0AABDE68: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order B1E24E1D: Error: Was there a typo in the url or port?
+Error inserting order 3A131903: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 009CD70E: Error: Was there a typo in the url or port?
+Error inserting order 9E787A72: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 81B91B9A: Error: Was there a typo in the url or port?
+Error inserting order D0025D0A: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order AE9C329E: Error: Was there a typo in the url or port?
+Error inserting order 76B9644A: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 518B4734: Error: Was there a typo in the url or port?
+Error inserting order 0A826BC1: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 695181BC: Error: Was there a typo in the url or port?
+Error inserting order C733E87F: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 0CE94D27: Error: Was there a typo in the url or port?
+Error inserting order 6A62171E: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 64F9CE0D: Error: Was there a typo in the url or port?
+Error inserting order F39EBAC3: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 7BC80C88: Error: Was there a typo in the url or port?
+Error inserting order 47B6C48C: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 190917CD: Error: Was there a typo in the url or port?
+Error inserting order 6BCA4700: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 260FB264: Error: Was there a typo in the url or port?
+Error inserting order 7F94A9E1: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order B83B79E0: Error: Was there a typo in the url or port?
+Error inserting order 057A542E: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order E416D84F: Error: Was there a typo in the url or port?
+Error inserting order 2598DC3B: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 0BC0CEE7: Error: Was there a typo in the url or port?
+Error inserting order CBBD52C4: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 4598C877: Error: Was there a typo in the url or port?
+Error inserting order 66241CFE: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order B3A7AD63: Error: Was there a typo in the url or port?
+Error inserting order CD811B5B: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order BCAFE1FB: Error: Was there a typo in the url or port?
+Error inserting order 8A13EBD3: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 491A373A: Error: Was there a typo in the url or port?
+Error inserting order 850E75C5: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order DFC9EE10: Error: Was there a typo in the url or port?
+Error inserting order 7498E3B3: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order C60AB837: Error: Was there a typo in the url or port?
+Error inserting order 7ABE70B5: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order F15279B9: Error: Was there a typo in the url or port?
+Error inserting order CF6BA898: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 5F0002C9: Error: Was there a typo in the url or port?
+Error inserting order 2B92954F: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order FD733374: Error: Was there a typo in the url or port?
+Error inserting order 45212C9E: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 1F34C33A: Error: Was there a typo in the url or port?
+Error inserting order CB5D20E4: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 46DDF207: Error: Was there a typo in the url or port?
+Error inserting order C6ECC00D: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 602C2B07: Error: Was there a typo in the url or port?
+Error inserting order 4517D462: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order EEE4DB16: Error: Was there a typo in the url or port?
+Error inserting order 9569628C: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 4D7CF0A0: Error: Was there a typo in the url or port?
+Error inserting order C85370B7: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order CC57DB6B: Error: Was there a typo in the url or port?
+Error inserting order 6ED13734: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 73AFDB9F: Error: Was there a typo in the url or port?
+Error inserting order 177F38F2: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 62AFF639: Error: Was there a typo in the url or port?
+Error inserting order 29DBFA9B: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order AA522E8D: Error: Was there a typo in the url or port?
+Error inserting order CFDADBE8: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order EA083327: Error: Was there a typo in the url or port?
+Error inserting order 49F855E1: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 95DFC743: Error: Was there a typo in the url or port?
+Error inserting order F8204733: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 06999EE2: Error: Was there a typo in the url or port?
+Error inserting order 8394142F: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 9E40E430: Error: Was there a typo in the url or port?
+Error inserting order FB4B027D: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order A0DE82AE: Error: Was there a typo in the url or port?
+Error inserting order 79CC749E: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 8454E1FA: Error: Was there a typo in the url or port?
+Error inserting order 47328DEE: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order BB744C67: Error: Was there a typo in the url or port?
+Error inserting order 0E1E32C1: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 4BA5B332: Error: Was there a typo in the url or port?
+Error inserting order F8CD6D13: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 97427A3C: Error: Was there a typo in the url or port?
+Error inserting order 19C88FB6: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order B68AF967: Error: Was there a typo in the url or port?
+Error inserting order A82F8C8B: Error: Unable to connect. Is the computer able to access the url?
+Error inserting order 8032C0C5: Error: Was there a typo in the url or port?
+Order migration done.
+Migration complete.
