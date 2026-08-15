@@ -20,22 +20,31 @@ async function migrate() {
   } else if (customers) {
     console.log(`Found ${customers.length} customers. Processing sequentially...`);
     for (const c of customers) {
-      try {
-        const { error: insErr } = await newClient.from('users').upsert({
-          game: 'WePlay',
-          user_id: c.weplay_id,
-          name: c.weplay_name,
-          created_at: c.created_at,
-          last_active: c.last_active
-        }, { onConflict: 'user_id, game' });
-        if (insErr) {
-          console.error(`Error inserting user ${c.weplay_id}:`, insErr.message);
-        } else {
-          // Success
+      let retryCount = 0;
+      let success = false;
+      while (retryCount < 3 && !success) {
+        try {
+          const { error: insErr } = await newClient.from('users').upsert({
+            game: 'WePlay',
+            user_id: c.weplay_id,
+            name: c.weplay_name,
+            created_at: c.created_at,
+            last_active: c.last_active
+          }, { onConflict: 'user_id, game' });
+          if (!insErr) {
+            success = true;
+          } else {
+            console.error(`Retry ${retryCount} for user ${c.weplay_id}: ${insErr.message}`);
+            retryCount++;
+            await new Promise(r => setTimeout(r, 1000));
+          }
+        } catch (e) {
+          console.error(`Catch retry ${retryCount} for user ${c.weplay_id}`);
+          retryCount++;
+          await new Promise(r => setTimeout(r, 1000));
         }
-      } catch (e) {
-        console.error(`Critical error for user ${c.weplay_id}:`, e);
       }
+      if (!success) console.error(`Failed to migrate user ${c.weplay_id} after retries.`);
     }
     console.log("Customer migration done.");
   }
@@ -48,25 +57,34 @@ async function migrate() {
   } else if (orders) {
     console.log(`Found ${orders.length} orders. Processing sequentially...`);
     for (const o of orders) {
-      try {
-        const { error: insErr } = await newClient.from('orders').upsert({
-          order_id: o.order_code,
-          game: 'WePlay',
-          user_id: o.weplay_id,
-          plan: o.product_name,
-          amount: o.price,
-          status: o.status,
-          transaction_id: o.transaction_id,
-          created_at: o.created_at
-        }, { onConflict: 'order_id' });
-        if (insErr) {
-          console.error(`Error inserting order ${o.order_code}:`, insErr.message);
-        } else {
-          // Success
+      let retryCount = 0;
+      let success = false;
+      while (retryCount < 3 && !success) {
+        try {
+          const { error: insErr } = await newClient.from('orders').upsert({
+            order_id: o.order_code,
+            game: 'WePlay',
+            user_id: o.weplay_id,
+            plan: o.product_name,
+            amount: o.price,
+            status: o.status,
+            transaction_id: o.transaction_id,
+            created_at: o.created_at
+          }, { onConflict: 'order_id' });
+          if (!insErr) {
+            success = true;
+          } else {
+            console.error(`Retry ${retryCount} for order ${o.order_code}: ${insErr.message}`);
+            retryCount++;
+            await new Promise(r => setTimeout(r, 1000));
+          }
+        } catch (e) {
+          console.error(`Catch retry ${retryCount} for order ${o.order_code}`);
+          retryCount++;
+          await new Promise(r => setTimeout(r, 1000));
         }
-      } catch (e) {
-        console.error(`Critical error for order ${o.order_code}:`, e);
       }
+      if (!success) console.error(`Failed to migrate order ${o.order_code} after retries.`);
     }
     console.log("Order migration done.");
   }
