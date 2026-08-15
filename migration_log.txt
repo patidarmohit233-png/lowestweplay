@@ -1,0 +1,17 @@
+Starting migration...
+Migrating customers...
+Found 313 customers. Processing sequentially...
+Retry 0 for user 59095488: Error: Unable to connect. Is the computer able to access the url?
+Retry 1 for user 59095488: Error: Was there a typo in the url or port?
+Retry 2 for user 59095488: Error: Unable to connect. Is the computer able to access the url?
+Failed to migrate user 59095488 after retries.
+Retry 0 for user WP777111: Error: Was there a typo in the url or port?
+Retry 1 for user WP777111: Error: Unable to connect. Is the computer able to access the url?
+Retry 2 for user WP777111: Error: Was there a typo in the url or port?
+Failed to migrate user WP777111 after retries.
+Retry 0 for user 48848: Error: Unable to connect. Is the computer able to access the url?
+Retry 1 for user 48848: Error: Was there a typo in the url or port?
+Retry 2 for user 48848: Error: Unable to connect. Is the computer able to access the url?
+Failed to migrate user 48848 after retries.
+Retry 0 for user 29415560: Error: Was there a typo in the url or port?
+Retry 1 for user 29415560: Error: Unable to connect. Is the computer able to access the url?
