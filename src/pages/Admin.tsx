@@ -97,7 +97,7 @@ export default function Admin() {
 
   const filteredCustomers = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return customers.filter((c) => !q || c.user_id.toLowerCase().includes(q) || c.name.toLowerCase().includes(q));
+    return customers.filter((c) => c.game === "WePlay" && (!q || c.user_id.toLowerCase().includes(q) || c.name.toLowerCase().includes(q)));
   }, [customers, query]);
 
   const revenue = orders.filter((o) => o.status === "completed").reduce((s, o) => s + Number(o.amount || 0), 0);
