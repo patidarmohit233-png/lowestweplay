@@ -158,10 +158,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
       </p>
       {subtitle.includes("Pick a coin bundle") && (
         <p className="sr-only">
-          '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
-          
-          
-          jitni bhi policies h unhe ache se dikhao or ai bhi wo dekh ske jo unhe safe lage or trusted lage
+          beckend or frount end check kro superbase k sath because na hi payment id verify ho pari hai na hi admin pannel mai details ari h to check kr superbase se dikkat h ya tune hi kuch kia
         </p>
       )}
     </Reveal>);
