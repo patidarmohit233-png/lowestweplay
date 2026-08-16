@@ -2,7 +2,7 @@ import Seo, { SITE_URL } from "@/components/Seo";
 import ContentLayout, { PriceTable } from "@/components/ContentLayout";
 import { PRODUCTS, RED_PACKETS, RECHARGES } from "@/data/products";
 
-const PATH = "/lowest weplay-top-up-price-list";
+const PATH = "/lowestweplay-top-up-price-list";
 const cheapest = Math.min(...PRODUCTS.map((p) => p.price));
 
 const PriceList = () => (

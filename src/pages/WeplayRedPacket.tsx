@@ -2,7 +2,7 @@ import Seo, { SITE_URL } from "@/components/Seo";
 import ContentLayout, { PriceTable } from "@/components/ContentLayout";
 import { RED_PACKETS } from "@/data/products";
 
-const PATH = "/lowest weplay-red-packet";
+const PATH = "/lowestweplay-red-packet";
 
 const WeplayRedPacket = () => (
   <>
@@ -63,7 +63,7 @@ const WeplayRedPacket = () => (
         <h2>Red Packet vs recharge</h2>
         <ul>
           <li>Choose a <strong>Red Packet</strong> when you mainly gift coins in rooms and want the largest bonus multiplier.</li>
-          <li>Choose a <strong>recharge pack</strong> when you want higher volumes, Broad Absolute items and the lowest per-coin rate. See the <a href="/lowest weplay-recharge">recharge packs</a>.</li>
+          <li>Choose a <strong>recharge pack</strong> when you want higher volumes, Broad Absolute items and the lowest per-coin rate. See the <a href="/lowestweplay-recharge">recharge packs</a>.</li>
         </ul>
       </section>
 

@@ -1,7 +1,7 @@
 import Seo, { SITE_URL } from "@/components/Seo";
 import ContentLayout from "@/components/ContentLayout";
 
-const PATH = "/how-to-top-up-lowest weplay";
+const PATH = "/how-to-top-up-lowestweplay";
 
 const HowToTopUp = () => (
   <>
@@ -50,7 +50,7 @@ const HowToTopUp = () => (
 
       <section>
         <h2>Step 3 — Choose your pack</h2>
-        <p>Pick a <a href="/lowest weplay-recharge">recharge pack</a> for high volumes and Broad Absolute items, or a <a href="/lowest weplay-red-packet">Red Packet</a> for gifting with the biggest bonus multiplier. The full <a href="/lowest weplay-top-up-price-list">price list</a> shows every option side by side.</p>
+        <p>Pick a <a href="/lowestweplay-recharge">recharge pack</a> for high volumes and Broad Absolute items, or a <a href="/lowestweplay-red-packet">Red Packet</a> for gifting with the biggest bonus multiplier. The full <a href="/lowestweplay-top-up-price-list">price list</a> shows every option side by side.</p>
       </section>
 
       <section>

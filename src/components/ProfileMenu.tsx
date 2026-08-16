@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { User, LogOut, Receipt, Coins, Package, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fmt, tierMeta } from "@/lib/loyalty";
-import lowest weplayAvatarAsset from "@/assets/lowest weplay-avatar.png.asset.json";
+import lowestweplayAvatarAsset from "@/assets/lowestweplay-avatar.png.asset.json";
 
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
@@ -21,8 +21,8 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
     let alive = true;
     (async () => {
       const [{ data: c }, { count }] = await Promise.all([
-        supabase.from("customers" as any).select("total_coins,bonus_coins,loyalty_tier").eq("lowest weplay_id", buyer.user_id).maybeSingle(),
-        supabase.from("orders" as any).select("id", { count: "exact", head: true }).eq("lowest weplay_id", buyer.user_id)
+        supabase.from("customers" as any).select("total_coins,bonus_coins,loyalty_tier").eq("lowestweplay_id", buyer.user_id).maybeSingle(),
+        supabase.from("orders" as any).select("id", { count: "exact", head: true }).eq("lowestweplay_id", buyer.user_id)
       ]);
       if (!alive) return;
       const userRow = c as any;

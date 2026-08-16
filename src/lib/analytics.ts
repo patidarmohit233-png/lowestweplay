@@ -2,7 +2,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export type EventType = 
   | 'click_buy_now' 
-  | 'click_lowest weplay_topup' 
+  | 'click_lowestweplay_topup' 
   | 'payment_started' 
   | 'payment_verified'
   | 'verification_started';
@@ -12,7 +12,7 @@ export const trackEvent = async (
   metadata: Record<string, any> = {}
 ) => {
   try {
-    const lowest weplay_id = localStorage.getItem('lw_verified_buyer') 
+    const lowestweplay_id = localStorage.getItem('lw_verified_buyer') 
       ? JSON.parse(localStorage.getItem('lw_verified_buyer')!).user_id 
       : null;
 
@@ -22,7 +22,7 @@ export const trackEvent = async (
     // to prevent blocking the main UI flow if schema cache is stale.
     const { error } = await supabase.from('analytics_events').insert({
       event_name: eventName,
-      lowest weplay_id,
+      lowestweplay_id,
       metadata,
       url: window.location.pathname,
       user_agent: navigator.userAgent

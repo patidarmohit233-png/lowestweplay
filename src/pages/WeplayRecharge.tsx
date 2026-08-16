@@ -2,7 +2,7 @@ import Seo, { SITE_URL } from "@/components/Seo";
 import ContentLayout, { PriceTable } from "@/components/ContentLayout";
 import { RECHARGES } from "@/data/products";
 
-const PATH = "/lowest weplay-recharge";
+const PATH = "/lowestweplay-recharge";
 
 const WeplayRecharge = () => (
   <>

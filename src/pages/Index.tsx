@@ -21,7 +21,7 @@ import { z } from "zod";
 
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
-type Buyer = { lowest weplay_id: string; lowest weplay_name: string };
+type Buyer = { lowestweplay_id: string; lowestweplay_name: string };
 const VERIFY_KEY = "lw_verified_buyer";
 
 
@@ -70,7 +70,7 @@ const STEPS = [
 
 
 const REVIEWS = [
-{ name: "Rahul", text: "Very nice this website is very good for your lowest weplay life dont wast your money come hare and enjoy" },
+{ name: "Rahul", text: "Very nice this website is very good for your lowestweplay life dont wast your money come hare and enjoy" },
 { name: "Ankit G", text: "Maine 50K RED PACKET liya tha. Payment ke baad 10 minute tak kuch nahi aaya toh thoda tension hua. Phir support se baat ki aur 2 minute mein coins aa gaye. Good service" },
 { name: "Eren R", text: "Bhai kya mst website hai phle trust nhi hua tha but ab roj topup karta hu yahi se" },
 { name: "Deepak Kumar", text: "Pehle lag raha tha scam hoga kyunki ID maang rahe the. But unhone bola sirf ID chahiye password nahi. Safe hai bhai" },
@@ -161,7 +161,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            or ek kam kr jaha jaha lowest weplay likha h uske age lowest likhde jise bd mai copyrighht wala seen na lge
+                                            or ek kam kr jaha jaha lowestweplay likha h uske age lowest likhde jise bd mai copyrighht wala seen na lge
         </p>
       )}
     </Reveal>);
@@ -254,7 +254,7 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
       {/* content */}
       <div className="px-3 pt-2.5 pb-3 md:px-5 md:pt-4 md:pb-5 flex flex-col flex-grow">
         <h3 className="text-[11.5px] md:text-[15px] font-extrabold text-foreground leading-tight line-clamp-1">{product.name}</h3>
-        <Link to="/lowest weplay-recharge-topup" onClick={() => trackEvent('click_lowest weplay_topup', { product_id: product.id })} className="text-[9.5px] md:text-[10px] text-primary hover:underline font-bold mb-1 block">Lowest WePlay Top Up</Link>
+        <Link to="/lowestweplay-recharge-topup" onClick={() => trackEvent('click_lowestweplay_topup', { product_id: product.id })} className="text-[9.5px] md:text-[10px] text-primary hover:underline font-bold mb-1 block">Lowest WePlay Top Up</Link>
         <p className="text-muted-foreground text-[9.5px] md:text-xs mt-0 mb-2.5 md:mb-4 flex-grow leading-snug line-clamp-2">{product.desc}</p>
 
         <div className="flex items-end justify-between gap-1 mb-2.5 md:mb-4">
@@ -394,10 +394,10 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
     }
     setErrors({});
     const { error: upsertError } = await supabase.from("customers").upsert({
-      lowest weplay_id: parsed.data.user_id,
-      lowest weplay_name: parsed.data.name,
+      lowestweplay_id: parsed.data.user_id,
+      lowestweplay_name: parsed.data.name,
       last_active: new Date().toISOString()
-    }, { onConflict: 'lowest weplay_id' });
+    }, { onConflict: 'lowestweplay_id' });
 
     if (upsertError) {
       toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
@@ -553,17 +553,17 @@ const Index = () => {
     <DailyCountdownBar />
     <Seo
       title="Lowest WePlay Top Up India — Cheapest Lowest WePlay Recharge & Red Packet (100% Safe)"
-      description="Official Lowest WePlay Recharge India. Buy Lowest WePlay coins and Red Packets at the lowest prices. 100% Safe & Instant Lowest WePlay top up, No password required. Trusted by thousands of players on lowest weplayrecharge.shop."
+      description="Official Lowest WePlay Recharge India. Buy Lowest WePlay coins and Red Packets at the lowest prices. 100% Safe & Instant Lowest WePlay top up, No password required. Trusted by thousands of players on lowestweplayrecharge.shop."
       path="/"
       jsonLd={[
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "Lowest Weplay",
-          "url": "https://lowest weplayrecharge.shop/",
+          "url": "https://lowestweplayrecharge.shop/",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://lowest weplayrecharge.shop/track-order?id={search_term_string}",
+            "target": "https://lowestweplayrecharge.shop/track-order?id={search_term_string}",
             "query-input": "required name=search_term_string"
           }
         },
@@ -634,7 +634,7 @@ const Index = () => {
       <div className="absolute inset-0 bg-background/95 backdrop-blur-3xl border-b border-border/70 pointer-events-none shadow-sm" />
       <div className="relative max-w-7xl mx-auto flex items-center justify-between pointer-events-auto min-h-[72px] h-auto py-2 md:py-3">
         <div className="flex-1 hidden md:flex items-center gap-4">
-          <Link to="/lowest weplay-recharge-topup" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
+          <Link to="/lowestweplay-recharge-topup" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
             <ArrowLeftRight size={13} className="text-primary" /> Buy & Sell ID
           </Link>
           <Link to="/trust-safety" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
@@ -874,7 +874,7 @@ const Index = () => {
         <div className="max-w-4xl mx-auto">
           <Reveal>
             <a
-              href="https://lowest weplayescrow.lovable.app/"
+              href="https://lowestweplayescrow.lovable.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-3 md:gap-4 rounded-2xl border border-accent/25 bg-accent/[0.06] px-4 py-3.5 md:px-6 md:py-4 backdrop-blur-xl active:scale-[0.98] transition-transform">
@@ -963,7 +963,7 @@ const Index = () => {
                   width="100%"
                   height="100%"
                   src="https://www.youtube.com/embed/aQeC9LdH-Mk"
-                  title="Proof of lowest weplay carding in Lowestlowest weplay"
+                  title="Proof of lowestweplay carding in Lowestlowestweplay"
                   frameBorder="0"
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -1140,8 +1140,8 @@ const Index = () => {
               <nav className="flex flex-col gap-3.5">
                 <Link to="/how-it-works" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors font-medium">How It Works</Link>
                 <Link to="/why-us" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Why Choose Us</Link>
-                <Link to="/lowest weplay-recharge" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Coins Recharge</Link>
-                <Link to="/lowest weplay-red-packet" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Red Packet Store</Link>
+                <Link to="/lowestweplay-recharge" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Coins Recharge</Link>
+                <Link to="/lowestweplay-red-packet" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Red Packet Store</Link>
               </nav>
             </div>
 
@@ -1152,7 +1152,7 @@ const Index = () => {
                 <Link to="/track-order" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Track Your Order</Link>
                 <Link to="/faq" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Help & FAQ</Link>
                 <Link to="/contact" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Contact Support</Link>
-                <Link to="/how-to-top-up-lowest weplay" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">How to Top Up</Link>
+                <Link to="/how-to-top-up-lowestweplay" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">How to Top Up</Link>
               </nav>
             </div>
 

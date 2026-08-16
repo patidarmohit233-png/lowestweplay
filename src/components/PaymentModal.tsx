@@ -12,10 +12,10 @@ import { trackEvent } from "@/lib/analytics";
 export const UPI_IDS = [
 "shubhsharmaa@slc",
 "BHARATPE.9D0G0R0Y6T421308@unitype",
-"lowest weplayrechargee@nyes",
-"lowest weplayy@axl",
-"lowest weplay@ibl",
-"lowest weplayrecharge@ybl"];
+"lowestweplayrechargee@nyes",
+"lowestweplayy@axl",
+"lowestweplay@ibl",
+"lowestweplayrecharge@ybl"];
 
 export const UPI_ID = UPI_IDS[UPI_IDS.length - 1];
 
@@ -68,8 +68,8 @@ export default function PaymentModal({
     
     // Switch back to direct insert as RPC might be missing in external DB
     const { data, error } = await supabase.from('orders').insert({
-      lowest weplay_id: buyer.user_id,
-      lowest weplay_name: buyer.name || (buyer as any).lowest weplay_name || "Player",
+      lowestweplay_id: buyer.user_id,
+      lowestweplay_name: buyer.name || (buyer as any).lowestweplay_name || "Player",
       product_id: String(product.id),
       product_name: String(product.name),
       price: product.price * quantity,

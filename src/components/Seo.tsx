@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
-export const SITE_URL = "https://lowest weplayrecharge.shop";
+export const SITE_URL = "https://lowestweplayrecharge.shop";
 
 type SeoProps = {
   title: string;
@@ -23,7 +23,7 @@ const Seo = ({ title, description, path, noindex, jsonLd }: SeoProps) => {
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer support",
-      "email": "lowest weplay@gmail.com",
+      "email": "lowestweplay@gmail.com",
       "availableLanguage": ["English", "Hindi"]
     }
   };

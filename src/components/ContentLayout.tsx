@@ -7,8 +7,8 @@ export const CONTENT_LINKS = [
   { to: "/how-it-works", label: "How It Works" },
   { to: "/why-us", label: "Why Choose Us" },
   { to: "/trust-safety", label: "Trust & Safety" },
-  { to: "/lowest weplay-recharge", label: "Lowest WePlay Recharge Packs" },
-  { to: "/lowest weplay-red-packet", label: "Lowest WePlay Red Packet Top-Up" },
+  { to: "/lowestweplay-recharge", label: "Lowest WePlay Recharge Packs" },
+  { to: "/lowestweplay-red-packet", label: "Lowest WePlay Red Packet Top-Up" },
   { to: "/faq", label: "Lowest WePlay Top-Up FAQ" },
 ];
 
