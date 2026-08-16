@@ -14,7 +14,10 @@ export default function BlogList() {
       const { data, error } = await supabase
         .from("blog_posts")
         .select("*")
+        .eq("status", "published")
+        .lte("published_at", new Date().toISOString())
         .order("published_at", { ascending: false });
+
       
       if (!error && data) {
         setPosts(data);
