@@ -29,7 +29,7 @@ export default function TrackOrder() {
   const [id, setId] = useState(() => {
     try {
       const raw = localStorage.getItem("lw_verified_buyer");
-      return raw ? (JSON.parse(raw).weplay_id as string) : "";
+      return raw ? (JSON.parse(raw).user_id as string) : "";
     } catch {return "";}
   });
   const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ export default function TrackOrder() {
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase.from("orders").select("*").eq("weplay_id", value).order("created_at", { ascending: false });
+    const { data, error } = await supabase.from("orders").select("*").eq("user_id", value).order("created_at", { ascending: false });
     setLoading(false);
     if (error) {
       toast({ title: "Could not load orders", description: error.message, variant: "destructive" });
@@ -107,12 +107,12 @@ export default function TrackOrder() {
           <p className="text-center text-muted-foreground text-sm py-10">No orders found for this WePlay ID yet.</p>
           }
             {orders.map((o, i) =>
-          <motion.div key={o.order_code}
+          <motion.div key={o.order_id}
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 8) * 0.04 }}
             className="card-premium rounded-2xl p-4 md:p-5">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <div className="text-[9.5px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">Order {o.order_code}</div>
+                    <div className="text-[9.5px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">Order {o.order_id}</div>
                     <h2 className="text-[15px] md:text-lg font-extrabold mt-0.5 truncate">{o.product_name}</h2>
                     <p className="text-[11.5px] text-muted-foreground mt-1">{o.coins || "—"} · {new Date(o.created_at).toLocaleString()}</p>
                   </div>
