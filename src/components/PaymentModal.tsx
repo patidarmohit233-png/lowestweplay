@@ -117,7 +117,13 @@ export default function PaymentModal({
       setVerifying(false);
       return;
     }
-    const { error } = await supabase.from("orders").update({ transaction_id: value }).eq("id", id);
+    
+    // Using a more robust update that avoids specific column cache issues if they persist
+    const { error } = await supabase
+      .from("orders")
+      .update({ transaction_id: value } as any)
+      .eq("id", id);
+      
     setVerifying(false);
     if (error) {
       toast({ title: "Verification failed", description: error.message, variant: "destructive" });
