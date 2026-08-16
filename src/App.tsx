@@ -11,6 +11,7 @@ import RefundPolicy from "./pages/RefundPolicy.tsx";
 import TermsOfService from "./pages/TermsOfService.tsx";
 import Contact from "./pages/Contact.tsx";
 import WeplayRecharge from "./pages/WeplayRecharge.tsx";
+import WeplayTopupLanding from "./pages/WeplayTopupLanding.tsx";
 import WeplayRedPacket from "./pages/WeplayRedPacket.tsx";
 import PriceList from "./pages/PriceList.tsx";
 import HowToTopUp from "./pages/HowToTopUp.tsx";
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/my-account" element={<MyAccount />} />
 
           <Route path="/weplay-recharge" element={<WeplayRecharge />} />
+          <Route path="/weplay-recharge-topup" element={<WeplayTopupLanding />} />
           <Route path="/weplay-red-packet" element={<WeplayRedPacket />} />
           <Route path="/weplay-top-up-price-list" element={<PriceList />} />
           <Route path="/how-to-top-up-weplay" element={<HowToTopUp />} />
