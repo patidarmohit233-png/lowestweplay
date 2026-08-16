@@ -1169,7 +1169,7 @@ const Index = () => {
               
                   
                   
-              admin pannel and payment verification not working please check beckend or everything
+              ye problem aa rhi h abhi bhi check kro or thik kro esehi admin pannel k lie bhi hora h
             </p>
           </div>
 

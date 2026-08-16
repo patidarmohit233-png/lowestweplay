@@ -73,10 +73,9 @@ export default function PaymentModal({
       product_id: String(product.id),
       product_name: String(product.name),
       price: product.price * quantity,
-      coins_amount: product.coinsAmount * quantity,
       payment_method: m,
       upi_id: m === "upi" ? assignedUpi : ""
-    }).select().single();
+    } as any).select().single();
     
     setCreating(false);
     if (error || !data) {
