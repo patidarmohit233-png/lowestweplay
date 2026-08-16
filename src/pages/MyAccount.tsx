@@ -62,8 +62,8 @@ export default function MyAccount() {
   const load = useCallback(async (id: string) => {
     setLoading(true);
     const [{ data: p, error: pe }, { data: o }] = await Promise.all([
-      (supabase.from("customers" as any).select("*") as any).eq("lowestweplay_id", id).maybeSingle(),
-      (supabase.from("orders" as any).select("*, price") as any).eq("lowestweplay_id", id).order("created_at", { ascending: false })]
+      (supabase.from("customers" as any).select("*") as any).eq("weplay_id", id).maybeSingle(),
+      (supabase.from("orders" as any).select("*, price") as any).eq("weplay_id", id).order("created_at", { ascending: false })]
 
     );
 
@@ -74,7 +74,7 @@ export default function MyAccount() {
       return;
     }
     setProfile({
-      user_id: row.lowestweplay_id,
+      user_id: row.weplay_id,
       name: row.name,
       game: "Lowest WePlay",
       total_coins: row.total_coins || 0,
@@ -90,7 +90,7 @@ export default function MyAccount() {
       amount: String(x.price || x.amount || "0")
     })) as OrderRow[]);
     // keep the session logged-in
-    localStorage.setItem(VERIFY_KEY, JSON.stringify({ game: "Lowest WePlay", user_id: row.lowestweplay_id, name: row.name }));
+    localStorage.setItem(VERIFY_KEY, JSON.stringify({ game: "Lowest WePlay", user_id: row.weplay_id, name: row.name }));
 
     // milestone celebration (once per milestone per device)
     const reached: number[] = Array.isArray(row.milestones_reached) ? row.milestones_reached : [];
