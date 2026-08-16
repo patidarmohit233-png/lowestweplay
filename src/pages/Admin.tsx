@@ -83,7 +83,7 @@ export default function Admin() {
   const changeStatus = async (id: string, status: string) => {
     const prev = orders;
     setOrders((list) => list.map((o) => o.id === id ? { ...o, status } : o));
-    const { error } = await supabase.from("orders").update({ status }).eq("id", id);
+    const { error } = await supabase.from("orders").update({ status } as any).eq("id", id);
     if (error) {
       setOrders(prev);
       toast({ title: "Update failed", description: error.message, variant: "destructive" });
