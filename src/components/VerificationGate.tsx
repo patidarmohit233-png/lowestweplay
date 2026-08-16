@@ -111,7 +111,7 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
                 <h1 className="text-[14.5px] md:text-base font-extrabold text-foreground">Enter WePlay Details</h1>
               </div>
 
-              <form onSubmit={submit} className="space-y-4">
+              <form onSubmit={submit} className="space-y-4 md:space-y-5">
 
 
                 <label className="block">
