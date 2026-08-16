@@ -13,7 +13,7 @@ import ProfileMenu from "@/components/ProfileMenu";
 import VerificationGate from "@/components/VerificationGate";
 import LiveSocialProof from "@/components/LiveSocialProof";
 
-import Seo from "@/components/Seo";
+import Seo, { SITE_URL } from "@/components/Seo";
 import { PRODUCTS as ALL_PRODUCTS, FAQS } from "@/data/products";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -462,42 +462,64 @@ const Index = () => {
   return (
     <>
     <Seo
-      title="WePlay Top Up — Cheapest Coins & Red Packet | Lowest Weplay"
-      description="Buy WePlay coins, recharge packs and Red Packets at India's lowest prices from ₹479. Instant delivery, 100% ID safety, secure payments and 24x7 support."
+      title="WePlay Top Up India — Cheapest Coins & Red Packet | Lowest Weplay"
+      description="India's #1 WePlay top-up store. Buy WePlay coins, recharge packs and Red Packets at the lowest prices. Instant delivery, 100% ID safety, secure UPI & Razorpay payments."
       path="/"
       jsonLd={[
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        name: "Lowest Weplay",
-        url: `${SITE_URL}/`,
-        inLanguage: "en-IN"
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        name: "WePlay top-up packages",
-        itemListElement: PRODUCTS.map((p, i) => ({
-          "@type": "ListItem",
-          position: i + 1,
-          item: {
-            "@type": "Product",
-            name: `WePlay ${p.name}`,
-            description: p.desc,
-            image: p.img,
-            brand: { "@type": "Brand", name: "WePlay" },
-            offers: {
-              "@type": "Offer",
-              price: p.price,
-              priceCurrency: "INR",
-              availability: "https://schema.org/InStock",
-              url: `${SITE_URL}/#products`
-            }
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Lowest Weplay",
+          "url": "https://weplayrecharge.shop/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://weplayrecharge.shop/track-order?id={search_term_string}",
+            "query-input": "required name=search_term_string"
           }
-        }))
-      },
-      {
-        "@context": "https://schema.org",
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "WePlay",
+          "applicationCategory": "GameApplication",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "10450"
+          },
+          "offers": {
+            "@type": "AggregateOffer",
+            "lowPrice": "479",
+            "highPrice": "5999",
+            "priceCurrency": "INR",
+            "offerCount": PRODUCTS.length.toString()
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": "WePlay top-up packages",
+          "itemListElement": PRODUCTS.map((p, i) => ({
+            "@type": "ListItem",
+            "position": i + 1,
+            "item": {
+              "@type": "Product",
+              "name": `WePlay ${p.name}`,
+              "description": p.desc,
+              "image": p.img,
+              "brand": { "@type": "Brand", "name": "WePlay" },
+              "offers": {
+                "@type": "Offer",
+                "price": p.price,
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "url": `${SITE_URL}/#products`
+              }
+            }
+          }))
+        }
+      ]}
+    />
         "@type": "FAQPage",
         mainEntity: FAQS.slice(0, 5).map((f) => ({
           "@type": "Question",
