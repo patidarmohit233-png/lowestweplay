@@ -36,13 +36,13 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     setLoading(true);
 
     const { data: existingUser } = await supabase
-      .from('users' as any)
+      .from('users')
       .select('*')
       .eq('user_id', parsed.data.user_id)
       .eq('game', parsed.data.game)
       .single();
 
-    const { error } = await supabase.from('users' as any).upsert({
+    const { error } = await supabase.from('users').upsert({
       game: parsed.data.game,
       user_id: parsed.data.user_id,
       name: parsed.data.name || parsed.data.user_id,
