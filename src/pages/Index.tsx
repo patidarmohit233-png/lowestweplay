@@ -84,22 +84,58 @@ const REVIEWS = [
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const SOFT_EASE = [0.25, 0.1, 0.25, 1] as const;
+const BOUNCE_EASE = [0.34, 1.56, 0.64, 1] as const;
 
 /* ── Reveal wrapper ───────────────────────────────────── */
-function Reveal({ children, className = "", delay = 0, y = 18 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
+function Reveal({ 
+  children, 
+  className = "", 
+  delay = 0, 
+  y = 20, 
+  x = 0,
+  scale = 1,
+  blur = true 
+}: { 
+  children: React.ReactNode; 
+  className?: string; 
+  delay?: number; 
+  y?: number;
+  x?: number;
+  scale?: number;
+  blur?: boolean;
+}) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10%" });
+  
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.9, delay, ease: EASE }}
+      initial={{ 
+        opacity: 0, 
+        y, 
+        x, 
+        scale: scale === 1 ? 1 : scale,
+        filter: blur ? "blur(8px)" : "none"
+      }}
+      animate={inView ? { 
+        opacity: 1, 
+        y: 0, 
+        x: 0, 
+        scale: 1,
+        filter: blur ? "blur(0px)" : "none"
+      } : {}}
+      transition={{ 
+        duration: 0.9, 
+        delay, 
+        ease: EASE,
+        filter: { duration: 1 } 
+      }}
       className={className}
-      style={{ willChange: "transform, opacity" }}>
+      style={{ willChange: "transform, opacity, filter" }}>
       {children}
     </motion.div>);
 }
+
 
 /* ── Section heading ──────────────────────────────────── */
 function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: string; title: string; highlight?: string; subtitle: string }) {
@@ -147,14 +183,19 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
     onBuy(product);
   };
 
-
   return (
     <motion.article
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: Math.min(index, 6) * 0.05, ease: EASE }}
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      whileHover={{ y: -8, transition: { duration: 0.3, ease: EASE } }}
+      transition={{ 
+        duration: 0.8, 
+        delay: Math.min(index, 8) * 0.08, 
+        ease: EASE 
+      }}
       className="group card-premium relative rounded-[1.25rem] md:rounded-[1.75rem] flex flex-col overflow-hidden active:scale-[0.98] transition-all">
+
 
       {/* image */}
       <div className="relative m-1.5 md:m-2.5 mb-0 rounded-[0.95rem] md:rounded-[1.35rem] overflow-hidden aspect-square bg-gradient-to-br from-secondary to-muted">
@@ -652,18 +693,19 @@ const Index = () => {
             <ArrowRight size={12} />
           </motion.a>
 
-          <h1 className="mt-6 md:mt-9 text-[2.6rem] leading-[0.98] md:text-[5.2rem] font-display text-foreground">
+          <h1 className="mt-6 md:mt-9 text-[2.6rem] leading-[0.98] md:text-[5.2rem] font-display text-foreground perspective-[1000px]">
             {["Get More.", "Pay Less."].map((line, i) =>
             <motion.span
               key={line}
-              initial={{ opacity: 0, y: 34, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.85, delay: 0.12 + i * 0.14, ease: EASE }}
+              initial={{ opacity: 0, y: 40, rotateX: -20, filter: "blur(12px)" }}
+              animate={{ opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)" }}
+              transition={{ duration: 1.2, delay: 0.15 + i * 0.2, ease: EASE }}
               className={`block ${i === 1 ? "text-gradient" : ""}`}>
                 {line}
               </motion.span>
             )}
           </h1>
+
 
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -714,9 +756,9 @@ const Index = () => {
       <section className="px-4 md:px-6 pb-4">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-2.5 md:gap-3">
           {TRUST_BADGES.map((b, i) =>
-          <Reveal key={b.label} delay={i * 0.06} y={16} className={i === 4 ? "col-span-2 md:col-span-1" : ""}>
-              <div className="h-full card-premium rounded-2xl px-3.5 py-3.5 md:px-4 md:py-4 flex items-center gap-3">
-                <span className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-xl bg-primary/8 text-primary flex items-center justify-center">
+            <Reveal key={b.label} delay={i * 0.08} y={20} scale={0.97} className={i === 4 ? "col-span-2 md:col-span-1" : ""}>
+              <div className="h-full card-premium rounded-2xl px-3.5 py-3.5 md:px-4 md:py-4 flex items-center gap-3 hover:bg-primary/[0.02] transition-colors">
+                <span className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-xl bg-primary/8 text-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                   {b.icon}
                 </span>
                 <div className="min-w-0">
@@ -728,6 +770,7 @@ const Index = () => {
           )}
         </div>
       </section>
+
 
       {/* ─── PARTNERS ─────────────────────────────────────── */}
       <section id="partners" className="py-14 md:py-24 overflow-hidden bg-secondary/60 border-y border-border/70 scroll-mt-36">
