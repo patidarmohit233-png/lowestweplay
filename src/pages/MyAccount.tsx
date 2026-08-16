@@ -172,7 +172,7 @@ export default function MyAccount() {
                 <div className="absolute -top-24 -right-16 w-52 h-52 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
                 <div className="relative flex items-center justify-between gap-4 flex-wrap">
                   <div className="w-14 h-14 md:w-20 md:h-20 shrink-0 rounded-[1.2rem] md:rounded-[1.5rem] overflow-hidden border-2 border-primary/20 bg-white shadow-sm">
-                    <img src={"/src/assets/weplay-avatar.png.asset.json" ? "/src/assets/weplay-avatar.png" : ""} alt="WePlay profile" className="w-full h-full object-cover" />
+                    <img src={weplayAvatarAsset.url} alt="WePlay profile" className="w-full h-full object-cover" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="text-[9.5px] md:text-[11px] font-extrabold uppercase tracking-[0.2em] text-muted-foreground">My Account</div>
