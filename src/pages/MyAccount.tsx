@@ -264,13 +264,13 @@ export default function MyAccount() {
 
             <div className="space-y-3">
                   {orders.map((o, i) =>
-              <motion.div key={o.order_code}
+              <motion.div key={o.order_id}
                 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 8) * 0.04 }}
                 className="card-premium rounded-2xl p-4 md:p-5">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <div className="text-[9.5px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">Order {o.order_code}</div>
-                          <h3 className="text-[15px] md:text-lg font-extrabold mt-0.5 truncate">{o.product_name}</h3>
+                          <div className="text-[9.5px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">Order {o.order_id}</div>
+                          <h3 className="text-[15px] md:text-lg font-extrabold mt-0.5 truncate">{o.plan}</h3>
                           <p className="text-[11.5px] text-muted-foreground mt-1">{new Date(o.created_at).toLocaleString()}</p>
 
                         </div>
@@ -279,7 +279,7 @@ export default function MyAccount() {
                         </span>
                       </div>
                       <div className="mt-3 grid grid-cols-3 gap-2 text-[11px]">
-                        <div><span className="text-muted-foreground block">Amount</span><span className="font-extrabold">₹{o.price}</span></div>
+                        <div><span className="text-muted-foreground block">Amount</span><span className="font-extrabold">₹{o.amount}</span></div>
                         <div><span className="text-muted-foreground block">Status</span><span className="font-extrabold uppercase">{o.status}</span></div>
 
                         <div className="min-w-0"><span className="text-muted-foreground block">Txn ID</span><span className="font-extrabold truncate block">{o.transaction_id || "Not added"}</span></div>
