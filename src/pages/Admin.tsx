@@ -7,25 +7,29 @@ import { Loader2, RefreshCw, Search, Users, Package, IndianRupee } from "lucide-
 
 type Order = {
   id: string;
-  order_code: string;
-  weplay_id: string;
-  weplay_name: string;
-  product_name: string;
-  coins: string | null;
-  price: number;
-  payment_method: string;
+  order_id: string;
+  game: string;
+  user_id: string;
+  plan: string;
+  amount: number;
+  status: string;
   transaction_id: string | null;
   upi_id: string | null;
-  status: string;
   created_at: string;
 };
 
 type Customer = {
-  weplay_id: string;
-  weplay_name: string;
+  id: string;
+  game: string;
+  user_id: string;
+  name: string;
   created_at: string;
   last_active: string;
+  total_coins: number;
+  bonus_coins: number;
+  loyalty_tier: string;
 };
+
 
 const STATUSES = ["pending", "processing", "hold", "completed", "failed"] as const;
 
@@ -57,7 +61,8 @@ export default function Admin() {
     setRefreshing(true);
     const [o, c] = await Promise.all([
     supabase.from("orders").select("*").order("created_at", { ascending: false }),
-    supabase.from("customers").select("*").order("created_at", { ascending: false })]
+    supabase.from("users").select("*").order("created_at", { ascending: false })]
+
     );
     setRefreshing(false);
     if (o.error) return toast({ title: "Failed to load orders", description: o.error.message, variant: "destructive" });
@@ -68,7 +73,7 @@ export default function Admin() {
   const changeStatus = async (id: string, status: string) => {
     const prev = orders;
     setOrders((list) => list.map((o) => o.id === id ? { ...o, status } : o));
-    const { error } = await supabase.rpc("update_order_status", { p_order_id: id, p_status: status });
+    const { error } = await supabase.from("orders").update({ status }).eq("id", id);
     if (error) {
       setOrders(prev);
       toast({ title: "Update failed", description: error.message, variant: "destructive" });
@@ -77,20 +82,22 @@ export default function Admin() {
     toast({ title: `Status set to ${status}` });
   };
 
+
   const filteredOrders = useMemo(() => {
     const q = query.trim().toLowerCase();
     return orders.filter((o) =>
     (statusFilter === "all" || o.status === statusFilter) && (
-    !q || o.weplay_id.toLowerCase().includes(q) || o.order_code?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
+    !q || o.user_id.toLowerCase().includes(q) || o.order_id?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
     );
   }, [orders, statusFilter, query]);
 
   const filteredCustomers = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return customers.filter((c) => !q || c.weplay_id.toLowerCase().includes(q) || c.weplay_name.toLowerCase().includes(q));
+    return customers.filter((c) => !q || c.user_id.toLowerCase().includes(q) || c.name.toLowerCase().includes(q));
   }, [customers, query]);
 
-  const revenue = orders.filter((o) => o.status === "completed").reduce((s, o) => s + (o.price || 0), 0);
+  const revenue = orders.filter((o) => o.status === "completed").reduce((s, o) => s + Number(o.amount || 0), 0);
+
 
   if (loading) {
     return (
@@ -162,13 +169,13 @@ export default function Admin() {
                   <tr>
                     <th className="text-left px-4 py-3">Order ID</th>
                     <th className="text-left px-4 py-3">Date</th>
-                    <th className="text-left px-4 py-3">WePlay ID</th>
+                    <th className="text-left px-4 py-3">User ID</th>
+                    <th className="text-left px-4 py-3">Game</th>
                     <th className="text-left px-4 py-3">Plan</th>
-                    <th className="text-left px-4 py-3">Coins</th>
                     <th className="text-right px-4 py-3">Amount</th>
-                    <th className="text-left px-4 py-3">Method</th>
                     <th className="text-left px-4 py-3">Paid To (UPI)</th>
                     <th className="text-left px-4 py-3">Txn ID</th>
+
                     <th className="text-left px-4 py-3">Status</th>
                   </tr>
                 </thead>
@@ -178,27 +185,26 @@ export default function Admin() {
                 }
                   {filteredOrders.map((o) =>
                 <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
-                      <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_code}</td>
+                      <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_id}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(o.created_at).toLocaleString()}</td>
                       <td className="px-4 py-3">
-                        <div className="font-semibold">{o.weplay_id}</div>
-                        <div className="text-xs text-muted-foreground">{o.weplay_name}</div>
+                        <div className="font-semibold">{o.user_id}</div>
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap">{o.product_name}</td>
-                      <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{o.coins || "—"}</td>
-                      <td className="px-4 py-3 text-right font-bold">₹{o.price}</td>
-                      <td className="px-4 py-3 uppercase text-xs font-bold">{o.payment_method}</td>
+                      <td className="px-4 py-3 font-bold">{o.game}</td>
+                      <td className="px-4 py-3 whitespace-nowrap">{o.plan}</td>
+                      <td className="px-4 py-3 text-right font-bold">₹{o.amount}</td>
                       <td className="px-4 py-3 max-w-[190px]">
                         {o.upi_id ?
                     <span className="inline-block px-2 py-1 rounded-md bg-secondary border border-border text-[11px] font-bold break-all">{o.upi_id}</span> :
                     <span className="text-muted-foreground">—</span>}
                       </td>
                       <td className="px-4 py-3 text-muted-foreground max-w-[160px] truncate">{o.transaction_id || "—"}</td>
+
                       <td className="px-4 py-3">
                         <select
                       value={o.status}
                       onChange={(e) => changeStatus(o.id, e.target.value)}
-                      aria-label={`Status for order ${o.order_code}`}
+                      aria-label={`Status for order ${o.order_id}`}
                       className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
                           {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                         </select>
@@ -211,10 +217,12 @@ export default function Admin() {
             <table className="w-full text-sm">
                 <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
                   <tr>
-                    <th className="text-left px-4 py-3">WePlay ID</th>
-                    <th className="text-left px-4 py-3">WePlay Name</th>
+                    <th className="text-left px-4 py-3">Game</th>
+                    <th className="text-left px-4 py-3">User ID</th>
+                    <th className="text-left px-4 py-3">Name</th>
                     <th className="text-left px-4 py-3">Verified on</th>
                     <th className="text-left px-4 py-3">Last active</th>
+
                     <th className="text-right px-4 py-3">Orders</th>
                   </tr>
                 </thead>
@@ -223,12 +231,14 @@ export default function Admin() {
                 <tr><td colSpan={5} className="px-4 py-10 text-center text-muted-foreground">No verified users found.</td></tr>
                 }
                   {filteredCustomers.map((c) =>
-                <tr key={c.weplay_id} className="border-t border-border/60 hover:bg-secondary/40">
-                      <td className="px-4 py-3 font-semibold">{c.weplay_id}</td>
-                      <td className="px-4 py-3">{c.weplay_name}</td>
+                <tr key={c.id} className="border-t border-border/60 hover:bg-secondary/40">
+                      <td className="px-4 py-3 font-bold">{c.game}</td>
+                      <td className="px-4 py-3 font-semibold">{c.user_id}</td>
+                      <td className="px-4 py-3">{c.name}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.last_active).toLocaleString()}</td>
-                      <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.weplay_id === c.weplay_id).length}</td>
+                      <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.user_id === c.user_id && o.game === c.game).length}</td>
+
                     </tr>
                 )}
                 </tbody>

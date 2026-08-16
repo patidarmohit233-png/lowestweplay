@@ -1018,6 +1018,7 @@ const Index = () => {
       {payFor && buyer &&
       <PaymentModal product={payFor} buyer={buyer} onClose={() => setPayFor(null)} />
       }
+
     </div>
     {buyer && !showSplash && <LiveSocialProof />}
     </>);
