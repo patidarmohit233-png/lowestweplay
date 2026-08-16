@@ -35,24 +35,29 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     setErrors({});
     setLoading(true);
 
-    const { data: existingUser } = await supabase
-      .from('customers' as any)
-      .select('*')
-      .eq('weplay_id', parsed.data.user_id)
-      .single();
+    // Use RPC function if available for better reliability, or direct upsert
+    const { error } = await supabase.rpc('upsert_customer', {
+      p_weplay_id: parsed.data.user_id,
+      p_weplay_name: parsed.data.name
+    });
 
-    const { error } = await supabase.from('customers' as any).upsert({
-      weplay_id: parsed.data.user_id,
-      weplay_name: parsed.data.name,
-      last_active: new Date().toISOString(),
-    }, { onConflict: 'weplay_id' });
+    if (error) {
+      console.error("RPC upsert_customer failed, trying direct upsert:", error);
+      // Fallback to direct upsert if RPC fails
+      const { error: upsertError } = await supabase.from('customers' as any).upsert({
+        weplay_id: parsed.data.user_id,
+        weplay_name: parsed.data.name,
+        last_active: new Date().toISOString(),
+      }, { onConflict: 'weplay_id' });
 
+      if (upsertError) {
+        setLoading(false);
+        toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
+        return;
+      }
+    }
 
     setLoading(false);
-    if (error) {
-      toast({ title: "Verification failed", description: error.message, variant: "destructive" });
-      return;
-    }
     
     onVerified({
       game: parsed.data.game,
@@ -60,12 +65,10 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
       name: parsed.data.name || parsed.data.user_id
     });
 
-    if (existingUser) {
-      toast({ title: `Welcome back, ${(existingUser as any).name}! 👋`, description: `Logged in to your ${parsed.data.game} account.` });
-    } else {
-
-      toast({ title: `Welcome, ${parsed.data.name || parsed.data.user_id}! 👋`, description: "Your account has been created." });
-    }
+    toast({ 
+      title: `Welcome back, ${parsed.data.name}! 👋`, 
+      description: `Logged in to your ${parsed.data.game} account.` 
+    });
 
   };
 
