@@ -193,7 +193,7 @@ export default function Admin() {
                       <td className="px-4 py-3">
                         <div className="font-semibold">{o.user_id}</div>
                       </td>
-                      <td className="px-4 py-3 font-bold">{o.game}</td>
+                      
                       <td className="px-4 py-3 whitespace-nowrap">{o.plan}</td>
                       <td className="px-4 py-3 text-right font-bold">₹{o.amount}</td>
                       <td className="px-4 py-3 max-w-[190px]">
