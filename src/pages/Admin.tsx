@@ -11,8 +11,10 @@ import { generateSitemapXml } from "@/lib/sitemap-generator";
 type Order = {
   id: string;
   order_code: string;
-  lowestweplay_id: string;
-  lowestweplay_name: string;
+  weplay_id: string;
+  weplay_name: string;
+  lowestweplay_id?: string;
+  lowestweplay_name?: string;
   product_name: string;
   price: number;
   coins_amount?: number;
@@ -23,8 +25,10 @@ type Order = {
 };
 
 type Customer = {
-  lowestweplay_id: string;
-  name: string;
+  weplay_id: string;
+  weplay_name: string;
+  lowestweplay_id?: string;
+  name?: string;
   created_at: string;
   last_active: string;
 };
