@@ -642,9 +642,9 @@ const Index = () => {
           </Link>
         </div>
         
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 px-2">
           <Link to="/" className="block active:scale-[0.96] transition-transform">
-            <img src={LOGO} alt="Lowest Weplay" className="h-[48px] md:h-[64px] w-auto drop-shadow-sm" />
+            <img src={LOGO} alt="Lowest Weplay" className="h-[56px] md:h-[72px] w-auto drop-shadow-sm" />
           </Link>
         </div>
         
@@ -659,8 +659,8 @@ const Index = () => {
               onClick={scrollToVerify} 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-primary text-primary-foreground text-[11px] font-extrabold uppercase tracking-widest shadow-primary active:scale-[0.96] transition-transform">
-              <UserCheck size={14} /> Login
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-primary text-primary-foreground text-[11px] font-extrabold uppercase tracking-widest shadow-primary active:scale-[0.96] transition-transform whitespace-nowrap">
+              <UserCheck size={16} /> Login
             </motion.button>
 
           )}
