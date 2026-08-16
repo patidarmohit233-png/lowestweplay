@@ -92,7 +92,7 @@ export default function PaymentModal({
   const payWithApp = (app: typeof UPI_APPS[0]) => {
     setMethod("upi");
     setActiveApp(app.key);
-    window.location.href = `${app.scheme}?${upiQuery(assignedUpi, product.price, note)}`;
+    window.location.href = `${app.scheme}?${upiQuery(assignedUpi, product.price * quantity, note)}`;
   };
 
   const openRazorpay = () => {
@@ -130,7 +130,7 @@ export default function PaymentModal({
   };
 
   const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=6&data=${encodeURIComponent(
-    `upi://pay?${upiQuery(assignedUpi, product.price, note)}`
+    `upi://pay?${upiQuery(assignedUpi, product.price * quantity, note)}`
   )}`;
 
   /* shared verification block inside each card (plain render fn — keeps input mounted) */
@@ -212,7 +212,7 @@ export default function PaymentModal({
                   </span>
                   <span className="text-muted-foreground text-[12.5px] font-semibold">Final amount</span>
                 </div>
-                <p className="mt-1.5 text-[11.5px] font-bold text-accent">{product.coins} coins</p>
+                <p className="mt-1.5 text-[11.5px] font-bold text-accent">{product.coinsAmount * quantity >= 100000 ? `${(product.coinsAmount * quantity / 100000).toFixed(1)} Lakh` : (product.coinsAmount * quantity).toLocaleString()} coins</p>
               </div>
               <button onClick={onClose} aria-label="Close payment"
                 className="shrink-0 w-9 h-9 rounded-full bg-secondary text-muted-foreground grid place-items-center active:scale-90 hover:text-foreground transition-all">
