@@ -630,25 +630,25 @@ const Index = () => {
       </AnimatePresence>
     )}
 
-    <header className="fixed top-[40px] left-0 right-0 z-[70] px-4 md:px-6 pointer-events-none transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-[70] px-3 md:px-6 pointer-events-none transition-all duration-300">
       <div className="absolute inset-0 bg-background/95 backdrop-blur-3xl border-b border-border/70 pointer-events-none shadow-sm" />
-      <div className="relative max-w-7xl mx-auto flex items-center justify-between pointer-events-auto h-[60px] md:h-[72px]">
-        <div className="flex-1 flex items-center gap-4">
-          <Link to="/weplay-recharge-topup" className="hidden md:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
+      <div className="relative max-w-7xl mx-auto flex items-center justify-between pointer-events-auto h-[64px] md:h-[72px]">
+        <div className="flex-1 hidden md:flex items-center gap-4">
+          <Link to="/weplay-recharge-topup" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
             <ArrowLeftRight size={13} className="text-primary" /> Buy & Sell ID
           </Link>
-          <Link to="/trust-safety" className="hidden md:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
+          <Link to="/trust-safety" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
             <ShieldCheck size={13} className="text-primary" /> Trust & Safety
           </Link>
         </div>
         
-        <div className="flex-shrink-0 px-2">
-          <Link to="/" className="block active:scale-[0.96] transition-transform">
-            <img src={LOGO} alt="Lowest Weplay" className="h-[56px] md:h-[72px] w-auto drop-shadow-sm" />
+        <div className="flex-shrink-0">
+          <Link to="/" className="block active:scale-[0.96] transition-transform py-1">
+            <img src={LOGO} alt="Lowest Weplay" className="h-[48px] md:h-[64px] w-auto drop-shadow-sm" />
           </Link>
         </div>
         
-        <div className="flex-1 flex justify-end items-center">
+        <div className="flex-1 flex justify-end items-center gap-3">
           {buyer ? (
             <ProfileMenu buyer={buyer} onLogout={() => {
               persistBuyer(null);
