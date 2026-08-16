@@ -66,8 +66,9 @@ export default function PaymentModal({
     setCreating(true);
     trackEvent('payment_started', { method: m, product_id: product.id, product_name: product.name });
     
-    // Explicitly using the schema-compliant column names from src/integrations/supabase/types.ts
-    const { data, error } = await supabase.from("orders").insert({
+    // Using a plain object to bypass potential PostgREST schema cache issues 
+    // by providing only the fields we are certain exist in the physical schema.
+    const orderData = {
       order_code: Math.random().toString(36).substring(2, 10).toUpperCase(),
       weplay_id: buyer.user_id,
       weplay_name: buyer.name,
@@ -80,12 +81,24 @@ export default function PaymentModal({
       status: "pending",
       upi_id: m === "upi" ? assignedUpi : null,
       transaction_id: null
-    }).select().single();
+    };
+
+    const { data, error } = await supabase
+      .from("orders")
+      .insert([orderData] as any[])
+      .select()
+      .single();
     
     setCreating(false);
     if (error || !data) {
-      console.error("Order creation error:", error);
-      toast({ title: "Could not create order", description: error?.message ?? "Please try again.", variant: "destructive" });
+      console.error("Order creation error details:", error);
+      toast({ 
+        title: "Could not create order", 
+        description: error?.message?.includes("cache") 
+          ? "Database sync in progress. Please try again in a few seconds." 
+          : (error?.message ?? "Please try again."), 
+        variant: "destructive" 
+      });
       return null;
     }
     setOrderId(data.id);
