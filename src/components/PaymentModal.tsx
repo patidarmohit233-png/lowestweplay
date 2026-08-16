@@ -246,6 +246,32 @@ export default function PaymentModal({
               </div>
             </div>
 
+            {/* ORDER SUMMARY */}
+            <div className="mt-5 rounded-3xl border border-border bg-card/50 overflow-hidden">
+              <div className="px-5 py-3.5 bg-secondary/30 border-b border-border flex items-center gap-2">
+                <Receipt size={14} className="text-primary" />
+                <span className="text-[10px] font-black uppercase tracking-[0.15em] text-foreground">Order Summary</span>
+              </div>
+              <div className="p-5 space-y-3">
+                <div className="flex justify-between text-[12.5px]">
+                  <span className="text-muted-foreground font-semibold">Package Price</span>
+                  <span className="text-foreground font-bold">₹{product.price} × {quantity}</span>
+                </div>
+                <div className="flex justify-between text-[12.5px]">
+                  <span className="text-muted-foreground font-semibold">Subtotal</span>
+                  <span className="text-foreground font-bold">₹{product.price * quantity}</span>
+                </div>
+                <div className="flex justify-between text-[12.5px]">
+                  <span className="text-muted-foreground font-semibold">Total Coins</span>
+                  <span className="text-accent font-bold">{(product.coinsAmount * quantity).toLocaleString()}</span>
+                </div>
+                <div className="pt-3 border-t border-dashed border-border flex justify-between items-center">
+                  <span className="text-[13px] font-extrabold text-foreground uppercase tracking-wider">Payable Amount</span>
+                  <span className="text-xl font-price font-extrabold text-primary">₹{product.price * quantity}</span>
+                </div>
+              </div>
+            </div>
+
             {/* ── TWO EXPANDABLE OPTION CARDS ── */}
             <div className="mt-5 grid gap-4 md:grid-cols-2 items-start">
 
