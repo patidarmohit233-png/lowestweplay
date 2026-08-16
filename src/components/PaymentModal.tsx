@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   X, Zap, Copy, Check, Loader2, ArrowRight,
@@ -46,6 +46,7 @@ export default function PaymentModal({
 }: {product: Product | null;buyer: VerifiedBuyer;onClose: () => void;}) {
 
   const [method, setMethod] = useState<Method | null>(null);
+  const [quantity, setQuantity] = useState(1);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [orderCode, setOrderCode] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
@@ -69,8 +70,8 @@ export default function PaymentModal({
       order_id: Math.random().toString(36).substring(2, 10).toUpperCase(),
       user_id: buyer.user_id,
       game: "WePlay", // Hardcoded as per recent request
-      plan: product.name,
-      amount: product.price.toString(),
+      plan: `${product.name} (x${quantity})`,
+      amount: (product.price * quantity).toString(),
       status: "pending",
       upi_id: m === "upi" ? assignedUpi : null,
       transaction_id: null
@@ -91,7 +92,7 @@ export default function PaymentModal({
   const payWithApp = (app: typeof UPI_APPS[0]) => {
     setMethod("upi");
     setActiveApp(app.key);
-    window.location.href = `${app.scheme}?${upiQuery(assignedUpi, product.price, note)}`;
+    window.location.href = `${app.scheme}?${upiQuery(assignedUpi, product.price * quantity, note)}`;
   };
 
   const openRazorpay = () => {
@@ -129,7 +130,7 @@ export default function PaymentModal({
   };
 
   const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=6&data=${encodeURIComponent(
-    `upi://pay?${upiQuery(assignedUpi, product.price, note)}`
+    `upi://pay?${upiQuery(assignedUpi, product.price * quantity, note)}`
   )}`;
 
   /* shared verification block inside each card (plain render fn — keeps input mounted) */
@@ -207,11 +208,11 @@ export default function PaymentModal({
                 </h2>
                 <div className="mt-3 flex items-baseline gap-2.5">
                   <span className="text-[2.25rem] md:text-[2.75rem] font-price font-extrabold text-foreground leading-none tracking-tight">
-                    ₹{product.price}
+                    ₹{product.price * quantity}
                   </span>
                   <span className="text-muted-foreground text-[12.5px] font-semibold">Final amount</span>
                 </div>
-                <p className="mt-1.5 text-[11.5px] font-bold text-accent">{product.coins} coins</p>
+                <p className="mt-1.5 text-[11.5px] font-bold text-accent">{product.coinsAmount * quantity >= 100000 ? `${(product.coinsAmount * quantity / 100000).toFixed(1)} Lakh` : (product.coinsAmount * quantity).toLocaleString()} coins</p>
               </div>
               <button onClick={onClose} aria-label="Close payment"
                 className="shrink-0 w-9 h-9 rounded-full bg-secondary text-muted-foreground grid place-items-center active:scale-90 hover:text-foreground transition-all">
@@ -232,6 +233,16 @@ export default function PaymentModal({
               <div className="min-w-0 text-right">
                 <p className="text-[9.5px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">Order ID</p>
                 <p className="text-[13.5px] font-extrabold text-primary truncate mt-0.5">{orderCode ? `#${orderCode}` : "—"}</p>
+              </div>
+            </div>
+
+            {/* QUANTITY PICKER */}
+            <div className="mt-5 rounded-2xl border border-border bg-secondary/50 p-4 flex items-center justify-between">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-muted-foreground">Select Quantity</span>
+              <div className="flex items-center gap-3">
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-8 h-8 rounded-full bg-background border flex items-center justify-center font-bold">-</button>
+                <span className="font-extrabold text-lg">{quantity}</span>
+                <button onClick={() => setQuantity(quantity + 1)} className="w-8 h-8 rounded-full bg-background border flex items-center justify-center font-bold">+</button>
               </div>
             </div>
 
@@ -261,7 +272,7 @@ export default function PaymentModal({
                 <div className="mt-4 grid grid-cols-4 gap-2.5">
                   {UPI_APPS.map((app) =>
                   <button key={app.key} onClick={(e) => {e.stopPropagation();payWithApp(app);}} disabled={creating}
-                    aria-label={`Pay ₹${product.price} with ${app.name}`}
+                    aria-label={`Pay ₹${product.price * quantity} with ${app.name}`}
                     className="group flex flex-col items-center gap-1.5 disabled:opacity-60">
                       <span className={`w-full aspect-square rounded-2xl bg-card border grid place-items-center p-2.5 shadow-card transition-all active:scale-[0.94] ${
                     activeApp === app.key ? "border-accent shadow-[0_8px_24px_-10px_hsl(var(--accent)/0.5)]" : "border-border group-hover:border-accent/50"}`}>
@@ -299,11 +310,11 @@ export default function PaymentModal({
                       {/* QR */}
                       <div className="mt-4 flex flex-col items-center">
                         <div className="p-3.5 bg-card border border-border rounded-[1.5rem] shadow-elevated">
-                          <img src={qrSrc} alt={`UPI QR code to pay ₹${product.price}`} width={156} height={156}
+                          <img src={qrSrc} alt={`UPI QR code to pay ₹${product.price * quantity}`} width={156} height={156}
                           className="w-[156px] h-[156px] rounded-xl" />
                         </div>
                         <p className="mt-2.5 inline-flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">
-                          <QrCode size={12} /> Scan &amp; pay ₹{product.price}
+                          <QrCode size={12} /> Scan &amp; pay ₹{product.price * quantity}
                         </p>
                       </div>
 
@@ -316,14 +327,21 @@ export default function PaymentModal({
               {/* OPTION 2 — RAZORPAY */}
               <motion.div
                 whileHover={{ y: -3 }}
-                onClick={() => setMethod((m) => m === "razorpay" ? null : "razorpay")}
+                onClick={() => {
+                  if (quantity > 1) {
+                    toast({ title: "Bulk orders restricted", description: "Quantities greater than 1 are only available via UPI payment.", variant: "destructive" });
+                    return;
+                  }
+                  setMethod((m) => m === "razorpay" ? null : "razorpay");
+                }}
                 role="button"
                 aria-expanded={method === "razorpay"}
                 className={`relative cursor-pointer rounded-[1.5rem] border-2 p-4 md:p-5 transition-all backdrop-blur-xl bg-gradient-to-br from-primary/12 via-primary/[0.06] to-card/70 ${
+                quantity > 1 ? "opacity-50 grayscale cursor-not-allowed border-dashed" : 
                 method === "razorpay" ? "border-primary shadow-[0_16px_40px_-18px_hsl(var(--primary)/0.55)]" : "border-primary/25 hover:border-primary/60 shadow-card"}`}>
 
                 <span className="absolute -top-3 left-4 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary text-primary-foreground text-[9px] font-black uppercase tracking-[0.12em] shadow-card">
-                  Cards · Netbanking · Wallets
+                  {quantity > 1 ? "UPI Only for Bulk" : "Cards · Netbanking · Wallets"}
                 </span>
 
                 <div className="flex items-center justify-between gap-3 mt-1">
@@ -344,7 +362,7 @@ export default function PaymentModal({
                           <Receipt size={16} />
                         </span>
                         <p className="text-[12px] text-muted-foreground leading-relaxed">
-                          Pay <span className="font-extrabold text-foreground">₹{product.price}</span> using UPI, cards, netbanking or wallets.
+                          Pay <span className="font-extrabold text-foreground">₹{product.price * quantity}</span> using UPI, cards, netbanking or wallets.
                         </p>
                       </div>
 
