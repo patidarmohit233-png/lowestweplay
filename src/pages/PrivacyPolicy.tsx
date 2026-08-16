@@ -6,10 +6,11 @@ import Seo from "@/components/Seo";
 const PrivacyPolicy = () => (
   <>
   <Seo
-    title="Privacy Policy | Lowest Weplay"
-    description="How Lowest Weplay collects, uses and protects your data when you order a WePlay top-up. We never store passwords or payment details."
+    title="Privacy Policy | Is Lowest Weplay Safe? Official ID Protection"
+    description="How Lowest Weplay protects your data during WePlay top-ups. We never store passwords or OTPs. 100% ID safe delivery with secure UPI payments."
     path="/privacy-policy"
   />
+
   <div className="min-h-screen bg-background text-foreground">
 
     <nav className="sticky top-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/50">

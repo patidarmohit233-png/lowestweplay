@@ -6,10 +6,11 @@ import Seo from "@/components/Seo";
 const Contact = () => (
   <>
   <Seo
-    title="Contact Lowest Weplay — 24x7 WePlay Top-Up Support"
-    description="Need help with a WePlay top-up order? Email us or use live chat — support is available 24x7 for delivery, refunds and ID safety questions."
+    title="Contact Us | 24/7 WePlay Top-Up Support & ID Safety Help"
+    description="Need help with WePlay recharge? Our team is available 24/7 for order status, delivery proof, and safety concerns. Quick email and live chat support."
     path="/contact"
   />
+
   <div className="min-h-screen bg-background text-foreground">
 
     <nav className="sticky top-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/50">

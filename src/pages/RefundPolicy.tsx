@@ -6,10 +6,11 @@ import Seo from "@/components/Seo";
 const RefundPolicy = () => (
   <>
   <Seo
-    title="Refund Policy | Lowest Weplay"
-    description="When a WePlay top-up qualifies for a refund, what is not covered, and how to request one. Refunds processed in 3-5 business days."
+    title="Refund Policy | 100% Satisfaction Guarantee | Lowest Weplay"
+    description="Full refund policy for WePlay coin top-ups. Learn about eligibility for failed deliveries or restricted IDs. Instant support for all refund requests."
     path="/refund-policy"
   />
+
   <div className="min-h-screen bg-background text-foreground">
 
     <nav className="sticky top-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/50">
