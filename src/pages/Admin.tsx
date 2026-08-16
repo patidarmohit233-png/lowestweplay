@@ -15,7 +15,7 @@ type Order = {
   weplay_name: string;
   product_name: string;
   price: number;
-  coins_amount: number;
+  coins_amount?: number;
   status: string;
   transaction_id: string | null;
   upi_id: string | null;
