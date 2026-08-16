@@ -283,18 +283,11 @@ function DailyCountdownBar() {
 
 /* ── Verification Panel ───────────────────────────────── */
 const verifySchema = z.object({
-  game: z.string().min(1, "Select a game"),
+  game: z.literal("WePlay"),
   user_id: z.string().trim().min(3, "ID must be at least 3 characters").max(40, "Too long"),
-  name: z.string().trim().optional(),
-}).refine((data) => {
-  if (['WePlay', 'Jackaroo'].includes(data.game)) {
-    return data.name && data.name.trim().length >= 2;
-  }
-  return true;
-}, {
-  message: "Name required for this game",
-  path: ["name"],
+  name: z.string().trim().min(2, "Name required"),
 });
+
 
 function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null; onVerified: (b: VerifiedBuyer | null) => void }) {
   const [form, setForm] = useState<VerifiedBuyer>(buyer ?? { game: "WePlay", user_id: "", name: "" });
