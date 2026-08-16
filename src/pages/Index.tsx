@@ -1172,13 +1172,9 @@ const Index = () => {
 
           <div className="divider-fade mb-8" />
           
-          <div className="mb-8 rounded-2xl border border-amber-500/20 bg-amber-500/[0.04] p-5 text-center">
+          <div className="mb-8 rounded-2xl border border-border bg-secondary/30 p-5 text-center">
             <p className="text-[12px] text-muted-foreground leading-relaxed">
-              '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
-              
-                  
-                  
-              Add an end-to-end payment flow test that verifies order creation, payment verification, and coin updates from start to finish.
+              <strong>Disclaimer:</strong> LowestWePlay is an independent service provider and is not affiliated with, sponsored by, or endorsed by WePlay or any of its subsidiaries. All trademarks, service marks, and trade names are the property of their respective owners.
             </p>
           </div>
 
