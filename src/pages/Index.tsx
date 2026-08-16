@@ -986,7 +986,8 @@ const Index = () => {
                   <div className="relative text-[9.5px] font-extrabold text-muted-foreground uppercase tracking-[0.2em] mb-1.5">Step {i + 1}</div>
                   <h3 className="relative text-[15px] md:text-base font-extrabold text-foreground mb-1.5">{step.title}</h3>
                   <p className="relative text-muted-foreground text-[12.5px] md:text-sm leading-relaxed">{step.desc}</p>
-                </div>
+                </motion.div>
+
               </Reveal>
             )}
           </div>
@@ -1054,7 +1055,7 @@ const Index = () => {
                       <CheckCircle2 size={12} /> Verified
                     </span>
                   </figcaption>
-                </figure>
+                </motion.figure>
               </Reveal>
             )}
           </div>
