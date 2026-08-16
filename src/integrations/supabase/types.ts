@@ -95,6 +95,7 @@ export type Database = {
           created_at: string
           last_active: string
           loyalty_tier: string
+          migration_test: string | null
           milestones_reached: Json
           total_coins: number
           weplay_id: string
@@ -105,6 +106,7 @@ export type Database = {
           created_at?: string
           last_active?: string
           loyalty_tier?: string
+          migration_test?: string | null
           milestones_reached?: Json
           total_coins?: number
           weplay_id: string
@@ -115,6 +117,7 @@ export type Database = {
           created_at?: string
           last_active?: string
           loyalty_tier?: string
+          migration_test?: string | null
           milestones_reached?: Json
           total_coins?: number
           weplay_id?: string
