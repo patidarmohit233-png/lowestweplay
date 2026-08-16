@@ -314,7 +314,9 @@ export default function Admin() {
                   </table>
                 </div>
               </div>
-            ) : tab === "orders" ?
+            ) : tab === "orders" ? (
+              <div className="overflow-x-auto">
+
 
 
 
