@@ -29,7 +29,9 @@ export default function BlogList() {
       <Seo 
         title="Official WePlay Blog | News, Tips & Safety Guides" 
         description="Stay updated with the latest WePlay news, coin recharge tips, and account safety guides. Official updates from Lowest Weplay."
+        path="/blog"
       />
+
       
       <header className="pt-24 pb-12 px-4 border-b border-border/40 bg-card/30 backdrop-blur-md">
         <div className="max-w-7xl mx-auto text-center">

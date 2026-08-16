@@ -50,7 +50,9 @@ export default function BlogPost() {
       <Seo 
         title={`${post.title} | Lowest Weplay Official Blog`} 
         description={post.excerpt}
+        path={`/blog/${slug}`}
       />
+
       
       <header className="relative pt-24 pb-16 px-4">
         <div className="max-w-3xl mx-auto">
