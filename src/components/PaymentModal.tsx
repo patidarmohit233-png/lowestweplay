@@ -222,7 +222,7 @@ export default function PaymentModal({
             <div className="rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-[9.5px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">Player ID</p>
-                <p className="text-[13.5px] font-extrabold text-foreground truncate mt-0.5">{buyer.weplay_id}</p>
+                <p className="text-[13.5px] font-extrabold text-foreground truncate mt-0.5">{buyer.user_id}</p>
               </div>
               <div className="h-8 w-px bg-border shrink-0" />
               <div className="min-w-0 text-right">
