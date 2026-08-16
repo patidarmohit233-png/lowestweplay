@@ -508,11 +508,13 @@ const Index = () => {
 
     <SplashScreen show={showSplash} onComplete={() => {}} />
 
-    <AnimatePresence>
-      {!buyer && !showSplash &&
-      <VerificationGate key="gate" onVerified={(b) => persistBuyer(b)} />
-      }
-    </AnimatePresence>
+    {!showSplash && (
+      <AnimatePresence>
+        {!buyer && (
+          <VerificationGate key="gate" onVerified={(b) => persistBuyer(b)} />
+        )}
+      </AnimatePresence>
+    )}
 
     <div
       aria-hidden={!buyer ? true : undefined}
