@@ -340,7 +340,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                 <div className="flex-1 min-w-0">
                   <div className="text-[9.5px] md:text-[11px] font-extrabold uppercase tracking-[0.2em] text-muted-foreground">Step 1 · Player Verification</div>
                   <h3 className="text-[15px] md:text-2xl font-display leading-tight text-foreground mt-0.5">
-                    {buyer && !editing ? "You're verified — ready to top-up" : "Verify before top-up"}
+                    {buyer && !editing ? "You're verified — ready to top-up" : "Verify WePlay details"}
                   </h3>
                 </div>
                 {buyer && !editing &&
