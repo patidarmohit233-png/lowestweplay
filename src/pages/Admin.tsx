@@ -174,7 +174,6 @@ export default function Admin() {
                     <th className="text-left px-4 py-3">Order ID</th>
                     <th className="text-left px-4 py-3">Date</th>
                     <th className="text-left px-4 py-3">User ID</th>
-                    <th className="text-left px-4 py-3">Game</th>
                     <th className="text-left px-4 py-3">Plan</th>
                     <th className="text-right px-4 py-3">Amount</th>
                     <th className="text-left px-4 py-3">Paid To (UPI)</th>
