@@ -5,10 +5,11 @@ import { User, LogOut, Receipt, Coins, Package, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fmt, tierMeta } from "@/lib/loyalty";
 
-type Buyer = { weplay_id: string; weplay_name: string };
+type VerifiedBuyer = { game: string; user_id: string; name: string };
 type Stats = { total_coins: number; bonus_coins: number; loyalty_tier: string; orders: number };
 
-export default function ProfileMenu({ buyer, onLogout }: { buyer: Buyer; onLogout: () => void }) {
+export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer; onLogout: () => void }) {
+
   const [open, setOpen] = useState(false);
   const [stats, setStats] = useState<Stats | null>(null);
   const ref = useRef<HTMLDivElement>(null);
@@ -18,19 +19,23 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: Buyer; onLogou
     let alive = true;
     (async () => {
       const [{ data: c }, { count }] = await Promise.all([
-        supabase.from("customers").select("total_coins,bonus_coins,loyalty_tier").eq("weplay_id", buyer.weplay_id).maybeSingle(),
-        supabase.from("orders").select("id", { count: "exact", head: true }).eq("weplay_id", buyer.weplay_id)
+        supabase.from("users" as any).select("total_coins,bonus_coins,loyalty_tier").eq("user_id", buyer.user_id).eq("game", buyer.game).maybeSingle(),
+        supabase.from("orders" as any).select("id", { count: "exact", head: true }).eq("user_id", buyer.user_id).eq("game", buyer.game)
+
+
       ]);
       if (!alive) return;
+      const userRow = c as any;
       setStats({
-        total_coins: c?.total_coins ?? 0,
-        bonus_coins: c?.bonus_coins ?? 0,
-        loyalty_tier: c?.loyalty_tier ?? "bronze",
+        total_coins: userRow?.total_coins ?? 0,
+        bonus_coins: userRow?.bonus_coins ?? 0,
+        loyalty_tier: userRow?.loyalty_tier ?? "bronze",
         orders: count ?? 0
       });
+
     })();
     return () => {alive = false;};
-  }, [open, buyer.weplay_id]);
+  }, [open, buyer.user_id]);
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
@@ -41,7 +46,7 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: Buyer; onLogou
   }, []);
 
   const tier = tierMeta(stats?.loyalty_tier ?? "bronze");
-  const initials = buyer.weplay_name.trim().slice(0, 1).toUpperCase() || "P";
+  const initials = buyer.name.trim().slice(0, 1).toUpperCase() || "P";
 
   return (
     <div ref={ref} className="fixed top-[56px] right-3 md:top-[72px] md:right-6 z-[70]">
@@ -70,8 +75,9 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: Buyer; onLogou
                   <User size={17} />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-[14px] font-extrabold text-foreground truncate">{buyer.weplay_name}</p>
-                  <p className="text-[11px] font-semibold text-muted-foreground truncate">ID: {buyer.weplay_id}</p>
+                  <p className="text-[14px] font-extrabold text-foreground truncate">{buyer.name}</p>
+                  <p className="text-[11px] font-semibold text-muted-foreground truncate">{buyer.game} ID: {buyer.user_id}</p>
+
                 </div>
               </div>
               <span className={`mt-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[9.5px] font-extrabold uppercase tracking-[0.14em] ${tier.chip}`}>

@@ -35,18 +35,15 @@ function upiQuery(upiId: string, amount: number, note: string) {
   return `pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(PAYEE)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
 }
 
-type Buyer = { weplay_id: string; weplay_name: string };
+type VerifiedBuyer = { game: string; user_id: string; name: string };
 type Method = "upi" | "razorpay";
 
 export default function PaymentModal({
   product,
   buyer,
   onClose
+}: {product: Product | null;buyer: VerifiedBuyer;onClose: () => void;}) {
 
-
-
-
-}: {product: Product | null;buyer: Buyer;onClose: () => void;}) {
   const [method, setMethod] = useState<Method | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [orderCode, setOrderCode] = useState<string | null>(null);
@@ -60,32 +57,32 @@ export default function PaymentModal({
   const [assignedUpi] = useState(pickUpiId);
 
   if (!product) return null;
-  const note = `${product.name} · ${buyer.weplay_id}`;
+  const note = `${product.name} · ${buyer.user_id}`;
 
   /* Order is created ONLY when the buyer verifies their transaction ID */
   const createOrder = async (m: Method) => {
     setCreating(true);
-    const { data, error } = await supabase.rpc("create_order", {
-      p_weplay_id: buyer.weplay_id,
-      p_weplay_name: buyer.weplay_name,
-      p_product_id: String(product.id),
-      p_product_name: product.name,
-      p_price: product.price,
-      p_coins: product.coins,
-      p_coins_amount: product.coinsAmount,
-      p_payment_method: m,
-      p_upi_id: m === "upi" ? assignedUpi : null
-    });
+    const { data, error } = await supabase.from("orders" as any).insert({
+      order_id: Math.random().toString(36).substring(2, 10).toUpperCase(),
+      game: buyer.game,
+      user_id: buyer.user_id,
+      plan: product.name,
+      amount: product.price,
+      status: "pending",
+      upi_id: m === "upi" ? assignedUpi : null,
+      transaction_id: null
+    }).select().single();
     setCreating(false);
-    const row = Array.isArray(data) ? data[0] : null;
+    const row = data as any;
     if (error || !row) {
       toast({ title: "Could not create order", description: error?.message ?? "Please try again.", variant: "destructive" });
       return null;
     }
     setOrderId(row.id);
-    setOrderCode(row.order_code);
+    setOrderCode(row.order_id);
     return row.id as string;
   };
+
 
   const payWithApp = (app: typeof UPI_APPS[0]) => {
     setMethod("upi");
@@ -110,7 +107,7 @@ export default function PaymentModal({
       setVerifying(false);
       return;
     }
-    const { error } = await supabase.rpc("attach_transaction", { p_order_id: id, p_transaction_id: value });
+    const { error } = await supabase.from("orders" as any).update({ transaction_id: value }).eq("id", id);
     setVerifying(false);
     if (error) {
       toast({ title: "Verification failed", description: error.message, variant: "destructive" });
@@ -224,7 +221,7 @@ export default function PaymentModal({
             <div className="rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-[9.5px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">Player ID</p>
-                <p className="text-[13.5px] font-extrabold text-foreground truncate mt-0.5">{buyer.weplay_id}</p>
+                <p className="text-[13.5px] font-extrabold text-foreground truncate mt-0.5">{buyer.user_id}</p>
               </div>
               <div className="h-8 w-px bg-border shrink-0" />
               <div className="min-w-0 text-right">

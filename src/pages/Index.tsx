@@ -21,8 +21,10 @@ import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 
 
-type VerifiedBuyer = { weplay_id: string; weplay_name: string };
+type VerifiedBuyer = { game: string; user_id: string; name: string };
+type Buyer = { weplay_id: string; weplay_name: string };
 const VERIFY_KEY = "lw_verified_buyer";
+
 
 const LOGO = "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png";
 
@@ -281,12 +283,21 @@ function DailyCountdownBar() {
 
 /* ── Verification Panel ───────────────────────────────── */
 const verifySchema = z.object({
-  weplay_id: z.string().trim().min(3, "WePlay ID must be at least 3 characters").max(40, "Too long"),
-  weplay_name: z.string().trim().min(2, "Name required").max(60, "Too long")
+  game: z.string().min(1, "Select a game"),
+  user_id: z.string().trim().min(3, "ID must be at least 3 characters").max(40, "Too long"),
+  name: z.string().trim().optional(),
+}).refine((data) => {
+  if (['WePlay', 'Jackaroo'].includes(data.game)) {
+    return data.name && data.name.trim().length >= 2;
+  }
+  return true;
+}, {
+  message: "Name required for this game",
+  path: ["name"],
 });
 
 function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null; onVerified: (b: VerifiedBuyer | null) => void }) {
-  const [form, setForm] = useState<VerifiedBuyer>({ weplay_id: buyer?.weplay_id ?? "", weplay_name: buyer?.weplay_name ?? "" });
+  const [form, setForm] = useState<VerifiedBuyer>(buyer ?? { game: "WePlay", user_id: "", name: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [editing, setEditing] = useState(!buyer);
 
@@ -295,23 +306,28 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
     const parsed = verifySchema.safeParse(form);
     if (!parsed.success) {
       const flat: Record<string, string> = {};
-      parsed.error.issues.forEach((i) => flat[i.path[0] as string] = i.message);
+      parsed.error.issues.forEach((i) => (flat[i.path[0] as string] = i.message));
       setErrors(flat);
       return;
     }
     setErrors({});
-    const { error } = await supabase.rpc("upsert_customer", {
-      p_weplay_id: parsed.data.weplay_id,
-      p_weplay_name: parsed.data.weplay_name
+    const { error } = await supabase.from("users" as any).upsert({
+      game: parsed.data.game,
+      user_id: parsed.data.user_id,
+      name: parsed.data.name || parsed.data.user_id,
+
+      last_active: new Date().toISOString()
     });
     if (error) {
       toast({ title: "Verification failed", description: error.message, variant: "destructive" });
       return;
     }
-    onVerified(parsed.data as VerifiedBuyer);
+    onVerified(form);
     setEditing(false);
-    toast({ title: "Verified ✓", description: "Your WePlay ID is now your customer ID." });
+    toast({ title: "Verified ✓", description: `Your ${form.game} ID is now your customer ID.` });
   };
+
+
 
 
   return (
@@ -346,11 +362,11 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
               {buyer && !editing ?
               <div className="relative space-y-3">
                   <div className="rounded-2xl border border-accent/25 bg-accent/8 px-4 py-3">
-                    <p className="text-[13px] md:text-[14.5px] font-extrabold text-foreground">Welcome back, {buyer.weplay_name}! 👋</p>
-                    <p className="text-[11px] md:text-[12px] text-muted-foreground mt-0.5">You're logged in — your WePlay ID is your permanent account ID.</p>
+                    <p className="text-[13px] md:text-[14.5px] font-extrabold text-foreground">Welcome back, {buyer.name}! 👋</p>
+                    <p className="text-[11px] md:text-[12px] text-muted-foreground mt-0.5">You're logged in — your {buyer.game} ID is your permanent account ID.</p>
                   </div>
                   <div className="grid grid-cols-2 gap-2.5 md:gap-3">
-                  {[{ k: "WePlay ID", v: buyer.weplay_id }, { k: "WePlay Name", v: buyer.weplay_name }].map((f) =>
+                  {[{ k: `${buyer.game} ID`, v: buyer.user_id }, { k: "Name", v: buyer.name }].map((f) =>
                 <div key={f.k} className="rounded-2xl border border-border bg-secondary/70 px-3.5 py-3">
                       <div className="text-[8.5px] md:text-[10px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">{f.k}</div>
                       <div className="text-sm md:text-base font-extrabold text-foreground truncate mt-0.5">{f.v}</div>
@@ -367,23 +383,24 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
 
               <form onSubmit={submit} className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2.5 md:gap-3">
                   <label className="block">
-                    <span className="sr-only">WePlay ID</span>
+                    <span className="sr-only">Player ID</span>
                     <input
-                    value={form.weplay_id}
-                    onChange={(e) => setForm({ ...form, weplay_id: e.target.value })}
-                    placeholder="Enter your WePlay ID"
-                    className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.weplay_id ? "border-destructive" : "border-border"}`} />
-                    {errors.weplay_id && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_id}</span>}
+                    value={form.user_id}
+                    onChange={(e) => setForm({ ...form, user_id: e.target.value })}
+                    placeholder="Enter your ID"
+                    className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.user_id ? "border-destructive" : "border-border"}`} />
+                    {errors.user_id && <span className="text-[11px] text-destructive mt-1 block">{errors.user_id}</span>}
                   </label>
                   <label className="block">
-                    <span className="sr-only">WePlay Name</span>
+                    <span className="sr-only">Name</span>
                     <input
-                    value={form.weplay_name}
-                    onChange={(e) => setForm({ ...form, weplay_name: e.target.value })}
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
                     placeholder="Enter your Name"
-                    className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.weplay_name ? "border-destructive" : "border-border"}`} />
-                    {errors.weplay_name && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_name}</span>}
+                    className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.name ? "border-destructive" : "border-border"}`} />
+                    {errors.name && <span className="text-[11px] text-destructive mt-1 block">{errors.name}</span>}
                   </label>
+
                   <button
                   type="submit"
                   className="py-3.5 px-6 text-primary-foreground rounded-2xl font-extrabold text-[11.5px] uppercase tracking-[0.14em] flex items-center justify-center gap-2 active:scale-[0.96] transition-all hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.5)]"
@@ -578,7 +595,7 @@ const Index = () => {
       {buyer && <ProfileMenu buyer={buyer} onLogout={() => {persistBuyer(null);toast({ title: "Logged out", description: "Your session on this device has been cleared." });}} />}
 
       {/* ─── STEP 1 · VERIFY & LOGIN (top of page until verified) ─────────── */}
-      {!buyer && <VerificationPanel buyer={buyer} onVerified={persistBuyer} />}
+      {!buyer && <VerificationPanel buyer={buyer as any} onVerified={persistBuyer} />}
 
 
       {/* ─── HERO ─────────────────────────────────────────── */}
@@ -1001,8 +1018,10 @@ const Index = () => {
       </footer>
 
       {payFor && buyer &&
-      <PaymentModal product={payFor} buyer={buyer} onClose={() => setPayFor(null)} />
+      <PaymentModal product={payFor} buyer={buyer as any} onClose={() => setPayFor(null)} />
       }
+
+
     </div>
     {buyer && !showSplash && <LiveSocialProof />}
     </>);
