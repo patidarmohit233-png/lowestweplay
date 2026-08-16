@@ -43,9 +43,9 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
 
     const { error } = await supabase.from('customers' as any).upsert({
       weplay_id: parsed.data.user_id,
-      weplay_name: parsed.data.name || parsed.data.user_id,
+      weplay_name: parsed.data.name,
       last_active: new Date().toISOString(),
-    });
+    }, { onConflict: 'weplay_id' });
 
 
     setLoading(false);
