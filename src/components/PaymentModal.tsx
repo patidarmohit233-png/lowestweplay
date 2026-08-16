@@ -246,16 +246,16 @@ export default function PaymentModal({
         aria-label="Complete payment">
 
         <motion.div
-          initial={{ y: 60, opacity: 0, scale: 0.98 }}
-          animate={{ y: 0, opacity: 1, scale: 1 }}
-          exit={{ y: 40, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 280, damping: 28 }}
+          initial={{ y: "100%", opacity: 0.5 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: "100%", opacity: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30, mass: 0.8 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full md:max-w-[920px] max-h-[94dvh] flex flex-col bg-card/85 backdrop-blur-2xl border border-border/60 rounded-t-[2rem] md:rounded-[2rem] shadow-elevated overflow-hidden">
+          className="relative w-full md:max-w-[920px] h-[92vh] md:h-auto md:max-h-[90vh] flex flex-col bg-card/95 backdrop-blur-3xl border-t md:border border-border/60 rounded-t-[2.5rem] md:rounded-[2rem] shadow-2xl overflow-hidden shadow-[0_-8px_40px_-15px_rgba(0,0,0,0.1)]">
 
           {/* ── HEADER ─────────────── */}
-          <div className="relative shrink-0 px-5 pt-4 pb-5 md:px-7 md:pt-6 bg-gradient-to-b from-primary/[0.1] to-transparent">
-            <div className="md:hidden mx-auto mb-4 h-1.5 w-11 rounded-full bg-border" />
+          <div className="relative shrink-0 px-6 pt-3 pb-5 md:px-7 md:pt-6 bg-gradient-to-b from-primary/[0.08] to-transparent">
+            <div className="md:hidden mx-auto mb-5 h-1.5 w-12 rounded-full bg-muted-foreground/20 active:bg-muted-foreground/40 transition-colors" />
 
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
@@ -281,7 +281,7 @@ export default function PaymentModal({
           </div>
 
           {/* ── SCROLL BODY ────────────────────────────── */}
-          <div className="flex-1 overflow-y-auto overscroll-contain px-5 md:px-7 pb-7">
+          <div className="flex-1 overflow-y-auto overscroll-contain px-6 md:px-7 pb-10 scrollbar-none">
             {/* receipt pill */}
             <div className="rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 flex items-center justify-between gap-3">
               <div className="min-w-0">
