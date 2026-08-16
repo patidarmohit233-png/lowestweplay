@@ -6,10 +6,11 @@ import Seo from "@/components/Seo";
 const TermsOfService = () => (
   <>
   <Seo
-    title="Terms of Service | Lowest Weplay"
-    description="The terms that apply when you buy a WePlay top-up from Lowest Weplay — payments, delivery times, user responsibilities and liability."
+    title="Terms of Service | Official WePlay Top-Up Rules & Delivery"
+    description="Terms and conditions for buying WePlay coins at Lowest Weplay. Secure payments, automated delivery timelines, and user responsibilities in India."
     path="/terms-of-service"
   />
+
   <div className="min-h-screen bg-background text-foreground">
 
     <nav className="sticky top-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/50">
