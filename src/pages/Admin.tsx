@@ -201,7 +201,13 @@ export default function Admin() {
                       const excerpt = prompt("Excerpt:");
                       
                       supabase.from("blog_posts").insert({
-                        title, slug, content, excerpt, category: 'Updates', status: 'draft'
+                        title, 
+                        slug, 
+                        content, 
+                        excerpt, 
+                        category: 'Updates', 
+                        status: 'draft',
+                        author: 'Admin'
                       }).then(({ error }) => {
                         if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
                         else { toast({ title: "Draft Created" }); loadAll(); }
@@ -214,80 +220,102 @@ export default function Admin() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                   <Stat icon={<BookOpen size={14} />} label="Total Posts" value={blogs.length.toString()} />
-                   <Stat icon={<Clock size={14} />} label="Scheduled" value={blogs.filter(b => b.status === 'scheduled').length.toString()} />
-                   <Stat icon={<CheckCircle size={14} />} label="Published" value={blogs.filter(b => b.status === 'published').length.toString()} />
+                   <div className="bg-card border border-border/60 p-4 rounded-2xl">
+                     <div className="flex items-center gap-2 text-muted-foreground text-xs uppercase tracking-wider mb-1 font-bold">
+                       <BookOpen size={14} /> Total Posts
+                     </div>
+                     <div className="text-2xl font-display">{blogs.length}</div>
+                   </div>
+                   <div className="bg-card border border-border/60 p-4 rounded-2xl">
+                     <div className="flex items-center gap-2 text-muted-foreground text-xs uppercase tracking-wider mb-1 font-bold">
+                       <Clock size={14} /> Scheduled
+                     </div>
+                     <div className="text-2xl font-display text-amber-500">{blogs.filter(b => b.status === 'scheduled').length}</div>
+                   </div>
+                   <div className="bg-card border border-border/60 p-4 rounded-2xl">
+                     <div className="flex items-center gap-2 text-muted-foreground text-xs uppercase tracking-wider mb-1 font-bold">
+                       <CheckCircle size={14} /> Published
+                     </div>
+                     <div className="text-2xl font-display text-emerald-500">{blogs.filter(b => b.status === 'published').length}</div>
+                   </div>
                 </div>
 
-                <table className="w-full text-sm">
-                  <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
-                    <tr>
-                      <th className="text-left px-4 py-3">Title</th>
-                      <th className="text-left px-4 py-3">Status</th>
-                      <th className="text-left px-4 py-3">Scheduled For</th>
-                      <th className="text-right px-4 py-3">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {blogs.length === 0 && <tr><td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">No posts yet.</td></tr>}
-                    {blogs.map((b) => (
-                      <tr key={b.id} className="border-t border-border/60 hover:bg-secondary/40">
-                        <td className="px-4 py-3 font-semibold">{b.title}</td>
-                        <td className="px-4 py-3">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                            b.status === 'published' ? 'bg-emerald-100 text-emerald-700' :
-                            b.status === 'scheduled' ? 'bg-amber-100 text-amber-700' :
-                            'bg-secondary text-muted-foreground'
-                          }`}>
-                            {b.status || 'draft'}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-muted-foreground">
-                          {b.scheduled_at ? new Date(b.scheduled_at).toLocaleDateString() : 'Immediate'}
-                        </td>
-                        <td className="px-4 py-3 text-right">
-                          <div className="flex items-center justify-end gap-2">
-                            {b.status === 'draft' && (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
+                      <tr>
+                        <th className="text-left px-4 py-3">Title</th>
+                        <th className="text-left px-4 py-3">Status</th>
+                        <th className="text-left px-4 py-3">Publish Date</th>
+                        <th className="text-right px-4 py-3">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {blogs.length === 0 && <tr><td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">No posts yet.</td></tr>}
+                      {blogs.map((b) => (
+                        <tr key={b.id} className="border-t border-border/60 hover:bg-secondary/40">
+                          <td className="px-4 py-3 font-semibold">{b.title}</td>
+                          <td className="px-4 py-3">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                              b.status === 'published' ? 'bg-emerald-100 text-emerald-700' :
+                              b.status === 'scheduled' ? 'bg-amber-100 text-amber-700' :
+                              'bg-secondary text-muted-foreground'
+                            }`}>
+                              {b.status || 'draft'}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-muted-foreground">
+                            {b.status === 'scheduled' ? new Date(b.scheduled_at).toLocaleDateString() : 
+                             b.published_at ? new Date(b.published_at).toLocaleDateString() : 'Draft'}
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              {b.status === 'draft' && (
+                                <button 
+                                  onClick={() => {
+                                    const dateStr = prompt("Schedule for (YYYY-MM-DD) or leave empty for immediate:", new Date(Date.now() + 86400000).toISOString().split('T')[0]);
+                                    const status = dateStr ? 'scheduled' : 'published';
+                                    const updates: any = { status };
+                                    if (dateStr) {
+                                      updates.scheduled_at = new Date(dateStr).toISOString();
+                                    } else {
+                                      updates.published_at = new Date().toISOString();
+                                    }
+
+                                    supabase.from("blog_posts").update(updates).eq("id", b.id).then(({ error }) => {
+                                      if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+                                      else { toast({ title: `Post ${status}` }); loadAll(); }
+                                    });
+                                  }}
+                                  className="p-2 text-primary hover:bg-primary/10 rounded-lg"
+                                  title="Approve & Schedule"
+                                >
+                                  <Send size={16} />
+                                </button>
+                              )}
                               <button 
                                 onClick={() => {
-                                  const dateStr = prompt("Schedule for (YYYY-MM-DD) or leave empty for now:", new Date(Date.now() + 86400000).toISOString().split('T')[0]);
-                                  const status = dateStr ? 'scheduled' : 'published';
-                                  const updates: any = { status };
-                                  if (dateStr) updates.scheduled_at = new Date(dateStr).toISOString();
-                                  else updates.published_at = new Date().toISOString();
-
-                                  supabase.from("blog_posts").update(updates).eq("id", b.id).then(({ error }) => {
-                                    if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
-                                    else { toast({ title: `Post ${status}` }); loadAll(); }
-                                  });
+                                  if (confirm("Delete this post?")) {
+                                    supabase.from("blog_posts").delete().eq("id", b.id).then(({ error }) => {
+                                      if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+                                      else { toast({ title: "Deleted" }); loadAll(); }
+                                    });
+                                  }
                                 }}
-                                className="p-2 text-primary hover:bg-primary/10 rounded-lg"
-                                title="Approve & Schedule"
+                                className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg"
                               >
-                                <Send size={16} />
+                                <Trash2 size={16} />
                               </button>
-                            )}
-                            <button 
-                              onClick={() => {
-                                if (confirm("Delete this post?")) {
-                                  supabase.from("blog_posts").delete().eq("id", b.id).then(({ error }) => {
-                                    if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
-                                    else { toast({ title: "Deleted" }); loadAll(); }
-                                  });
-                                }
-                              }}
-                              className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             ) : tab === "orders" ?
+
 
 
             <table className="w-full text-sm">
