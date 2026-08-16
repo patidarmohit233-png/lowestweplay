@@ -11,13 +11,13 @@ const TrustSafety = () => {
     <>
       <Seo 
         title="Trust & Safety — Is Lowest Weplay Legit? (100% ID Safe)" 
-        description="Learn how LowestLowestWePlay ensures 100% safety for your LowestWePlay account. We never ask for passwords, offer instant delivery, and provide secure payments."
+        description="Learn how LowestWePlay ensures 100% safety for your LowestWePlay account. We never ask for passwords, offer instant delivery, and provide secure payments."
         path={PATH}
       />
       <ContentLayout 
         currentPath={PATH}
         title="Trust & Safety"
-        intro="Your account security is our top priority. We've built LowestLowestWePlay from the ground up to be the most secure top-up service in the LowestWePlay community."
+        intro="Your account security is our top priority. We've built LowestWePlay from the ground up to be the most secure top-up service in the LowestWePlay community."
       >
         <div className="space-y-12 py-8">
           {/* ID Safety Section */}

@@ -38,13 +38,13 @@ const WhyUs = () => {
     <>
       <Seo 
         title="Why Choose Lowest Weplay? — India's Most Trusted LowestWePlay Top-up" 
-        description="Discover why thousands of LowestWePlay players trust LowestLowestWePlay for their recharges. Compare our prices, safety, and speed."
+        description="Discover why thousands of LowestWePlay players trust LowestWePlay for their recharges. Compare our prices, safety, and speed."
         path={PATH}
       />
       <ContentLayout 
         currentPath={PATH}
         title="Why Choose Us?"
-        intro="LowestLowestWePlay is built by gamers, for gamers. We understand the value of your hard-earned money and the security of your account."
+        intro="LowestWePlay is built by gamers, for gamers. We understand the value of your hard-earned money and the security of your account."
       >
         <div className="py-10 space-y-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -71,7 +71,7 @@ const WhyUs = () => {
             <div className="relative z-10 text-center max-w-2xl mx-auto space-y-6">
               <h2 className="text-3xl font-bold">10,000+ Happy Players</h2>
               <p className="text-muted-foreground italic">
-                "I was hesitant at first, but LowestLowestWePlay is legit. The coins arrived in 5 minutes and the price was way better than the app. Definitely my go-to now!"
+                "I was hesitant at first, but LowestWePlay is legit. The coins arrived in 5 minutes and the price was way better than the app. Definitely my go-to now!"
               </p>
               <div className="flex items-center justify-center gap-2 font-bold text-foreground">
                 <Heart size={16} className="text-red-500 fill-red-500" /> Trusted by the Indian LowestWePlay Community

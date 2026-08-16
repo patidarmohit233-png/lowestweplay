@@ -16,14 +16,14 @@ const Seo = ({ title, description, path, noindex, jsonLd }: SeoProps) => {
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "LowestLowestWePlay",
+    "name": "LowestWePlay",
     "url": SITE_URL,
     "logo": "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png",
     "description": "India's most trusted LowestWePlay top-up service, offering official LowestWePlay coin recharges with instant delivery and 100% ID safety.",
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer support",
-      "email": "lowestlowestweplay@gmail.com",
+      "email": "lowestweplay@gmail.com",
       "availableLanguage": ["English", "Hindi"]
     }
   };
@@ -34,10 +34,10 @@ const Seo = ({ title, description, path, noindex, jsonLd }: SeoProps) => {
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Is LowestWePlay Recharge safe at LowestLowestWePlay?",
+        "name": "Is LowestWePlay Recharge safe at LowestWePlay?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, LowestLowestWePlay is 100% ID safe. We only require your LowestWePlay ID and Name. We never ask for your password, OTP, or any login credentials."
+          "text": "Yes, LowestWePlay is 100% ID safe. We only require your LowestWePlay ID and Name. We never ask for your password, OTP, or any login credentials."
         }
       },
       {

@@ -44,7 +44,7 @@ const HowItWorks = () => {
     <>
       <Seo 
         title="How It Works — Step by Step LowestWePlay Recharge Guide" 
-        description="Learn how to recharge your LowestWePlay account safely using LowestLowestWePlay. Follow our 5-step guide to get your coins instantly."
+        description="Learn how to recharge your LowestWePlay account safely using LowestWePlay. Follow our 5-step guide to get your coins instantly."
         path={PATH}
       />
       <ContentLayout 

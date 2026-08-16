@@ -13,8 +13,8 @@ export const UPI_IDS = [
 "shubhsharmaa@slc",
 "BHARATPE.9D0G0R0Y6T421308@unitype",
 "lowestweplayrechargee@nyes",
-"lowestlowestweplayy@axl",
-"lowestlowestweplay@ibl",
+"lowestweplayy@axl",
+"lowestweplay@ibl",
 "lowestweplayrecharge@ybl"];
 
 export const UPI_ID = UPI_IDS[UPI_IDS.length - 1];
