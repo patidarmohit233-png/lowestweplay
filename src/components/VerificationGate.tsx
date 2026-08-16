@@ -38,11 +38,11 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     trackEvent('verification_started', { weplay_id: parsed.data.user_id });
 
     // Use name instead of weplay_name per actual schema
-    const { error: upsertError } = await supabase.from('customers' as any).upsert({
+    const { error: upsertError } = await supabase.from('customers').upsert({
       weplay_id: parsed.data.user_id,
-      name: parsed.data.name,
+      weplay_name: parsed.data.name,
       last_active: new Date().toISOString(),
-    }, { onConflict: 'weplay_id' });
+    } as any, { onConflict: 'weplay_id' });
 
     setLoading(false);
     if (upsertError) {
