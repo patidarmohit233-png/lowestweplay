@@ -464,8 +464,8 @@ const Index = () => {
   return (
     <>
     <Seo
-      title="WePlay Top Up India — Cheapest WePlay Recharge & Red Packet"
-      description="Official WePlay Recharge India. Buy WePlay coins and Red Packets at the lowest prices. Instant WePlay top up, 100% ID safety, secure UPI payments on weplayrecharge.shop."
+      title="WePlay Top Up India — Cheapest WePlay Recharge & Red Packet (100% Safe)"
+      description="Official WePlay Recharge India. Buy WePlay coins and Red Packets at the lowest prices. 100% Safe & Instant WePlay top up, No password required. Trusted by thousands of players on weplayrecharge.shop."
       path="/"
       jsonLd={[
         {
