@@ -161,7 +161,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            bhai footer mai jo disclaimer tha ki hm kisi se affiliated ya sponsered nhi h wo wala disclaimer hat gya y pta nhi kya likha ara h
+                                            or ek kam kr jaha jaha lowestweplay likha h uske age lowest likhde jise bd mai copyrighht wala seen na lge
         </p>
       )}
     </Reveal>);
