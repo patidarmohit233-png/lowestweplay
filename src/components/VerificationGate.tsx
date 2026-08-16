@@ -96,8 +96,8 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
         >
           <div className="rounded-[1.9rem] bg-card/90 backdrop-blur-2xl p-6 md:p-8">
             <div className="text-center">
-              <img src={LOGO} alt="Lowest Weplay" className="mx-auto w-[180px] md:w-[210px] h-auto object-contain" />
-              <p className="mt-2 text-[11.5px] md:text-[13px] font-semibold text-muted-foreground uppercase tracking-widest">Premium Gaming Top-Up</p>
+              <img src={LOGO} alt="Lowest Weplay" className="mx-auto w-[210px] md:w-[240px] h-auto object-contain" />
+              <p className="mt-2 text-[12px] md:text-[14px] font-semibold text-muted-foreground uppercase tracking-widest">Premium Gaming Top-Up</p>
               <span className="mt-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/15 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-primary">
                 <Sparkles size={11} /> Verify to continue
               </span>

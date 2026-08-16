@@ -51,15 +51,15 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
   const initials = buyer?.name?.trim()?.slice(0, 1).toUpperCase() || "P";
 
   return (
-    <div ref={ref} className="relative z-[70]">
+    <div ref={ref} className="relative z-[70] flex items-center justify-center">
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label="Open profile menu"
         aria-expanded={open}
-        className="relative w-10 h-10 md:w-11 md:h-11 rounded-full grid place-items-center text-primary-foreground font-extrabold shadow-card border border-primary/20 active:scale-[0.94] transition-all overflow-hidden"
+        className="relative w-11 h-11 md:w-12 md:h-12 rounded-full grid place-items-center text-primary-foreground font-extrabold shadow-card border border-primary/20 active:scale-[0.94] transition-all overflow-hidden"
         style={{ background: "white" }}>
         {open ? (
-          <X size={18} strokeWidth={2.6} className="text-primary" />
+          <X size={20} strokeWidth={2.6} className="text-primary" />
         ) : (
           <img 
             src={weplayAvatarAsset.url} 
