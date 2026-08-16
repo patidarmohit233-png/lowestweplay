@@ -97,13 +97,13 @@ export default function Admin() {
     const q = query.trim().toLowerCase();
     return orders.filter((o) =>
       (statusFilter === "all" || o.status === statusFilter) && (
-      !q || o.lowestweplay_id.toLowerCase().includes(q) || o.order_code?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
+      !q || (o.weplay_id || o.lowestweplay_id || "").toLowerCase().includes(q) || o.order_code?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
     ).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   }, [orders, statusFilter, query]);
 
   const filteredCustomers = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const filtered = customers.filter((c) => !q || c.lowestweplay_id.toLowerCase().includes(q) || c.name.toLowerCase().includes(q));
+    const filtered = customers.filter((c) => !q || (c.weplay_id || c.lowestweplay_id || "").toLowerCase().includes(q) || (c.weplay_name || c.name || "").toLowerCase().includes(q));
     return filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   }, [customers, query]);
 
@@ -340,8 +340,8 @@ export default function Admin() {
                         <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_code}</td>
                         <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(o.created_at).toLocaleString()}</td>
                         <td className="px-4 py-3">
-                          <div className="font-semibold text-muted-foreground">{o.lowestweplay_id}</div>
-                          <div className="text-[10px] text-muted-foreground/60">{o.lowestweplay_name}</div>
+                          <div className="font-semibold text-muted-foreground">{o.weplay_id || o.lowestweplay_id}</div>
+                          <div className="text-[10px] text-muted-foreground/60">{o.weplay_name || o.lowestweplay_name}</div>
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap">{o.product_name}</td>
                         <td className="px-4 py-3 text-right font-bold font-price">₹{o.price}</td>
