@@ -61,7 +61,7 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
       user_id: parsed.data.user_id,
       name: parsed.data.name || parsed.data.user_id,
       last_active: new Date().toISOString(),
-    }, { onConflict: 'user_id, game' });
+    });
 
     setLoading(false);
     if (error) {
