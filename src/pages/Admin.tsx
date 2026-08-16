@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNoindex } from "@/hooks/use-noindex";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, RefreshCw, Search, Users, Package, IndianRupee } from "lucide-react";
+import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3 } from "lucide-react";
 
 
 type Order = {
@@ -40,8 +40,9 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState<Order[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
+  const [analytics, setAnalytics] = useState<any[]>([]);
   const [refreshing, setRefreshing] = useState(false);
-  const [tab, setTab] = useState<"orders" | "customers">("orders");
+  const [tab, setTab] = useState<"orders" | "customers" | "analytics">("orders");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [query, setQuery] = useState("");
 
@@ -53,9 +54,10 @@ export default function Admin() {
 
   const loadAll = async () => {
     setRefreshing(true);
-    const [o, c] = await Promise.all([
+    const [o, c, a] = await Promise.all([
       supabase.from("orders").select("*").order("created_at", { ascending: false }),
-      supabase.from("customers").select("*").order("created_at", { ascending: false })
+      supabase.from("customers").select("*").order("created_at", { ascending: false }),
+      supabase.from("analytics_events" as any).select("*").order("created_at", { ascending: false }).limit(200)
     ]);
     setRefreshing(false);
     
@@ -64,6 +66,7 @@ export default function Admin() {
     
     setOrders((o.data ?? []) as any[]);
     setCustomers((c.data ?? []) as any[]);
+    setAnalytics((a.data ?? []) as any[]);
   };
 
   const changeStatus = async (id: string, status: string) => {
@@ -126,12 +129,12 @@ export default function Admin() {
           <Stat icon={<Users size={14} />} label="Total users" value={customers.length.toString()} />
           <Stat icon={<Package size={14} />} label="Total orders" value={orders.length.toString()} />
           <Stat icon={<IndianRupee size={14} />} label="Revenue (completed)" value={`₹${revenue.toLocaleString()}`} />
-          <Stat icon={<RefreshCw size={14} />} label="Pending + Processing" value={orders.filter((o) => o.status === "pending" || o.status === "processing").length.toString()} />
+          <Stat icon={<BarChart3 size={14} />} label="Conversions (Verified)" value={orders.filter(o => o.status !== 'failed').length.toString()} />
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center gap-3 mb-4">
           <div className="inline-flex p-1 rounded-xl bg-secondary/70 border border-border">
-            {(["orders", "customers"] as const).map((t) =>
+            {(["orders", "customers", "analytics"] as const).map((t) =>
             <button key={t} onClick={() => setTab(t)}
               className={`px-4 py-2 rounded-lg text-[12px] font-bold capitalize transition-all ${tab === t ? "bg-card shadow-card" : "text-muted-foreground"}`}>
                 {t}
@@ -192,10 +195,10 @@ export default function Admin() {
                       <td className="px-4 py-3 text-muted-foreground max-w-[160px] truncate">{o.transaction_id || "—"}</td>
                       <td className="px-4 py-3">
                         <select
-                      value={o.status}
-                      onChange={(e) => changeStatus(o.id, e.target.value)}
-                      aria-label={`Status for order ${o.order_id}`}
-                      className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
+                       value={o.status}
+                       onChange={(e) => changeStatus(o.id, e.target.value)}
+                       aria-label={`Status for order ${o.order_id}`}
+                       className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
                           {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                         </select>
                       </td>
@@ -203,7 +206,30 @@ export default function Admin() {
                 )}
                 </tbody>
               </table> :
-
+            tab === "analytics" ?
+            <div className="p-4 overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
+                  <tr>
+                    <th className="text-left px-4 py-3">Event</th>
+                    <th className="text-left px-4 py-3">WePlay ID</th>
+                    <th className="text-left px-4 py-3">Metadata</th>
+                    <th className="text-left px-4 py-3">Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {analytics.length === 0 && <tr><td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">No events recorded.</td></tr>}
+                  {analytics.map((e, idx) => (
+                    <tr key={idx} className="border-t border-border/60 hover:bg-secondary/40">
+                      <td className="px-4 py-3"><span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">{e.event_name}</span></td>
+                      <td className="px-4 py-3 font-semibold">{e.weplay_id || '—'}</td>
+                      <td className="px-4 py-3 text-[11px] text-muted-foreground max-w-[300px] truncate">{JSON.stringify(e.metadata)}</td>
+                      <td className="px-4 py-3 text-muted-foreground">{new Date(e.created_at).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div> :
             <table className="w-full text-sm">
                 <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
                   <tr>

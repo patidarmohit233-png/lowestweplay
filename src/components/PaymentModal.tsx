@@ -7,6 +7,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import type { Product } from "@/data/products";
+import { trackEvent } from "@/lib/analytics";
 
 export const UPI_IDS = [
 "shubhsharmaa@slc",
@@ -62,6 +63,7 @@ export default function PaymentModal({
   /* Order is created ONLY when the buyer verifies their transaction ID */
   const createOrder = async (m: Method) => {
     setCreating(true);
+    trackEvent('payment_started', { method: m, product_id: product.id, product_name: product.name });
     // Align with actual Supabase schema: order_id (string), user_id (string), plan (string), amount (string)
     const { data, error } = await supabase.from("orders" as any).insert({
       order_id: Math.random().toString(36).substring(2, 10).toUpperCase(),
@@ -116,6 +118,7 @@ export default function PaymentModal({
       return;
     }
     setDone(true);
+    trackEvent('payment_verified', { method: method, order_id: id, order_code: orderCode });
     toast({ title: "Payment submitted ✓", description: "We're verifying it — track status with your WePlay ID." });
   };
 
