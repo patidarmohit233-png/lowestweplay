@@ -146,12 +146,13 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
       </span>
       <motion.h2 
         className="mt-4 text-[1.75rem] leading-[1.12] md:text-6xl font-display text-foreground"
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: EASE }}>
+        initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 0.9, ease: EASE }}>
         {title} {highlight && <span className="text-gradient inline-block">{highlight}</span>}
       </motion.h2>
+
       <p className="text-muted-foreground mt-3 text-[13px] md:text-base max-w-md md:max-w-xl mx-auto leading-relaxed">
         {subtitle}
       </p>
