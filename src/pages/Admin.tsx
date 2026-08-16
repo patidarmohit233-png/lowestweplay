@@ -235,7 +235,7 @@ export default function Admin() {
                 }
                   {filteredCustomers.map((c) =>
                 <tr key={c.id} className="border-t border-border/60 hover:bg-secondary/40">
-                      <td className="px-4 py-3 font-bold">{c.game}</td>
+                      
                       <td className="px-4 py-3 font-semibold">{c.user_id}</td>
                       <td className="px-4 py-3">{c.name}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
