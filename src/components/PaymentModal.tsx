@@ -329,7 +329,7 @@ export default function PaymentModal({
                 whileHover={{ y: -3 }}
                 onClick={() => {
                   if (quantity > 1) {
-                    toast({ title: "Bulk orders restricted", description: "Quantities greater than 1 are only available via UPI payment.", variant: "warning" });
+                    toast({ title: "Bulk orders restricted", description: "Quantities greater than 1 are only available via UPI payment.", variant: "destructive" });
                     return;
                   }
                   setMethod((m) => m === "razorpay" ? null : "razorpay");
