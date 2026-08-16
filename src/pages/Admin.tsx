@@ -2,8 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { useNoindex } from "@/hooks/use-noindex";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen, FileCode } from "lucide-react";
+import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen, FileCode, Clock, CheckCircle, Send } from "lucide-react";
 import { generateSitemapXml } from "@/lib/sitemap-generator";
+
 
 
 
@@ -186,161 +187,235 @@ export default function Admin() {
           <div className="overflow-x-auto">
             {tab === "blogs" ? (
               <div className="p-4">
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-lg font-display">Manage Blog Posts</h2>
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                  <div>
+                    <h2 className="text-xl font-display">Content Workflow</h2>
+                    <p className="text-xs text-muted-foreground">Draft, schedule, and approve daily blog posts.</p>
+                  </div>
                   <button 
                     onClick={() => {
                       const title = prompt("Post Title:");
                       if (!title) return;
                       const slug = title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
-                      const content = prompt("Post Content (simple text for now):");
+                      const content = prompt("Post Content:");
                       const excerpt = prompt("Excerpt:");
                       
                       supabase.from("blog_posts").insert({
-                        title, slug, content, excerpt, category: 'Updates'
+                        title, 
+                        slug, 
+                        content, 
+                        excerpt, 
+                        category: 'Updates', 
+                        status: 'draft',
+                        author: 'Admin'
                       }).then(({ error }) => {
                         if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
-                        else { toast({ title: "Success" }); loadAll(); }
+                        else { toast({ title: "Draft Created" }); loadAll(); }
                       });
                     }}
                     className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-bold flex items-center gap-2"
                   >
-                    <Plus size={16} /> New Post
+                    <Plus size={16} /> New Draft
                   </button>
                 </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                   <div className="bg-card border border-border/60 p-4 rounded-2xl">
+                     <div className="flex items-center gap-2 text-muted-foreground text-xs uppercase tracking-wider mb-1 font-bold">
+                       <BookOpen size={14} /> Total Posts
+                     </div>
+                     <div className="text-2xl font-display">{blogs.length}</div>
+                   </div>
+                   <div className="bg-card border border-border/60 p-4 rounded-2xl">
+                     <div className="flex items-center gap-2 text-muted-foreground text-xs uppercase tracking-wider mb-1 font-bold">
+                       <Clock size={14} /> Scheduled
+                     </div>
+                     <div className="text-2xl font-display text-amber-500">{blogs.filter(b => b.status === 'scheduled').length}</div>
+                   </div>
+                   <div className="bg-card border border-border/60 p-4 rounded-2xl">
+                     <div className="flex items-center gap-2 text-muted-foreground text-xs uppercase tracking-wider mb-1 font-bold">
+                       <CheckCircle size={14} /> Published
+                     </div>
+                     <div className="text-2xl font-display text-emerald-500">{blogs.filter(b => b.status === 'published').length}</div>
+                   </div>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
+                      <tr>
+                        <th className="text-left px-4 py-3">Title</th>
+                        <th className="text-left px-4 py-3">Status</th>
+                        <th className="text-left px-4 py-3">Publish Date</th>
+                        <th className="text-right px-4 py-3">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {blogs.length === 0 && <tr><td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">No posts yet.</td></tr>}
+                      {blogs.map((b) => (
+                        <tr key={b.id} className="border-t border-border/60 hover:bg-secondary/40">
+                          <td className="px-4 py-3 font-semibold">{b.title}</td>
+                          <td className="px-4 py-3">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                              b.status === 'published' ? 'bg-emerald-100 text-emerald-700' :
+                              b.status === 'scheduled' ? 'bg-amber-100 text-amber-700' :
+                              'bg-secondary text-muted-foreground'
+                            }`}>
+                              {b.status || 'draft'}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-muted-foreground">
+                            {b.status === 'scheduled' ? new Date(b.scheduled_at).toLocaleDateString() : 
+                             b.published_at ? new Date(b.published_at).toLocaleDateString() : 'Draft'}
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              {b.status === 'draft' && (
+                                <button 
+                                  onClick={() => {
+                                    const dateStr = prompt("Schedule for (YYYY-MM-DD) or leave empty for immediate:", new Date(Date.now() + 86400000).toISOString().split('T')[0]);
+                                    const status = dateStr ? 'scheduled' : 'published';
+                                    const updates: any = { status };
+                                    if (dateStr) {
+                                      updates.scheduled_at = new Date(dateStr).toISOString();
+                                    } else {
+                                      updates.published_at = new Date().toISOString();
+                                    }
+
+                                    supabase.from("blog_posts").update(updates).eq("id", b.id).then(({ error }) => {
+                                      if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+                                      else { toast({ title: `Post ${status}` }); loadAll(); }
+                                    });
+                                  }}
+                                  className="p-2 text-primary hover:bg-primary/10 rounded-lg"
+                                  title="Approve & Schedule"
+                                >
+                                  <Send size={16} />
+                                </button>
+                              )}
+                              <button 
+                                onClick={() => {
+                                  if (confirm("Delete this post?")) {
+                                    supabase.from("blog_posts").delete().eq("id", b.id).then(({ error }) => {
+                                      if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+                                      else { toast({ title: "Deleted" }); loadAll(); }
+                                    });
+                                  }
+                                }}
+                                className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : tab === "orders" ? (
+              <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
                     <tr>
-                      <th className="text-left px-4 py-3">Title</th>
-                      <th className="text-left px-4 py-3">Published</th>
-                      <th className="text-left px-4 py-3">Category</th>
-                      <th className="text-right px-4 py-3">Actions</th>
+                      <th className="text-left px-4 py-3">Order ID</th>
+                      <th className="text-left px-4 py-3">Date</th>
+                      <th className="text-left px-4 py-3">User ID</th>
+                      <th className="text-left px-4 py-3">Plan</th>
+                      <th className="text-right px-4 py-3">Amount</th>
+                      <th className="text-left px-4 py-3">Paid To (UPI)</th>
+                      <th className="text-left px-4 py-3">Txn ID</th>
+                      <th className="text-left px-4 py-3">Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {blogs.length === 0 && <tr><td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">No posts yet.</td></tr>}
-                    {blogs.map((b) => (
-                      <tr key={b.id} className="border-t border-border/60 hover:bg-secondary/40">
-                        <td className="px-4 py-3 font-semibold">{b.title}</td>
-                        <td className="px-4 py-3 text-muted-foreground">{new Date(b.published_at).toLocaleDateString()}</td>
-                        <td className="px-4 py-3"><span className="px-2 py-0.5 rounded-full bg-secondary text-[10px] font-bold">{b.category}</span></td>
-                        <td className="px-4 py-3 text-right">
-                          <button 
-                            onClick={() => {
-                              if (confirm("Delete this post?")) {
-                                supabase.from("blog_posts").delete().eq("id", b.id).then(({ error }) => {
-                                  if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
-                                  else { toast({ title: "Deleted" }); loadAll(); }
-                                });
-                              }
-                            }}
-                            className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg"
-                          >
-                            <Trash2 size={16} />
-                          </button>
+                    {filteredOrders.length === 0 &&
+                      <tr><td colSpan={8} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
+                    }
+                    {filteredOrders.map((o) =>
+                      <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
+                        <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_id}</td>
+                        <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(o.created_at).toLocaleString()}</td>
+                        <td className="px-4 py-3">
+                          <div className="font-semibold text-muted-foreground">{o.user_id}</div>
                         </td>
+                        <td className="px-4 py-3 whitespace-nowrap">{o.plan}</td>
+                        <td className="px-4 py-3 text-right font-bold font-price">₹{o.amount}</td>
+                        <td className="px-4 py-3 max-w-[190px]">
+                          {o.upi_id ?
+                            <span className="inline-block px-2 py-1 rounded-md bg-secondary border border-border text-[11px] font-bold break-all">{o.upi_id}</span> :
+                            <span className="text-muted-foreground">—</span>}
+                        </td>
+                        <td className="px-4 py-3 text-muted-foreground max-w-[160px] truncate">{o.transaction_id || "—"}</td>
+                        <td className="px-4 py-3">
+                          <select
+                            value={o.status}
+                            onChange={(e) => changeStatus(o.id, e.target.value)}
+                            aria-label={`Status for order ${o.order_id}`}
+                            className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
+                            {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                          </select>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            ) : tab === "analytics" ? (
+              <div className="p-4 overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
+                    <tr>
+                      <th className="text-left px-4 py-3">Event</th>
+                      <th className="text-left px-4 py-3">WePlay ID</th>
+                      <th className="text-left px-4 py-3">Metadata</th>
+                      <th className="text-left px-4 py-3">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {analytics.length === 0 && <tr><td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">No events recorded.</td></tr>}
+                    {analytics.map((e, idx) => (
+                      <tr key={idx} className="border-t border-border/60 hover:bg-secondary/40">
+                        <td className="px-4 py-3"><span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">{e.event_name}</span></td>
+                        <td className="px-4 py-3 font-semibold">{e.weplay_id || '—'}</td>
+                        <td className="px-4 py-3 text-[11px] text-muted-foreground max-w-[300px] truncate">{JSON.stringify(e.metadata)}</td>
+                        <td className="px-4 py-3 text-muted-foreground">{new Date(e.created_at).toLocaleString()}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-            ) : tab === "orders" ?
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
+                    <tr>
+                      <th className="text-left px-4 py-3">WePlay ID</th>
+                      <th className="text-left px-4 py-3">Name</th>
+                      <th className="text-left px-4 py-3">Verified on</th>
+                      <th className="text-left px-4 py-3">Last active</th>
+                      <th className="text-right px-4 py-3">Orders</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredCustomers.length === 0 &&
+                      <tr><td colSpan={5} className="px-4 py-10 text-center text-muted-foreground">No verified users found.</td></tr>
+                    }
+                    {filteredCustomers.map((c) =>
+                      <tr key={c.weplay_id} className="border-t border-border/60 hover:bg-secondary/40">
+                        <td className="px-4 py-3 font-semibold">{c.weplay_id}</td>
+                        <td className="px-4 py-3">{c.name}</td>
+                        <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
+                        <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.last_active).toLocaleString()}</td>
+                        <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.user_id === c.weplay_id).length}</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
-            <table className="w-full text-sm">
-                <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
-                  <tr>
-                    <th className="text-left px-4 py-3">Order ID</th>
-                    <th className="text-left px-4 py-3">Date</th>
-                    <th className="text-left px-4 py-3">User ID</th>
-                    <th className="text-left px-4 py-3">Plan</th>
-                    <th className="text-right px-4 py-3">Amount</th>
-                    <th className="text-left px-4 py-3">Paid To (UPI)</th>
-                    <th className="text-left px-4 py-3">Txn ID</th>
-                    <th className="text-left px-4 py-3">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredOrders.length === 0 &&
-                <tr><td colSpan={8} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
-                }
-                  {filteredOrders.map((o) =>
-                <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
-                      <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_id}</td>
-                      <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(o.created_at).toLocaleString()}</td>
-                      <td className="px-4 py-3">
-                        <div className="font-semibold text-muted-foreground">{o.user_id}</div>
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap">{o.plan}</td>
-                      <td className="px-4 py-3 text-right font-bold font-price">₹{o.amount}</td>
-                      <td className="px-4 py-3 max-w-[190px]">
-                        {o.upi_id ?
-                    <span className="inline-block px-2 py-1 rounded-md bg-secondary border border-border text-[11px] font-bold break-all">{o.upi_id}</span> :
-                    <span className="text-muted-foreground">—</span>}
-                      </td>
-                      <td className="px-4 py-3 text-muted-foreground max-w-[160px] truncate">{o.transaction_id || "—"}</td>
-                      <td className="px-4 py-3">
-                        <select
-                       value={o.status}
-                       onChange={(e) => changeStatus(o.id, e.target.value)}
-                       aria-label={`Status for order ${o.order_id}`}
-                       className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
-                          {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
-                        </select>
-                      </td>
-                    </tr>
-                )}
-                </tbody>
-              </table> :
-            tab === "analytics" ?
-            <div className="p-4 overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
-                  <tr>
-                    <th className="text-left px-4 py-3">Event</th>
-                    <th className="text-left px-4 py-3">WePlay ID</th>
-                    <th className="text-left px-4 py-3">Metadata</th>
-                    <th className="text-left px-4 py-3">Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {analytics.length === 0 && <tr><td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">No events recorded.</td></tr>}
-                  {analytics.map((e, idx) => (
-                    <tr key={idx} className="border-t border-border/60 hover:bg-secondary/40">
-                      <td className="px-4 py-3"><span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">{e.event_name}</span></td>
-                      <td className="px-4 py-3 font-semibold">{e.weplay_id || '—'}</td>
-                      <td className="px-4 py-3 text-[11px] text-muted-foreground max-w-[300px] truncate">{JSON.stringify(e.metadata)}</td>
-                      <td className="px-4 py-3 text-muted-foreground">{new Date(e.created_at).toLocaleString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div> :
-            <table className="w-full text-sm">
-                <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
-                  <tr>
-                    <th className="text-left px-4 py-3">WePlay ID</th>
-                    <th className="text-left px-4 py-3">Name</th>
-                    <th className="text-left px-4 py-3">Verified on</th>
-                    <th className="text-left px-4 py-3">Last active</th>
-                    <th className="text-right px-4 py-3">Orders</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredCustomers.length === 0 &&
-                <tr><td colSpan={5} className="px-4 py-10 text-center text-muted-foreground">No verified users found.</td></tr>
-                }
-                  {filteredCustomers.map((c) =>
-                <tr key={c.weplay_id} className="border-t border-border/60 hover:bg-secondary/40">
-                      <td className="px-4 py-3 font-semibold">{c.weplay_id}</td>
-                      <td className="px-4 py-3">{c.name}</td>
-                      <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
-                      <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.last_active).toLocaleString()}</td>
-                      <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.user_id === c.weplay_id).length}</td>
-                    </tr>
-                )}
-                </tbody>
-              </table>
-            }
           </div>
         </div>
       </main>

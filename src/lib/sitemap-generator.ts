@@ -6,10 +6,13 @@ import { supabase } from "@/integrations/supabase/client";
  * structure which the user can then copy or we can theoretically automate if we had a backend.
  */
 export const generateSitemapXml = async () => {
+  const now = new Date().toISOString();
   const { data: posts } = await supabase
     .from("blog_posts")
-    .select("slug, published_at")
+    .select("slug, published_at, scheduled_at, status")
+    .or(`status.eq.published,and(status.eq.scheduled,scheduled_at.lte.${now})`)
     .order("published_at", { ascending: false });
+
 
   const SITE_URL = "https://weplayrecharge.shop";
   const today = new Date().toISOString().split('T')[0];
@@ -39,7 +42,8 @@ export const generateSitemapXml = async () => {
   });
 
   posts?.forEach(post => {
-    const postDate = new Date(post.published_at).toISOString().split('T')[0];
+    const dateSource = post.status === 'scheduled' ? post.scheduled_at : post.published_at;
+    const postDate = new Date(dateSource || today).toISOString().split('T')[0];
     xml += `
   <url>
     <loc>${SITE_URL}/blog/${post.slug}</loc>
@@ -48,6 +52,7 @@ export const generateSitemapXml = async () => {
     <priority>0.8</priority>
   </url>`;
   });
+
 
   xml += `
 </urlset>`;

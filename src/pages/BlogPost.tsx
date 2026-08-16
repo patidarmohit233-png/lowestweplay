@@ -12,10 +12,12 @@ export default function BlogPost() {
 
   useEffect(() => {
     async function fetchPost() {
+      const now = new Date().toISOString();
       const { data, error } = await supabase
         .from("blog_posts")
         .select("*")
         .eq("slug", slug)
+        .or(`status.eq.published,and(status.eq.scheduled,scheduled_at.lte.${now})`)
         .single();
       
       if (!error && data) {
@@ -25,6 +27,7 @@ export default function BlogPost() {
     }
     fetchPost();
   }, [slug]);
+
 
   if (loading) {
     return (
