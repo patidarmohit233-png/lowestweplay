@@ -4,10 +4,11 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PRODUCTS, type Product } from "@/data/products";
 
 export const CONTENT_LINKS = [
+  { to: "/how-it-works", label: "How It Works" },
+  { to: "/why-us", label: "Why Choose Us" },
+  { to: "/trust-safety", label: "Trust & Safety" },
   { to: "/weplay-recharge", label: "WePlay Recharge Packs" },
   { to: "/weplay-red-packet", label: "WePlay Red Packet Top-Up" },
-  { to: "/weplay-top-up-price-list", label: "WePlay Top-Up Price List" },
-  { to: "/how-to-top-up-weplay", label: "How to Top Up WePlay" },
   { to: "/faq", label: "WePlay Top-Up FAQ" },
 ];
 
