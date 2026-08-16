@@ -1006,9 +1006,14 @@ const Index = () => {
               sponsored by WePlay.
             </p>
           </div>
-          <p className="text-muted-foreground text-[11.5px] text-center">
-            © {new Date().getFullYear()} Lowest Weplay. All rights reserved. Independent WePlay top-up service.
-          </p>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
+            <p className="text-muted-foreground text-[11.5px] text-center">
+              © {new Date().getFullYear()} Lowest Weplay. All rights reserved. Independent WePlay top-up service.
+            </p>
+            <Link to="/admin-lowest-shubham" className="text-[10px] text-muted-foreground/30 hover:text-muted-foreground transition-colors uppercase tracking-widest font-bold">
+              Admin
+            </Link>
+          </div>
         </div>
       </footer>
 
