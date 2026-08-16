@@ -60,8 +60,9 @@ export default function Admin() {
   const loadAll = async () => {
     setRefreshing(true);
     const [o, c] = await Promise.all([
-    supabase.from("orders").select("*").order("created_at", { ascending: false }),
-    supabase.from("users").select("*").order("created_at", { ascending: false })]
+    supabase.from("orders" as any).select("*").order("created_at", { ascending: false }),
+    supabase.from("users" as any).select("*").order("created_at", { ascending: false })]
+
 
     );
     setRefreshing(false);
