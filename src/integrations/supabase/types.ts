@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          created_at: string | null
+          event_name: string
+          id: string
+          metadata: Json | null
+          url: string | null
+          user_agent: string | null
+          weplay_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_name: string
+          id?: string
+          metadata?: Json | null
+          url?: string | null
+          user_agent?: string | null
+          weplay_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          event_name?: string
+          id?: string
+          metadata?: Json | null
+          url?: string | null
+          user_agent?: string | null
+          weplay_id?: string | null
+        }
+        Relationships: []
+      }
       customers: {
         Row: {
           bonus_coins: number

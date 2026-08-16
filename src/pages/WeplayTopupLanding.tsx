@@ -3,6 +3,7 @@ import ContentLayout, { PriceTable } from "@/components/ContentLayout";
 import { PRODUCTS } from "@/data/products";
 import { Link } from "react-router-dom";
 import { ArrowRight, Zap, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 const PATH = "/weplay-recharge-topup";
 
