@@ -161,7 +161,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            bhai ios or phone k lie wo payment wala jo ata h use thik se fit krde
+                                            bhai ye profile firse nhi khulra
         </p>
       )}
     </Reveal>);
