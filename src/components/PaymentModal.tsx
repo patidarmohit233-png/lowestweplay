@@ -134,16 +134,63 @@ export default function PaymentModal({
   )}`;
 
   /* shared verification block inside each card (plain render fn — keeps input mounted) */
+  const isLessRecommended = product.id === 1 || product.id === 3; // ₹479 packs
+
   const renderVerify = (label: string, placeholder: string) =>
   done ?
+    <div className="mt-4 rounded-2xl border border-accent/30 bg-accent/10 p-5 space-y-4">
+      <div className="flex items-start gap-3">
+        <span className="w-10 h-10 shrink-0 rounded-full bg-accent/20 text-accent grid place-items-center">
+          <Check size={20} strokeWidth={3} />
+        </span>
+        <div className="space-y-1">
+          <h4 className="text-[15px] font-black text-foreground uppercase tracking-wider">Order In Process</h4>
+          <p className="text-[12px] font-bold text-muted-foreground leading-relaxed">
+            Order <span className="text-primary">#{orderCode}</span> has been received and is being verified.
+          </p>
+        </div>
+      </div>
 
-  <div className="mt-4 rounded-2xl border border-accent/30 bg-accent/10 px-4 py-3.5 flex items-start gap-3">
-      <span className="w-8 h-8 shrink-0 rounded-full bg-accent/20 text-accent grid place-items-center">
-        <Check size={15} strokeWidth={3} />
-      </span>
-      <p className="text-[12px] font-bold text-foreground leading-relaxed">
-        Order {orderCode} is submitted and now <span className="text-accent">pending review</span>. Track it anytime with your WePlay ID.
-      </p>
+      <div className="p-4 rounded-2xl bg-card border border-border shadow-sm space-y-3">
+        <div className="flex items-center gap-2 pb-2 border-b border-border">
+          <Receipt size={14} className="text-primary" />
+          <span className="text-[10px] font-black uppercase tracking-widest text-foreground">Order Receipt</span>
+        </div>
+        
+        <div className="space-y-2">
+          <div className="flex justify-between text-[11px] font-bold">
+            <span className="text-muted-foreground">Item:</span>
+            <span className="text-foreground">{product.name} (x{quantity})</span>
+          </div>
+          <div className="flex justify-between text-[11px] font-bold">
+            <span className="text-muted-foreground">WePlay ID:</span>
+            <span className="text-foreground">{buyer.user_id}</span>
+          </div>
+          <div className="flex justify-between text-[11px] font-bold">
+            <span className="text-muted-foreground">Amount Paid:</span>
+            <span className="text-primary">₹{product.price * quantity}</span>
+          </div>
+        </div>
+
+        <div className={`mt-3 p-3 rounded-xl text-[11px] font-bold leading-relaxed border ${
+          isLessRecommended 
+            ? "bg-warning/10 border-warning/30 text-warning-foreground" 
+            : "bg-accent/10 border-accent/30 text-accent-foreground"
+        }`}>
+          {isLessRecommended ? (
+            "We have already stated in our videos and policies that we do not recommend this ₹479 pack. Please choose any other pack besides the ₹479 one, and we will process it immediately."
+          ) : (
+            "Your order will be processed within 10-30 minutes. Thank you for choosing Lowest Weplay!"
+          )}
+        </div>
+      </div>
+
+      <button 
+        onClick={onClose}
+        className="w-full py-3 rounded-xl bg-secondary border border-border text-[11px] font-black uppercase tracking-widest hover:bg-secondary/80 transition-colors"
+      >
+        Close Receipt
+      </button>
     </div> :
 
   <div onClick={(e) => e.stopPropagation()} className="mt-4 rounded-2xl border-2 border-warning/50 bg-warning/[0.09] p-3.5">
