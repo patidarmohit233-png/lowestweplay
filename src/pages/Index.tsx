@@ -325,6 +325,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
 
 
 
+
   return (
     <section id="verify" className="px-4 md:px-6 pt-10 md:pt-16 relative z-10 scroll-mt-40">
       <div className="max-w-3xl mx-auto">
