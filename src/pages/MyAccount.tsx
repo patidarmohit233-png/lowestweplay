@@ -29,9 +29,10 @@ type Profile = {
 
 
 type OrderRow = {
-  order_code: string;
-  product_name: string;
-  price: number;
+  id: string;
+  order_id: string;
+  plan: string;
+  amount: string;
   status: string;
   transaction_id: string | null;
   created_at: string;
@@ -61,7 +62,7 @@ export default function MyAccount() {
     setLoading(true);
     const [{ data: p, error: pe }, { data: o }] = await Promise.all([
       (supabase.from("customers" as any).select("*") as any).eq("weplay_id", id).maybeSingle(),
-      (supabase.from("orders" as any).select("*") as any).eq("weplay_id", id).order("created_at", { ascending: false })]
+      (supabase.from("orders" as any).select("*") as any).eq("user_id", id).order("created_at", { ascending: false })]
 
     );
 
@@ -81,7 +82,7 @@ export default function MyAccount() {
       milestones_reached: row.milestones_reached || [],
       order_count: (o?.length || 0),
       completed_count: (o?.filter((x: any) => x.status === "completed").length || 0),
-      total_spent: (o?.filter((x: any) => x.status === "completed").reduce((s: number, x: any) => s + (x.price || 0), 0) || 0)
+      total_spent: (o?.filter((x: any) => x.status === "completed").reduce((s: number, x: any) => s + (Number(x.amount) || 0), 0) || 0)
     });
     setOrders((o ?? []) as OrderRow[]);
     // keep the session logged-in

@@ -44,7 +44,7 @@ export default function TrackOrder() {
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase.from("orders").select("*").eq("user_id", value).order("created_at", { ascending: false });
+    const { data, error } = await supabase.from("orders" as any).select("*").eq("user_id", value).order("created_at", { ascending: false });
     setLoading(false);
     if (error) {
       toast({ title: "Could not load orders", description: error.message, variant: "destructive" });
@@ -108,7 +108,7 @@ export default function TrackOrder() {
           <p className="text-center text-muted-foreground text-sm py-10">No orders found for this WePlay ID yet.</p>
           }
             {orders.map((o, i) =>
-          <motion.div key={o.order_id}
+          <motion.div key={o.id}
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 8) * 0.04 }}
             className="card-premium rounded-2xl p-4 md:p-5">
                 <div className="flex items-start justify-between gap-3">
