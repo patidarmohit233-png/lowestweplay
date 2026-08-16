@@ -32,7 +32,7 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
       });
     })();
     return () => {alive = false;};
-  }, [open, buyer.weplay_id]);
+  }, [open, buyer.user_id]);
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
