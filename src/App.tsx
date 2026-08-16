@@ -31,7 +31,6 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/admin" element={<Admin />} />
           <Route path="/admin-lowest-shubham" element={<Admin />} />
           <Route path="/admin-lowest" element={<Admin />} />
           <Route path="/track-order" element={<TrackOrder />} />
