@@ -13,7 +13,6 @@ import ProfileMenu from "@/components/ProfileMenu";
 import VerificationGate from "@/components/VerificationGate";
 import LiveSocialProof from "@/components/LiveSocialProof";
 import { trackEvent } from "@/lib/analytics";
-
 import Seo, { SITE_URL } from "@/components/Seo";
 import { PRODUCTS as ALL_PRODUCTS, FAQS } from "@/data/products";
 import { supabase } from "@/integrations/supabase/client";
