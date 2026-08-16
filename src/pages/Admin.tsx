@@ -355,7 +355,7 @@ export default function Admin() {
                           <select
                             value={o.status}
                             onChange={(e) => changeStatus(o.id, e.target.value)}
-                            aria-label={`Status for order ${o.order_id}`}
+                            aria-label={`Status for order ${o.order_code}`}
                             className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
                             {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                           </select>
@@ -411,7 +411,7 @@ export default function Admin() {
                         <td className="px-4 py-3">{c.name}</td>
                         <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
                         <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.last_active).toLocaleString()}</td>
-                        <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.user_id === c.weplay_id).length}</td>
+                        <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.weplay_id === c.weplay_id).length}</td>
                       </tr>
                     )}
                   </tbody>
