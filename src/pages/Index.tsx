@@ -602,12 +602,8 @@ const Index = () => {
 
       <DailyCountdownBar />
 
-      {/* ─── HEADER ───────────────────────────────────────── */}
-      <motion.nav
-        initial={{ y: -30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: EASE }}
-        className="sticky top-[104px] md:top-[120px] z-50 bg-background/80 backdrop-blur-2xl border-b border-border/60">
+      {/* ─── NAVIGATION BAR (OPTIONAL) ───────────────────── */}
+      {/* Note: Header is now handled by the fixed block above */}
 
         <div className="relative max-w-7xl mx-auto px-4 md:px-6 h-[80px] md:h-[104px] grid grid-cols-[1fr_auto_1fr] items-center gap-2">
           <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-muted-foreground justify-start">
@@ -659,7 +655,7 @@ const Index = () => {
             </a>
           </div>
         </div>
-      </motion.nav>
+      {/* </motion.nav> */}
 
       {buyer && <ProfileMenu buyer={buyer} onLogout={() => {persistBuyer(null);toast({ title: "Logged out", description: "Your session on this device has been cleared." });}} />}
 
