@@ -63,8 +63,9 @@ export default function PaymentModal({
   const createOrder = async (m: Method) => {
     setCreating(true);
     const { data, error } = await supabase.rpc("create_order", {
-      p_weplay_id: buyer.weplay_id,
-      p_weplay_name: buyer.weplay_name,
+      p_weplay_id: buyer.user_id,
+      p_weplay_name: buyer.name,
+
       p_product_id: String(product.id),
       p_product_name: product.name,
       p_price: product.price,
