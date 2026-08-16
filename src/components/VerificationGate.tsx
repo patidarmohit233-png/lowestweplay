@@ -38,23 +38,23 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     trackEvent('verification_started', { weplay_id: parsed.data.user_id });
 
     try {
-      console.log("Saving buyer details to localStorage...");
-      // For now, let's bypass the server-side RPC since PostgREST is having trouble
-      // finding the functions. We'll store it in localStorage first to let the user in.
-      // We can also try a direct table insert as a fallback.
-      
+      console.log("Saving buyer details...");
       const buyerData = {
         game: parsed.data.game,
         user_id: parsed.data.user_id,
         name: parsed.data.name
       };
 
-      // Fallback: Direct table insert (if policies allow anon inserts)
-      await supabase.from('customers').upsert({
+      // Direct insert as primary method for external database
+      const { error } = await supabase.from('customers').upsert({
         weplay_id: parsed.data.user_id,
         weplay_name: parsed.data.name,
         last_active: new Date().toISOString()
-      }).select().limit(0);
+      }, { onConflict: 'weplay_id' });
+
+      if (error) {
+        console.warn("Database upsert failed, proceeding with local session:", error.message);
+      }
 
       onVerified(buyerData);
       setLoading(false);
@@ -67,7 +67,6 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     } catch (err) {
       console.error("Verification error:", err);
       setLoading(false);
-      // Even if database fails, we allow the user into the local session
       onVerified({
         game: parsed.data.game,
         user_id: parsed.data.user_id,

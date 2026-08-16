@@ -66,23 +66,20 @@ export default function PaymentModal({
     setCreating(true);
     trackEvent('payment_started', { method: m, product_id: product.id, product_name: product.name });
     
-    // Explicitly listing only verified columns from the physical schema to avoid schema cache issues.
-    // Using create_order RPC function instead of direct insert to see if it bypasses the PostgREST cache issue.
-    // Use RPC to bypass local schema cache issues and ensure correct data types
-    const { data, error } = await supabase.rpc('create_order', {
-      p_weplay_id: buyer.user_id,
-      p_weplay_name: buyer.name,
-      p_product_id: String(product.id),
-      p_product_name: String(product.name),
-      p_price: product.price * quantity,
-      p_coins: String(product.coinsAmount * quantity),
-      p_coins_amount: product.coinsAmount * quantity,
-      p_payment_method: m,
-      p_upi_id: m === "upi" ? assignedUpi : ""
-    });
+    // Switch back to direct insert as RPC might be missing in external DB
+    const { data, error } = await supabase.from('orders').insert({
+      weplay_id: buyer.user_id,
+      weplay_name: buyer.name,
+      product_id: String(product.id),
+      product_name: String(product.name),
+      price: product.price * quantity,
+      coins_amount: product.coinsAmount * quantity,
+      payment_method: m,
+      upi_id: m === "upi" ? assignedUpi : ""
+    }).select().single();
     
     setCreating(false);
-    if (error || !data || data.length === 0) {
+    if (error || !data) {
       console.error("Order creation error details:", error);
       toast({ 
         title: "Could not create order", 
@@ -92,10 +89,9 @@ export default function PaymentModal({
       return null;
     }
     
-    const newOrder = data[0];
-    setOrderId(newOrder.id);
-    setOrderCode(newOrder.order_code);
-    return newOrder.id;
+    setOrderId(data.id);
+    setOrderCode(data.order_code);
+    return data.id;
   };
 
 

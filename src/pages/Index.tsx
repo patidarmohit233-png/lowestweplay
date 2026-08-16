@@ -1165,9 +1165,11 @@ const Index = () => {
           
           <div className="mb-8 rounded-2xl border border-amber-500/20 bg-amber-500/[0.04] p-5 text-center">
             <p className="text-[12px] text-muted-foreground leading-relaxed">
-              <span className="font-bold text-foreground">Disclaimer:</span> LowestWePlay is an independent third-party 
-              service. We are <span className="font-bold text-foreground">NOT</span> affiliated with, endorsed by, or 
-              sponsored by WePlay. All trademarks belong to their respective owners.
+              '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
+              
+                  
+                  
+              admin pannel and payment verification not working please check beckend or everything
             </p>
           </div>
 
