@@ -233,7 +233,7 @@ export default function Admin() {
                 <tr key={c.weplay_id} className="border-t border-border/60 hover:bg-secondary/40">
                       
                       <td className="px-4 py-3 font-semibold">{c.weplay_id}</td>
-                      <td className="px-4 py-3">{c.weplay_name}</td>
+                      <td className="px-4 py-3">{c.name}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.last_active).toLocaleString()}</td>
                       <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.weplay_id === c.weplay_id).length}</td>

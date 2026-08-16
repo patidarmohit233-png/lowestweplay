@@ -73,7 +73,7 @@ export default function MyAccount() {
     }
     setProfile({
       user_id: row.weplay_id,
-      name: row.weplay_name,
+      name: row.name,
       game: "WePlay",
       total_coins: row.total_coins || 0,
       bonus_coins: row.bonus_coins || 0,
@@ -85,7 +85,7 @@ export default function MyAccount() {
     });
     setOrders((o ?? []) as OrderRow[]);
     // keep the session logged-in
-    localStorage.setItem(VERIFY_KEY, JSON.stringify({ game: "WePlay", user_id: row.weplay_id, name: row.weplay_name }));
+    localStorage.setItem(VERIFY_KEY, JSON.stringify({ game: "WePlay", user_id: row.weplay_id, name: row.name }));
 
     // milestone celebration (once per milestone per device)
     const reached: number[] = Array.isArray(row.milestones_reached) ? row.milestones_reached : [];

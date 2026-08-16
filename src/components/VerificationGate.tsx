@@ -35,29 +35,18 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     setErrors({});
     setLoading(true);
 
-    // Use RPC function if available for better reliability, or direct upsert
-    const { error } = await supabase.rpc('upsert_customer', {
-      p_weplay_id: parsed.data.user_id,
-      p_weplay_name: parsed.data.name
-    });
-
-    if (error) {
-      console.error("RPC upsert_customer failed, trying direct upsert:", error);
-      // Fallback to direct upsert if RPC fails
-      const { error: upsertError } = await supabase.from('customers' as any).upsert({
-        weplay_id: parsed.data.user_id,
-        weplay_name: parsed.data.name,
-        last_active: new Date().toISOString(),
-      }, { onConflict: 'weplay_id' });
-
-      if (upsertError) {
-        setLoading(false);
-        toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
-        return;
-      }
-    }
+    // Use name instead of weplay_name per actual schema
+    const { error: upsertError } = await supabase.from('customers' as any).upsert({
+      weplay_id: parsed.data.user_id,
+      name: parsed.data.name,
+      last_active: new Date().toISOString(),
+    }, { onConflict: 'weplay_id' });
 
     setLoading(false);
+    if (upsertError) {
+      toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
+      return;
+    }
     
     onVerified({
       game: parsed.data.game,

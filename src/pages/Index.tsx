@@ -305,23 +305,15 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
       return;
     }
     setErrors({});
-    const { error } = await supabase.rpc('upsert_customer', {
-      p_weplay_id: parsed.data.user_id,
-      p_weplay_name: parsed.data.name
-    });
+    const { error: upsertError } = await supabase.from("customers" as any).upsert({
+      weplay_id: parsed.data.user_id,
+      name: parsed.data.name,
+      last_active: new Date().toISOString()
+    }, { onConflict: 'weplay_id' });
 
-    if (error) {
-      console.error("RPC upsert_customer failed, trying direct upsert:", error);
-      const { error: upsertError } = await supabase.from("customers" as any).upsert({
-        weplay_id: parsed.data.user_id,
-        weplay_name: parsed.data.name,
-        last_active: new Date().toISOString()
-      }, { onConflict: 'weplay_id' });
-
-      if (upsertError) {
-        toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
-        return;
-      }
+    if (upsertError) {
+      toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
+      return;
     }
     onVerified(form);
     setEditing(false);
