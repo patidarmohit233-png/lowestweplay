@@ -1129,10 +1129,10 @@ const Index = () => {
             <div>
               <h4 className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-foreground mb-6">Services</h4>
               <nav className="flex flex-col gap-3.5">
-                <Link to="/weplay-recharge-topup" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors font-medium">WePlay Recharge & Top Up</Link>
+                <Link to="/how-it-works" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors font-medium">How It Works</Link>
+                <Link to="/why-us" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Why Choose Us</Link>
                 <Link to="/weplay-recharge" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Coins Recharge</Link>
                 <Link to="/weplay-red-packet" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Red Packet Store</Link>
-                <Link to="/weplay-top-up-price-list" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Price Comparison</Link>
               </nav>
             </div>
 
