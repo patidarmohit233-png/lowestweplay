@@ -602,60 +602,7 @@ const Index = () => {
 
       <DailyCountdownBar />
 
-      {/* ─── NAVIGATION BAR (OPTIONAL) ───────────────────── */}
-      {/* Note: Header is now handled by the fixed block above */}
-
-        <div className="relative max-w-7xl mx-auto px-4 md:px-6 h-[80px] md:h-[104px] grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-          <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-muted-foreground justify-start">
-            {[
-            { label: "Packages", href: "#products" },
-            { label: "Partners", href: "#partners" },
-            { label: "How It Works", href: "#how-it-works" }].
-            map((item) =>
-            <a key={item.label} href={item.href} className="relative group hover:text-foreground transition-colors duration-300">
-                {item.label}
-                <span className="absolute -bottom-1.5 left-0 h-[2px] w-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full bg-primary" />
-              </a>
-            )}
-            <a
-              href="https://weplayescrow.lovable.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/8 text-accent text-xs font-extrabold hover:-translate-y-0.5 transition-transform">
-              <ArrowLeftRight size={13} /> Buy &amp; Sell ID
-            </a>
-          </div>
-          <div className="md:hidden" />
-
-
-          <motion.div
-            className="absolute inset-x-0 mx-auto w-fit md:static md:mx-0 flex items-center justify-center"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: EASE, delay: 0.1 }}>
-            <motion.div
-              aria-hidden
-              className="absolute inset-0 -m-6 rounded-full blur-2xl pointer-events-none"
-              style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.2), transparent 70%)" }}
-              animate={{ opacity: [0.35, 0.7, 0.35], scale: [0.95, 1.08, 0.95] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} />
-            <img
-              src={LOGO}
-              alt="Lowest Weplay — official WePlay top-up store"
-              className="relative w-[165px] md:w-[250px] h-auto object-contain" />
-          </motion.div>
-
-          <div className="hidden md:flex items-center justify-end gap-3">
-            <span className="flex items-center gap-1.5 text-accent font-bold text-xs px-3 py-2 rounded-full bg-accent/8 border border-accent/15 whitespace-nowrap">
-              <ShieldCheck size={13} /> ID Safe
-            </span>
-            <a href="#products" className="inline-flex items-center gap-1.5 text-primary-foreground font-extrabold text-xs uppercase tracking-[0.12em] px-5 py-2.5 rounded-full shadow-primary hover:-translate-y-0.5 transition-transform"
-              style={{ background: "var(--gradient-primary)" }}>
-              Top-up <ArrowRight size={13} />
-            </a>
-          </div>
-        </div>
-      {/* </motion.nav> */}
+      <div className="h-[20px]" />
 
       {buyer && <ProfileMenu buyer={buyer} onLogout={() => {persistBuyer(null);toast({ title: "Logged out", description: "Your session on this device has been cleared." });}} />}
 
