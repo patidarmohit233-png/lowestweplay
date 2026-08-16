@@ -37,12 +37,11 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     setLoading(true);
     trackEvent('verification_started', { weplay_id: parsed.data.user_id });
 
-    // Use name instead of weplay_name per actual schema
-    const { error: upsertError } = await supabase.from('customers').upsert({
-      weplay_id: parsed.data.user_id,
-      weplay_name: parsed.data.name,
-      last_active: new Date().toISOString(),
-    } as any, { onConflict: 'weplay_id' });
+    // Use RPC to bypass local schema cache issues and ensure correct data types
+    const { error: upsertError } = await supabase.rpc('upsert_customer', {
+      p_weplay_id: parsed.data.user_id,
+      p_weplay_name: parsed.data.name
+    });
 
     setLoading(false);
     if (upsertError) {
