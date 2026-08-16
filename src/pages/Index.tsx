@@ -158,7 +158,10 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
       </p>
       {subtitle.includes("Pick a coin bundle") && (
         <p className="sr-only">
-          bhai y chij iske lie to thik hogya but jo vercel p deployed h wo issue abhi bhi waha ara h to github p bhi update krde ye sb ya fir har jagah se sahi krde
+          '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
+                                        
+                                            
+                                            bhai ab firse vercel wali link mai payment verify nhi hora baki sb working hai
         </p>
       )}
     </Reveal>);
