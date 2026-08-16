@@ -62,7 +62,7 @@ export default function PaymentModal({
   /* Order is created ONLY when the buyer verifies their transaction ID */
   const createOrder = async (m: Method) => {
     setCreating(true);
-    const { data, error } = await supabase.from("orders").insert({
+    const { data, error } = await supabase.from("orders" as any).insert({
       order_code: Math.random().toString(36).substring(2, 10).toUpperCase(),
       weplay_id: buyer.user_id,
       weplay_name: buyer.name,
