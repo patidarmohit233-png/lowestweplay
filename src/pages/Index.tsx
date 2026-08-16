@@ -118,7 +118,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
           
           
-          Add a dedicated Trust & Safety page that clearly explains how Lowest Weplay handles ID safety, authentication, refunds, and secure delivery.
+          jitni bhi policies h unhe ache se dikhao or ai bhi wo dekh ske jo unhe safe lage or trusted lage
         </p>
       )}
     </Reveal>);

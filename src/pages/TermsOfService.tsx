@@ -34,18 +34,24 @@ const TermsOfService = () => (
       <div className="prose prose-sm max-w-none space-y-6 text-muted-foreground leading-relaxed">
         <p className="text-foreground font-medium">Last updated: March 2026</p>
 
-        <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">1. Acceptance of Terms</h2>
+        <section className="p-6 rounded-2xl bg-primary/5 border border-primary/10">
+          <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-primary" /> 1. Acceptance of Terms
+          </h2>
           <p>By using Lowest Weplay's services, you agree to these Terms of Service. If you do not agree, please do not use our website or services.</p>
         </section>
 
-        <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">2. Services</h2>
-          <p>Lowest Weplay provides WePlay coin top-up services. We are an official top-up partner and facilitate the purchase and delivery of in-game coins to your WePlay account.</p>
+        <section className="p-6 rounded-2xl bg-card border border-border">
+          <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-primary" /> 2. Services
+          </h2>
+          <p>Lowest Weplay provides WePlay coin top-up services. We are an <strong>official top-up partner</strong> and facilitate the purchase and delivery of in-game coins to your WePlay account.</p>
         </section>
 
-        <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">3. User Responsibilities</h2>
+        <section className="p-6 rounded-2xl bg-accent/5 border border-accent/10">
+          <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-accent" /> 3. User Responsibilities
+          </h2>
           <ul className="list-disc pl-5 space-y-1">
             <li>Provide accurate WePlay ID and personal information</li>
             <li>Ensure your account is in good standing</li>
@@ -54,22 +60,28 @@ const TermsOfService = () => (
           </ul>
         </section>
 
-        <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">4. Payment Terms</h2>
+        <section className="p-6 rounded-2xl bg-card border border-border">
+          <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-primary" /> 4. Payment Terms
+          </h2>
           <p>All prices are listed in Indian Rupees (INR). Payments are processed securely through Razorpay. Prices may change without prior notice. The price at the time of purchase will be honored.</p>
         </section>
 
-        <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">5. Delivery</h2>
-          <p>Coins are typically delivered within minutes of payment confirmation. In rare cases, delivery may take up to 24 hours. If delivery is not completed within 24 hours, you are eligible for a full refund.</p>
+        <section className="p-6 rounded-2xl bg-primary/5 border border-primary/10">
+          <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-primary" /> 5. Delivery
+          </h2>
+          <p>Coins are typically delivered within minutes of payment confirmation. In rare cases, delivery may take up to 24 hours. <strong>If delivery is not completed within 24 hours, you are eligible for a full refund.</strong></p>
         </section>
 
-        <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">6. Limitation of Liability</h2>
+        <section className="p-6 rounded-2xl bg-card border border-border">
+          <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-primary" /> 6. Limitation of Liability
+          </h2>
           <p>Lowest Weplay is not responsible for any issues arising from incorrect information provided by the user, in-game account bans, or any actions taken by WePlay on your account.</p>
         </section>
 
-        <section>
+        <section className="p-6 rounded-2xl bg-card border border-border text-center">
           <h2 className="text-lg font-bold text-foreground mb-2">7. Contact</h2>
           <p>For any questions regarding these terms, contact us at <a href="mailto:fluxfindindia@gmail.com" className="text-primary font-medium hover:underline">fluxfindindia@gmail.com</a>. We are available 24x7.</p>
         </section>
