@@ -37,15 +37,23 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     setLoading(true);
     trackEvent('verification_started', { weplay_id: parsed.data.user_id });
 
-    // Use RPC to bypass local schema cache issues and ensure correct data types
-    const { error: upsertError } = await supabase.rpc('upsert_customer', {
-      p_weplay_id: parsed.data.user_id,
-      p_weplay_name: parsed.data.name
-    });
+    try {
+      console.log("Calling upsert_customer RPC...");
+      const { error: upsertError } = await supabase.rpc('upsert_customer', {
+        p_weplay_id: parsed.data.user_id,
+        p_weplay_name: parsed.data.name
+      });
 
-    setLoading(false);
-    if (upsertError) {
-      toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
+      setLoading(false);
+      if (upsertError) {
+        console.error("RPC Error:", upsertError);
+        toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
+        return;
+      }
+    } catch (err) {
+      console.error("Catch Error:", err);
+      setLoading(false);
+      toast({ title: "Verification error", description: "A connection error occurred.", variant: "destructive" });
       return;
     }
     
