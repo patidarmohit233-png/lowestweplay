@@ -184,10 +184,10 @@ export default function PaymentModal({
           </div>
         </div>
 
-        <div className={`mt-3 p-3 rounded-xl text-[11px] font-bold leading-relaxed border ${
+        <div className={`mt-3 p-4 rounded-2xl text-[12px] font-bold leading-relaxed border-2 shadow-sm ${
           isLessRecommended 
-            ? "bg-warning/10 border-warning/30 text-warning-foreground" 
-            : "bg-accent/10 border-accent/30 text-accent-foreground"
+            ? "bg-amber-50 border-amber-200 text-amber-900" 
+            : "bg-indigo-50 border-indigo-200 text-indigo-900"
         }`}>
           {isLessRecommended ? (
             "We have already stated in our videos and policies that we do not recommend this ₹479 pack. Please choose any other pack besides the ₹479 one, and we will process it immediately."
