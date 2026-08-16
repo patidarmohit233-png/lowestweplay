@@ -15,7 +15,7 @@ type Order = {
   weplay_name: string;
   product_name: string;
   price: number;
-  coins_amount: number;
+  coins_amount?: number;
   status: string;
   transaction_id: string | null;
   upi_id: string | null;
@@ -83,7 +83,7 @@ export default function Admin() {
   const changeStatus = async (id: string, status: string) => {
     const prev = orders;
     setOrders((list) => list.map((o) => o.id === id ? { ...o, status } : o));
-    const { error } = await supabase.from("orders").update({ status }).eq("id", id);
+    const { error } = await supabase.from("orders").update({ status } as any).eq("id", id);
     if (error) {
       setOrders(prev);
       toast({ title: "Update failed", description: error.message, variant: "destructive" });
