@@ -1029,6 +1029,7 @@ const Index = () => {
             <img src={LOGO} alt="Lowest Weplay" loading="lazy" className="w-[130px] h-auto opacity-70" />
             <nav className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-[13px] text-muted-foreground">
               <Link to="/weplay-recharge-topup" className="hover:text-primary font-bold text-foreground transition-colors">WePlay Recharge & Top Up</Link>
+              <Link to="/trust-safety" className="hover:text-primary font-bold text-foreground transition-colors">Trust & Safety</Link>
               <Link to="/weplay-recharge" className="hover:text-primary transition-colors">Recharge</Link>
               <Link to="/weplay-red-packet" className="hover:text-primary transition-colors">Red Packet</Link>
               <Link to="/weplay-top-up-price-list" className="hover:text-primary transition-colors">Price List</Link>
