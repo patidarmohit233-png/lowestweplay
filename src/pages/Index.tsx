@@ -517,7 +517,7 @@ const Index = () => {
               }
             }
           }))
-        }
+        },
         {
           "@type": "FAQPage",
           "mainEntity": FAQS.slice(0, 5).map((f) => ({
