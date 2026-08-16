@@ -1174,7 +1174,7 @@ const Index = () => {
           
           <div className="mb-8 rounded-2xl border border-border bg-secondary/30 p-5 text-center">
             <p className="text-[12px] text-muted-foreground leading-relaxed">
-              <strong>Disclaimer:</strong> LowestWePlay is an independent service provider and is not affiliated with, sponsored by, or endorsed by LowestWePlay or any of its subsidiaries. All trademarks, service marks, and trade names are the property of their respective owners.
+              <strong>Disclaimer:</strong> LowestWePlay is an independent service provider and is not affiliated with, sponsored by, or endorsed by WePlay or any of its subsidiaries. All trademarks, service marks, and trade names are the property of their respective owners.
             </p>
           </div>
 
