@@ -161,7 +161,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            bhai ye profile firse nhi khulra
+                                            Meri website mein profile page (`/my-account` ya `/profile`) nahi khul raha. Payment verify ho raha hai, lekin profile/history nahi dikh raha.\n\nKya problem hai:\n\n1. Profile page Supabase se data fetch kar raha hai?\n\n2. Customers table se data nahi aa raha?\n\n3. Orders table se data nahi aa raha?\n\n4. RLS policy profile page ke liye alag hai?\n\n\n\nMujhe profile page fix karo taake:\n\n- User ka WePlay ID dikhe\n\n- Order history dikhe\n\n- Total coins/stats dikhe
         </p>
       )}
     </Reveal>);

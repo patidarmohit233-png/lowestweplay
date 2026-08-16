@@ -31,9 +31,10 @@ type Profile = {
 
 type OrderRow = {
   id: string;
-  order_id: string;
+  order_code: string;
   plan: string;
-  amount: string;
+  price: number;
+  amount?: string;
   status: string;
   transaction_id: string | null;
   created_at: string;
@@ -63,7 +64,7 @@ export default function MyAccount() {
     setLoading(true);
     const [{ data: p, error: pe }, { data: o }] = await Promise.all([
       (supabase.from("customers" as any).select("*") as any).eq("weplay_id", id).maybeSingle(),
-      (supabase.from("orders" as any).select("*, price") as any).eq("weplay_id", id).order("created_at", { ascending: false })]
+      (supabase.from("orders" as any).select("*") as any).eq("weplay_id", id).order("created_at", { ascending: false })]
 
     );
 
@@ -75,7 +76,7 @@ export default function MyAccount() {
     }
     setProfile({
       user_id: row.weplay_id,
-      name: row.name,
+      name: row.weplay_name || row.name || "User",
       game: "Lowest WePlay",
       total_coins: row.total_coins || 0,
       bonus_coins: row.bonus_coins || 0,
@@ -87,7 +88,9 @@ export default function MyAccount() {
     });
     setOrders(((o ?? []) as any[]).map(x => ({
       ...x,
-      amount: String(x.price || x.amount || "0")
+      order_id: x.order_code || x.id.slice(0, 8),
+      amount: String(x.price || x.amount || "0"),
+      plan: x.product_name || x.plan || "Recharge"
     })) as OrderRow[]);
     // keep the session logged-in
     localStorage.setItem(VERIFY_KEY, JSON.stringify({ game: "Lowest WePlay", user_id: row.weplay_id, name: row.name }));
@@ -275,12 +278,12 @@ export default function MyAccount() {
 
             <div className="space-y-3">
                   {orders.map((o, i) =>
-              <motion.div key={o.order_id}
+              <motion.div key={o.order_code || o.id}
                 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 8) * 0.04 }}
                 className="card-premium rounded-2xl p-4 md:p-5">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <div className="text-[9.5px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">Order {o.order_id}</div>
+                          <div className="text-[9.5px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">Order {o.order_code || o.id.slice(0, 8)}</div>
                           <h3 className="text-[15px] md:text-lg font-extrabold mt-0.5 truncate">{o.plan}</h3>
                           <p className="text-[11.5px] text-muted-foreground mt-1">{new Date(o.created_at).toLocaleString()}</p>
 
@@ -290,7 +293,7 @@ export default function MyAccount() {
                         </span>
                       </div>
                       <div className="mt-3 grid grid-cols-3 gap-2 text-[11px]">
-                        <div><span className="text-muted-foreground block">Amount</span><span className="font-extrabold">₹{o.amount}</span></div>
+                        <div><span className="text-muted-foreground block">Amount</span><span className="font-extrabold">₹{o.price}</span></div>
                         <div><span className="text-muted-foreground block">Status</span><span className="font-extrabold uppercase">{o.status}</span></div>
 
                         <div className="min-w-0"><span className="text-muted-foreground block">Txn ID</span><span className="font-extrabold truncate block">{o.transaction_id || "Not added"}</span></div>
