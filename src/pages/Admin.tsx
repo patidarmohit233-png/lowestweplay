@@ -86,11 +86,9 @@ export default function Admin() {
   const filteredOrders = useMemo(() => {
     const q = query.trim().toLowerCase();
     return orders.filter((o) =>
-      o.game === "WePlay" &&
       (statusFilter === "all" || o.status === statusFilter) && (
       !q || o.weplay_id.toLowerCase().includes(q) || o.order_code?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
     );
-
   }, [orders, statusFilter, query]);
 
   const filteredCustomers = useMemo(() => {
@@ -232,7 +230,7 @@ export default function Admin() {
                 <tr><td colSpan={5} className="px-4 py-10 text-center text-muted-foreground">No verified users found.</td></tr>
                 }
                   {filteredCustomers.map((c) =>
-                <tr key={c.id} className="border-t border-border/60 hover:bg-secondary/40">
+                <tr key={c.weplay_id} className="border-t border-border/60 hover:bg-secondary/40">
                       
                       <td className="px-4 py-3 font-semibold">{c.weplay_id}</td>
                       <td className="px-4 py-3">{c.weplay_name}</td>
