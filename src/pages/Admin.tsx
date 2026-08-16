@@ -220,7 +220,7 @@ export default function Admin() {
             <table className="w-full text-sm">
                 <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
                   <tr>
-                    <th className="text-left px-4 py-3">Game</th>
+                    
                     <th className="text-left px-4 py-3">User ID</th>
                     <th className="text-left px-4 py-3">Name</th>
                     <th className="text-left px-4 py-3">Verified on</th>
