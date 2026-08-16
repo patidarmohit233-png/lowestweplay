@@ -4,7 +4,7 @@ const OLD_URL = process.env.VITE_SUPABASE_URL!;
 const OLD_KEY = process.env.VITE_SUPABASE_ANON_KEY!;
 
 const NEW_URL = "https://mcsimyuipawmntiazhug.supabase.co";
-const NEW_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jc2lteXVpcGF3bW50aWF6aHVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4MDcyMzYsImV4cCI6MjExMjM4MzIzNn0.IP78sav7QgP5obwaLS0uVAZ6TXt_cWDR1-b98__Sqh8";
+const NEW_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jc2lteXVpcGF3bW50aWF6aHVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4MDcyMzYsImV4cCI6MjEwMjM4MzIzNn0.IP78sav7QgP5obwaLS0uVAZ6TXt_cWDR1-b98__Sqh8";
 
 const oldClient = createClient(OLD_URL, OLD_KEY);
 const newClient = createClient(NEW_URL, NEW_KEY);
@@ -27,7 +27,7 @@ async function migrate() {
       const inserts = chunk.map(c => ({
         game: 'WePlay',
         user_id: c.weplay_id,
-        name: c.weplay_name,
+        name: c.weplay_name || 'Unknown',
         created_at: c.created_at,
         last_active: c.last_active
       }));
@@ -55,7 +55,7 @@ async function migrate() {
         user_id: o.weplay_id,
         plan: o.product_name,
         amount: o.price,
-        status: o.status,
+        status: o.status || 'pending',
         transaction_id: o.transaction_id,
         created_at: o.created_at
       }));
