@@ -117,7 +117,7 @@ export default function BlogPost() {
           <div>
             <h3 className="text-lg font-display mb-1">Stay Safe with Lowest Weplay</h3>
             <p className="text-muted-foreground text-sm">
-              We never ask for your LowestWePlay password or OTP. Only your Player ID and Name are needed for secure, automated top-ups.
+              We never ask for your Lowest WePlay password or OTP. Only your Player ID and Name are needed for secure, automated top-ups.
             </p>
           </div>
           <Link 

@@ -7,8 +7,8 @@ const PATH = "/faq";
 const Faq = () => (
   <>
     <Seo
-      title="LowestWePlay Top-Up FAQ — Delivery, Safety &amp; Refunds"
-      description="Answers to the most common LowestWePlay top-up questions: delivery time, ID safety, payment methods, pricing and refunds. Support available 24x7."
+      title="Lowest WePlay Top-Up FAQ — Delivery, Safety &amp; Refunds"
+      description="Answers to the most common Lowest WePlay top-up questions: delivery time, ID safety, payment methods, pricing and refunds. Support available 24x7."
       path={PATH}
       jsonLd={[
         {
@@ -32,7 +32,7 @@ const Faq = () => (
     />
     <ContentLayout
       currentPath={PATH}
-      title="LowestWePlay Top-Up FAQ"
+      title="Lowest WePlay Top-Up FAQ"
       intro="Everything buyers ask us most often — delivery times, account safety, payments and refunds. If your question is not here, our live chat is open 24x7."
     >
       {FAQS.map((f) => (

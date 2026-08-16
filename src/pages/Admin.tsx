@@ -11,8 +11,8 @@ import { generateSitemapXml } from "@/lib/sitemap-generator";
 type Order = {
   id: string;
   order_code: string;
-  lowestweplay_id: string;
-  lowestweplay_name: string;
+  lowest weplay_id: string;
+  lowest weplay_name: string;
   product_name: string;
   price: number;
   coins_amount?: number;
@@ -23,7 +23,7 @@ type Order = {
 };
 
 type Customer = {
-  lowestweplay_id: string;
+  lowest weplay_id: string;
   name: string;
   created_at: string;
   last_active: string;
@@ -97,13 +97,13 @@ export default function Admin() {
     const q = query.trim().toLowerCase();
     return orders.filter((o) =>
       (statusFilter === "all" || o.status === statusFilter) && (
-      !q || o.lowestweplay_id.toLowerCase().includes(q) || o.order_code?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
+      !q || o.lowest weplay_id.toLowerCase().includes(q) || o.order_code?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
     ).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   }, [orders, statusFilter, query]);
 
   const filteredCustomers = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const filtered = customers.filter((c) => !q || c.lowestweplay_id.toLowerCase().includes(q) || c.name.toLowerCase().includes(q));
+    const filtered = customers.filter((c) => !q || c.lowest weplay_id.toLowerCase().includes(q) || c.name.toLowerCase().includes(q));
     return filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   }, [customers, query]);
 
@@ -172,7 +172,7 @@ export default function Admin() {
           <div className="relative flex-1">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input value={query} onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search LowestWePlay ID, order ID or transaction ID"
+              placeholder="Search Lowest WePlay ID, order ID or transaction ID"
               className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/25" />
           </div>
 
@@ -340,8 +340,8 @@ export default function Admin() {
                         <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_code}</td>
                         <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(o.created_at).toLocaleString()}</td>
                         <td className="px-4 py-3">
-                          <div className="font-semibold text-muted-foreground">{o.lowestweplay_id}</div>
-                          <div className="text-[10px] text-muted-foreground/60">{o.lowestweplay_name}</div>
+                          <div className="font-semibold text-muted-foreground">{o.lowest weplay_id}</div>
+                          <div className="text-[10px] text-muted-foreground/60">{o.lowest weplay_name}</div>
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap">{o.product_name}</td>
                         <td className="px-4 py-3 text-right font-bold font-price">₹{o.price}</td>
@@ -371,7 +371,7 @@ export default function Admin() {
                   <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
                     <tr>
                       <th className="text-left px-4 py-3">Event</th>
-                      <th className="text-left px-4 py-3">LowestWePlay ID</th>
+                      <th className="text-left px-4 py-3">Lowest WePlay ID</th>
                       <th className="text-left px-4 py-3">Metadata</th>
                       <th className="text-left px-4 py-3">Time</th>
                     </tr>
@@ -381,7 +381,7 @@ export default function Admin() {
                     {analytics.map((e, idx) => (
                       <tr key={idx} className="border-t border-border/60 hover:bg-secondary/40">
                         <td className="px-4 py-3"><span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">{e.event_name}</span></td>
-                        <td className="px-4 py-3 font-semibold">{e.lowestweplay_id || '—'}</td>
+                        <td className="px-4 py-3 font-semibold">{e.lowest weplay_id || '—'}</td>
                         <td className="px-4 py-3 text-[11px] text-muted-foreground max-w-[300px] truncate">{JSON.stringify(e.metadata)}</td>
                         <td className="px-4 py-3 text-muted-foreground">{new Date(e.created_at).toLocaleString()}</td>
                       </tr>
@@ -394,7 +394,7 @@ export default function Admin() {
                 <table className="w-full text-sm">
                   <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
                     <tr>
-                      <th className="text-left px-4 py-3">LowestWePlay ID</th>
+                      <th className="text-left px-4 py-3">Lowest WePlay ID</th>
                       <th className="text-left px-4 py-3">Name</th>
                       <th className="text-left px-4 py-3">Verified on</th>
                       <th className="text-left px-4 py-3">Last active</th>
@@ -406,12 +406,12 @@ export default function Admin() {
                       <tr><td colSpan={5} className="px-4 py-10 text-center text-muted-foreground">No verified users found.</td></tr>
                     }
                     {filteredCustomers.map((c) =>
-                      <tr key={c.lowestweplay_id} className="border-t border-border/60 hover:bg-secondary/40">
-                        <td className="px-4 py-3 font-semibold">{c.lowestweplay_id}</td>
+                      <tr key={c.lowest weplay_id} className="border-t border-border/60 hover:bg-secondary/40">
+                        <td className="px-4 py-3 font-semibold">{c.lowest weplay_id}</td>
                         <td className="px-4 py-3">{c.name}</td>
                         <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
                         <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.last_active).toLocaleString()}</td>
-                        <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.lowestweplay_id === c.lowestweplay_id).length}</td>
+                        <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.lowest weplay_id === c.lowest weplay_id).length}</td>
                       </tr>
                     )}
                   </tbody>

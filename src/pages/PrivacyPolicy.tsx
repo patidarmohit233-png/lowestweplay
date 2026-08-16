@@ -7,7 +7,7 @@ const PrivacyPolicy = () => (
   <>
   <Seo
     title="Privacy Policy | Is Lowest Weplay Safe? Official ID Protection"
-    description="How Lowest Weplay protects your data during LowestWePlay top-ups. We never store passwords or OTPs. 100% ID safe delivery with secure UPI payments."
+    description="How Lowest Weplay protects your data during Lowest WePlay top-ups. We never store passwords or OTPs. 100% ID safe delivery with secure UPI payments."
     path="/privacy-policy"
   />
 
@@ -39,7 +39,7 @@ const PrivacyPolicy = () => (
           <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-primary" /> 1. Information We Collect
           </h2>
-          <p>We collect information you provide directly to us, including your LowestWePlay ID, in-game name, email address, and phone number when you make a purchase. <strong>We do not collect or store any passwords or sensitive login credentials</strong> for your gaming accounts.</p>
+          <p>We collect information you provide directly to us, including your Lowest WePlay ID, in-game name, email address, and phone number when you make a purchase. <strong>We do not collect or store any passwords or sensitive login credentials</strong> for your gaming accounts.</p>
         </section>
 
         <section className="p-6 rounded-2xl bg-card border border-border">

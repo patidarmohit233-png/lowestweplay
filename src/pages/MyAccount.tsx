@@ -6,7 +6,7 @@ import {
   PartyPopper, ShoppingBag, Sparkles, Trophy, UserCheck, Wallet } from
 "lucide-react";
 import Seo from "@/components/Seo";
-import lowestweplayAvatarAsset from "@/assets/lowestweplay-avatar.png.asset.json";
+import lowest weplayAvatarAsset from "@/assets/lowest weplay-avatar.png.asset.json";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { MILESTONES, fmt, nextMilestone, tierMeta } from "@/lib/loyalty";
@@ -62,21 +62,21 @@ export default function MyAccount() {
   const load = useCallback(async (id: string) => {
     setLoading(true);
     const [{ data: p, error: pe }, { data: o }] = await Promise.all([
-      (supabase.from("customers" as any).select("*") as any).eq("lowestweplay_id", id).maybeSingle(),
-      (supabase.from("orders" as any).select("*, price") as any).eq("lowestweplay_id", id).order("created_at", { ascending: false })]
+      (supabase.from("customers" as any).select("*") as any).eq("lowest weplay_id", id).maybeSingle(),
+      (supabase.from("orders" as any).select("*, price") as any).eq("lowest weplay_id", id).order("created_at", { ascending: false })]
 
     );
 
     setLoading(false);
     const row = p as any;
     if (pe || !row) {
-      toast({ title: "Account not found", description: "Verify your LowestWePlay ID on the homepage first.", variant: "destructive" });
+      toast({ title: "Account not found", description: "Verify your Lowest WePlay ID on the homepage first.", variant: "destructive" });
       return;
     }
     setProfile({
-      user_id: row.lowestweplay_id,
+      user_id: row.lowest weplay_id,
       name: row.name,
-      game: "LowestWePlay",
+      game: "Lowest WePlay",
       total_coins: row.total_coins || 0,
       bonus_coins: row.bonus_coins || 0,
       loyalty_tier: row.loyalty_tier || "bronze",
@@ -90,7 +90,7 @@ export default function MyAccount() {
       amount: String(x.price || x.amount || "0")
     })) as OrderRow[]);
     // keep the session logged-in
-    localStorage.setItem(VERIFY_KEY, JSON.stringify({ game: "LowestWePlay", user_id: row.lowestweplay_id, name: row.name }));
+    localStorage.setItem(VERIFY_KEY, JSON.stringify({ game: "Lowest WePlay", user_id: row.lowest weplay_id, name: row.name }));
 
     // milestone celebration (once per milestone per device)
     const reached: number[] = Array.isArray(row.milestones_reached) ? row.milestones_reached : [];
@@ -110,7 +110,7 @@ export default function MyAccount() {
 
   const logout = () => {
     localStorage.removeItem(VERIFY_KEY);
-    toast({ title: "Logged out", description: "Verify again anytime with your LowestWePlay ID." });
+    toast({ title: "Logged out", description: "Verify again anytime with your Lowest WePlay ID." });
     navigate("/");
   };
 
@@ -128,7 +128,7 @@ export default function MyAccount() {
         <div className="card-premium rounded-3xl p-7 text-center max-w-sm">
           <span className="inline-grid place-items-center w-12 h-12 rounded-2xl bg-primary/10 text-primary mx-auto"><UserCheck size={22} /></span>
           <h1 className="text-xl font-display mt-4">You're not logged in</h1>
-          <p className="text-[13px] text-muted-foreground mt-2 leading-relaxed">Verify your LowestWePlay ID & Name on the homepage — that instantly logs you in.</p>
+          <p className="text-[13px] text-muted-foreground mt-2 leading-relaxed">Verify your Lowest WePlay ID & Name on the homepage — that instantly logs you in.</p>
           <Link to="/#verify" className="mt-5 inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl text-primary-foreground font-extrabold text-[11.5px] uppercase tracking-[0.14em] active:scale-[0.96] transition-transform"
             style={{ background: "var(--gradient-primary)" }}>
             Verify & Login
@@ -141,8 +141,8 @@ export default function MyAccount() {
   return (
     <div className="min-h-dvh bg-background text-foreground">
       <Seo 
-        title="My Account | Lowest Weplay — LowestWePlay Recharge History" 
-        description="Access your Lowest Weplay account to track LowestWePlay coin purchases, loyalty rewards, and milestone progress. View your LowestWePlay top-up history instantly." 
+        title="My Account | Lowest Weplay — Lowest WePlay Recharge History" 
+        description="Access your Lowest Weplay account to track Lowest WePlay coin purchases, loyalty rewards, and milestone progress. View your Lowest WePlay top-up history instantly." 
         path="/my-account" 
       />
 
@@ -175,7 +175,7 @@ export default function MyAccount() {
                 <div className="absolute -top-24 -right-16 w-52 h-52 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
                 <div className="relative flex items-center justify-between gap-4 flex-wrap">
                   <div className="w-14 h-14 md:w-20 md:h-20 shrink-0 rounded-[1.2rem] md:rounded-[1.5rem] overflow-hidden border-2 border-primary/20 bg-white shadow-sm">
-                    <img src="https://i.ibb.co/nHvSPfQ/logo.png" alt="LowestWePlay profile" className="w-full h-full object-cover" />
+                    <img src="https://i.ibb.co/nHvSPfQ/logo.png" alt="Lowest WePlay profile" className="w-full h-full object-cover" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="text-[9.5px] md:text-[11px] font-extrabold uppercase tracking-[0.2em] text-muted-foreground">My Account</div>

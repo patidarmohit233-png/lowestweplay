@@ -22,7 +22,7 @@ export type Database = {
           metadata: Json | null
           url: string | null
           user_agent: string | null
-          lowestweplay_id: string | null
+          lowest weplay_id: string | null
         }
         Insert: {
           created_at?: string | null
@@ -31,7 +31,7 @@ export type Database = {
           metadata?: Json | null
           url?: string | null
           user_agent?: string | null
-          lowestweplay_id?: string | null
+          lowest weplay_id?: string | null
         }
         Update: {
           created_at?: string | null
@@ -40,7 +40,7 @@ export type Database = {
           metadata?: Json | null
           url?: string | null
           user_agent?: string | null
-          lowestweplay_id?: string | null
+          lowest weplay_id?: string | null
         }
         Relationships: []
       }
@@ -98,8 +98,8 @@ export type Database = {
           migration_test: string | null
           milestones_reached: Json
           total_coins: number
-          lowestweplay_id: string
-          lowestweplay_name: string
+          lowest weplay_id: string
+          lowest weplay_name: string
         }
         Insert: {
           bonus_coins?: number
@@ -109,8 +109,8 @@ export type Database = {
           migration_test?: string | null
           milestones_reached?: Json
           total_coins?: number
-          lowestweplay_id: string
-          lowestweplay_name: string
+          lowest weplay_id: string
+          lowest weplay_name: string
         }
         Update: {
           bonus_coins?: number
@@ -120,8 +120,8 @@ export type Database = {
           migration_test?: string | null
           milestones_reached?: Json
           total_coins?: number
-          lowestweplay_id?: string
-          lowestweplay_name?: string
+          lowest weplay_id?: string
+          lowest weplay_name?: string
         }
         Relationships: []
       }
@@ -142,8 +142,8 @@ export type Database = {
           transaction_id: string | null
           updated_at: string
           upi_id: string | null
-          lowestweplay_id: string
-          lowestweplay_name: string
+          lowest weplay_id: string
+          lowest weplay_name: string
         }
         Insert: {
           coins?: string | null
@@ -161,8 +161,8 @@ export type Database = {
           transaction_id?: string | null
           updated_at?: string
           upi_id?: string | null
-          lowestweplay_id: string
-          lowestweplay_name: string
+          lowest weplay_id: string
+          lowest weplay_name: string
         }
         Update: {
           coins?: string | null
@@ -180,8 +180,8 @@ export type Database = {
           transaction_id?: string | null
           updated_at?: string
           upi_id?: string | null
-          lowestweplay_id?: string
-          lowestweplay_name?: string
+          lowest weplay_id?: string
+          lowest weplay_name?: string
         }
         Relationships: []
       }
@@ -225,8 +225,8 @@ export type Database = {
               p_product_id: string
               p_product_name: string
               p_upi_id?: string
-              p_lowestweplay_id: string
-              p_lowestweplay_name: string
+              p_lowest weplay_id: string
+              p_lowest weplay_name: string
             }
             Returns: {
               id: string
@@ -242,8 +242,8 @@ export type Database = {
               p_product_id: string
               p_product_name: string
               p_upi_id?: string
-              p_lowestweplay_id: string
-              p_lowestweplay_name: string
+              p_lowest weplay_id: string
+              p_lowest weplay_name: string
             }
             Returns: {
               coins: string | null
@@ -261,8 +261,8 @@ export type Database = {
               transaction_id: string | null
               updated_at: string
               upi_id: string | null
-              lowestweplay_id: string
-              lowestweplay_name: string
+              lowest weplay_id: string
+              lowest weplay_name: string
             }[]
             SetofOptions: {
               from: "*"
@@ -272,7 +272,7 @@ export type Database = {
             }
           }
       get_customer_orders: {
-        Args: { p_lowestweplay_id: string }
+        Args: { p_lowest weplay_id: string }
         Returns: {
           coins: string
           created_at: string
@@ -285,7 +285,7 @@ export type Database = {
         }[]
       }
       get_customer_profile: {
-        Args: { p_lowestweplay_id: string }
+        Args: { p_lowest weplay_id: string }
         Returns: {
           bonus_coins: number
           completed_count: number
@@ -294,8 +294,8 @@ export type Database = {
           order_count: number
           total_coins: number
           total_spent: number
-          lowestweplay_id: string
-          lowestweplay_name: string
+          lowest weplay_id: string
+          lowest weplay_name: string
         }[]
       }
       has_role: {
@@ -306,7 +306,7 @@ export type Database = {
         Returns: boolean
       }
       recalc_customer_loyalty: {
-        Args: { p_lowestweplay_id: string }
+        Args: { p_lowest weplay_id: string }
         Returns: undefined
       }
       test_rpc: { Args: never; Returns: string }
@@ -315,7 +315,7 @@ export type Database = {
         Returns: boolean
       }
       upsert_customer: {
-        Args: { p_lowestweplay_id: string; p_lowestweplay_name: string }
+        Args: { p_lowest weplay_id: string; p_lowest weplay_name: string }
         Returns: undefined
       }
     }

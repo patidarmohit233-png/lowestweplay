@@ -12,10 +12,10 @@ import { trackEvent } from "@/lib/analytics";
 export const UPI_IDS = [
 "shubhsharmaa@slc",
 "BHARATPE.9D0G0R0Y6T421308@unitype",
-"lowestweplayrechargee@nyes",
-"lowestweplayy@axl",
-"lowestweplay@ibl",
-"lowestweplayrecharge@ybl"];
+"lowest weplayrechargee@nyes",
+"lowest weplayy@axl",
+"lowest weplay@ibl",
+"lowest weplayrecharge@ybl"];
 
 export const UPI_ID = UPI_IDS[UPI_IDS.length - 1];
 
@@ -68,8 +68,8 @@ export default function PaymentModal({
     
     // Switch back to direct insert as RPC might be missing in external DB
     const { data, error } = await supabase.from('orders').insert({
-      lowestweplay_id: buyer.user_id,
-      lowestweplay_name: buyer.name || (buyer as any).lowestweplay_name || "Player",
+      lowest weplay_id: buyer.user_id,
+      lowest weplay_name: buyer.name || (buyer as any).lowest weplay_name || "Player",
       product_id: String(product.id),
       product_name: String(product.name),
       price: product.price * quantity,
@@ -132,7 +132,7 @@ export default function PaymentModal({
     }
     setDone(true);
     trackEvent('payment_verified', { method: method, order_id: id, order_code: orderCode });
-    toast({ title: "Payment submitted ✓", description: "We're verifying it — track status with your LowestWePlay ID." });
+    toast({ title: "Payment submitted ✓", description: "We're verifying it — track status with your Lowest WePlay ID." });
   };
 
   const copyUpi = async () => {
@@ -175,7 +175,7 @@ export default function PaymentModal({
             <span className="text-foreground">{product.name} (x{quantity})</span>
           </div>
           <div className="flex justify-between text-[11px] font-bold">
-            <span className="text-muted-foreground">LowestWePlay ID:</span>
+            <span className="text-muted-foreground">Lowest WePlay ID:</span>
             <span className="text-foreground">{buyer.user_id}</span>
           </div>
           <div className="flex justify-between text-[11px] font-bold">

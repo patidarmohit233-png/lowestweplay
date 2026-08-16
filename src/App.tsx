@@ -47,11 +47,11 @@ const App = () => (
           <Route path="/blog" element={<BlogList />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
 
-          <Route path="/lowestweplay-recharge" element={<WeplayRecharge />} />
-          <Route path="/lowestweplay-recharge-topup" element={<WeplayTopupLanding />} />
-          <Route path="/lowestweplay-red-packet" element={<WeplayRedPacket />} />
-          <Route path="/lowestweplay-top-up-price-list" element={<PriceList />} />
-          <Route path="/how-to-top-up-lowestweplay" element={<HowToTopUp />} />
+          <Route path="/lowest weplay-recharge" element={<WeplayRecharge />} />
+          <Route path="/lowest weplay-recharge-topup" element={<WeplayTopupLanding />} />
+          <Route path="/lowest weplay-red-packet" element={<WeplayRedPacket />} />
+          <Route path="/lowest weplay-top-up-price-list" element={<PriceList />} />
+          <Route path="/how-to-top-up-lowest weplay" element={<HowToTopUp />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />

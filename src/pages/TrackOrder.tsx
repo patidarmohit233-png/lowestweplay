@@ -40,7 +40,7 @@ export default function TrackOrder() {
     e.preventDefault();
     const value = id.trim();
     if (value.length < 3) {
-      toast({ title: "Enter your LowestWePlay ID", variant: "destructive" });
+      toast({ title: "Enter your Lowest WePlay ID", variant: "destructive" });
       return;
     }
     setLoading(true);
@@ -56,8 +56,8 @@ export default function TrackOrder() {
   return (
     <div className="min-h-dvh bg-background text-foreground">
       <Seo
-        title="Track LowestWePlay Top-Up Order Status | Lowest Weplay"
-        description="Check the live status of your LowestWePlay recharge or Red Packet order. Enter your LowestWePlay ID to see delivery progress and transaction details."
+        title="Track Lowest WePlay Top-Up Order Status | Lowest Weplay"
+        description="Check the live status of your Lowest WePlay recharge or Red Packet order. Enter your Lowest WePlay ID to see delivery progress and transaction details."
         path="/track-order" />
 
       <header className="border-b border-border/60 bg-card/70 backdrop-blur-xl sticky top-0 z-30">
@@ -75,7 +75,7 @@ export default function TrackOrder() {
           </span>
           <h1 className="text-2xl md:text-4xl font-display mt-4">Track your orders</h1>
           <p className="text-muted-foreground text-[13px] md:text-base mt-2 max-w-lg mx-auto leading-relaxed">
-            Your LowestWePlay ID is your customer ID — no login or password needed.
+            Your Lowest WePlay ID is your customer ID — no login or password needed.
           </p>
         </div>
 
@@ -83,7 +83,7 @@ export default function TrackOrder() {
           <input
             value={id}
             onChange={(e) => setId(e.target.value)}
-            placeholder="Enter your LowestWePlay ID"
+            placeholder="Enter your Lowest WePlay ID"
             className="flex-1 px-4 py-3.5 rounded-2xl border border-border bg-secondary/60 text-base focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all" />
 
           <button type="submit" disabled={loading}
@@ -105,7 +105,7 @@ export default function TrackOrder() {
         {orders !== null &&
         <div className="mt-8 space-y-3">
             {orders.length === 0 &&
-          <p className="text-center text-muted-foreground text-sm py-10">No orders found for this LowestWePlay ID yet.</p>
+          <p className="text-center text-muted-foreground text-sm py-10">No orders found for this Lowest WePlay ID yet.</p>
           }
             {orders.map((o, i) =>
           <motion.div key={o.id}

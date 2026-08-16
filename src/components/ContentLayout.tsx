@@ -7,16 +7,16 @@ export const CONTENT_LINKS = [
   { to: "/how-it-works", label: "How It Works" },
   { to: "/why-us", label: "Why Choose Us" },
   { to: "/trust-safety", label: "Trust & Safety" },
-  { to: "/lowestweplay-recharge", label: "LowestWePlay Recharge Packs" },
-  { to: "/lowestweplay-red-packet", label: "LowestWePlay Red Packet Top-Up" },
-  { to: "/faq", label: "LowestWePlay Top-Up FAQ" },
+  { to: "/lowest weplay-recharge", label: "Lowest WePlay Recharge Packs" },
+  { to: "/lowest weplay-red-packet", label: "Lowest WePlay Red Packet Top-Up" },
+  { to: "/faq", label: "Lowest WePlay Top-Up FAQ" },
 ];
 
 export function PriceTable({ items = PRODUCTS }: { items?: Product[] }) {
   return (
     <div className="overflow-x-auto rounded-2xl border border-border">
       <table className="w-full text-left text-sm">
-        <caption className="sr-only">LowestWePlay top-up packages with prices in Indian Rupees</caption>
+        <caption className="sr-only">Lowest WePlay top-up packages with prices in Indian Rupees</caption>
         <thead className="bg-muted/60 text-foreground">
           <tr>
             <th scope="col" className="px-4 py-3 font-bold">Package</th>
@@ -74,13 +74,13 @@ const ContentLayout = ({
       </div>
 
       <div className="mt-12 rounded-2xl border border-primary/15 bg-primary/5 p-6 md:p-8 text-center">
-        <h2 className="text-xl md:text-2xl font-display text-foreground mb-2">Ready to top up your LowestWePlay account?</h2>
-        <p className="mb-5">Verify your LowestWePlay ID on the homepage and get your coins in minutes.</p>
+        <h2 className="text-xl md:text-2xl font-display text-foreground mb-2">Ready to top up your Lowest WePlay account?</h2>
+        <p className="mb-5">Verify your Lowest WePlay ID on the homepage and get your coins in minutes.</p>
         <Link
           to="/#products"
           className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-bold text-sm active:scale-[0.97] transition-transform"
         >
-          Buy LowestWePlay coins now <ArrowRight size={16} />
+          Buy Lowest WePlay coins now <ArrowRight size={16} />
         </Link>
       </div>
 

@@ -14,16 +14,16 @@ export const generateSitemapXml = async () => {
     .order("published_at", { ascending: false });
 
 
-  const SITE_URL = "https://lowestweplayrecharge.shop";
+  const SITE_URL = "https://lowest weplayrecharge.shop";
   const today = new Date().toISOString().split('T')[0];
 
   const staticRoutes = [
     { path: "/", priority: "1.0", freq: "daily" },
     { path: "/blog", priority: "0.9", freq: "daily" },
-    { path: "/lowestweplay-recharge", priority: "0.9", freq: "weekly" },
-    { path: "/lowestweplay-red-packet", priority: "0.9", freq: "weekly" },
-    { path: "/lowestweplay-top-up-price-list", priority: "0.9", freq: "weekly" },
-    { path: "/how-to-top-up-lowestweplay", priority: "0.8", freq: "monthly" },
+    { path: "/lowest weplay-recharge", priority: "0.9", freq: "weekly" },
+    { path: "/lowest weplay-red-packet", priority: "0.9", freq: "weekly" },
+    { path: "/lowest weplay-top-up-price-list", priority: "0.9", freq: "weekly" },
+    { path: "/how-to-top-up-lowest weplay", priority: "0.8", freq: "monthly" },
     { path: "/faq", priority: "0.7", freq: "monthly" },
     { path: "/trust-safety", priority: "0.8", freq: "monthly" },
   ];
