@@ -498,6 +498,7 @@ const Index = () => {
             "@type": "AggregateRating",
             "ratingValue": "4.9",
             "reviewCount": "10450"
+
           },
           "offers": {
             "@type": "AggregateOffer",
@@ -1013,45 +1014,102 @@ const Index = () => {
       </section>
 
       {/* ─── FOOTER ───────────────────────────────────────── */}
-      <footer className="py-12 px-4 md:px-6 border-t border-border bg-card">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-7 mb-8">
-            <img src={LOGO} alt="Lowest Weplay" loading="lazy" className="w-[130px] h-auto opacity-70" />
-            <nav className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-[13px] text-muted-foreground">
-              <Link to="/weplay-recharge-topup" className="hover:text-primary font-bold text-foreground transition-colors">WePlay Recharge & Top Up</Link>
-              <Link to="/trust-safety" className="hover:text-primary font-bold text-foreground transition-colors">Trust & Safety</Link>
-              <Link to="/weplay-recharge" className="hover:text-primary transition-colors">Recharge</Link>
-              <Link to="/weplay-red-packet" className="hover:text-primary transition-colors">Red Packet</Link>
-              <Link to="/weplay-top-up-price-list" className="hover:text-primary transition-colors">Price List</Link>
-              <Link to="/how-to-top-up-weplay" className="hover:text-primary transition-colors">How to Top Up</Link>
-              <Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link>
-              <Link to="/track-order" className="hover:text-primary transition-colors">Track Order</Link>
-              <Link to="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</Link>
-              <Link to="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>
-              <Link to="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link>
-              <Link to="/contact" className="hover:text-primary transition-colors">Contact Us</Link>
+      <footer className="relative pt-20 pb-12 px-4 md:px-6 overflow-hidden bg-card border-t border-border">
+        <div className="absolute inset-0 bg-grid opacity-[0.03] pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Trust Badges Bar */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+            {[
+              { icon: <Lock className="text-primary" size={20} />, title: "Secure Payment", desc: "PCI-DSS Compliant" },
+              { icon: <Zap className="text-accent" size={20} />, title: "Instant Delivery", desc: "Automated Gifting" },
+              { icon: <ShieldCheck className="text-primary" size={20} />, title: "100% ID Safe", desc: "No Passwords" },
+              { icon: <MessageSquare className="text-accent" size={20} />, title: "24/7 Support", desc: "Live Chat Help" }
+            ].map((b, i) => (
+              <Reveal key={i} delay={i * 0.05}>
+                <div className="flex items-center gap-3.5 p-4 rounded-2xl border border-border/60 bg-secondary/30 backdrop-blur-sm">
+                  <div className="w-10 h-10 rounded-xl bg-background border border-border flex items-center justify-center shrink-0 shadow-sm">
+                    {b.icon}
+                  </div>
+                  <div>
+                    <div className="text-[12.5px] font-extrabold text-foreground leading-none">{b.title}</div>
+                    <div className="text-[10px] text-muted-foreground mt-1 font-medium">{b.desc}</div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
 
-            </nav>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8 mb-16">
+            {/* Brand Column */}
+            <div className="col-span-1 md:col-span-1">
+              <img src={LOGO} alt="Lowest Weplay" loading="lazy" className="h-[56px] w-auto mb-6 opacity-90" />
+              <p className="text-[13px] text-muted-foreground leading-relaxed max-w-xs">
+                Premium WePlay top-up service dedicated to providing the fastest and safest coin delivery for the Indian gaming community.
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-foreground mb-6">Services</h4>
+              <nav className="flex flex-col gap-3.5">
+                <Link to="/weplay-recharge-topup" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors font-medium">WePlay Recharge & Top Up</Link>
+                <Link to="/weplay-recharge" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Coins Recharge</Link>
+                <Link to="/weplay-red-packet" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Red Packet Store</Link>
+                <Link to="/weplay-top-up-price-list" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Price Comparison</Link>
+              </nav>
+            </div>
+
+            {/* Support */}
+            <div>
+              <h4 className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-foreground mb-6">Support</h4>
+              <nav className="flex flex-col gap-3.5">
+                <Link to="/track-order" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Track Your Order</Link>
+                <Link to="/faq" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Help & FAQ</Link>
+                <Link to="/contact" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Contact Support</Link>
+                <Link to="/how-to-top-up-weplay" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">How to Top Up</Link>
+              </nav>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h4 className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-foreground mb-6">Trust & Legal</h4>
+              <nav className="flex flex-col gap-3.5">
+                <Link to="/trust-safety" className="text-[13.5px] font-bold text-primary hover:underline">Trust & Safety Guide</Link>
+                <Link to="/refund-policy" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Refund Policy</Link>
+                <Link to="/privacy-policy" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
+                <Link to="/terms-of-service" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
+              </nav>
+            </div>
           </div>
-          <div className="divider-fade mb-6" />
-          <div className="mb-5 rounded-xl border border-amber-500/25 bg-amber-500/[0.07] px-4 py-3">
-            <p className="text-[11.5px] md:text-xs text-center text-muted-foreground leading-relaxed">
-              <span aria-hidden className="mr-1">⚠️</span>
-              <span className="font-bold text-foreground">Disclaimer:</span> LowestWePlay is an independent third-party
-              service. We are <span className="font-bold text-foreground">NOT</span> affiliated with, endorsed by, or
-              sponsored by WePlay.
+
+          <div className="divider-fade mb-8" />
+          
+          <div className="mb-8 rounded-2xl border border-amber-500/20 bg-amber-500/[0.04] p-5 text-center">
+            <p className="text-[12px] text-muted-foreground leading-relaxed">
+              <span className="font-bold text-foreground">Disclaimer:</span> LowestWePlay is an independent third-party 
+              service. We are <span className="font-bold text-foreground">NOT</span> affiliated with, endorsed by, or 
+              sponsored by WePlay. All trademarks belong to their respective owners.
             </p>
           </div>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
-            <p className="text-muted-foreground text-[11.5px] text-center">
-              © {new Date().getFullYear()} Lowest Weplay. All rights reserved. Independent WePlay top-up service.
+
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <p className="text-muted-foreground text-[12px]">
+              © {new Date().getFullYear()} Lowest Weplay. All rights reserved.
             </p>
-            <Link to="/admin-lowest-shubham" className="text-[10px] text-muted-foreground/30 hover:text-muted-foreground transition-colors uppercase tracking-widest font-bold">
-              Admin
-            </Link>
+            <div className="flex items-center gap-6">
+              <Link to="/admin-lowest-shubham" className="text-[10px] text-muted-foreground/30 hover:text-muted-foreground transition-colors uppercase tracking-widest font-extrabold">
+                Admin
+              </Link>
+              <div className="flex items-center gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-muted-foreground">System Online</span>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
+
 
       {payFor && buyer &&
       <PaymentModal product={payFor} buyer={buyer as any} onClose={() => setPayFor(null)} />
