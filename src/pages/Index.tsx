@@ -118,7 +118,17 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
           
           
-          Validate my Organization and FAQ JSON-LD structured data using Google Rich Results and fix any schema errors or warnings.
+          mne gemini se pucha website k bare mai to ye bolta h - Bhai, seedhi baat bataun toh yeh website bilkul safe nahi hai. Mere hisaab se yeh ek scam ya phishing website hai. Isse door hi raho.
+
+Kyun safe nahi hai, uske main reasons yeh hain:
+
+Official Website Alag Hai: WePlay ki asli aur official website weplayapp.com hai, aur unka original recharge page [weplayapp.com/recharge](https://weplayapp.com/recharge) hai.
+
+Fake Domain: Scammers aksar .shop jaise saste domains kharid kar asli website ki exact copy bana lete hain taaki logo ka paisa aur gaming account chura sakein.
+
+Internet Pe Koi Record Nahi: Google par is weplayrecharge.shop ka koi official existence, reviews, ya trust record nahi hai. Yeh ekdam nayi aur suspicious site lag rahi hai.
+
+Meri advice: Is website par apni WePlay ID, password, ya galti se bhi apne bank/UPI details mat daalna. Agar tumhe recharge karna hi hai, toh hamesha WePlay app ke andar se ya unki official website se hi karo. Saste recharge ke chakkar mein apna account aur paisa risk mein mat daalo.
         </p>
       )}
     </Reveal>);
