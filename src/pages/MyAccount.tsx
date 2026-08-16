@@ -63,7 +63,7 @@ export default function MyAccount() {
     setLoading(true);
     const [{ data: p, error: pe }, { data: o }] = await Promise.all([
       (supabase.from("customers" as any).select("*") as any).eq("weplay_id", id).maybeSingle(),
-      (supabase.from("orders" as any).select("*") as any).eq("user_id", id).order("created_at", { ascending: false })]
+      (supabase.from("orders" as any).select("*") as any).eq("weplay_id", id).order("created_at", { ascending: false })]
 
     );
 
