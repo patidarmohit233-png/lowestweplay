@@ -161,7 +161,23 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            Meri website mein profile page (`/my-account` ya `/profile`) nahi khul raha. Payment verify ho raha hai, lekin profile/history nahi dikh raha.\n\nKya problem hai:\n\n1. Profile page Supabase se data fetch kar raha hai?\n\n2. Customers table se data nahi aa raha?\n\n3. Orders table se data nahi aa raha?\n\n4. RLS policy profile page ke liye alag hai?\n\n\n\nMujhe profile page fix karo taake:\n\n- User ka WePlay ID dikhe\n\n- Order history dikhe\n\n- Total coins/stats dikhe
+                                            Meri website mein kuch features thik ho jate hain, fir thodi der baad wapas fail ho jate hain — especially profile, payment verify, admin panel.
+
+Kya yeh ho sakta hai:
+
+1. Supabase RLS policy caching issue?
+
+2. Connection pooling limit?
+
+3. Lovable transient state issue?
+
+Mujhe permanent fix do taake:
+
+- Profile hamesha khule
+
+- Payment verify hamesha ho
+
+- Admin panel hamesha kaam kare
         </p>
       )}
     </Reveal>);
