@@ -83,6 +83,7 @@ const REVIEWS = [
 
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+const SOFT_EASE = [0.25, 0.1, 0.25, 1] as const;
 
 /* ── Reveal wrapper ───────────────────────────────────── */
 function Reveal({ children, className = "", delay = 0, y = 18 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
@@ -93,7 +94,7 @@ function Reveal({ children, className = "", delay = 0, y = 18 }: { children: Rea
       ref={ref}
       initial={{ opacity: 0, y }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: EASE }}
+      transition={{ duration: 0.9, delay, ease: EASE }}
       className={className}
       style={{ willChange: "transform, opacity" }}>
       {children}
@@ -107,9 +108,14 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
       <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/6 border border-primary/12 text-primary text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.18em]">
         <Sparkles size={11} /> {eyebrow}
       </span>
-      <h2 className="mt-4 text-[1.75rem] leading-[1.12] md:text-5xl font-display text-foreground">
-        {title} {highlight && <span className="text-gradient">{highlight}</span>}
-      </h2>
+      <motion.h2 
+        className="mt-4 text-[1.75rem] leading-[1.12] md:text-6xl font-display text-foreground"
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: EASE }}>
+        {title} {highlight && <span className="text-gradient inline-block">{highlight}</span>}
+      </motion.h2>
       <p className="text-muted-foreground mt-3 text-[13px] md:text-base max-w-md md:max-w-xl mx-auto leading-relaxed">
         {subtitle}
       </p>
