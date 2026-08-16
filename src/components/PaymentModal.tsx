@@ -62,27 +62,26 @@ export default function PaymentModal({
   /* Order is created ONLY when the buyer verifies their transaction ID */
   const createOrder = async (m: Method) => {
     setCreating(true);
+    // Align with actual Supabase schema: order_id (string), user_id (string), plan (string), amount (string)
     const { data, error } = await supabase.from("orders" as any).insert({
-      order_code: Math.random().toString(36).substring(2, 10).toUpperCase(),
-      weplay_id: buyer.user_id,
-      weplay_name: buyer.name,
-      product_id: product.id.toString(),
-      product_name: product.name,
-      price: product.price,
-      coins_amount: product.coins,
-      payment_method: m,
+      order_id: Math.random().toString(36).substring(2, 10).toUpperCase(),
+      user_id: buyer.user_id,
+      game: "WePlay", // Hardcoded as per recent request
+      plan: product.name,
+      amount: product.price.toString(),
       status: "pending",
       upi_id: m === "upi" ? assignedUpi : null,
       transaction_id: null
     }).select().single();
+    
     setCreating(false);
     const row = data as any;
     if (error || !row) {
       toast({ title: "Could not create order", description: error?.message ?? "Please try again.", variant: "destructive" });
       return null;
     }
-      setOrderId(row.id);
-      setOrderCode(row.order_id);
+    setOrderId(row.id);
+    setOrderCode(row.order_id);
     return row.id as string;
   };
 
