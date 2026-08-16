@@ -62,7 +62,7 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
           <X size={20} strokeWidth={2.6} className="text-primary" />
         ) : (
           <img 
-            src={weplayAvatarAsset.url} 
+            src="https://i.ibb.co/nHvSPfQ/logo.png" 
             alt="WePlay profile" 
             className="w-full h-full object-cover"
           />
@@ -83,7 +83,7 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
             <div className="px-4 py-4 bg-gradient-to-br from-primary/12 via-primary/[0.05] to-transparent border-b border-border/60">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 shrink-0 rounded-2xl overflow-hidden border border-primary/20 bg-white">
-                  <img src={weplayAvatarAsset.url} alt="WePlay profile" className="w-full h-full object-cover" />
+                  <img src="https://i.ibb.co/nHvSPfQ/logo.png" alt="WePlay profile" className="w-full h-full object-cover" />
                 </div>
                 <div className="min-w-0">
                   <p className="text-[14px] font-extrabold text-foreground truncate">{buyer.name}</p>
