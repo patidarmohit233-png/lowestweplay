@@ -21,7 +21,7 @@ import { z } from "zod";
 
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
-type Buyer = { weplay_id: string; weplay_name: string };
+type Buyer = { lowestweplay_id: string; lowestweplay_name: string };
 const VERIFY_KEY = "lw_verified_buyer";
 
 
@@ -64,13 +64,13 @@ const TRUST_BADGES = [
 
 const STEPS = [
 { icon: <Search size={22} />, title: "Choose Package", desc: "Browse and pick your ideal coin bundle." },
-{ icon: <UserCheck size={22} />, title: "Verify Player", desc: "Enter WePlay ID & name — no password ever." },
+{ icon: <UserCheck size={22} />, title: "Verify Player", desc: "Enter LowestWePlay ID & name — no password ever." },
 { icon: <CreditCard size={22} />, title: "Secure Payment", desc: "Pay via UPI, cards or wallets on Razorpay." },
 { icon: <Download size={22} />, title: "Instant Delivery", desc: "Coins land in your account within minutes." }];
 
 
 const REVIEWS = [
-{ name: "Rahul", text: "Very nice this website is very good for your weplay life dont wast your money come hare and enjoy" },
+{ name: "Rahul", text: "Very nice this website is very good for your lowestweplay life dont wast your money come hare and enjoy" },
 { name: "Ankit G", text: "Maine 50K RED PACKET liya tha. Payment ke baad 10 minute tak kuch nahi aaya toh thoda tension hua. Phir support se baat ki aur 2 minute mein coins aa gaye. Good service" },
 { name: "Eren R", text: "Bhai kya mst website hai phle trust nhi hua tha but ab roj topup karta hu yahi se" },
 { name: "Deepak Kumar", text: "Pehle lag raha tha scam hoga kyunki ID maang rahe the. But unhone bola sirf ID chahiye password nahi. Safe hai bhai" },
@@ -229,7 +229,7 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
       <div className="relative m-1.5 md:m-2.5 mb-0 rounded-[0.95rem] md:rounded-[1.35rem] overflow-hidden aspect-square bg-gradient-to-br from-secondary to-muted">
         <img
           src={product.img}
-          alt={`${product.name} WePlay top-up pack`}
+          alt={`${product.name} LowestWePlay top-up pack`}
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.1]" />
 
@@ -254,7 +254,7 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
       {/* content */}
       <div className="px-3 pt-2.5 pb-3 md:px-5 md:pt-4 md:pb-5 flex flex-col flex-grow">
         <h3 className="text-[11.5px] md:text-[15px] font-extrabold text-foreground leading-tight line-clamp-1">{product.name}</h3>
-        <Link to="/weplay-recharge-topup" onClick={() => trackEvent('click_weplay_topup', { product_id: product.id })} className="text-[9.5px] md:text-[10px] text-primary hover:underline font-bold mb-1 block">WePlay Top Up</Link>
+        <Link to="/lowestweplay-recharge-topup" onClick={() => trackEvent('click_lowestweplay_topup', { product_id: product.id })} className="text-[9.5px] md:text-[10px] text-primary hover:underline font-bold mb-1 block">LowestWePlay Top Up</Link>
         <p className="text-muted-foreground text-[9.5px] md:text-xs mt-0 mb-2.5 md:mb-4 flex-grow leading-snug line-clamp-2">{product.desc}</p>
 
         <div className="flex items-end justify-between gap-1 mb-2.5 md:mb-4">
@@ -371,14 +371,14 @@ function DailyCountdownBar() {
 
 /* ── Verification Panel ───────────────────────────────── */
 const verifySchema = z.object({
-  game: z.literal("WePlay"),
+  game: z.literal("LowestWePlay"),
   user_id: z.string().trim().min(3, "ID must be at least 3 characters").max(40, "Too long"),
   name: z.string().trim().min(2, "Name required"),
 });
 
 
 function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null; onVerified: (b: VerifiedBuyer | null) => void }) {
-  const [form, setForm] = useState<VerifiedBuyer>(buyer ?? { game: "WePlay", user_id: "", name: "" });
+  const [form, setForm] = useState<VerifiedBuyer>(buyer ?? { game: "LowestWePlay", user_id: "", name: "" });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [editing, setEditing] = useState(!buyer);
@@ -394,10 +394,10 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
     }
     setErrors({});
     const { error: upsertError } = await supabase.from("customers").upsert({
-      weplay_id: parsed.data.user_id,
-      weplay_name: parsed.data.name,
+      lowestweplay_id: parsed.data.user_id,
+      lowestweplay_name: parsed.data.name,
       last_active: new Date().toISOString()
-    }, { onConflict: 'weplay_id' });
+    }, { onConflict: 'lowestweplay_id' });
 
     if (upsertError) {
       toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
@@ -427,7 +427,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                 <div className="flex-1 min-w-0">
                   <div className="text-[9.5px] md:text-[11px] font-extrabold uppercase tracking-[0.2em] text-muted-foreground">Step 1 · Player Verification</div>
                   <h3 className="text-[15px] md:text-2xl font-display leading-tight text-foreground mt-0.5">
-                    {buyer && !editing ? "You're verified — ready to top-up" : "Verify WePlay details"}
+                    {buyer && !editing ? "You're verified — ready to top-up" : "Verify LowestWePlay details"}
                   </h3>
                 </div>
                 {buyer && !editing &&
@@ -521,7 +521,7 @@ const Index = () => {
   };
   const scrollToVerify = () => {
     document.getElementById("verify")?.scrollIntoView({ behavior: "smooth", block: "center" });
-    toast({ title: "Verify first", description: "Enter your WePlay ID & Name to unlock Buy Now." });
+    toast({ title: "Verify first", description: "Enter your LowestWePlay ID & Name to unlock Buy Now." });
   };
 
   const [payFor, setPayFor] = useState<typeof PRODUCTS[0] | null>(null);
@@ -552,25 +552,25 @@ const Index = () => {
     <>
     <DailyCountdownBar />
     <Seo
-      title="WePlay Top Up India — Cheapest WePlay Recharge & Red Packet (100% Safe)"
-      description="Official WePlay Recharge India. Buy WePlay coins and Red Packets at the lowest prices. 100% Safe & Instant WePlay top up, No password required. Trusted by thousands of players on weplayrecharge.shop."
+      title="LowestWePlay Top Up India — Cheapest LowestWePlay Recharge & Red Packet (100% Safe)"
+      description="Official LowestWePlay Recharge India. Buy LowestWePlay coins and Red Packets at the lowest prices. 100% Safe & Instant LowestWePlay top up, No password required. Trusted by thousands of players on lowestweplayrecharge.shop."
       path="/"
       jsonLd={[
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "Lowest Weplay",
-          "url": "https://weplayrecharge.shop/",
+          "url": "https://lowestweplayrecharge.shop/",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://weplayrecharge.shop/track-order?id={search_term_string}",
+            "target": "https://lowestweplayrecharge.shop/track-order?id={search_term_string}",
             "query-input": "required name=search_term_string"
           }
         },
         {
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
-          "name": "WePlay",
+          "name": "LowestWePlay",
           "applicationCategory": "GameApplication",
           "aggregateRating": {
             "@type": "AggregateRating",
@@ -589,16 +589,16 @@ const Index = () => {
         {
           "@context": "https://schema.org",
           "@type": "ItemList",
-          "name": "WePlay top-up packages",
+          "name": "LowestWePlay top-up packages",
           "itemListElement": PRODUCTS.map((p, i) => ({
             "@type": "ListItem",
             "position": i + 1,
             "item": {
               "@type": "Product",
-              "name": `WePlay ${p.name}`,
+              "name": `LowestWePlay ${p.name}`,
               "description": p.desc,
               "image": p.img,
-              "brand": { "@type": "Brand", "name": "WePlay" },
+              "brand": { "@type": "Brand", "name": "LowestWePlay" },
               "offers": {
                 "@type": "Offer",
                 "price": p.price,
@@ -634,7 +634,7 @@ const Index = () => {
       <div className="absolute inset-0 bg-background/95 backdrop-blur-3xl border-b border-border/70 pointer-events-none shadow-sm" />
       <div className="relative max-w-7xl mx-auto flex items-center justify-between pointer-events-auto min-h-[72px] h-auto py-2 md:py-3">
         <div className="flex-1 hidden md:flex items-center gap-4">
-          <Link to="/weplay-recharge-topup" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
+          <Link to="/lowestweplay-recharge-topup" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
             <ArrowLeftRight size={13} className="text-primary" /> Buy & Sell ID
           </Link>
           <Link to="/trust-safety" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
@@ -718,7 +718,7 @@ const Index = () => {
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-foreground text-background text-[9px] md:text-[10px] font-extrabold uppercase tracking-[0.14em]">
               <Crown size={10} /> Official
             </span>
-            <span className="text-muted-foreground">WePlay Top-up Partner</span>
+            <span className="text-muted-foreground">LowestWePlay Top-up Partner</span>
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
             <span className="text-accent font-extrabold">Live</span>
           </motion.div>
@@ -757,7 +757,7 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.45, ease: EASE }}
             className="text-muted-foreground text-[13.5px] md:text-lg max-w-[19rem] md:max-w-xl mx-auto mt-5 md:mt-7 leading-relaxed">
-            India's most trusted WePlay top-up service — guaranteed ID safety, instant delivery and the lowest prices.
+            India's most trusted LowestWePlay top-up service — guaranteed ID safety, instant delivery and the lowest prices.
           </motion.p>
 
           <motion.div
@@ -824,7 +824,7 @@ const Index = () => {
             eyebrow="Community"
             title="Our Top"
             highlight="Partners"
-            subtitle="Trusted by the biggest creators and clans in the WePlay community." />
+            subtitle="Trusted by the biggest creators and clans in the LowestWePlay community." />
         </div>
         <div
           className="relative mask-fade-x overflow-x-auto no-scrollbar snap-x snap-mandatory touch-pan-x overscroll-x-contain"
@@ -874,7 +874,7 @@ const Index = () => {
         <div className="max-w-4xl mx-auto">
           <Reveal>
             <a
-              href="https://weplayescrow.lovable.app/"
+              href="https://lowestweplayescrow.lovable.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-3 md:gap-4 rounded-2xl border border-accent/25 bg-accent/[0.06] px-4 py-3.5 md:px-6 md:py-4 backdrop-blur-xl active:scale-[0.98] transition-transform">
@@ -883,7 +883,7 @@ const Index = () => {
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block text-[13px] md:text-[15px] font-extrabold text-foreground">
-                  Buy &amp; Sell WePlay ID
+                  Buy &amp; Sell LowestWePlay ID
                 </span>
                 <span className="block text-[11px] md:text-[12.5px] text-muted-foreground">
                   Safe escrow deals on our official partner site
@@ -917,7 +917,7 @@ const Index = () => {
                 </span>
                 <h3 className="mt-4 text-lg md:text-xl font-display text-foreground">Plans are locked</h3>
                 <p className="mt-2 text-[13px] text-muted-foreground leading-relaxed">
-                  Verify your WePlay ID & Name at the top to unlock all packages.
+                  Verify your LowestWePlay ID & Name at the top to unlock all packages.
                 </p>
                 <button onClick={scrollToVerify}
                   className="mt-5 px-7 py-3.5 rounded-2xl text-primary-foreground font-extrabold text-[11.5px] uppercase tracking-[0.14em] inline-flex items-center gap-2 active:scale-[0.97] transition-transform"
@@ -954,7 +954,7 @@ const Index = () => {
             eyebrow="Trust"
             title="Proof of"
             highlight="Delivery"
-            subtitle="Real proof of successful WePlay top-ups. No tricks, no scams. Just instant delivery." />
+            subtitle="Real proof of successful LowestWePlay top-ups. No tricks, no scams. Just instant delivery." />
           <Reveal>
             <div className="flex flex-col items-center">
               <div className="relative rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border border-border bg-card shadow-elevated"
@@ -963,7 +963,7 @@ const Index = () => {
                   width="100%"
                   height="100%"
                   src="https://www.youtube.com/embed/aQeC9LdH-Mk"
-                  title="Proof of weplay carding in Lowestweplay"
+                  title="Proof of lowestweplay carding in Lowestlowestweplay"
                   frameBorder="0"
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -972,7 +972,7 @@ const Index = () => {
               </div>
               <p className="mt-5 text-[11px] md:text-xs text-center text-muted-foreground max-w-sm leading-relaxed">
                 <span aria-hidden className="mr-1">📹</span>
-                Video shows real top-up process. We never ask for password. Only WePlay ID needed.
+                Video shows real top-up process. We never ask for password. Only LowestWePlay ID needed.
               </p>
             </div>
           </Reveal>
@@ -1031,7 +1031,7 @@ const Index = () => {
                 </span>
                 <h2 className="text-2xl md:text-4xl font-display">ID Safe Guarantee</h2>
                 <p className="text-primary-foreground/75 max-w-xl mx-auto mt-4 text-[13.5px] md:text-base leading-relaxed">
-                  Your WePlay account is 100% safe. We're an official top-up partner using secure payment gateways — no password required, only your Player ID.
+                  Your LowestWePlay account is 100% safe. We're an official top-up partner using secure payment gateways — no password required, only your Player ID.
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-2.5 mt-7">
                   {["No Password Needed", "Official Partner", "Instant Refund Policy"].map((item) =>
@@ -1130,7 +1130,7 @@ const Index = () => {
             <div className="col-span-1 md:col-span-1">
               <img src={LOGO} alt="Lowest Weplay" loading="lazy" className="h-[56px] w-auto mb-6 opacity-90" />
               <p className="text-[13px] text-muted-foreground leading-relaxed max-w-xs">
-                Premium WePlay top-up service dedicated to providing the fastest and safest coin delivery for the Indian gaming community.
+                Premium LowestWePlay top-up service dedicated to providing the fastest and safest coin delivery for the Indian gaming community.
               </p>
             </div>
 
@@ -1140,8 +1140,8 @@ const Index = () => {
               <nav className="flex flex-col gap-3.5">
                 <Link to="/how-it-works" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors font-medium">How It Works</Link>
                 <Link to="/why-us" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Why Choose Us</Link>
-                <Link to="/weplay-recharge" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Coins Recharge</Link>
-                <Link to="/weplay-red-packet" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Red Packet Store</Link>
+                <Link to="/lowestweplay-recharge" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Coins Recharge</Link>
+                <Link to="/lowestweplay-red-packet" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Red Packet Store</Link>
               </nav>
             </div>
 
@@ -1152,7 +1152,7 @@ const Index = () => {
                 <Link to="/track-order" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Track Your Order</Link>
                 <Link to="/faq" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Help & FAQ</Link>
                 <Link to="/contact" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Contact Support</Link>
-                <Link to="/how-to-top-up-weplay" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">How to Top Up</Link>
+                <Link to="/how-to-top-up-lowestweplay" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">How to Top Up</Link>
               </nav>
             </div>
 
@@ -1174,7 +1174,7 @@ const Index = () => {
           
           <div className="mb-8 rounded-2xl border border-border bg-secondary/30 p-5 text-center">
             <p className="text-[12px] text-muted-foreground leading-relaxed">
-              <strong>Disclaimer:</strong> LowestWePlay is an independent service provider and is not affiliated with, sponsored by, or endorsed by WePlay or any of its subsidiaries. All trademarks, service marks, and trade names are the property of their respective owners.
+              <strong>Disclaimer:</strong> LowestLowestWePlay is an independent service provider and is not affiliated with, sponsored by, or endorsed by LowestWePlay or any of its subsidiaries. All trademarks, service marks, and trade names are the property of their respective owners.
             </p>
           </div>
 

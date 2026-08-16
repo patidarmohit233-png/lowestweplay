@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { User, LogOut, Receipt, Coins, Package, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fmt, tierMeta } from "@/lib/loyalty";
-import weplayAvatarAsset from "@/assets/weplay-avatar.png.asset.json";
+import lowestweplayAvatarAsset from "@/assets/lowestweplay-avatar.png.asset.json";
 
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
@@ -21,8 +21,8 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
     let alive = true;
     (async () => {
       const [{ data: c }, { count }] = await Promise.all([
-        supabase.from("customers" as any).select("total_coins,bonus_coins,loyalty_tier").eq("weplay_id", buyer.user_id).maybeSingle(),
-        supabase.from("orders" as any).select("id", { count: "exact", head: true }).eq("weplay_id", buyer.user_id)
+        supabase.from("customers" as any).select("total_coins,bonus_coins,loyalty_tier").eq("lowestweplay_id", buyer.user_id).maybeSingle(),
+        supabase.from("orders" as any).select("id", { count: "exact", head: true }).eq("lowestweplay_id", buyer.user_id)
       ]);
       if (!alive) return;
       const userRow = c as any;
@@ -61,7 +61,7 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
         ) : (
           <img 
             src="https://i.ibb.co/nHvSPfQ/logo.png" 
-            alt="WePlay profile" 
+            alt="LowestWePlay profile" 
             className="w-full h-full object-cover"
           />
         )}
@@ -81,7 +81,7 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
             <div className="px-4 py-4 bg-gradient-to-br from-primary/12 via-primary/[0.05] to-transparent border-b border-border/60">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 shrink-0 rounded-2xl overflow-hidden border border-primary/20 bg-white">
-                  <img src="https://i.ibb.co/nHvSPfQ/logo.png" alt="WePlay profile" className="w-full h-full object-cover" />
+                  <img src="https://i.ibb.co/nHvSPfQ/logo.png" alt="LowestWePlay profile" className="w-full h-full object-cover" />
                 </div>
                 <div className="min-w-0">
                   <p className="text-[14px] font-extrabold text-foreground truncate">{buyer.name}</p>

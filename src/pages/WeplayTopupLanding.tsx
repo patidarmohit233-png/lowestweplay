@@ -5,21 +5,21 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Zap, ShieldCheck, CheckCircle2 } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
-const PATH = "/weplay-recharge-topup";
+const PATH = "/lowestweplay-recharge-topup";
 
 const WeplayTopupLanding = () => {
   return (
     <>
       <Seo
-        title="WePlay Recharge & Top Up India — Cheapest WePlay Coins (100% Safe)"
-        description="Get the cheapest WePlay Recharge and Top Up in India. Buy WePlay coins instantly starting at ₹479. 100% ID safe, official partner, trusted and secure payments."
+        title="LowestWePlay Recharge & Top Up India — Cheapest LowestWePlay Coins (100% Safe)"
+        description="Get the cheapest LowestWePlay Recharge and Top Up in India. Buy LowestWePlay coins instantly starting at ₹479. 100% ID safe, official partner, trusted and secure payments."
         path={PATH}
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "WebPage",
-            "name": "WePlay Recharge & Top Up Landing Page",
-            "description": "Dedicated landing page for WePlay coin recharge and top up services in India.",
+            "name": "LowestWePlay Recharge & Top Up Landing Page",
+            "description": "Dedicated landing page for LowestWePlay coin recharge and top up services in India.",
             "url": `${SITE_URL}${PATH}`
           },
           {
@@ -27,15 +27,15 @@ const WeplayTopupLanding = () => {
             "@type": "BreadcrumbList",
             "itemListElement": [
               { "@type": "ListItem", "position": 1, "name": "Home", "item": `${SITE_URL}/` },
-              { "@type": "ListItem", "position": 2, "name": "WePlay Recharge & Top Up", "item": `${SITE_URL}${PATH}` }
+              { "@type": "ListItem", "position": 2, "name": "LowestWePlay Recharge & Top Up", "item": `${SITE_URL}${PATH}` }
             ]
           }
         ]}
       />
       <ContentLayout
         currentPath={PATH}
-        title="WePlay Recharge & Top Up India"
-        intro="Welcome to India's most trusted destination for WePlay Recharge and WePlay Top Up. We provide the fastest and cheapest way to get WePlay coins directly to your ID."
+        title="LowestWePlay Recharge & Top Up India"
+        intro="Welcome to India's most trusted destination for LowestWePlay Recharge and LowestWePlay Top Up. We provide the fastest and cheapest way to get LowestWePlay coins directly to your ID."
       >
         <section className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
@@ -47,7 +47,7 @@ const WeplayTopupLanding = () => {
                 <h3 className="text-xl font-bold m-0">Instant Recharge</h3>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Get your WePlay coins credited within minutes. Our automated system ensures your top-up is processed as soon as the payment is verified.
+                Get your LowestWePlay coins credited within minutes. Our automated system ensures your top-up is processed as soon as the payment is verified.
               </p>
             </div>
             <div className="p-6 rounded-2xl bg-accent/5 border border-accent/10">
@@ -58,13 +58,13 @@ const WeplayTopupLanding = () => {
                 <h3 className="text-xl font-bold m-0">100% ID Safe</h3>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                We never ask for your password or OTP. Only your WePlay ID and Name are required for the top-up, keeping your account fully secure.
+                We never ask for your password or OTP. Only your LowestWePlay ID and Name are required for the top-up, keeping your account fully secure.
               </p>
             </div>
           </div>
 
-          <h2>Cheapest WePlay Top Up Plans</h2>
-          <p>Compare our prices with in-game rates and save up to 70% on your next WePlay recharge.</p>
+          <h2>Cheapest LowestWePlay Top Up Plans</h2>
+          <p>Compare our prices with in-game rates and save up to 70% on your next LowestWePlay recharge.</p>
           <PriceTable items={PRODUCTS} />
 
           <div className="mt-12 text-center">
@@ -79,10 +79,10 @@ const WeplayTopupLanding = () => {
         </section>
 
         <section className="mt-16 border-t border-border pt-12">
-          <h2>Why Choose weplayrecharge.shop?</h2>
+          <h2>Why Choose lowestweplayrecharge.shop?</h2>
           <div className="space-y-4">
             {[
-              "Official WePlay Top-Up Partner in India.",
+              "Official LowestWePlay Top-Up Partner in India.",
               "Lowest prices guaranteed for all coin packs.",
               "Secure payments via UPI and Razorpay.",
               "Thousands of satisfied gamers trust our service.",
@@ -100,12 +100,12 @@ const WeplayTopupLanding = () => {
           <h2>Frequently Asked Questions</h2>
           <div className="space-y-6">
             <div>
-              <h4 className="font-bold">Is this an official WePlay top-up?</h4>
-              <p className="text-muted-foreground">Yes, we are an authorized third-party recharge partner. We use official channels to credit coins to your WePlay ID.</p>
+              <h4 className="font-bold">Is this an official LowestWePlay top-up?</h4>
+              <p className="text-muted-foreground">Yes, we are an authorized third-party recharge partner. We use official channels to credit coins to your LowestWePlay ID.</p>
             </div>
             <div>
-              <h4 className="font-bold">How do I find my WePlay ID?</h4>
-              <p className="text-muted-foreground">Open the WePlay app, go to your profile, and you will see your ID number below your nickname.</p>
+              <h4 className="font-bold">How do I find my LowestWePlay ID?</h4>
+              <p className="text-muted-foreground">Open the LowestWePlay app, go to your profile, and you will see your ID number below your nickname.</p>
             </div>
           </div>
         </section>

@@ -7,7 +7,7 @@ const RefundPolicy = () => (
   <>
   <Seo
     title="Refund Policy | 100% Satisfaction Guarantee | Lowest Weplay"
-    description="Full refund policy for WePlay coin top-ups. Learn about eligibility for failed deliveries or restricted IDs. Instant support for all refund requests."
+    description="Full refund policy for LowestWePlay coin top-ups. Learn about eligibility for failed deliveries or restricted IDs. Instant support for all refund requests."
     path="/refund-policy"
   />
 
@@ -54,7 +54,7 @@ const RefundPolicy = () => (
           </h2>
           <p>Refunds will not be provided if:</p>
           <ul className="list-disc pl-5 space-y-1">
-            <li>You provided an incorrect WePlay ID</li>
+            <li>You provided an incorrect LowestWePlay ID</li>
             <li>Coins have already been used in-game</li>
             <li>The request is made after 7 days of purchase</li>
           </ul>
@@ -66,7 +66,7 @@ const RefundPolicy = () => (
           </h2>
           <p>We cannot process top-ups in the following situations:</p>
           <ul className="list-disc pl-5 space-y-1">
-            <li>The WePlay ID is restricted, banned, or flagged by the game system</li>
+            <li>The LowestWePlay ID is restricted, banned, or flagged by the game system</li>
             <li>You purchase a package that we have explicitly refused or warned against in our YouTube video or support messages</li>
           </ul>
           <p>In these cases, the order will not be completed and a refund may not be issued unless otherwise stated below.</p>

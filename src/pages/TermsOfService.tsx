@@ -6,8 +6,8 @@ import Seo from "@/components/Seo";
 const TermsOfService = () => (
   <>
   <Seo
-    title="Terms of Service | Official WePlay Top-Up Rules & Delivery"
-    description="Terms and conditions for buying WePlay coins at Lowest Weplay. Secure payments, automated delivery timelines, and user responsibilities in India."
+    title="Terms of Service | Official LowestWePlay Top-Up Rules & Delivery"
+    description="Terms and conditions for buying LowestWePlay coins at Lowest Weplay. Secure payments, automated delivery timelines, and user responsibilities in India."
     path="/terms-of-service"
   />
 
@@ -46,7 +46,7 @@ const TermsOfService = () => (
           <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-primary" /> 2. Services
           </h2>
-          <p>Lowest Weplay provides WePlay coin top-up services. We are an <strong>official top-up partner</strong> and facilitate the purchase and delivery of in-game coins to your WePlay account.</p>
+          <p>Lowest Weplay provides LowestWePlay coin top-up services. We are an <strong>official top-up partner</strong> and facilitate the purchase and delivery of in-game coins to your LowestWePlay account.</p>
         </section>
 
         <section className="p-6 rounded-2xl bg-accent/5 border border-accent/10">
@@ -54,7 +54,7 @@ const TermsOfService = () => (
             <span className="w-2 h-2 rounded-full bg-accent" /> 3. User Responsibilities
           </h2>
           <ul className="list-disc pl-5 space-y-1">
-            <li>Provide accurate WePlay ID and personal information</li>
+            <li>Provide accurate LowestWePlay ID and personal information</li>
             <li>Ensure your account is in good standing</li>
             <li>Do not use our services for any fraudulent purposes</li>
             <li>You must be at least 18 years old or have parental consent</li>
@@ -79,7 +79,7 @@ const TermsOfService = () => (
           <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-primary" /> 6. Limitation of Liability
           </h2>
-          <p>Lowest Weplay is not responsible for any issues arising from incorrect information provided by the user, in-game account bans, or any actions taken by WePlay on your account.</p>
+          <p>Lowest Weplay is not responsible for any issues arising from incorrect information provided by the user, in-game account bans, or any actions taken by LowestWePlay on your account.</p>
         </section>
 
         <section className="p-6 rounded-2xl bg-card border border-border text-center">
