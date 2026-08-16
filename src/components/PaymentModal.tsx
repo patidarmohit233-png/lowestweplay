@@ -66,31 +66,35 @@ export default function PaymentModal({
     setCreating(true);
     trackEvent('payment_started', { method: m, product_id: product.id, product_name: product.name });
     
-    // Explicitly using the schema-compliant column names from src/integrations/supabase/types.ts
-    const { data, error } = await supabase.from("orders").insert({
-      order_code: Math.random().toString(36).substring(2, 10).toUpperCase(),
-      weplay_id: buyer.user_id,
-      weplay_name: buyer.name,
-      product_id: product.id.toString(),
-      product_name: product.name,
-      price: product.price * quantity,
-      coins: `${product.coinsAmount * quantity}`,
-      coins_amount: product.coinsAmount * quantity,
-      payment_method: m,
-      status: "pending",
-      upi_id: m === "upi" ? assignedUpi : null,
-      transaction_id: null
-    }).select().single();
+    // Explicitly listing only verified columns from the physical schema to avoid schema cache issues.
+    // Using create_order RPC function instead of direct insert to see if it bypasses the PostgREST cache issue.
+    const { data, error } = await supabase.rpc('create_order', {
+      p_weplay_id: buyer.user_id,
+      p_weplay_name: buyer.name,
+      p_product_id: product.id.toString(),
+      p_product_name: product.name,
+      p_price: product.price * quantity,
+      p_coins: `${product.coinsAmount * quantity}`,
+      p_coins_amount: product.coinsAmount * quantity,
+      p_payment_method: m,
+      p_upi_id: m === "upi" ? assignedUpi : null
+    });
     
     setCreating(false);
-    if (error || !data) {
-      console.error("Order creation error:", error);
-      toast({ title: "Could not create order", description: error?.message ?? "Please try again.", variant: "destructive" });
+    if (error || !data || data.length === 0) {
+      console.error("Order creation error details:", error);
+      toast({ 
+        title: "Could not create order", 
+        description: error?.message ?? "Please try again.", 
+        variant: "destructive" 
+      });
       return null;
     }
-    setOrderId(data.id);
-    setOrderCode(data.order_code);
-    return data.id;
+    
+    const newOrder = data[0];
+    setOrderId(newOrder.id);
+    setOrderCode(newOrder.order_code);
+    return newOrder.id;
   };
 
 
