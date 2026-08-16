@@ -634,7 +634,7 @@ const Index = () => {
 
     <header className="fixed top-[40px] left-0 right-0 z-[70] px-3 md:px-6 pointer-events-none transition-all duration-300">
       <div className="absolute inset-0 bg-background/95 backdrop-blur-3xl border-b border-border/70 pointer-events-none shadow-sm" />
-      <div className="relative max-w-7xl mx-auto flex items-center justify-between pointer-events-auto h-[72px] md:h-[92px]">
+      <div className="relative max-w-7xl mx-auto flex items-center justify-between pointer-events-auto min-h-[72px] h-auto py-2 md:py-3">
         <div className="flex-1 hidden md:flex items-center gap-4">
           <Link to="/weplay-recharge-topup" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
             <ArrowLeftRight size={13} className="text-primary" /> Buy & Sell ID
