@@ -6,10 +6,13 @@ import { supabase } from "@/integrations/supabase/client";
  * structure which the user can then copy or we can theoretically automate if we had a backend.
  */
 export const generateSitemapXml = async () => {
+  const now = new Date().toISOString();
   const { data: posts } = await supabase
     .from("blog_posts")
-    .select("slug, published_at")
+    .select("slug, published_at, scheduled_at, status")
+    .or(`status.eq.published,and(status.eq.scheduled,scheduled_at.lte.${now})`)
     .order("published_at", { ascending: false });
+
 
   const SITE_URL = "https://weplayrecharge.shop";
   const today = new Date().toISOString().split('T')[0];
