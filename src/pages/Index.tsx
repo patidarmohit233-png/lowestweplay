@@ -158,7 +158,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
       </p>
       {subtitle.includes("Pick a coin bundle") && (
         <p className="sr-only">
-          beckend or frount end check kro superbase k sath because na hi payment id verify ho pari hai na hi admin pannel mai details ari h to check kr superbase se dikkat h ya tune hi kuch kia
+          bhai y chij iske lie to thik hogya but jo vercel p deployed h wo issue abhi bhi waha ara h to github p bhi update krde ye sb ya fir har jagah se sahi krde
         </p>
       )}
     </Reveal>);
