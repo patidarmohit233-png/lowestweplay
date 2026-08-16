@@ -5,10 +5,11 @@ import { User, LogOut, Receipt, Coins, Package, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fmt, tierMeta } from "@/lib/loyalty";
 
-type Buyer = { weplay_id: string; weplay_name: string };
+type VerifiedBuyer = { game: string; user_id: string; name: string };
 type Stats = { total_coins: number; bonus_coins: number; loyalty_tier: string; orders: number };
 
-export default function ProfileMenu({ buyer, onLogout }: { buyer: Buyer; onLogout: () => void }) {
+export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer; onLogout: () => void }) {
+
   const [open, setOpen] = useState(false);
   const [stats, setStats] = useState<Stats | null>(null);
   const ref = useRef<HTMLDivElement>(null);
