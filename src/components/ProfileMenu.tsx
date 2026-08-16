@@ -72,8 +72,9 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
                   <User size={17} />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-[14px] font-extrabold text-foreground truncate">{buyer.weplay_name}</p>
-                  <p className="text-[11px] font-semibold text-muted-foreground truncate">ID: {buyer.weplay_id}</p>
+                  <p className="text-[14px] font-extrabold text-foreground truncate">{buyer.name}</p>
+                  <p className="text-[11px] font-semibold text-muted-foreground truncate">{buyer.game} ID: {buyer.user_id}</p>
+
                 </div>
               </div>
               <span className={`mt-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[9.5px] font-extrabold uppercase tracking-[0.14em] ${tier.chip}`}>
