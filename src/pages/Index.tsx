@@ -22,7 +22,9 @@ import { z } from "zod";
 
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
+type Buyer = { weplay_id: string; weplay_name: string };
 const VERIFY_KEY = "lw_verified_buyer";
+
 
 const LOGO = "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png";
 
