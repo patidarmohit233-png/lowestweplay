@@ -2,25 +2,25 @@ import Seo, { SITE_URL } from "@/components/Seo";
 import ContentLayout, { PriceTable } from "@/components/ContentLayout";
 import { RECHARGES } from "@/data/products";
 
-const PATH = "/weplay-recharge";
+const PATH = "/lowestweplay-recharge";
 
 const WeplayRecharge = () => (
   <>
     <Seo
-      title="WePlay Recharge — Buy WePlay Coins Online in India"
-      description="Recharge your WePlay account with 10K to 500K coin packs from ₹479. Instant delivery, official top-up partner, secure UPI and card payments."
+      title="Lowest WePlay Recharge — Buy Lowest WePlay Coins Online in India"
+      description="Recharge your Lowest WePlay account with 10K to 500K coin packs from ₹479. Instant delivery, official top-up partner, secure UPI and card payments."
       path={PATH}
       jsonLd={[
         {
           "@context": "https://schema.org",
           "@type": "ItemList",
-          name: "WePlay recharge packs",
+          name: "Lowest WePlay recharge packs",
           itemListElement: RECHARGES.map((p, i) => ({
             "@type": "ListItem",
             position: i + 1,
             item: {
               "@type": "Product",
-              name: `WePlay ${p.name}`,
+              name: `Lowest WePlay ${p.name}`,
               description: p.desc,
               image: p.img,
               offers: {
@@ -38,15 +38,15 @@ const WeplayRecharge = () => (
           "@type": "BreadcrumbList",
           itemListElement: [
             { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-            { "@type": "ListItem", position: 2, name: "WePlay Recharge", item: `${SITE_URL}${PATH}` },
+            { "@type": "ListItem", position: 2, name: "Lowest WePlay Recharge", item: `${SITE_URL}${PATH}` },
           ],
         },
       ]}
     />
     <ContentLayout
       currentPath={PATH}
-      title="WePlay Recharge Packs"
-      intro="Recharge your WePlay account with gold coin packs starting at ₹479. Every pack is delivered straight to your WePlay ID — no password, no OTP, no waiting."
+      title="Lowest WePlay Recharge Packs"
+      intro="Recharge your Lowest WePlay account with gold coin packs starting at ₹479. Every pack is delivered straight to your Lowest WePlay ID — no password, no OTP, no waiting."
     >
       <section>
         <h2>Recharge prices</h2>
@@ -67,17 +67,17 @@ const WeplayRecharge = () => (
       <section>
         <h2>How the recharge works</h2>
         <ol>
-          <li>Verify your WePlay ID and in-game name in the panel on the homepage.</li>
+          <li>Verify your Lowest WePlay ID and in-game name in the panel on the homepage.</li>
           <li>Pick a recharge pack and pay through Razorpay (UPI, card, net banking or wallet).</li>
           <li>Coins are credited to your account, usually within a few minutes.</li>
         </ol>
-        <p>We never ask for your WePlay password or login OTP, so your account stays fully in your control.</p>
+        <p>We never ask for your Lowest WePlay password or login OTP, so your account stays fully in your control.</p>
       </section>
 
       <section>
         <h2>Why recharge with Lowest Weplay?</h2>
         <ul>
-          <li>Official WePlay top-up partner with 10,000+ completed orders.</li>
+          <li>Official Lowest WePlay top-up partner with 10,000+ completed orders.</li>
           <li>Lowest listed prices in India — up to 88% below in-game rates.</li>
           <li>Instant delivery with a full refund if coins do not arrive within 24 hours.</li>
           <li>24x7 live chat and email support at fluxfindindia@gmail.com.</li>

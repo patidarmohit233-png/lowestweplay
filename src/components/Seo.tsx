@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
-export const SITE_URL = "https://weplayrecharge.shop";
+export const SITE_URL = "https://lowestweplayrecharge.shop";
 
 type SeoProps = {
   title: string;
@@ -16,10 +16,10 @@ const Seo = ({ title, description, path, noindex, jsonLd }: SeoProps) => {
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "LowestWePlay",
+    "name": "Lowest WePlay",
     "url": SITE_URL,
     "logo": "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png",
-    "description": "India's most trusted WePlay top-up service, offering official WePlay coin recharges with instant delivery and 100% ID safety.",
+    "description": "India's most trusted Lowest WePlay top-up service, offering official Lowest WePlay coin recharges with instant delivery and 100% ID safety.",
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer support",
@@ -34,26 +34,26 @@ const Seo = ({ title, description, path, noindex, jsonLd }: SeoProps) => {
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Is WePlay Recharge safe at LowestWePlay?",
+        "name": "Is Lowest WePlay Recharge safe at Lowest WePlay?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, LowestWePlay is 100% ID safe. We only require your WePlay ID and Name. We never ask for your password, OTP, or any login credentials."
+          "text": "Yes, Lowest WePlay is 100% ID safe. We only require your Lowest WePlay ID and Name. We never ask for your password, OTP, or any login credentials."
         }
       },
       {
         "@type": "Question",
-        "name": "How long does WePlay top-up take?",
+        "name": "How long does Lowest WePlay top-up take?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Most WePlay recharges are processed instantly and credited within minutes. In rare cases, it might take up to 24 hours."
+          "text": "Most Lowest WePlay recharges are processed instantly and credited within minutes. In rare cases, it might take up to 24 hours."
         }
       },
       {
         "@type": "Question",
-        "name": "What are the payment options for WePlay recharge?",
+        "name": "What are the payment options for Lowest WePlay recharge?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "We support secure payments via UPI (PhonePe, GPay, Paytm) and Razorpay for all WePlay coin packs."
+          "text": "We support secure payments via UPI (PhonePe, GPay, Paytm) and Razorpay for all Lowest WePlay coin packs."
         }
       }
     ]

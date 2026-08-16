@@ -25,16 +25,16 @@ export const RECHARGES = PRODUCTS.filter((p) => !p.name.includes("RED PACKET"));
 
 export const FAQS = [
   {
-    q: "How long does a WePlay top-up take?",
+    q: "How long does a Lowest WePlay top-up take?",
     a: "Most orders are credited within a few minutes of payment confirmation. In rare cases it can take up to 24 hours — if it is not delivered inside 24 hours you are eligible for a full refund.",
   },
   {
-    q: "Is Lowest Weplay safe for my WePlay ID?",
-    a: "Yes. We only need your WePlay ID and in-game name. We never ask for your password, OTP or login credentials, so your account stays fully under your control.",
+    q: "Is Lowest Weplay safe for my Lowest WePlay ID?",
+    a: "Yes. We only need your Lowest WePlay ID and in-game name. We never ask for your password, OTP or login credentials, so your account stays fully under your control.",
   },
   {
     q: "What do I need to place an order?",
-    a: "Just your WePlay ID and your WePlay in-game name. Verify them in the panel on the homepage, then pick a package and pay.",
+    a: "Just your Lowest WePlay ID and your Lowest WePlay in-game name. Verify them in the panel on the homepage, then pick a package and pay.",
   },
   {
     q: "Which payment methods are supported?",
@@ -50,6 +50,6 @@ export const FAQS = [
   },
   {
     q: "Is Lowest Weplay legit?",
-    a: "We are an official WePlay top-up partner with 10,000+ completed orders, 24x7 live chat support and a published refund policy.",
+    a: "We are an official Lowest WePlay top-up partner with 10,000+ completed orders, 24x7 live chat support and a published refund policy.",
   },
 ];

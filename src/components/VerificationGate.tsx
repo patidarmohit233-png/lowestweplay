@@ -11,7 +11,7 @@ const LOGO = "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemi
 export type VerifiedBuyer = { game: string; user_id: string; name: string };
 
 const verifySchema = z.object({
-  game: z.literal("WePlay"),
+  game: z.literal("Lowest WePlay"),
   user_id: z.string().trim().min(3, "ID must be at least 3 characters").max(40, "Too long"),
   name: z.string().trim().min(2, "Name required"),
 });
@@ -20,7 +20,7 @@ const verifySchema = z.object({
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function VerificationGate({ onVerified }: { onVerified: (b: VerifiedBuyer) => void }) {
-  const [form, setForm] = useState<VerifiedBuyer>({ game: "WePlay", user_id: "", name: "" });
+  const [form, setForm] = useState<VerifiedBuyer>({ game: "Lowest WePlay", user_id: "", name: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
@@ -35,7 +35,7 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     }
     setErrors({});
     setLoading(true);
-    trackEvent('verification_started', { weplay_id: parsed.data.user_id });
+    trackEvent('verification_started', { lowestweplay_id: parsed.data.user_id });
 
     try {
       console.log("Saving buyer details...");
@@ -47,10 +47,10 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
 
       // Direct insert as primary method for external database
       const { error } = await supabase.from('customers').upsert({
-        weplay_id: parsed.data.user_id,
-        weplay_name: parsed.data.name,
+        lowestweplay_id: parsed.data.user_id,
+        lowestweplay_name: parsed.data.name,
         last_active: new Date().toISOString()
-      }, { onConflict: 'weplay_id' });
+      }, { onConflict: 'lowestweplay_id' });
 
       if (error) {
         console.warn("Database upsert failed, proceeding with local session:", error.message);
@@ -121,7 +121,7 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
                 <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-primary/10 text-primary">
                   <Gamepad2 size={17} />
                 </span>
-                <h1 className="text-[14.5px] md:text-base font-extrabold text-foreground">Enter WePlay Details</h1>
+                <h1 className="text-[14.5px] md:text-base font-extrabold text-foreground">Enter Lowest WePlay Details</h1>
               </div>
 
               <form onSubmit={submit} className="space-y-4 md:space-y-5">

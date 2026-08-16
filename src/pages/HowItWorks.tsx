@@ -10,7 +10,7 @@ const HowItWorks = () => {
   const steps = [
     {
       title: "Verify Your ID",
-      desc: "Enter your WePlay ID and Name in the verification panel. This ensures we send the coins to the correct player.",
+      desc: "Enter your Lowest WePlay ID and Name in the verification panel. This ensures we send the coins to the correct player.",
       icon: <UserCheck size={24} />,
       color: "bg-blue-500"
     },
@@ -43,14 +43,14 @@ const HowItWorks = () => {
   return (
     <>
       <Seo 
-        title="How It Works — Step by Step WePlay Recharge Guide" 
-        description="Learn how to recharge your WePlay account safely using LowestWePlay. Follow our 5-step guide to get your coins instantly."
+        title="How It Works — Step by Step Lowest WePlay Recharge Guide" 
+        description="Learn how to recharge your Lowest WePlay account safely using Lowest WePlay. Follow our 5-step guide to get your coins instantly."
         path={PATH}
       />
       <ContentLayout 
         currentPath={PATH}
         title="How It Works"
-        intro="Recharging your WePlay account has never been easier. Here is exactly what happens after you click 'Buy Now'."
+        intro="Recharging your Lowest WePlay account has never been easier. Here is exactly what happens after you click 'Buy Now'."
       >
         <div className="py-12 relative">
           {/* Vertical Line for Mobile */}
@@ -86,7 +86,7 @@ const HowItWorks = () => {
           <section className="mt-20 p-8 rounded-3xl bg-card border border-border shadow-elevated text-center space-y-4">
             <h2 className="text-2xl font-bold">Ready to start?</h2>
             <p className="text-muted-foreground max-w-lg mx-auto">
-              Join thousands of players who save money on every top-up. Experience the fastest WePlay recharge service in India.
+              Join thousands of players who save money on every top-up. Experience the fastest Lowest WePlay recharge service in India.
             </p>
             <div className="pt-4">
               <a 
