@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { useNoindex } from "@/hooks/use-noindex";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen } from "lucide-react";
+import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen, FileCode } from "lucide-react";
+import { generateSitemapXml } from "@/lib/sitemap-generator";
+
 
 
 type Order = {
@@ -122,7 +124,23 @@ export default function Admin() {
             <p className="text-xs text-muted-foreground mt-0.5">Private link · do not share</p>
           </div>
           <div className="flex items-center gap-2">
+            <button 
+              onClick={async () => {
+                const xml = await generateSitemapXml();
+                const blob = new Blob([xml], { type: 'text/xml' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'sitemap.xml';
+                a.click();
+                toast({ title: "Sitemap Generated", description: "Download started. Upload this to your public folder." });
+              }}
+              className="px-3 py-2 rounded-lg border border-border bg-card text-sm font-semibold inline-flex items-center gap-1.5 hover:border-primary/40"
+            >
+              <FileCode size={14} /> <span className="hidden md:inline">Export Sitemap</span>
+            </button>
             <button onClick={loadAll} disabled={refreshing}
+
               className="px-3 py-2 rounded-lg border border-border bg-card text-sm font-semibold inline-flex items-center gap-1.5 hover:border-primary/40 disabled:opacity-50">
               <RefreshCw size={14} className={refreshing ? "animate-spin" : ""} /> <span className="hidden md:inline">Refresh</span>
             </button>
