@@ -34,32 +34,42 @@ const PrivacyPolicy = () => (
       <div className="prose prose-sm max-w-none space-y-6 text-muted-foreground leading-relaxed">
         <p className="text-foreground font-medium">Last updated: March 2026</p>
 
-        <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">1. Information We Collect</h2>
-          <p>We collect information you provide directly to us, including your WePlay ID, in-game name, email address, and phone number when you make a purchase. We do not collect or store any passwords or sensitive login credentials for your gaming accounts.</p>
+        <section className="p-6 rounded-2xl bg-primary/5 border border-primary/10">
+          <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-primary" /> 1. Information We Collect
+          </h2>
+          <p>We collect information you provide directly to us, including your WePlay ID, in-game name, email address, and phone number when you make a purchase. <strong>We do not collect or store any passwords or sensitive login credentials</strong> for your gaming accounts.</p>
         </section>
 
-        <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">2. How We Use Your Information</h2>
+        <section className="p-6 rounded-2xl bg-card border border-border">
+          <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-primary" /> 2. How We Use Your Information
+          </h2>
           <p>Your information is used solely to process your coin top-up orders, deliver coins to your account, send payment confirmations, and provide customer support. We never sell or share your personal data with third parties for marketing purposes.</p>
         </section>
 
-        <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">3. Payment Security</h2>
-          <p>All payments are processed through Razorpay, a PCI-DSS compliant payment gateway. We do not store your card details, UPI information, or any financial data on our servers. All transactions are encrypted end-to-end.</p>
+        <section className="p-6 rounded-2xl bg-accent/5 border border-accent/10">
+          <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-accent" /> 3. Payment Security
+          </h2>
+          <p>All payments are processed through Razorpay, a PCI-DSS compliant payment gateway. <strong>We do not store your card details, UPI information, or any financial data</strong> on our servers. All transactions are encrypted end-to-end.</p>
         </section>
 
-        <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">4. Data Retention</h2>
+        <section className="p-6 rounded-2xl bg-card border border-border">
+          <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-primary" /> 4. Data Retention
+          </h2>
           <p>We retain your order information for the duration necessary to fulfill your purchase and provide after-sales support. You may request deletion of your data at any time by contacting us at fluxfindindia@gmail.com.</p>
         </section>
 
-        <section>
-          <h2 className="text-lg font-bold text-foreground mb-2">5. Cookies</h2>
+        <section className="p-6 rounded-2xl bg-primary/5 border border-primary/10">
+          <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-primary" /> 5. Cookies
+          </h2>
           <p>We use minimal cookies to improve your browsing experience and save your form preferences (if you opt in). No tracking cookies are used for advertising purposes.</p>
         </section>
 
-        <section>
+        <section className="p-6 rounded-2xl bg-card border border-border text-center">
           <h2 className="text-lg font-bold text-foreground mb-2">6. Contact Us</h2>
           <p>If you have questions about this Privacy Policy, contact us at <a href="mailto:fluxfindindia@gmail.com" className="text-primary font-medium hover:underline">fluxfindindia@gmail.com</a>. We are available 24x7 for your assistance.</p>
         </section>
