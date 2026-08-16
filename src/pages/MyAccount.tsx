@@ -136,7 +136,11 @@ export default function MyAccount() {
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
-      <Seo title="My Account — Lowest Weplay" description="Your Lowest Weplay account: lifetime coins, loyalty tier, milestone rewards and full order history." path="/my-account" />
+      <Seo 
+        title="My Account | Lowest Weplay — WePlay Recharge History" 
+        description="Access your Lowest Weplay account to track WePlay coin purchases, loyalty rewards, and milestone progress. View your WePlay top-up history instantly." 
+        path="/my-account" 
+      />
 
       <header className="border-b border-border/60 bg-card/70 backdrop-blur-xl sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
