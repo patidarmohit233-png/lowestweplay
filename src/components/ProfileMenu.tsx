@@ -21,8 +21,8 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
     let alive = true;
     (async () => {
       const [{ data: c }, { count }] = await Promise.all([
-        supabase.from("customers" as any).select("total_coins,bonus_coins,loyalty_tier").eq("lowestweplay_id", buyer.user_id).maybeSingle(),
-        supabase.from("orders" as any).select("id", { count: "exact", head: true }).eq("lowestweplay_id", buyer.user_id)
+        supabase.from("customers" as any).select("total_coins,bonus_coins,loyalty_tier").eq("weplay_id", buyer.user_id).maybeSingle(),
+        supabase.from("orders" as any).select("id", { count: "exact", head: true }).eq("weplay_id", buyer.user_id)
       ]);
       if (!alive) return;
       const userRow = c as any;
