@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   X, Zap, Copy, Check, Loader2, ArrowRight,
@@ -46,6 +46,7 @@ export default function PaymentModal({
 }: {product: Product | null;buyer: VerifiedBuyer;onClose: () => void;}) {
 
   const [method, setMethod] = useState<Method | null>(null);
+  const [quantity, setQuantity] = useState(1);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [orderCode, setOrderCode] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
@@ -69,8 +70,8 @@ export default function PaymentModal({
       order_id: Math.random().toString(36).substring(2, 10).toUpperCase(),
       user_id: buyer.user_id,
       game: "WePlay", // Hardcoded as per recent request
-      plan: product.name,
-      amount: product.price.toString(),
+      plan: `${product.name} (x${quantity})`,
+      amount: (product.price * quantity).toString(),
       status: "pending",
       upi_id: m === "upi" ? assignedUpi : null,
       transaction_id: null
@@ -207,7 +208,7 @@ export default function PaymentModal({
                 </h2>
                 <div className="mt-3 flex items-baseline gap-2.5">
                   <span className="text-[2.25rem] md:text-[2.75rem] font-price font-extrabold text-foreground leading-none tracking-tight">
-                    ₹{product.price}
+                    ₹{product.price * quantity}
                   </span>
                   <span className="text-muted-foreground text-[12.5px] font-semibold">Final amount</span>
                 </div>
@@ -232,6 +233,16 @@ export default function PaymentModal({
               <div className="min-w-0 text-right">
                 <p className="text-[9.5px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">Order ID</p>
                 <p className="text-[13.5px] font-extrabold text-primary truncate mt-0.5">{orderCode ? `#${orderCode}` : "—"}</p>
+              </div>
+            </div>
+
+            {/* QUANTITY PICKER */}
+            <div className="mt-5 rounded-2xl border border-border bg-secondary/50 p-4 flex items-center justify-between">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-muted-foreground">Select Quantity</span>
+              <div className="flex items-center gap-3">
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-8 h-8 rounded-full bg-background border flex items-center justify-center font-bold">-</button>
+                <span className="font-extrabold text-lg">{quantity}</span>
+                <button onClick={() => setQuantity(quantity + 1)} className="w-8 h-8 rounded-full bg-background border flex items-center justify-center font-bold">+</button>
               </div>
             </div>
 
