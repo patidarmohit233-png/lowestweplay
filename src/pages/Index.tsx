@@ -552,8 +552,38 @@ const Index = () => {
       </AnimatePresence>
     )}
 
+    <header className="fixed top-[44px] md:top-[56px] left-0 right-0 z-50 px-4 md:px-6 pointer-events-none">
+      <div className="max-w-7xl mx-auto flex items-center justify-between pointer-events-auto">
+        <div className="flex-1 flex items-center gap-4">
+          <Link to="/weplay-recharge-topup" className="hidden md:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
+            <ArrowLeftRight size={13} className="text-primary" /> Buy & Sell ID
+          </Link>
+          <Link to="/trust-safety" className="hidden md:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
+            <ShieldCheck size={13} className="text-primary" /> Trust & Safety
+          </Link>
+        </div>
+        
+        <div className="flex-shrink-0">
+          <Link to="/" className="block active:scale-[0.96] transition-transform">
+            <img src={LOGO} alt="Lowest Weplay" className="h-[48px] md:h-[64px] w-auto drop-shadow-sm" />
+          </Link>
+        </div>
+        
+        <div className="flex-1 flex justify-end">
+          {buyer ? (
+            <ProfileMenu buyer={buyer} onLogout={() => persistBuyer(null)} />
+          ) : (
+            <button onClick={scrollToVerify} className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-primary text-primary-foreground text-[11px] font-extrabold uppercase tracking-widest shadow-primary active:scale-[0.96] transition-transform">
+              <UserCheck size={14} /> Login
+            </button>
+          )}
+        </div>
+      </div>
+    </header>
+
     <div
       aria-hidden={!buyer ? true : undefined}
+
       className={`min-h-screen bg-background text-foreground antialiased overflow-x-hidden transition-[filter,opacity] duration-500 ${showSplash ? "hidden" : ""} ${!buyer ? "blur-[7px] scale-[1.01] opacity-95 pointer-events-none select-none max-h-screen overflow-hidden" : ""}`}>
       {/* scroll progress */}
       <motion.div
