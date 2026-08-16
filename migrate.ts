@@ -21,23 +21,24 @@ async function migrate() {
   if (cErr) {
     console.error("Error fetching customers:", cErr);
   } else if (customers) {
-    console.log(`Found ${customers.length} customers. Processing in chunks...`);
-    const chunks = [];
-    for (let i = 0; i < customers.length; i += 20) {
-      chunks.push(customers.slice(i, i + 20));
-    }
-    for (const chunk of chunks) {
-      const inserts = chunk.map(c => ({
+    console.log(`Found ${customers.length} customers. Processing sequentially...`);
+    for (const c of customers) {
+      const { error: insErr } = await newClient.from('users').insert({
         game: 'WePlay',
         user_id: c.weplay_id,
         name: c.weplay_name || 'Unknown',
         created_at: c.created_at,
         last_active: c.last_active
-      }));
-      const { error: insErr } = await newClient.from('users').upsert(inserts, { onConflict: 'user_id, game' });
-      if (insErr) console.error(`Error inserting customer chunk:`, insErr.message);
-      else console.log(`Migrated chunk of ${inserts.length} customers.`);
+      });
+      if (insErr) {
+        if (insErr.code === '23505') {
+          // Ignore duplicates
+        } else {
+           console.error(`Error inserting customer ${c.weplay_id}:`, insErr.message);
+        }
+      }
     }
+    console.log("Customer migration done.");
   }
 
   // 2. Orders -> Orders
@@ -46,13 +47,9 @@ async function migrate() {
   if (oErr) {
     console.error("Error fetching orders:", oErr);
   } else if (orders) {
-    console.log(`Found ${orders.length} orders. Processing in chunks...`);
-    const chunks = [];
-    for (let i = 0; i < orders.length; i += 20) {
-      chunks.push(orders.slice(i, i + 20));
-    }
-    for (const chunk of chunks) {
-      const inserts = chunk.map(o => ({
+    console.log(`Found ${orders.length} orders. Processing sequentially...`);
+    for (const o of orders) {
+      const { error: insErr } = await newClient.from('orders').insert({
         order_id: o.order_code,
         game: 'WePlay',
         user_id: o.weplay_id,
@@ -61,11 +58,16 @@ async function migrate() {
         status: o.status || 'pending',
         transaction_id: o.transaction_id,
         created_at: o.created_at
-      }));
-      const { error: insErr } = await newClient.from('orders').upsert(inserts, { onConflict: 'order_id' });
-      if (insErr) console.error(`Error inserting order chunk:`, insErr.message);
-      else console.log(`Migrated chunk of ${inserts.length} orders.`);
+      });
+      if (insErr) {
+        if (insErr.code === '23505') {
+          // Ignore duplicates
+        } else {
+          console.error(`Error inserting order ${o.order_code}:`, insErr.message);
+        }
+      }
     }
+    console.log("Order migration done.");
   }
 
   console.log("Migration complete.");
