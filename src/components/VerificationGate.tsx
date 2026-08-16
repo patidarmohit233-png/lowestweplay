@@ -10,25 +10,11 @@ const LOGO = "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemi
 export type VerifiedBuyer = { game: string; user_id: string; name: string };
 
 const verifySchema = z.object({
-  game: z.string().min(1, "Select a game"),
+  game: z.literal("WePlay"),
   user_id: z.string().trim().min(3, "ID must be at least 3 characters").max(40, "Too long"),
-  name: z.string().trim().optional(),
-}).refine((data) => {
-  if (['WePlay', 'Jackaroo'].includes(data.game)) {
-    return data.name && data.name.trim().length >= 2;
-  }
-  return true;
-}, {
-  message: "Name required for this game",
-  path: ["name"],
+  name: z.string().trim().min(2, "Name required"),
 });
 
-const GAMES = [
-  { id: 'WePlay', name: 'WePlay', icon: '🎮', needsName: true },
-  { id: 'Jackaroo', name: 'Jackaroo', icon: '🃏', needsName: true },
-  { id: 'BGMI', name: 'BGMI', icon: '🔫', needsName: false },
-  { id: 'Free Fire', name: 'Free Fire', icon: '🔥', needsName: false },
-];
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -88,7 +74,7 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
   const field =
     "w-full px-4 py-3.5 rounded-2xl border bg-secondary/50 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all";
 
-  const currentGame = GAMES.find(g => g.id === form.game);
+  
 
   return (
     <motion.main
@@ -128,27 +114,11 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
                 <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-primary/10 text-primary">
                   <Gamepad2 size={17} />
                 </span>
-                <h1 className="text-[14.5px] md:text-base font-extrabold text-foreground">Select Game & Enter Details</h1>
+                <h1 className="text-[14.5px] md:text-base font-extrabold text-foreground">Enter WePlay Details</h1>
               </div>
 
               <form onSubmit={submit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-2">
-                  {GAMES.map((g) => (
-                    <button
-                      key={g.id}
-                      type="button"
-                      onClick={() => setForm({ ...form, game: g.id })}
-                      className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-[11px] font-bold transition-all ${
-                        form.game === g.id
-                          ? "bg-primary border-primary text-primary-foreground shadow-md"
-                          : "bg-card/50 border-border text-muted-foreground hover:border-primary/50"
-                      }`}
-                    >
-                      <span>{g.icon}</span>
-                      {g.name}
-                    </button>
-                  ))}
-                </div>
+
 
                 <label className="block">
                   <span className="text-[10.5px] font-extrabold uppercase tracking-[0.16em] text-muted-foreground">{form.game} ID</span>
@@ -165,21 +135,20 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
                   {errors.user_id && <span className="text-[11px] text-destructive mt-1 block">{errors.user_id}</span>}
                 </label>
 
-                {currentGame?.needsName && (
-                  <label className="block">
-                    <span className="text-[10.5px] font-extrabold uppercase tracking-[0.16em] text-muted-foreground">Character Name</span>
-                    <div className="relative mt-1.5">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/60" size={16} />
-                      <input
-                        value={form.name}
-                        onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        placeholder="Enter your character name"
-                        className={`${field} pl-11 ${errors.name ? "border-destructive" : "border-border"}`}
-                      />
-                    </div>
-                    {errors.name && <span className="text-[11px] text-destructive mt-1 block">{errors.name}</span>}
-                  </label>
-                )}
+                <label className="block">
+                  <span className="text-[10.5px] font-extrabold uppercase tracking-[0.16em] text-muted-foreground">Character Name</span>
+                  <div className="relative mt-1.5">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/60" size={16} />
+                    <input
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      placeholder="Enter your character name"
+                      className={`${field} pl-11 ${errors.name ? "border-destructive" : "border-border"}`}
+                    />
+                  </div>
+                  {errors.name && <span className="text-[11px] text-destructive mt-1 block">{errors.name}</span>}
+                </label>
+
 
                 <motion.button
                   type="submit"

@@ -88,14 +88,16 @@ export default function Admin() {
   const filteredOrders = useMemo(() => {
     const q = query.trim().toLowerCase();
     return orders.filter((o) =>
-    (statusFilter === "all" || o.status === statusFilter) && (
-    !q || o.user_id.toLowerCase().includes(q) || o.order_id?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
+      o.game === "WePlay" &&
+      (statusFilter === "all" || o.status === statusFilter) && (
+      !q || o.user_id.toLowerCase().includes(q) || o.order_id?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
     );
+
   }, [orders, statusFilter, query]);
 
   const filteredCustomers = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return customers.filter((c) => !q || c.user_id.toLowerCase().includes(q) || c.name.toLowerCase().includes(q));
+    return customers.filter((c) => c.game === "WePlay" && (!q || c.user_id.toLowerCase().includes(q) || c.name.toLowerCase().includes(q)));
   }, [customers, query]);
 
   const revenue = orders.filter((o) => o.status === "completed").reduce((s, o) => s + Number(o.amount || 0), 0);
@@ -172,7 +174,6 @@ export default function Admin() {
                     <th className="text-left px-4 py-3">Order ID</th>
                     <th className="text-left px-4 py-3">Date</th>
                     <th className="text-left px-4 py-3">User ID</th>
-                    <th className="text-left px-4 py-3">Game</th>
                     <th className="text-left px-4 py-3">Plan</th>
                     <th className="text-right px-4 py-3">Amount</th>
                     <th className="text-left px-4 py-3">Paid To (UPI)</th>
@@ -192,7 +193,7 @@ export default function Admin() {
                       <td className="px-4 py-3">
                         <div className="font-semibold">{o.user_id}</div>
                       </td>
-                      <td className="px-4 py-3 font-bold">{o.game}</td>
+                      
                       <td className="px-4 py-3 whitespace-nowrap">{o.plan}</td>
                       <td className="px-4 py-3 text-right font-bold">₹{o.amount}</td>
                       <td className="px-4 py-3 max-w-[190px]">
@@ -219,7 +220,7 @@ export default function Admin() {
             <table className="w-full text-sm">
                 <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
                   <tr>
-                    <th className="text-left px-4 py-3">Game</th>
+                    
                     <th className="text-left px-4 py-3">User ID</th>
                     <th className="text-left px-4 py-3">Name</th>
                     <th className="text-left px-4 py-3">Verified on</th>
@@ -234,7 +235,7 @@ export default function Admin() {
                 }
                   {filteredCustomers.map((c) =>
                 <tr key={c.id} className="border-t border-border/60 hover:bg-secondary/40">
-                      <td className="px-4 py-3 font-bold">{c.game}</td>
+                      
                       <td className="px-4 py-3 font-semibold">{c.user_id}</td>
                       <td className="px-4 py-3">{c.name}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>

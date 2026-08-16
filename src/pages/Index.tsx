@@ -283,21 +283,15 @@ function DailyCountdownBar() {
 
 /* ── Verification Panel ───────────────────────────────── */
 const verifySchema = z.object({
-  game: z.string().min(1, "Select a game"),
+  game: z.literal("WePlay"),
   user_id: z.string().trim().min(3, "ID must be at least 3 characters").max(40, "Too long"),
-  name: z.string().trim().optional(),
-}).refine((data) => {
-  if (['WePlay', 'Jackaroo'].includes(data.game)) {
-    return data.name && data.name.trim().length >= 2;
-  }
-  return true;
-}, {
-  message: "Name required for this game",
-  path: ["name"],
+  name: z.string().trim().min(2, "Name required"),
 });
+
 
 function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null; onVerified: (b: VerifiedBuyer | null) => void }) {
   const [form, setForm] = useState<VerifiedBuyer>(buyer ?? { game: "WePlay", user_id: "", name: "" });
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [editing, setEditing] = useState(!buyer);
 
@@ -346,7 +340,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                 <div className="flex-1 min-w-0">
                   <div className="text-[9.5px] md:text-[11px] font-extrabold uppercase tracking-[0.2em] text-muted-foreground">Step 1 · Player Verification</div>
                   <h3 className="text-[15px] md:text-2xl font-display leading-tight text-foreground mt-0.5">
-                    {buyer && !editing ? "You're verified — ready to top-up" : "Verify before top-up"}
+                    {buyer && !editing ? "You're verified — ready to top-up" : "Verify WePlay details"}
                   </h3>
                 </div>
                 {buyer && !editing &&
