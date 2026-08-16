@@ -27,10 +27,10 @@ const VERIFY_KEY = "lw_verified_buyer";
 
 const LOGO = "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png";
 
-const PRODUCT_BADGES: Record<number, { text: string; icon: React.ReactNode; color: "primary" | "accent" }> = {
-  1: { text: "STARTER", icon: <Zap size={11} />, color: "primary" },
+const PRODUCT_BADGES: Record<number, { text: string; icon: React.ReactNode; color: "primary" | "accent" | "warning" }> = {
+  1: { text: "LESS RECOMMENDED", icon: <ShieldCheck size={11} />, color: "warning" },
   2: { text: "BEST SELLER", icon: <Flame size={11} />, color: "accent" },
-  3: { text: "POPULAR", icon: <Star size={11} />, color: "primary" },
+  3: { text: "LESS RECOMMENDED", icon: <ShieldCheck size={11} />, color: "warning" },
   4: { text: "HOT DEAL", icon: <Flame size={11} />, color: "accent" },
   5: { text: "MOST VALUE", icon: <Sparkles size={11} />, color: "primary" },
   6: { text: "TOP CHOICE", icon: <Crown size={11} />, color: "accent" },
@@ -239,6 +239,8 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
         <span className={`absolute top-2 left-2 inline-flex items-center gap-1 px-2 py-[3px] md:px-2.5 md:py-1 rounded-full text-[7.5px] md:text-[9.5px] font-extrabold uppercase tracking-[0.12em] backdrop-blur-md border ${
         badge.color === "accent" ?
         "bg-accent/90 text-accent-foreground border-accent/40" :
+        badge.color === "warning" ?
+        "bg-amber-500/90 text-white border-amber-400/40" :
         "bg-primary/90 text-primary-foreground border-primary/40"}`}>
             <span className="hidden md:inline-flex">{badge.icon}</span>{badge.text}
           </span>
