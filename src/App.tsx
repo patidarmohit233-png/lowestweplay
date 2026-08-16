@@ -19,7 +19,10 @@ import Faq from "./pages/Faq.tsx";
 import TrackOrder from "./pages/TrackOrder.tsx";
 import MyAccount from "./pages/MyAccount.tsx";
 import TrustSafety from "./pages/TrustSafety.tsx";
+import BlogList from "./pages/BlogList.tsx";
+import BlogPost from "./pages/BlogPost.tsx";
 import NotFound from "./pages/NotFound.tsx";
+
 
 
 const queryClient = new QueryClient();
@@ -37,6 +40,8 @@ const App = () => (
           <Route path="/admin-lowest" element={<Admin />} />
           <Route path="/track-order" element={<TrackOrder />} />
           <Route path="/my-account" element={<MyAccount />} />
+          <Route path="/blog" element={<BlogList />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
 
           <Route path="/weplay-recharge" element={<WeplayRecharge />} />
           <Route path="/weplay-recharge-topup" element={<WeplayTopupLanding />} />
@@ -51,6 +56,7 @@ const App = () => (
           <Route path="/trust-safety" element={<TrustSafety />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
+
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
