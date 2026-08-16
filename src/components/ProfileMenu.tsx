@@ -78,7 +78,7 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -8, scale: 0.96 }}
           transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute right-0 mt-3 w-[19rem] max-w-[calc(100vw-1.5rem)] rounded-[1.5rem] border border-border/70 bg-card/80 backdrop-blur-2xl shadow-elevated overflow-hidden">
+          className="absolute right-[-0.5rem] md:right-0 top-[calc(100%+0.75rem)] w-[18rem] max-w-[calc(100vw-1.5rem)] rounded-[1.5rem] border border-border/70 bg-card/80 backdrop-blur-2xl shadow-elevated overflow-hidden origin-top-right">
 
             <div className="px-4 py-4 bg-gradient-to-br from-primary/12 via-primary/[0.05] to-transparent border-b border-border/60">
               <div className="flex items-center gap-3">

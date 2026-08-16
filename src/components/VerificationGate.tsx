@@ -87,16 +87,16 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
         initial={{ opacity: 0, y: 30, scale: 0.95, filter: "blur(10px)" }}
         animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full max-w-[30rem]"
+        className="relative z-10 w-full max-w-[28rem] px-2"
       >
 
         <div
-          className="rounded-[2rem] p-[1.5px] shadow-elevated"
+          className="rounded-[1.8rem] md:rounded-[2rem] p-[1.5px] shadow-elevated"
           style={{ background: "linear-gradient(135deg, hsl(var(--primary)/0.5), hsl(var(--primary-glow)/0.25), hsl(var(--accent)/0.3))" }}
         >
-          <div className="rounded-[1.9rem] bg-card/90 backdrop-blur-2xl p-6 md:p-8">
+          <div className="rounded-[1.7rem] md:rounded-[1.9rem] bg-card/90 backdrop-blur-2xl p-5 md:p-8">
             <div className="text-center">
-              <img src={LOGO} alt="Lowest Weplay" className="mx-auto w-[210px] md:w-[240px] h-auto object-contain" />
+              <img src={LOGO} alt="Lowest Weplay" className="mx-auto w-[180px] md:w-[240px] h-auto object-contain" />
               <p className="mt-2 text-[12px] md:text-[14px] font-semibold text-muted-foreground uppercase tracking-widest">Premium Gaming Top-Up</p>
               <span className="mt-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/15 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-primary">
                 <Sparkles size={11} /> Verify to continue
@@ -111,36 +111,36 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
                 <h1 className="text-[14.5px] md:text-base font-extrabold text-foreground">Enter WePlay Details</h1>
               </div>
 
-              <form onSubmit={submit} className="space-y-4">
+              <form onSubmit={submit} className="space-y-4 md:space-y-5">
 
 
                 <label className="block">
-                  <span className="text-[10.5px] font-extrabold uppercase tracking-[0.16em] text-muted-foreground">{form.game} ID</span>
+                  <span className="text-[10px] md:text-[10.5px] font-extrabold uppercase tracking-[0.16em] text-muted-foreground">{form.game} ID</span>
                   <div className="relative mt-1.5">
-                    <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/60" size={16} />
+                    <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/60" size={15} />
                     <input
                       autoFocus
                       value={form.user_id}
                       onChange={(e) => setForm({ ...form, user_id: e.target.value })}
                       placeholder={`Enter your ${form.game} ID`}
-                      className={`${field} pl-11 ${errors.user_id ? "border-destructive" : "border-border"}`}
+                      className={`${field} pl-10 md:pl-11 py-3 md:py-3.5 text-sm md:text-base ${errors.user_id ? "border-destructive" : "border-border"}`}
                     />
                   </div>
-                  {errors.user_id && <span className="text-[11px] text-destructive mt-1 block">{errors.user_id}</span>}
+                  {errors.user_id && <span className="text-[10px] text-destructive mt-1 block">{errors.user_id}</span>}
                 </label>
 
                 <label className="block">
-                  <span className="text-[10.5px] font-extrabold uppercase tracking-[0.16em] text-muted-foreground">Character Name</span>
+                  <span className="text-[10px] md:text-[10.5px] font-extrabold uppercase tracking-[0.16em] text-muted-foreground">Character Name</span>
                   <div className="relative mt-1.5">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/60" size={16} />
+                    <User className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/60" size={15} />
                     <input
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="Enter your character name"
-                      className={`${field} pl-11 ${errors.name ? "border-destructive" : "border-border"}`}
+                      className={`${field} pl-10 md:pl-11 py-3 md:py-3.5 text-sm md:text-base ${errors.name ? "border-destructive" : "border-border"}`}
                     />
                   </div>
-                  {errors.name && <span className="text-[11px] text-destructive mt-1 block">{errors.name}</span>}
+                  {errors.name && <span className="text-[10px] text-destructive mt-1 block">{errors.name}</span>}
                 </label>
 
 

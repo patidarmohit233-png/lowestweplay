@@ -415,11 +415,11 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
     <section id="verify" className="px-4 md:px-6 pt-10 md:pt-16 relative z-10 scroll-mt-40">
       <div className="max-w-3xl mx-auto">
         <Reveal>
-          <div className="relative rounded-[1.5rem] md:rounded-[2rem] p-[1.5px] overflow-hidden"
+          <div className="relative rounded-[1.8rem] md:rounded-[2rem] p-[1.5px] overflow-hidden"
             style={{ background: "linear-gradient(135deg, hsl(var(--primary)/0.55), hsl(var(--primary-glow)/0.25), hsl(var(--accent)/0.35))" }}>
-            <div className="relative rounded-[1.4rem] md:rounded-[1.9rem] bg-card p-4 md:p-7 overflow-hidden shadow-elevated">
+            <div className="relative rounded-[1.7rem] md:rounded-[1.9rem] bg-card p-4 md:p-7 overflow-hidden shadow-elevated">
               <div className="absolute -top-24 -right-16 w-52 h-52 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
-
+ 
               <div className="relative flex items-center gap-3 mb-4 md:mb-5">
                 <span className={`inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-2xl ${buyer && !editing ? "bg-accent/12 text-accent" : "bg-primary/10 text-primary"}`}>
                   {buyer && !editing ? <CheckCircle2 size={20} /> : <UserCheck size={20} />}
@@ -462,8 +462,8 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                 </div> :
 
 
-              <form onSubmit={submit} className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2.5 md:gap-3">
-                  <label className="block">
+              <form onSubmit={submit} className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-3 md:gap-3">
+                  <label className="block w-full">
                     <span className="sr-only">Player ID</span>
                     <input
                     value={form.user_id}
@@ -472,7 +472,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                     className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.user_id ? "border-destructive" : "border-border"}`} />
                     {errors.user_id && <span className="text-[11px] text-destructive mt-1 block">{errors.user_id}</span>}
                   </label>
-                  <label className="block">
+                  <label className="block w-full">
                     <span className="sr-only">Name</span>
                     <input
                     value={form.name}
@@ -630,25 +630,27 @@ const Index = () => {
       </AnimatePresence>
     )}
 
-    <header className="fixed top-[40px] left-0 right-0 z-[70] px-4 md:px-6 pointer-events-none transition-all duration-300">
+    <DailyCountdownBar />
+
+    <header className="fixed top-[40px] left-0 right-0 z-[70] px-3 md:px-6 pointer-events-none transition-all duration-300">
       <div className="absolute inset-0 bg-background/95 backdrop-blur-3xl border-b border-border/70 pointer-events-none shadow-sm" />
-      <div className="relative max-w-7xl mx-auto flex items-center justify-between pointer-events-auto h-[60px] md:h-[72px]">
-        <div className="flex-1 flex items-center gap-4">
-          <Link to="/weplay-recharge-topup" className="hidden md:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
+      <div className="relative max-w-7xl mx-auto flex items-center justify-between pointer-events-auto h-[64px] md:h-[72px]">
+        <div className="flex-1 hidden md:flex items-center gap-4">
+          <Link to="/weplay-recharge-topup" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
             <ArrowLeftRight size={13} className="text-primary" /> Buy & Sell ID
           </Link>
-          <Link to="/trust-safety" className="hidden md:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
+          <Link to="/trust-safety" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
             <ShieldCheck size={13} className="text-primary" /> Trust & Safety
           </Link>
         </div>
         
-        <div className="flex-shrink-0 px-2">
-          <Link to="/" className="block active:scale-[0.96] transition-transform">
-            <img src={LOGO} alt="Lowest Weplay" className="h-[56px] md:h-[72px] w-auto drop-shadow-sm" />
+        <div className="flex-shrink-0">
+          <Link to="/" className="block active:scale-[0.96] transition-transform py-1">
+            <img src={LOGO} alt="Lowest Weplay" className="h-[48px] md:h-[64px] w-auto drop-shadow-sm" />
           </Link>
         </div>
         
-        <div className="flex-1 flex justify-end items-center">
+        <div className="flex-1 flex justify-end items-center gap-3">
           {buyer ? (
             <ProfileMenu buyer={buyer} onLogout={() => {
               persistBuyer(null);
@@ -659,7 +661,7 @@ const Index = () => {
               onClick={scrollToVerify} 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-primary text-primary-foreground text-[11px] font-extrabold uppercase tracking-widest shadow-primary active:scale-[0.96] transition-transform whitespace-nowrap">
+              className="flex items-center gap-1.5 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-primary text-primary-foreground text-[10px] md:text-[11px] font-extrabold uppercase tracking-widest shadow-primary active:scale-[0.96] transition-transform whitespace-nowrap">
               <UserCheck size={16} /> Login
             </motion.button>
 
@@ -668,7 +670,7 @@ const Index = () => {
       </div>
     </header>
     
-    <div className="h-[100px] md:h-[112px]" />
+    <div className="h-[104px] md:h-[112px]" />
 
     <div
       aria-hidden={!buyer ? true : undefined}
