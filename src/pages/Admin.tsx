@@ -40,9 +40,9 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState<Order[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
+  const [analytics, setAnalytics] = useState<any[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [tab, setTab] = useState<"orders" | "customers" | "analytics">("orders");
-  const [analytics, setAnalytics] = useState<any[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [query, setQuery] = useState("");
 
@@ -195,10 +195,10 @@ export default function Admin() {
                       <td className="px-4 py-3 text-muted-foreground max-w-[160px] truncate">{o.transaction_id || "—"}</td>
                       <td className="px-4 py-3">
                         <select
-                      value={o.status}
-                      onChange={(e) => changeStatus(o.id, e.target.value)}
-                      aria-label={`Status for order ${o.order_id}`}
-                      className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
+                       value={o.status}
+                       onChange={(e) => changeStatus(o.id, e.target.value)}
+                       aria-label={`Status for order ${o.order_id}`}
+                       className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
                           {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                         </select>
                       </td>
@@ -206,7 +206,30 @@ export default function Admin() {
                 )}
                 </tbody>
               </table> :
-
+            tab === "analytics" ?
+            <div className="p-4 overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
+                  <tr>
+                    <th className="text-left px-4 py-3">Event</th>
+                    <th className="text-left px-4 py-3">WePlay ID</th>
+                    <th className="text-left px-4 py-3">Metadata</th>
+                    <th className="text-left px-4 py-3">Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {analytics.length === 0 && <tr><td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">No events recorded.</td></tr>}
+                  {analytics.map((e, idx) => (
+                    <tr key={idx} className="border-t border-border/60 hover:bg-secondary/40">
+                      <td className="px-4 py-3"><span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">{e.event_name}</span></td>
+                      <td className="px-4 py-3 font-semibold">{e.weplay_id || '—'}</td>
+                      <td className="px-4 py-3 text-[11px] text-muted-foreground max-w-[300px] truncate">{JSON.stringify(e.metadata)}</td>
+                      <td className="px-4 py-3 text-muted-foreground">{new Date(e.created_at).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div> :
             <table className="w-full text-sm">
                 <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
                   <tr>

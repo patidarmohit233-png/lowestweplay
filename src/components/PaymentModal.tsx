@@ -118,7 +118,7 @@ export default function PaymentModal({
       return;
     }
     setDone(true);
-    trackEvent('payment_verified', { method: method, order_id: id, order_code: row?.order_id });
+    trackEvent('payment_verified', { method: method, order_id: id, order_code: orderCode });
     toast({ title: "Payment submitted ✓", description: "We're verifying it — track status with your WePlay ID." });
   };
 
