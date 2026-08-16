@@ -73,9 +73,10 @@ export default function PaymentModal({
       product_id: String(product.id),
       product_name: String(product.name),
       price: product.price * quantity,
+      coins_amount: product.coinsAmount * quantity,
       payment_method: m,
       upi_id: m === "upi" ? assignedUpi : ""
-    } as any).select().single();
+    }).select().single();
     
     setCreating(false);
     if (error || !data) {
@@ -121,7 +122,7 @@ export default function PaymentModal({
     // Using a more robust update that avoids specific column cache issues if they persist
     const { error } = await supabase
       .from("orders")
-      .update({ transaction_id: value } as any)
+      .update({ transaction_id: value })
       .eq("id", id);
       
     setVerifying(false);
