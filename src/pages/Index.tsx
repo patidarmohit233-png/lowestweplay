@@ -281,12 +281,21 @@ function DailyCountdownBar() {
 
 /* ── Verification Panel ───────────────────────────────── */
 const verifySchema = z.object({
-  weplay_id: z.string().trim().min(3, "WePlay ID must be at least 3 characters").max(40, "Too long"),
-  weplay_name: z.string().trim().min(2, "Name required").max(60, "Too long")
+  game: z.string().min(1, "Select a game"),
+  user_id: z.string().trim().min(3, "ID must be at least 3 characters").max(40, "Too long"),
+  name: z.string().trim().optional(),
+}).refine((data) => {
+  if (['WePlay', 'Jackaroo'].includes(data.game)) {
+    return data.name && data.name.trim().length >= 2;
+  }
+  return true;
+}, {
+  message: "Name required for this game",
+  path: ["name"],
 });
 
 function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null; onVerified: (b: VerifiedBuyer | null) => void }) {
-  const [form, setForm] = useState<VerifiedBuyer>({ weplay_id: buyer?.weplay_id ?? "", weplay_name: buyer?.weplay_name ?? "" });
+  const [form, setForm] = useState<VerifiedBuyer>(buyer ?? { game: "WePlay", user_id: "", name: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [editing, setEditing] = useState(!buyer);
 
@@ -295,25 +304,25 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
     const parsed = verifySchema.safeParse(form);
     if (!parsed.success) {
       const flat: Record<string, string> = {};
-      parsed.error.issues.forEach((i) => flat[i.path[0] as string] = i.message);
+      parsed.error.issues.forEach((i) => (flat[i.path[0] as string] = i.message));
       setErrors(flat);
       return;
     }
     setErrors({});
-    const { error } = await supabase.from("users").upsert({
-      game: parsed.data.game,
-      user_id: parsed.data.weplay_id,
-      name: parsed.data.weplay_name,
+    const { error } = await supabase.from("customers").upsert({
+      weplay_id: parsed.data.user_id,
+      weplay_name: parsed.data.name || parsed.data.user_id,
       last_active: new Date().toISOString()
     });
     if (error) {
       toast({ title: "Verification failed", description: error.message, variant: "destructive" });
       return;
     }
-    onVerified(parsed.data as VerifiedBuyer);
+    onVerified(form);
     setEditing(false);
-    toast({ title: "Verified ✓", description: "Your WePlay ID is now your customer ID." });
+    toast({ title: "Verified ✓", description: `Your ${form.game} ID is now your customer ID.` });
   };
+
 
 
   return (
