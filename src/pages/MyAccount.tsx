@@ -34,6 +34,7 @@ type OrderRow = {
   order_code: string;
   plan: string;
   price: number;
+  amount?: string;
   status: string;
   transaction_id: string | null;
   created_at: string;
@@ -277,7 +278,7 @@ export default function MyAccount() {
 
             <div className="space-y-3">
                   {orders.map((o, i) =>
-              <motion.div key={o.order_id}
+              <motion.div key={o.order_code || o.id}
                 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 8) * 0.04 }}
                 className="card-premium rounded-2xl p-4 md:p-5">
                       <div className="flex items-start justify-between gap-3">
