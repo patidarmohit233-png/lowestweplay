@@ -385,7 +385,7 @@ export default function Admin() {
                     {analytics.map((e, idx) => (
                       <tr key={idx} className="border-t border-border/60 hover:bg-secondary/40">
                         <td className="px-4 py-3"><span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">{e.event_name}</span></td>
-                        <td className="px-4 py-3 font-semibold">{e.lowestweplay_id || '—'}</td>
+                        <td className="px-4 py-3 font-semibold">{e.weplay_id || e.lowestweplay_id || '—'}</td>
                         <td className="px-4 py-3 text-[11px] text-muted-foreground max-w-[300px] truncate">{JSON.stringify(e.metadata)}</td>
                         <td className="px-4 py-3 text-muted-foreground">{new Date(e.created_at).toLocaleString()}</td>
                       </tr>
@@ -410,12 +410,12 @@ export default function Admin() {
                       <tr><td colSpan={5} className="px-4 py-10 text-center text-muted-foreground">No verified users found.</td></tr>
                     }
                     {filteredCustomers.map((c) =>
-                      <tr key={c.lowestweplay_id} className="border-t border-border/60 hover:bg-secondary/40">
-                        <td className="px-4 py-3 font-semibold">{c.lowestweplay_id}</td>
-                        <td className="px-4 py-3">{c.name}</td>
+                      <tr key={c.weplay_id || c.lowestweplay_id} className="border-t border-border/60 hover:bg-secondary/40">
+                        <td className="px-4 py-3 font-semibold">{c.weplay_id || c.lowestweplay_id}</td>
+                        <td className="px-4 py-3">{c.weplay_name || c.name}</td>
                         <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
                         <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.last_active).toLocaleString()}</td>
-                        <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.lowestweplay_id === c.lowestweplay_id).length}</td>
+                        <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => (o.weplay_id || o.lowestweplay_id) === (c.weplay_id || c.lowestweplay_id)).length}</td>
                       </tr>
                     )}
                   </tbody>
