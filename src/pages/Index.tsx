@@ -472,7 +472,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                     className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.user_id ? "border-destructive" : "border-border"}`} />
                     {errors.user_id && <span className="text-[11px] text-destructive mt-1 block">{errors.user_id}</span>}
                   </label>
-                  <label className="block">
+                  <label className="block w-full">
                     <span className="sr-only">Name</span>
                     <input
                     value={form.name}
