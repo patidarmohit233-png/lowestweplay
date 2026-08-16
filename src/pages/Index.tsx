@@ -161,7 +161,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            yahi issue ara h baki sb thik hogya h
+                                            bhai jab koi lowestweplay k logo p click kre to wo home page p ajae esa krde system and jo payment krne k bd receipt show hota h and niche box m likha hota h wo ache se visible nhi h to wo bhi thik krde
         </p>
       )}
     </Reveal>);
@@ -643,7 +643,16 @@ const Index = () => {
         </div>
         
         <div className="flex-shrink-0">
-          <Link to="/" className="block active:scale-[0.96] transition-transform py-1">
+          <Link 
+            to="/" 
+            className="block active:scale-[0.96] transition-transform py-1"
+            onClick={(e) => {
+              if (window.location.pathname === '/') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+          >
             <img src={LOGO} alt="Lowest Weplay" className="h-[60px] xs:h-[68px] sm:h-[76px] md:h-[90px] lg:h-[100px] w-auto max-w-[50vw] md:max-w-none drop-shadow-sm object-contain" />
           </Link>
         </div>
