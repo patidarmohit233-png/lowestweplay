@@ -87,14 +87,14 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
         initial={{ opacity: 0, y: 30, scale: 0.95, filter: "blur(10px)" }}
         animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full max-w-[30rem]"
+        className="relative z-10 w-full max-w-[28rem] px-2"
       >
 
         <div
-          className="rounded-[2rem] p-[1.5px] shadow-elevated"
+          className="rounded-[1.8rem] md:rounded-[2rem] p-[1.5px] shadow-elevated"
           style={{ background: "linear-gradient(135deg, hsl(var(--primary)/0.5), hsl(var(--primary-glow)/0.25), hsl(var(--accent)/0.3))" }}
         >
-          <div className="rounded-[1.9rem] bg-card/90 backdrop-blur-2xl p-6 md:p-8">
+          <div className="rounded-[1.7rem] md:rounded-[1.9rem] bg-card/90 backdrop-blur-2xl p-5 md:p-8">
             <div className="text-center">
               <img src={LOGO} alt="Lowest Weplay" className="mx-auto w-[210px] md:w-[240px] h-auto object-contain" />
               <p className="mt-2 text-[12px] md:text-[14px] font-semibold text-muted-foreground uppercase tracking-widest">Premium Gaming Top-Up</p>
