@@ -240,8 +240,8 @@ function DailyCountdownBar() {
   const pad = (n: number) => String(n).padStart(2, "0");
 
   return (
-    <div className="sticky top-0 z-[60] w-full overflow-hidden text-primary-foreground"
-      style={{ background: "linear-gradient(100deg, #14133B 0%, #3B32C4 45%, #6D5BF5 72%, #14133B 100%)" }}>
+    <div className="fixed top-0 z-[60] w-full overflow-hidden text-primary-foreground"
+      style={{ background: "linear-gradient(100deg, #14133B 0%, #3B32C4 45%, #6D5BF5 72%, #14133B 100%)", height: "40px" }}>
 
       <motion.div
         aria-hidden
