@@ -82,18 +82,18 @@ const REVIEWS = [
 { name: "Priya S", text: "ID dalte time dar lag raha tha, support se baat ki unhone bola 100% safe hai. 5 minute mein coins aa gaye." }];
 
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 /* ── Reveal wrapper ───────────────────────────────────── */
-function Reveal({ children, className = "", delay = 0, y = 22 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
+function Reveal({ children, className = "", delay = 0, y = 18 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-10%" });
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay, ease: EASE }}
+      transition={{ duration: 0.8, delay, ease: EASE }}
       className={className}
       style={{ willChange: "transform, opacity" }}>
       {children}
@@ -145,10 +145,10 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
   return (
     <motion.article
       ref={ref}
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: Math.min(index, 5) * 0.06, ease: EASE }}
-      className="group card-premium relative rounded-[1.25rem] md:rounded-[1.75rem] flex flex-col overflow-hidden active:scale-[0.98] transition-transform">
+      transition={{ duration: 0.7, delay: Math.min(index, 6) * 0.05, ease: EASE }}
+      className="group card-premium relative rounded-[1.25rem] md:rounded-[1.75rem] flex flex-col overflow-hidden active:scale-[0.98] transition-all">
 
       {/* image */}
       <div className="relative m-1.5 md:m-2.5 mb-0 rounded-[0.95rem] md:rounded-[1.35rem] overflow-hidden aspect-square bg-gradient-to-br from-secondary to-muted">
@@ -156,7 +156,7 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
           src={product.img}
           alt={`${product.name} WePlay top-up pack`}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.08]" />
+          className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.1]" />
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
