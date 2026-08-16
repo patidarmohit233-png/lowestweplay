@@ -600,7 +600,8 @@ const Index = () => {
         style={{ scaleX: progressScale, transformOrigin: "0% 50%" }}
         className="fixed top-0 left-0 right-0 h-[3px] z-[80] bg-gradient-to-r from-primary via-primary-glow to-accent pointer-events-none" />
 
-      <DailyCountdownBar />
+      {/* DailyCountdownBar is fixed to top, no need to render it here in flow if it causes double-spacing */}
+      {/* <DailyCountdownBar /> */}
 
       <div className="h-[20px]" />
 
