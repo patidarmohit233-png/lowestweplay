@@ -57,7 +57,7 @@ export default function PaymentModal({
   const [assignedUpi] = useState(pickUpiId);
 
   if (!product) return null;
-  const note = `${product.name} · ${buyer.weplay_id}`;
+  const note = `${product.name} · ${buyer.user_id}`;
 
   /* Order is created ONLY when the buyer verifies their transaction ID */
   const createOrder = async (m: Method) => {
