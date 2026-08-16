@@ -90,6 +90,7 @@ export default function MyAccount() {
       ...x,
       order_id: x.order_code || x.id.slice(0, 8),
       amount: String(x.price || x.amount || "0"),
+      price: x.price || Number(x.amount) || 0,
       plan: x.product_name || x.plan || "Recharge"
     })) as OrderRow[]);
     // keep the session logged-in
