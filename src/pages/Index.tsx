@@ -653,9 +653,14 @@ const Index = () => {
               toast({ title: "Logged out", description: "Your session on this device has been cleared." });
             }} />
           ) : (
-            <button onClick={scrollToVerify} className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-primary text-primary-foreground text-[11px] font-extrabold uppercase tracking-widest shadow-primary active:scale-[0.96] transition-transform">
+            <motion.button 
+              onClick={scrollToVerify} 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-primary text-primary-foreground text-[11px] font-extrabold uppercase tracking-widest shadow-primary active:scale-[0.96] transition-transform">
               <UserCheck size={14} /> Login
-            </button>
+            </motion.button>
+
           )}
         </div>
       </div>
@@ -698,7 +703,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: EASE }}
-            className="inline-flex items-center gap-2 pl-1.5 pr-3.5 py-1.5 rounded-full glass shadow-card text-[10px] md:text-xs font-semibold">
+            className="inline-flex items-center gap-2 pl-1.5 pr-3.5 py-1.5 rounded-full glass shadow-card text-[10px] md:text-xs font-semibold animate-float">
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-foreground text-background text-[9px] md:text-[10px] font-extrabold uppercase tracking-[0.14em]">
               <Crown size={10} /> Official
             </span>
@@ -706,6 +711,7 @@ const Index = () => {
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
             <span className="text-accent font-extrabold">Live</span>
           </motion.div>
+
 
           <motion.a
             href="#proof"
