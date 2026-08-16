@@ -60,8 +60,9 @@ export default function MyAccount() {
   const load = useCallback(async (id: string) => {
     setLoading(true);
     const [{ data: p, error: pe }, { data: o }] = await Promise.all([
-      supabase.from("users").select("*").eq("user_id", id).maybeSingle(),
-      supabase.from("orders").select("*").eq("user_id", id).order("created_at", { ascending: false })]
+      (supabase.from("users" as any).select("*") as any).eq("user_id", id).maybeSingle(),
+      (supabase.from("orders" as any).select("*") as any).eq("user_id", id).order("created_at", { ascending: false })]
+
     );
 
     setLoading(false);
