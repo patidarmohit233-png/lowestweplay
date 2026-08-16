@@ -4,6 +4,7 @@ import { z } from "zod";
 import { ArrowRight, KeyRound, Lock, ShieldCheck, Sparkles, Gamepad2, User } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { trackEvent } from "@/lib/analytics";
 
 const LOGO = "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png";
 
@@ -34,6 +35,7 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     }
     setErrors({});
     setLoading(true);
+    trackEvent('verification_started', { weplay_id: parsed.data.user_id });
 
     // Use name instead of weplay_name per actual schema
     const { error: upsertError } = await supabase.from('customers' as any).upsert({
