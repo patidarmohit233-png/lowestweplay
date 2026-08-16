@@ -77,7 +77,7 @@ export default function PaymentModal({
       p_coins: `${product.coinsAmount * quantity}`,
       p_coins_amount: product.coinsAmount * quantity,
       p_payment_method: m,
-      p_upi_id: m === "upi" ? assignedUpi : null
+      p_upi_id: m === "upi" ? assignedUpi : "" // Pass empty string instead of null if it's not UPI to be safe
     });
     
     setCreating(false);
