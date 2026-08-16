@@ -10,10 +10,12 @@ import { generateSitemapXml } from "@/lib/sitemap-generator";
 
 type Order = {
   id: string;
-  order_id: string;
-  user_id: string;
-  plan: string;
-  amount: string;
+  order_code: string;
+  weplay_id: string;
+  weplay_name: string;
+  product_name: string;
+  price: number;
+  coins_amount: number;
   status: string;
   transaction_id: string | null;
   upi_id: string | null;
@@ -62,7 +64,7 @@ export default function Admin() {
     const [o, c, a, b] = await Promise.all([
       supabase.from("orders").select("*").order("created_at", { ascending: false }),
       supabase.from("customers").select("*").order("created_at", { ascending: false }),
-      supabase.from("analytics_events" as any).select("*").order("created_at", { ascending: false }).limit(200),
+      supabase.from("analytics_events").select("*").order("created_at", { ascending: false }).limit(200),
       supabase.from("blog_posts").select("*").order("published_at", { ascending: false })
     ]);
     setRefreshing(false);
@@ -95,7 +97,7 @@ export default function Admin() {
     const q = query.trim().toLowerCase();
     return orders.filter((o) =>
       (statusFilter === "all" || o.status === statusFilter) && (
-      !q || o.user_id.toLowerCase().includes(q) || o.order_id?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
+      !q || o.weplay_id.toLowerCase().includes(q) || o.order_code?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
     ).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   }, [orders, statusFilter, query]);
 
@@ -105,7 +107,7 @@ export default function Admin() {
     return filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   }, [customers, query]);
 
-  const revenue = orders.filter((o) => o.status === "completed").reduce((s, o) => s + Number(o.amount || 0), 0);
+  const revenue = orders.filter((o) => o.status === "completed").reduce((s, o) => s + Number(o.price || 0), 0);
 
 
   if (loading) {
@@ -335,13 +337,14 @@ export default function Admin() {
                     }
                     {filteredOrders.map((o) =>
                       <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
-                        <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_id}</td>
+                        <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_code}</td>
                         <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(o.created_at).toLocaleString()}</td>
                         <td className="px-4 py-3">
-                          <div className="font-semibold text-muted-foreground">{o.user_id}</div>
+                          <div className="font-semibold text-muted-foreground">{o.weplay_id}</div>
+                          <div className="text-[10px] text-muted-foreground/60">{o.weplay_name}</div>
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">{o.plan}</td>
-                        <td className="px-4 py-3 text-right font-bold font-price">₹{o.amount}</td>
+                        <td className="px-4 py-3 whitespace-nowrap">{o.product_name}</td>
+                        <td className="px-4 py-3 text-right font-bold font-price">₹{o.price}</td>
                         <td className="px-4 py-3 max-w-[190px]">
                           {o.upi_id ?
                             <span className="inline-block px-2 py-1 rounded-md bg-secondary border border-border text-[11px] font-bold break-all">{o.upi_id}</span> :

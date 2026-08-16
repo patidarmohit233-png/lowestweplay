@@ -65,27 +65,32 @@ export default function PaymentModal({
   const createOrder = async (m: Method) => {
     setCreating(true);
     trackEvent('payment_started', { method: m, product_id: product.id, product_name: product.name });
-    // Align with actual Supabase schema: order_id (string), user_id (string), plan (string), amount (string)
-    const { data, error } = await supabase.from("orders" as any).insert({
-      order_id: Math.random().toString(36).substring(2, 10).toUpperCase(),
-      user_id: buyer.user_id,
-      game: "WePlay", // Hardcoded as per recent request
-      plan: `${product.name} (x${quantity})`,
-      amount: (product.price * quantity).toString(),
+    
+    // Explicitly using the schema-compliant column names from src/integrations/supabase/types.ts
+    const { data, error } = await supabase.from("orders").insert({
+      order_code: Math.random().toString(36).substring(2, 10).toUpperCase(),
+      weplay_id: buyer.user_id,
+      weplay_name: buyer.name,
+      product_id: product.id.toString(),
+      product_name: product.name,
+      price: product.price * quantity,
+      coins: `${product.coinsAmount * quantity}`,
+      coins_amount: product.coinsAmount * quantity,
+      payment_method: m,
       status: "pending",
       upi_id: m === "upi" ? assignedUpi : null,
       transaction_id: null
     }).select().single();
     
     setCreating(false);
-    const row = data as any;
-    if (error || !row) {
+    if (error || !data) {
+      console.error("Order creation error:", error);
       toast({ title: "Could not create order", description: error?.message ?? "Please try again.", variant: "destructive" });
       return null;
     }
-    setOrderId(row.id);
-    setOrderCode(row.order_id);
-    return row.id as string;
+    setOrderId(data.id);
+    setOrderCode(data.order_code);
+    return data.id;
   };
 
 
