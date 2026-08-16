@@ -69,7 +69,7 @@ export default function PaymentModal({
     // Switch back to direct insert as RPC might be missing in external DB
     const { data, error } = await supabase.from('orders').insert({
       weplay_id: buyer.user_id,
-      weplay_name: buyer.name,
+      weplay_name: buyer.name || (buyer as any).weplay_name || "Player",
       product_id: String(product.id),
       product_name: String(product.name),
       price: product.price * quantity,
