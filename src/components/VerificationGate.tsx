@@ -50,16 +50,14 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     setLoading(true);
 
     const { data: existingUser } = await supabase
-      .from('users')
+      .from('customers')
       .select('*')
-      .eq('user_id', parsed.data.user_id)
-      .eq('game', parsed.data.game)
+      .eq('weplay_id', parsed.data.user_id)
       .single();
 
-    const { error } = await supabase.from('users').upsert({
-      game: parsed.data.game,
-      user_id: parsed.data.user_id,
-      name: parsed.data.name || parsed.data.user_id,
+    const { error } = await supabase.from('customers').upsert({
+      weplay_id: parsed.data.user_id,
+      weplay_name: parsed.data.name || parsed.data.user_id,
       last_active: new Date().toISOString(),
     });
 
@@ -76,10 +74,11 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     });
 
     if (existingUser) {
-      toast({ title: `Welcome back, ${existingUser.name}! 👋`, description: `Logged in to your ${parsed.data.game} account.` });
+      toast({ title: `Welcome back, ${existingUser.weplay_name}! 👋`, description: `Logged in to your ${parsed.data.game} account.` });
     } else {
       toast({ title: `Welcome, ${parsed.data.name || parsed.data.user_id}! 👋`, description: "Your account has been created." });
     }
+
   };
 
   const field =
