@@ -71,14 +71,14 @@ export default function PaymentModal({
     const { data, error } = await supabase.rpc('create_order', {
       p_weplay_id: buyer.user_id,
       p_weplay_name: buyer.name,
-      p_product_id: product.id.toString(),
-      p_product_name: product.name,
-      p_price: product.price * quantity,
-      p_coins: `${product.coinsAmount * quantity}`,
-      p_coins_amount: product.coinsAmount * quantity,
-      p_payment_method: m,
-      p_upi_id: m === "upi" ? assignedUpi : "" // Pass empty string instead of null if it's not UPI to be safe
-    });
+      p_product_id: String(product.id),
+      p_product_name: String(product.name),
+      p_price: Number(product.price * quantity),
+      p_coins: String(product.coinsAmount * quantity),
+      p_coins_amount: Number(product.coinsAmount * quantity),
+      p_payment_method: String(m),
+      p_upi_id: String(m === "upi" ? assignedUpi : "")
+    } as any);
     
     setCreating(false);
     if (error || !data || data.length === 0) {
