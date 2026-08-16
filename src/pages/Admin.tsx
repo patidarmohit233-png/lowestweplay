@@ -66,8 +66,9 @@ export default function Admin() {
     );
     setRefreshing(false);
     if (o.error) return toast({ title: "Failed to load orders", description: o.error.message, variant: "destructive" });
-    setOrders((o.data ?? []) as Order[]);
-    setCustomers((c.data ?? []) as Customer[]);
+    setOrders((o.data ?? []) as any[]);
+    setCustomers((c.data ?? []) as any[]);
+
   };
 
   const changeStatus = async (id: string, status: string) => {

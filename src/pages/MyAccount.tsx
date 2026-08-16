@@ -15,8 +15,9 @@ const VERIFY_KEY = "lw_verified_buyer";
 const CELEBRATED_KEY = "lw_celebrated_milestones";
 
 type Profile = {
-  weplay_id: string;
-  weplay_name: string;
+  user_id: string;
+  name: string;
+  game: string;
   total_coins: number;
   bonus_coins: number;
   loyalty_tier: string;
@@ -26,16 +27,16 @@ type Profile = {
   total_spent: number;
 };
 
+
 type OrderRow = {
-  order_code: string;
-  product_name: string;
-  coins: string | null;
-  price: number;
-  payment_method: string;
-  transaction_id: string | null;
+  order_id: string;
+  plan: string;
+  amount: number;
   status: string;
+  transaction_id: string | null;
   created_at: string;
 };
+
 
 export default function MyAccount() {
   const navigate = useNavigate();
@@ -45,11 +46,11 @@ export default function MyAccount() {
   const stored = (() => {
     try {
       const raw = localStorage.getItem(VERIFY_KEY);
-      return raw ? (JSON.parse(raw) as { weplay_id: string; weplay_name: string }) : null;
+      return raw ? (JSON.parse(raw) as { game: string; user_id: string; name: string }) : null;
     } catch {return null;}
   })();
 
-  const activeId = queryId || stored?.weplay_id || "";
+  const activeId = queryId || stored?.user_id || "";
 
   const [loading, setLoading] = useState(!!activeId);
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -59,11 +60,12 @@ export default function MyAccount() {
   const load = useCallback(async (id: string) => {
     setLoading(true);
     const [{ data: p, error: pe }, { data: o }] = await Promise.all([
-      supabase.rpc("get_customer_profile", { p_weplay_id: id }),
-      supabase.rpc("get_customer_orders", { p_weplay_id: id })]
+      supabase.from("users").select("*").eq("user_id", id).maybeSingle(),
+      supabase.from("orders").select("*").eq("user_id", id).order("created_at", { ascending: false })]
     );
+
     setLoading(false);
-    const row = (Array.isArray(p) ? p[0] : null) as Profile | null;
+    const row = p as Profile | null;
     if (pe || !row) {
       toast({ title: "Account not found", description: "Verify your WePlay ID on the homepage first.", variant: "destructive" });
       return;
@@ -71,7 +73,7 @@ export default function MyAccount() {
     setProfile(row);
     setOrders((o ?? []) as OrderRow[]);
     // keep the session logged-in
-    localStorage.setItem(VERIFY_KEY, JSON.stringify({ weplay_id: row.weplay_id, weplay_name: row.weplay_name }));
+    localStorage.setItem(VERIFY_KEY, JSON.stringify({ game: row.game, user_id: row.user_id, name: row.name }));
 
     // milestone celebration (once per milestone per device)
     const reached: number[] = Array.isArray(row.milestones_reached) ? row.milestones_reached : [];
@@ -153,9 +155,10 @@ export default function MyAccount() {
                 <div className="relative flex items-start justify-between gap-4 flex-wrap">
                   <div className="min-w-0">
                     <div className="text-[9.5px] md:text-[11px] font-extrabold uppercase tracking-[0.2em] text-muted-foreground">My Account</div>
-                    <h1 className="text-[1.4rem] md:text-3xl font-display leading-tight mt-1">Welcome back, {profile.weplay_name}!</h1>
+                    <h1 className="text-[1.4rem] md:text-3xl font-display leading-tight mt-1">Welcome back, {profile.name}!</h1>
                     <p className="text-[12px] md:text-[13px] text-muted-foreground mt-2">
-                      Customer ID · <span className="font-extrabold text-foreground">{profile.weplay_id}</span>
+                      {profile.game} ID · <span className="font-extrabold text-foreground">{profile.user_id}</span>
+
                     </p>
                   </div>
                   <span className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-extrabold uppercase tracking-[0.16em] ${tier.chip}`}>
@@ -248,22 +251,25 @@ export default function MyAccount() {
 
             <div className="space-y-3">
                   {orders.map((o, i) =>
-              <motion.div key={o.order_code}
+              <motion.div key={o.order_id}
+
                 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 8) * 0.04 }}
                 className="card-premium rounded-2xl p-4 md:p-5">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <div className="text-[9.5px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">Order {o.order_code}</div>
-                          <h3 className="text-[15px] md:text-lg font-extrabold mt-0.5 truncate">{o.product_name}</h3>
-                          <p className="text-[11.5px] text-muted-foreground mt-1">{o.coins || "—"} · {new Date(o.created_at).toLocaleString()}</p>
+                          <div className="text-[9.5px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">Order {o.order_id}</div>
+                          <h3 className="text-[15px] md:text-lg font-extrabold mt-0.5 truncate">{o.plan}</h3>
+                          <p className="text-[11.5px] text-muted-foreground mt-1">{new Date(o.created_at).toLocaleString()}</p>
+
                         </div>
                         <span className={`shrink-0 px-2.5 py-1 rounded-full border text-[9.5px] font-extrabold uppercase tracking-wider ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
                           {o.status}
                         </span>
                       </div>
                       <div className="mt-3 grid grid-cols-3 gap-2 text-[11px]">
-                        <div><span className="text-muted-foreground block">Amount</span><span className="font-extrabold">₹{o.price}</span></div>
-                        <div><span className="text-muted-foreground block">Method</span><span className="font-extrabold uppercase">{o.payment_method}</span></div>
+                        <div><span className="text-muted-foreground block">Amount</span><span className="font-extrabold">₹{o.amount}</span></div>
+                        <div><span className="text-muted-foreground block">Status</span><span className="font-extrabold uppercase">{o.status}</span></div>
+
                         <div className="min-w-0"><span className="text-muted-foreground block">Txn ID</span><span className="font-extrabold truncate block">{o.transaction_id || "Not added"}</span></div>
                       </div>
                     </motion.div>
