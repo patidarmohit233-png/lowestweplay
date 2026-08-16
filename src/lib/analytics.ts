@@ -22,7 +22,7 @@ export const trackEvent = async (
     // to prevent blocking the main UI flow if schema cache is stale.
     const { error } = await supabase.from('analytics_events').insert({
       event_name: eventName,
-      lowestweplay_id,
+      weplay_id: lowestweplay_id,
       metadata,
       url: window.location.pathname,
       user_agent: navigator.userAgent

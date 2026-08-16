@@ -35,7 +35,7 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     }
     setErrors({});
     setLoading(true);
-    trackEvent('verification_started', { lowestweplay_id: parsed.data.user_id });
+    trackEvent('verification_started', { weplay_id: parsed.data.user_id });
 
     try {
       console.log("Saving buyer details...");
@@ -47,10 +47,10 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
 
       // Direct insert as primary method for external database
       const { error } = await supabase.from('customers').upsert({
-        lowestweplay_id: parsed.data.user_id,
-        lowestweplay_name: parsed.data.name,
+        weplay_id: parsed.data.user_id,
+        weplay_name: parsed.data.name,
         last_active: new Date().toISOString()
-      }, { onConflict: 'lowestweplay_id' });
+      }, { onConflict: 'weplay_id' });
 
       if (error) {
         console.warn("Database upsert failed, proceeding with local session:", error.message);
