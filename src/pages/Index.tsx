@@ -661,7 +661,7 @@ const Index = () => {
               onClick={scrollToVerify} 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-primary text-primary-foreground text-[11px] font-extrabold uppercase tracking-widest shadow-primary active:scale-[0.96] transition-transform whitespace-nowrap">
+              className="flex items-center gap-1.5 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-primary text-primary-foreground text-[10px] md:text-[11px] font-extrabold uppercase tracking-widest shadow-primary active:scale-[0.96] transition-transform whitespace-nowrap">
               <UserCheck size={16} /> Login
             </motion.button>
 
