@@ -316,105 +316,106 @@ export default function Admin() {
               </div>
             ) : tab === "orders" ? (
               <div className="overflow-x-auto">
-
-
-
-
-            <table className="w-full text-sm">
-                <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
-                  <tr>
-                    <th className="text-left px-4 py-3">Order ID</th>
-                    <th className="text-left px-4 py-3">Date</th>
-                    <th className="text-left px-4 py-3">User ID</th>
-                    <th className="text-left px-4 py-3">Plan</th>
-                    <th className="text-right px-4 py-3">Amount</th>
-                    <th className="text-left px-4 py-3">Paid To (UPI)</th>
-                    <th className="text-left px-4 py-3">Txn ID</th>
-                    <th className="text-left px-4 py-3">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredOrders.length === 0 &&
-                <tr><td colSpan={8} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
-                }
-                  {filteredOrders.map((o) =>
-                <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
-                      <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_id}</td>
-                      <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(o.created_at).toLocaleString()}</td>
-                      <td className="px-4 py-3">
-                        <div className="font-semibold text-muted-foreground">{o.user_id}</div>
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap">{o.plan}</td>
-                      <td className="px-4 py-3 text-right font-bold font-price">₹{o.amount}</td>
-                      <td className="px-4 py-3 max-w-[190px]">
-                        {o.upi_id ?
-                    <span className="inline-block px-2 py-1 rounded-md bg-secondary border border-border text-[11px] font-bold break-all">{o.upi_id}</span> :
-                    <span className="text-muted-foreground">—</span>}
-                      </td>
-                      <td className="px-4 py-3 text-muted-foreground max-w-[160px] truncate">{o.transaction_id || "—"}</td>
-                      <td className="px-4 py-3">
-                        <select
-                       value={o.status}
-                       onChange={(e) => changeStatus(o.id, e.target.value)}
-                       aria-label={`Status for order ${o.order_id}`}
-                       className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
-                          {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
-                        </select>
-                      </td>
+                <table className="w-full text-sm">
+                  <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
+                    <tr>
+                      <th className="text-left px-4 py-3">Order ID</th>
+                      <th className="text-left px-4 py-3">Date</th>
+                      <th className="text-left px-4 py-3">User ID</th>
+                      <th className="text-left px-4 py-3">Plan</th>
+                      <th className="text-right px-4 py-3">Amount</th>
+                      <th className="text-left px-4 py-3">Paid To (UPI)</th>
+                      <th className="text-left px-4 py-3">Txn ID</th>
+                      <th className="text-left px-4 py-3">Status</th>
                     </tr>
-                )}
-                </tbody>
-              </table> :
-            tab === "analytics" ?
-            <div className="p-4 overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
-                  <tr>
-                    <th className="text-left px-4 py-3">Event</th>
-                    <th className="text-left px-4 py-3">WePlay ID</th>
-                    <th className="text-left px-4 py-3">Metadata</th>
-                    <th className="text-left px-4 py-3">Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {analytics.length === 0 && <tr><td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">No events recorded.</td></tr>}
-                  {analytics.map((e, idx) => (
-                    <tr key={idx} className="border-t border-border/60 hover:bg-secondary/40">
-                      <td className="px-4 py-3"><span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">{e.event_name}</span></td>
-                      <td className="px-4 py-3 font-semibold">{e.weplay_id || '—'}</td>
-                      <td className="px-4 py-3 text-[11px] text-muted-foreground max-w-[300px] truncate">{JSON.stringify(e.metadata)}</td>
-                      <td className="px-4 py-3 text-muted-foreground">{new Date(e.created_at).toLocaleString()}</td>
+                  </thead>
+                  <tbody>
+                    {filteredOrders.length === 0 &&
+                      <tr><td colSpan={8} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
+                    }
+                    {filteredOrders.map((o) =>
+                      <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
+                        <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_id}</td>
+                        <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(o.created_at).toLocaleString()}</td>
+                        <td className="px-4 py-3">
+                          <div className="font-semibold text-muted-foreground">{o.user_id}</div>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">{o.plan}</td>
+                        <td className="px-4 py-3 text-right font-bold font-price">₹{o.amount}</td>
+                        <td className="px-4 py-3 max-w-[190px]">
+                          {o.upi_id ?
+                            <span className="inline-block px-2 py-1 rounded-md bg-secondary border border-border text-[11px] font-bold break-all">{o.upi_id}</span> :
+                            <span className="text-muted-foreground">—</span>}
+                        </td>
+                        <td className="px-4 py-3 text-muted-foreground max-w-[160px] truncate">{o.transaction_id || "—"}</td>
+                        <td className="px-4 py-3">
+                          <select
+                            value={o.status}
+                            onChange={(e) => changeStatus(o.id, e.target.value)}
+                            aria-label={`Status for order ${o.order_id}`}
+                            className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
+                            {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                          </select>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            ) : tab === "analytics" ? (
+              <div className="p-4 overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
+                    <tr>
+                      <th className="text-left px-4 py-3">Event</th>
+                      <th className="text-left px-4 py-3">WePlay ID</th>
+                      <th className="text-left px-4 py-3">Metadata</th>
+                      <th className="text-left px-4 py-3">Time</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div> :
-            <table className="w-full text-sm">
-                <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
-                  <tr>
-                    <th className="text-left px-4 py-3">WePlay ID</th>
-                    <th className="text-left px-4 py-3">Name</th>
-                    <th className="text-left px-4 py-3">Verified on</th>
-                    <th className="text-left px-4 py-3">Last active</th>
-                    <th className="text-right px-4 py-3">Orders</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredCustomers.length === 0 &&
-                <tr><td colSpan={5} className="px-4 py-10 text-center text-muted-foreground">No verified users found.</td></tr>
-                }
-                  {filteredCustomers.map((c) =>
-                <tr key={c.weplay_id} className="border-t border-border/60 hover:bg-secondary/40">
-                      <td className="px-4 py-3 font-semibold">{c.weplay_id}</td>
-                      <td className="px-4 py-3">{c.name}</td>
-                      <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
-                      <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.last_active).toLocaleString()}</td>
-                      <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.user_id === c.weplay_id).length}</td>
+                  </thead>
+                  <tbody>
+                    {analytics.length === 0 && <tr><td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">No events recorded.</td></tr>}
+                    {analytics.map((e, idx) => (
+                      <tr key={idx} className="border-t border-border/60 hover:bg-secondary/40">
+                        <td className="px-4 py-3"><span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">{e.event_name}</span></td>
+                        <td className="px-4 py-3 font-semibold">{e.weplay_id || '—'}</td>
+                        <td className="px-4 py-3 text-[11px] text-muted-foreground max-w-[300px] truncate">{JSON.stringify(e.metadata)}</td>
+                        <td className="px-4 py-3 text-muted-foreground">{new Date(e.created_at).toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
+                    <tr>
+                      <th className="text-left px-4 py-3">WePlay ID</th>
+                      <th className="text-left px-4 py-3">Name</th>
+                      <th className="text-left px-4 py-3">Verified on</th>
+                      <th className="text-left px-4 py-3">Last active</th>
+                      <th className="text-right px-4 py-3">Orders</th>
                     </tr>
-                )}
-                </tbody>
-              </table>
-            }
+                  </thead>
+                  <tbody>
+                    {filteredCustomers.length === 0 &&
+                      <tr><td colSpan={5} className="px-4 py-10 text-center text-muted-foreground">No verified users found.</td></tr>
+                    }
+                    {filteredCustomers.map((c) =>
+                      <tr key={c.weplay_id} className="border-t border-border/60 hover:bg-secondary/40">
+                        <td className="px-4 py-3 font-semibold">{c.weplay_id}</td>
+                        <td className="px-4 py-3">{c.name}</td>
+                        <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
+                        <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.last_active).toLocaleString()}</td>
+                        <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.user_id === c.weplay_id).length}</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
           </div>
         </div>
       </main>
