@@ -415,11 +415,11 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
     <section id="verify" className="px-4 md:px-6 pt-10 md:pt-16 relative z-10 scroll-mt-40">
       <div className="max-w-3xl mx-auto">
         <Reveal>
-          <div className="relative rounded-[1.5rem] md:rounded-[2rem] p-[1.5px] overflow-hidden"
+          <div className="relative rounded-[1.8rem] md:rounded-[2rem] p-[1.5px] overflow-hidden"
             style={{ background: "linear-gradient(135deg, hsl(var(--primary)/0.55), hsl(var(--primary-glow)/0.25), hsl(var(--accent)/0.35))" }}>
-            <div className="relative rounded-[1.4rem] md:rounded-[1.9rem] bg-card p-4 md:p-7 overflow-hidden shadow-elevated">
+            <div className="relative rounded-[1.7rem] md:rounded-[1.9rem] bg-card p-4 md:p-7 overflow-hidden shadow-elevated">
               <div className="absolute -top-24 -right-16 w-52 h-52 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
-
+ 
               <div className="relative flex items-center gap-3 mb-4 md:mb-5">
                 <span className={`inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-2xl ${buyer && !editing ? "bg-accent/12 text-accent" : "bg-primary/10 text-primary"}`}>
                   {buyer && !editing ? <CheckCircle2 size={20} /> : <UserCheck size={20} />}
