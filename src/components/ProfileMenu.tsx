@@ -46,7 +46,7 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
   }, []);
 
   const tier = tierMeta(stats?.loyalty_tier ?? "bronze");
-  const initials = buyer.name.trim().slice(0, 1).toUpperCase() || "P";
+  const initials = buyer?.name?.trim()?.slice(0, 1).toUpperCase() || "P";
 
   return (
     <div ref={ref} className="fixed top-[56px] right-3 md:top-[72px] md:right-6 z-[70]">
