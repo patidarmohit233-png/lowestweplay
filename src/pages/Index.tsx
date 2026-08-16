@@ -1169,7 +1169,7 @@ const Index = () => {
               
                   
                   
-              ye problem aa rhi h abhi bhi check kro or thik kro esehi admin pannel k lie bhi hora h
+              ab ye aa rha ek bar sara kuch ache se check kr a to z or thik kr
             </p>
           </div>
 
