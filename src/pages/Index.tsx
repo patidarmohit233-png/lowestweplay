@@ -394,7 +394,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
       weplay_id: parsed.data.user_id,
       weplay_name: parsed.data.name,
       last_active: new Date().toISOString()
-    } as any, { onConflict: 'weplay_id' });
+    }, { onConflict: 'weplay_id' });
 
     if (upsertError) {
       toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
