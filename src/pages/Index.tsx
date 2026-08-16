@@ -161,7 +161,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            or ek kam kr jaha jaha lowestweplay likha h uske age lowest likhde jise bd mai copyrighht wala seen na lge
+                                            bhai ios or phone k lie wo payment wala jo ata h use thik se fit krde
         </p>
       )}
     </Reveal>);
@@ -394,10 +394,10 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
     }
     setErrors({});
     const { error: upsertError } = await supabase.from("customers").upsert({
-      lowestweplay_id: parsed.data.user_id,
-      lowestweplay_name: parsed.data.name,
+      weplay_id: parsed.data.user_id,
+      weplay_name: parsed.data.name,
       last_active: new Date().toISOString()
-    }, { onConflict: 'lowestweplay_id' });
+    }, { onConflict: 'weplay_id' });
 
     if (upsertError) {
       toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
