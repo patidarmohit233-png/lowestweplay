@@ -82,9 +82,9 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
 
             <div className="px-4 py-4 bg-gradient-to-br from-primary/12 via-primary/[0.05] to-transparent border-b border-border/60">
               <div className="flex items-center gap-3">
-                <span className="w-10 h-10 shrink-0 rounded-2xl grid place-items-center text-primary-foreground font-extrabold" style={{ background: "var(--gradient-primary)" }}>
-                  <User size={17} />
-                </span>
+                <div className="w-10 h-10 shrink-0 rounded-2xl overflow-hidden border border-primary/20 bg-white">
+                  <img src={weplayAvatarAsset.url} alt="WePlay profile" className="w-full h-full object-cover" />
+                </div>
                 <div className="min-w-0">
                   <p className="text-[14px] font-extrabold text-foreground truncate">{buyer.name}</p>
                   <p className="text-[11px] font-semibold text-muted-foreground truncate">{buyer.game} ID: {buyer.user_id}</p>
