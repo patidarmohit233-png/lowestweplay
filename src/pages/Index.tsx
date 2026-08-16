@@ -670,7 +670,7 @@ const Index = () => {
       </div>
     </header>
     
-    <div className="h-[112px] md:h-[132px]" />
+    <div className="h-[112px] sm:h-[120px] md:h-[140px] lg:h-[160px]" />
 
     <div
       aria-hidden={!buyer ? true : undefined}
