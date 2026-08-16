@@ -815,11 +815,15 @@ const Index = () => {
         >
           <div className="flex gap-4 md:gap-5 animate-scroll-left whitespace-nowrap will-change-transform w-max">
             {[...PARTNERS, ...PARTNERS].map((src, i) =>
-            <div key={i} className="snap-start flex-shrink-0 h-72 w-52 md:h-[26rem] md:w-80 rounded-3xl overflow-hidden bg-card p-1.5 border border-border shadow-card hover:scale-[1.03] transition-transform duration-500">
+              <motion.div 
+                key={i} 
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="snap-start flex-shrink-0 h-72 w-52 md:h-[26rem] md:w-80 rounded-3xl overflow-hidden bg-card p-1.5 border border-border shadow-card transition-all duration-500">
                 <img src={src} alt="Partner creator" loading="lazy" className="w-full h-full object-cover rounded-[1.25rem]" />
-              </div>
+              </motion.div>
             )}
           </div>
+
         </div>
       </section>
 
@@ -969,13 +973,16 @@ const Index = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 md:gap-5">
             {STEPS.map((step, i) =>
             <Reveal key={step.title} delay={i * 0.08}>
-                <div className="group relative h-full card-premium rounded-3xl p-5 md:p-6 overflow-hidden">
-                  <span aria-hidden className="absolute -top-5 right-1 text-[5.5rem] font-display text-primary/[0.07] leading-none select-none pointer-events-none">
+                <motion.div 
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="group relative h-full card-premium rounded-3xl p-5 md:p-6 overflow-hidden transition-all duration-500">
+                  <span aria-hidden className="absolute -top-5 right-1 text-[5.5rem] font-display text-primary/[0.07] leading-none select-none pointer-events-none group-hover:text-primary/[0.12] transition-colors duration-500">
                     {i + 1}
                   </span>
-                  <div className="relative inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/8 text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <div className="relative inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/8 text-primary mb-4 group-hover:scale-110 group-hover:bg-primary/15 transition-all duration-500">
                     {step.icon}
                   </div>
+
                   <div className="relative text-[9.5px] font-extrabold text-muted-foreground uppercase tracking-[0.2em] mb-1.5">Step {i + 1}</div>
                   <h3 className="relative text-[15px] md:text-base font-extrabold text-foreground mb-1.5">{step.title}</h3>
                   <p className="relative text-muted-foreground text-[12.5px] md:text-sm leading-relaxed">{step.desc}</p>
@@ -1031,10 +1038,13 @@ const Index = () => {
             subtitle="Real feedback from players who top-up with us every day." />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 md:gap-5">
             {REVIEWS.map((review, i) =>
-            <Reveal key={review.name} delay={Math.min(i, 6) * 0.05}>
-                <figure className="h-full card-premium rounded-3xl p-5 flex flex-col">
+            <Reveal key={review.name} delay={Math.min(i, 6) * 0.05} scale={0.96}>
+                <motion.figure 
+                  whileHover={{ y: -5, scale: 1.01 }}
+                  className="h-full card-premium rounded-3xl p-5 flex flex-col transition-all duration-500">
                   <div className="text-amber-400 text-sm mb-2.5" aria-label="5 star rating">★★★★★</div>
                   <blockquote className="text-foreground text-[13px] md:text-sm leading-relaxed flex-grow">"{review.text}"</blockquote>
+
                   <figcaption className="flex items-center gap-2.5 mt-4 pt-4 border-t border-border/70">
                     <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-extrabold">
                       {review.name.charAt(0)}
