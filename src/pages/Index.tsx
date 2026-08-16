@@ -518,15 +518,16 @@ const Index = () => {
             }
           }))
         }
+        {
+          "@type": "FAQPage",
+          "mainEntity": FAQS.slice(0, 5).map((f) => ({
+            "@type": "Question",
+            "name": f.q,
+            "acceptedAnswer": { "@type": "Answer", "text": f.a }
+          }))
+        }
       ]}
     />
-        "@type": "FAQPage",
-        mainEntity: FAQS.slice(0, 5).map((f) => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a }
-        }))
-      }]} />
 
     <SplashScreen show={showSplash} onComplete={() => {}} />
 
