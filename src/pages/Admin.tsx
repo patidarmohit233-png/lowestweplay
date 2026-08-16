@@ -7,11 +7,11 @@ import { Loader2, RefreshCw, Search, Users, Package, IndianRupee } from "lucide-
 
 type Order = {
   id: string;
-  order_id: string;
-  game: string;
-  user_id: string;
-  plan: string;
-  amount: number;
+  order_code: string;
+  weplay_id: string;
+  weplay_name: string;
+  product_name: string;
+  price: number;
   status: string;
   transaction_id: string | null;
   upi_id: string | null;
@@ -19,10 +19,8 @@ type Order = {
 };
 
 type Customer = {
-  id: string;
-  game: string;
-  user_id: string;
-  name: string;
+  weplay_id: string;
+  weplay_name: string;
   created_at: string;
   last_active: string;
   total_coins: number;
@@ -100,7 +98,7 @@ export default function Admin() {
     return customers.filter((c) => !q || c.weplay_id.toLowerCase().includes(q) || c.weplay_name.toLowerCase().includes(q));
   }, [customers, query]);
 
-  const revenue = orders.filter((o) => o.status === "completed").reduce((s, o) => s + Number(o.amount || 0), 0);
+  const revenue = orders.filter((o) => o.status === "completed").reduce((s, o) => s + Number(o.price || 0), 0);
 
 
   if (loading) {
@@ -194,8 +192,8 @@ export default function Admin() {
                         <div className="font-semibold">{o.weplay_id}</div>
                       </td>
                       
-                      <td className="px-4 py-3 whitespace-nowrap">{o.plan}</td>
-                      <td className="px-4 py-3 text-right font-bold">₹{o.amount}</td>
+                      <td className="px-4 py-3 whitespace-nowrap">{o.product_name}</td>
+                      <td className="px-4 py-3 text-right font-bold">₹{o.price}</td>
                       <td className="px-4 py-3 max-w-[190px]">
                         {o.upi_id ?
                     <span className="inline-block px-2 py-1 rounded-md bg-secondary border border-border text-[11px] font-bold break-all">{o.upi_id}</span> :
