@@ -7,11 +7,10 @@ import { Loader2, RefreshCw, Search, Users, Package, IndianRupee } from "lucide-
 
 type Order = {
   id: string;
-  order_code: string;
-  weplay_id: string;
-  weplay_name: string;
-  product_name: string;
-  price: number;
+  order_id: string;
+  user_id: string;
+  plan: string;
+  amount: string;
   status: string;
   transaction_id: string | null;
   upi_id: string | null;
@@ -20,12 +19,9 @@ type Order = {
 
 type Customer = {
   weplay_id: string;
-  weplay_name: string;
+  name: string;
   created_at: string;
   last_active: string;
-  total_coins: number;
-  bonus_coins: number;
-  loyalty_tier: string;
 };
 
 
@@ -58,16 +54,16 @@ export default function Admin() {
   const loadAll = async () => {
     setRefreshing(true);
     const [o, c] = await Promise.all([
-    supabase.from("orders").select("*").order("created_at", { ascending: false }),
-    supabase.from("customers").select("*").order("created_at", { ascending: false })]
-
-
-    );
+      supabase.from("orders").select("*").order("created_at", { ascending: false }),
+      supabase.from("customers").select("*").order("created_at", { ascending: false })
+    ]);
     setRefreshing(false);
+    
     if (o.error) return toast({ title: "Failed to load orders", description: o.error.message, variant: "destructive" });
+    if (c.error) return toast({ title: "Failed to load customers", description: c.error.message, variant: "destructive" });
+    
     setOrders((o.data ?? []) as any[]);
     setCustomers((c.data ?? []) as any[]);
-
   };
 
   const changeStatus = async (id: string, status: string) => {
@@ -87,16 +83,17 @@ export default function Admin() {
     const q = query.trim().toLowerCase();
     return orders.filter((o) =>
       (statusFilter === "all" || o.status === statusFilter) && (
-      !q || o.weplay_id.toLowerCase().includes(q) || o.order_code?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
-    );
+      !q || o.user_id.toLowerCase().includes(q) || o.order_id?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
+    ).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   }, [orders, statusFilter, query]);
 
   const filteredCustomers = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return customers.filter((c) => !q || c.weplay_id.toLowerCase().includes(q) || c.weplay_name.toLowerCase().includes(q));
+    const filtered = customers.filter((c) => !q || c.weplay_id.toLowerCase().includes(q) || c.name.toLowerCase().includes(q));
+    return filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   }, [customers, query]);
 
-  const revenue = orders.filter((o) => o.status === "completed").reduce((s, o) => s + Number(o.price || 0), 0);
+  const revenue = orders.filter((o) => o.status === "completed").reduce((s, o) => s + Number(o.amount || 0), 0);
 
 
   if (loading) {
@@ -106,8 +103,6 @@ export default function Admin() {
       </div>);
 
   }
-
-
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
@@ -122,7 +117,6 @@ export default function Admin() {
               className="px-3 py-2 rounded-lg border border-border bg-card text-sm font-semibold inline-flex items-center gap-1.5 hover:border-primary/40 disabled:opacity-50">
               <RefreshCw size={14} className={refreshing ? "animate-spin" : ""} /> <span className="hidden md:inline">Refresh</span>
             </button>
-
           </div>
         </div>
       </header>
@@ -174,36 +168,33 @@ export default function Admin() {
                     <th className="text-right px-4 py-3">Amount</th>
                     <th className="text-left px-4 py-3">Paid To (UPI)</th>
                     <th className="text-left px-4 py-3">Txn ID</th>
-
                     <th className="text-left px-4 py-3">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredOrders.length === 0 &&
-                <tr><td colSpan={10} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
+                <tr><td colSpan={8} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
                 }
                   {filteredOrders.map((o) =>
                 <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
-                      <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_code}</td>
+                      <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_id}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(o.created_at).toLocaleString()}</td>
                       <td className="px-4 py-3">
-                        <div className="font-semibold">{o.weplay_id}</div>
+                        <div className="font-semibold text-muted-foreground">{o.user_id}</div>
                       </td>
-                      
-                      <td className="px-4 py-3 whitespace-nowrap">{o.product_name}</td>
-                      <td className="px-4 py-3 text-right font-bold">₹{o.price}</td>
+                      <td className="px-4 py-3 whitespace-nowrap">{o.plan}</td>
+                      <td className="px-4 py-3 text-right font-bold font-price">₹{o.amount}</td>
                       <td className="px-4 py-3 max-w-[190px]">
                         {o.upi_id ?
                     <span className="inline-block px-2 py-1 rounded-md bg-secondary border border-border text-[11px] font-bold break-all">{o.upi_id}</span> :
                     <span className="text-muted-foreground">—</span>}
                       </td>
                       <td className="px-4 py-3 text-muted-foreground max-w-[160px] truncate">{o.transaction_id || "—"}</td>
-
                       <td className="px-4 py-3">
                         <select
                       value={o.status}
                       onChange={(e) => changeStatus(o.id, e.target.value)}
-                      aria-label={`Status for order ${o.order_code}`}
+                      aria-label={`Status for order ${o.order_id}`}
                       className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
                           {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                         </select>
@@ -216,12 +207,10 @@ export default function Admin() {
             <table className="w-full text-sm">
                 <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
                   <tr>
-                    
                     <th className="text-left px-4 py-3">WePlay ID</th>
-                    <th className="text-left px-4 py-3">WePlay Name</th>
+                    <th className="text-left px-4 py-3">Name</th>
                     <th className="text-left px-4 py-3">Verified on</th>
                     <th className="text-left px-4 py-3">Last active</th>
-
                     <th className="text-right px-4 py-3">Orders</th>
                   </tr>
                 </thead>
@@ -231,13 +220,11 @@ export default function Admin() {
                 }
                   {filteredCustomers.map((c) =>
                 <tr key={c.weplay_id} className="border-t border-border/60 hover:bg-secondary/40">
-                      
                       <td className="px-4 py-3 font-semibold">{c.weplay_id}</td>
-                      <td className="px-4 py-3">{c.weplay_name}</td>
+                      <td className="px-4 py-3">{c.name}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.last_active).toLocaleString()}</td>
-                      <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.weplay_id === c.weplay_id).length}</td>
-
+                      <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.user_id === c.weplay_id).length}</td>
                     </tr>
                 )}
                 </tbody>
@@ -256,5 +243,4 @@ function Stat({ label, value, icon }: {label: string;value: string;icon?: React.
       <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">{icon}{label}</div>
       <div className="text-xl md:text-2xl font-display mt-1">{value}</div>
     </div>);
-
 }

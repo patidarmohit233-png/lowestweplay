@@ -35,22 +35,16 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     setErrors({});
     setLoading(true);
 
-    const { data: existingUser } = await supabase
-      .from('customers' as any)
-      .select('*')
-      .eq('weplay_id', parsed.data.user_id)
-      .single();
-
-    const { error } = await supabase.from('customers' as any).upsert({
+    // Use name instead of weplay_name per actual schema
+    const { error: upsertError } = await supabase.from('customers' as any).upsert({
       weplay_id: parsed.data.user_id,
-      weplay_name: parsed.data.name,
+      name: parsed.data.name,
       last_active: new Date().toISOString(),
     }, { onConflict: 'weplay_id' });
 
-
     setLoading(false);
-    if (error) {
-      toast({ title: "Verification failed", description: error.message, variant: "destructive" });
+    if (upsertError) {
+      toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
       return;
     }
     
@@ -60,12 +54,10 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
       name: parsed.data.name || parsed.data.user_id
     });
 
-    if (existingUser) {
-      toast({ title: `Welcome back, ${(existingUser as any).name}! 👋`, description: `Logged in to your ${parsed.data.game} account.` });
-    } else {
-
-      toast({ title: `Welcome, ${parsed.data.name || parsed.data.user_id}! 👋`, description: "Your account has been created." });
-    }
+    toast({ 
+      title: `Welcome back, ${parsed.data.name}! 👋`, 
+      description: `Logged in to your ${parsed.data.game} account.` 
+    });
 
   };
 

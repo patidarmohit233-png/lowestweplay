@@ -81,8 +81,8 @@ export default function PaymentModal({
       toast({ title: "Could not create order", description: error?.message ?? "Please try again.", variant: "destructive" });
       return null;
     }
-    setOrderId(row.id);
-    setOrderCode(row.order_code);
+      setOrderId(row.id);
+      setOrderCode(row.order_id);
     return row.id as string;
   };
 

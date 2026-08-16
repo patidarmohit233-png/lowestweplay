@@ -305,13 +305,14 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
       return;
     }
     setErrors({});
-    const { error } = await supabase.from("customers" as any).upsert({
+    const { error: upsertError } = await supabase.from("customers" as any).upsert({
       weplay_id: parsed.data.user_id,
-      weplay_name: parsed.data.name,
+      name: parsed.data.name,
       last_active: new Date().toISOString()
     }, { onConflict: 'weplay_id' });
-    if (error) {
-      toast({ title: "Verification failed", description: error.message, variant: "destructive" });
+
+    if (upsertError) {
+      toast({ title: "Verification failed", description: upsertError.message, variant: "destructive" });
       return;
     }
     onVerified(form);
