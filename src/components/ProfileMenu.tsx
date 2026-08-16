@@ -49,16 +49,24 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
   const initials = buyer?.name?.trim()?.slice(0, 1).toUpperCase() || "P";
 
   return (
-    <div ref={ref} className="fixed top-[56px] right-3 md:top-[72px] md:right-6 z-[70]">
+    <div ref={ref} className="relative z-[70]">
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label="Open profile menu"
         aria-expanded={open}
-        className="relative w-11 h-11 md:w-12 md:h-12 rounded-full grid place-items-center text-primary-foreground font-extrabold shadow-primary border border-primary-foreground/20 active:scale-[0.94] transition-transform"
-        style={{ background: "var(--gradient-primary)" }}>
-        {open ? <X size={18} strokeWidth={2.6} /> : <span className="text-[15px]">{initials}</span>}
-        <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-accent border-2 border-background" />
+        className="relative w-10 h-10 md:w-11 md:h-11 rounded-full grid place-items-center text-primary-foreground font-extrabold shadow-card border border-primary/20 active:scale-[0.94] transition-all overflow-hidden"
+        style={{ background: "white" }}>
+        {open ? (
+          <X size={18} strokeWidth={2.6} className="text-primary" />
+        ) : (
+          <img 
+            src="https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png" 
+            alt="WePlay profile" 
+            className="w-full h-full object-contain p-1"
+          />
+        )}
       </button>
+
 
       <AnimatePresence>
         {open &&
