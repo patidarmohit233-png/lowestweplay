@@ -630,7 +630,9 @@ const Index = () => {
       </AnimatePresence>
     )}
 
-    <header className="fixed top-0 left-0 right-0 z-[70] px-3 md:px-6 pointer-events-none transition-all duration-300">
+    <DailyCountdownBar />
+
+    <header className="fixed top-[40px] left-0 right-0 z-[70] px-3 md:px-6 pointer-events-none transition-all duration-300">
       <div className="absolute inset-0 bg-background/95 backdrop-blur-3xl border-b border-border/70 pointer-events-none shadow-sm" />
       <div className="relative max-w-7xl mx-auto flex items-center justify-between pointer-events-auto h-[64px] md:h-[72px]">
         <div className="flex-1 hidden md:flex items-center gap-4">
