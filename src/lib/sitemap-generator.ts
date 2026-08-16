@@ -42,7 +42,8 @@ export const generateSitemapXml = async () => {
   });
 
   posts?.forEach(post => {
-    const postDate = new Date(post.published_at).toISOString().split('T')[0];
+    const dateSource = post.status === 'scheduled' ? post.scheduled_at : post.published_at;
+    const postDate = new Date(dateSource || today).toISOString().split('T')[0];
     xml += `
   <url>
     <loc>${SITE_URL}/blog/${post.slug}</loc>
@@ -51,6 +52,7 @@ export const generateSitemapXml = async () => {
     <priority>0.8</priority>
   </url>`;
   });
+
 
   xml += `
 </urlset>`;
