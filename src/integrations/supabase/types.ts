@@ -212,23 +212,62 @@ export type Database = {
         Args: { p_order_id: string; p_transaction_id: string }
         Returns: boolean
       }
-      create_order: {
-        Args: {
-          p_coins: string
-          p_coins_amount: number
-          p_payment_method: string
-          p_price: number
-          p_product_id: string
-          p_product_name: string
-          p_upi_id?: string
-          p_weplay_id: string
-          p_weplay_name: string
-        }
-        Returns: {
-          id: string
-          order_code: string
-        }[]
-      }
+      create_order:
+        | {
+            Args: {
+              p_coins: string
+              p_coins_amount: number
+              p_payment_method: string
+              p_price: number
+              p_product_id: string
+              p_product_name: string
+              p_upi_id?: string
+              p_weplay_id: string
+              p_weplay_name: string
+            }
+            Returns: {
+              id: string
+              order_code: string
+            }[]
+          }
+        | {
+            Args: {
+              p_coins: string
+              p_coins_amount: number
+              p_payment_method: string
+              p_price: number
+              p_product_id: string
+              p_product_name: string
+              p_upi_id?: string
+              p_weplay_id: string
+              p_weplay_name: string
+            }
+            Returns: {
+              coins: string | null
+              coins_amount: number
+              created_at: string
+              email: string | null
+              id: string
+              order_code: string
+              payment_method: string
+              phone: string | null
+              price: number
+              product_id: string
+              product_name: string
+              status: string
+              transaction_id: string | null
+              updated_at: string
+              upi_id: string | null
+              weplay_id: string
+              weplay_name: string
+            }[]
+            SetofOptions: {
+              from: "*"
+              to: "orders"
+              isOneToOne: false
+              isSetofReturn: true
+            }
+          }
       get_customer_orders: {
         Args: { p_weplay_id: string }
         Returns: {
