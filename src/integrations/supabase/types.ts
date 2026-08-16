@@ -212,55 +212,23 @@ export type Database = {
         Args: { p_order_id: string; p_transaction_id: string }
         Returns: boolean
       }
-      create_order:
-        | {
-            Args: {
-              p_coins: string
-              p_coins_amount: number
-              p_payment_method: string
-              p_price: number
-              p_product_id: string
-              p_product_name: string
-              p_weplay_id: string
-              p_weplay_name: string
-            }
-            Returns: {
-              id: string
-              order_code: string
-            }[]
-          }
-        | {
-            Args: {
-              p_coins: string
-              p_coins_amount: number
-              p_payment_method: string
-              p_price: number
-              p_product_id: string
-              p_product_name: string
-              p_upi_id?: string
-              p_weplay_id: string
-              p_weplay_name: string
-            }
-            Returns: {
-              id: string
-              order_code: string
-            }[]
-          }
-        | {
-            Args: {
-              p_coins: string
-              p_payment_method: string
-              p_price: number
-              p_product_id: string
-              p_product_name: string
-              p_weplay_id: string
-              p_weplay_name: string
-            }
-            Returns: {
-              id: string
-              order_code: string
-            }[]
-          }
+      create_order: {
+        Args: {
+          p_coins: string
+          p_coins_amount: number
+          p_payment_method: string
+          p_price: number
+          p_product_id: string
+          p_product_name: string
+          p_upi_id?: string
+          p_weplay_id: string
+          p_weplay_name: string
+        }
+        Returns: {
+          id: string
+          order_code: string
+        }[]
+      }
       get_customer_orders: {
         Args: { p_weplay_id: string }
         Returns: {
