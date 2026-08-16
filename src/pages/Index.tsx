@@ -307,9 +307,9 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
     setErrors({});
     const { error } = await supabase.from("customers" as any).upsert({
       weplay_id: parsed.data.user_id,
-      weplay_name: parsed.data.name || parsed.data.user_id,
+      weplay_name: parsed.data.name,
       last_active: new Date().toISOString()
-    });
+    }, { onConflict: 'weplay_id' });
     if (error) {
       toast({ title: "Verification failed", description: error.message, variant: "destructive" });
       return;
