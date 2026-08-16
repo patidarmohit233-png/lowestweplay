@@ -312,8 +312,10 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
     }
     setErrors({});
     const { error } = await supabase.from("users" as any).upsert({
-      weplay_id: parsed.data.user_id,
-      weplay_name: parsed.data.name || parsed.data.user_id,
+      game: parsed.data.game,
+      user_id: parsed.data.user_id,
+      name: parsed.data.name || parsed.data.user_id,
+
       last_active: new Date().toISOString()
     });
     if (error) {
@@ -593,7 +595,7 @@ const Index = () => {
       {buyer && <ProfileMenu buyer={buyer} onLogout={() => {persistBuyer(null);toast({ title: "Logged out", description: "Your session on this device has been cleared." });}} />}
 
       {/* ─── STEP 1 · VERIFY & LOGIN (top of page until verified) ─────────── */}
-      {!buyer && <VerificationPanel buyer={buyer} onVerified={persistBuyer} />}
+      {!buyer && <VerificationPanel buyer={buyer as any} onVerified={persistBuyer} />}
 
 
       {/* ─── HERO ─────────────────────────────────────────── */}
@@ -1016,8 +1018,9 @@ const Index = () => {
       </footer>
 
       {payFor && buyer &&
-      <PaymentModal product={payFor} buyer={buyer} onClose={() => setPayFor(null)} />
+      <PaymentModal product={payFor} buyer={buyer as any} onClose={() => setPayFor(null)} />
       }
+
 
     </div>
     {buyer && !showSplash && <LiveSocialProof />}
