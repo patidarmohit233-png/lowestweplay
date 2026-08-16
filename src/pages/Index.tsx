@@ -84,22 +84,58 @@ const REVIEWS = [
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const SOFT_EASE = [0.25, 0.1, 0.25, 1] as const;
+const BOUNCE_EASE = [0.34, 1.56, 0.64, 1] as const;
 
 /* ── Reveal wrapper ───────────────────────────────────── */
-function Reveal({ children, className = "", delay = 0, y = 18 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
+function Reveal({ 
+  children, 
+  className = "", 
+  delay = 0, 
+  y = 20, 
+  x = 0,
+  scale = 1,
+  blur = true 
+}: { 
+  children: React.ReactNode; 
+  className?: string; 
+  delay?: number; 
+  y?: number;
+  x?: number;
+  scale?: number;
+  blur?: boolean;
+}) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10%" });
+  
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.9, delay, ease: EASE }}
+      initial={{ 
+        opacity: 0, 
+        y, 
+        x, 
+        scale: scale === 1 ? 1 : scale,
+        filter: blur ? "blur(8px)" : "none"
+      }}
+      animate={inView ? { 
+        opacity: 1, 
+        y: 0, 
+        x: 0, 
+        scale: 1,
+        filter: blur ? "blur(0px)" : "none"
+      } : {}}
+      transition={{ 
+        duration: 0.9, 
+        delay, 
+        ease: EASE,
+        filter: { duration: 1 } 
+      }}
       className={className}
-      style={{ willChange: "transform, opacity" }}>
+      style={{ willChange: "transform, opacity, filter" }}>
       {children}
     </motion.div>);
 }
+
 
 /* ── Section heading ──────────────────────────────────── */
 function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: string; title: string; highlight?: string; subtitle: string }) {
@@ -110,12 +146,13 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
       </span>
       <motion.h2 
         className="mt-4 text-[1.75rem] leading-[1.12] md:text-6xl font-display text-foreground"
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: EASE }}>
+        initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 0.9, ease: EASE }}>
         {title} {highlight && <span className="text-gradient inline-block">{highlight}</span>}
       </motion.h2>
+
       <p className="text-muted-foreground mt-3 text-[13px] md:text-base max-w-md md:max-w-xl mx-auto leading-relaxed">
         {subtitle}
       </p>
@@ -137,6 +174,25 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
   const badge = PRODUCT_BADGES[product.id];
   const discount = Math.round((1 - product.price / product.mrp) * 100);
   const [buying] = useState(false);
+  
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    setRotateX((y - centerY) / 15);
+    setRotateY(-(x - centerX) / 15);
+  };
+
+  const handleMouseLeave = () => {
+    setRotateX(0);
+    setRotateY(0);
+  };
 
   const handleBuy = () => {
     trackEvent('click_buy_now', { product_id: product.id, product_name: product.name });
@@ -147,14 +203,27 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
     onBuy(product);
   };
 
-
   return (
     <motion.article
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: Math.min(index, 6) * 0.05, ease: EASE }}
-      className="group card-premium relative rounded-[1.25rem] md:rounded-[1.75rem] flex flex-col overflow-hidden active:scale-[0.98] transition-all">
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      whileHover={{ 
+        y: -10, 
+        rotateX: rotateX,
+        rotateY: rotateY,
+        transition: { duration: 0.2, ease: "easeOut" } 
+      }}
+      transition={{ 
+        duration: 0.8, 
+        delay: Math.min(index, 8) * 0.08, 
+        ease: EASE 
+      }}
+      className="group card-premium relative rounded-[1.25rem] md:rounded-[1.75rem] flex flex-col overflow-hidden active:scale-[0.98] transition-all perspective-[1000px]">
+
+
 
       {/* image */}
       <div className="relative m-1.5 md:m-2.5 mb-0 rounded-[0.95rem] md:rounded-[1.35rem] overflow-hidden aspect-square bg-gradient-to-br from-secondary to-muted">
@@ -584,9 +653,14 @@ const Index = () => {
               toast({ title: "Logged out", description: "Your session on this device has been cleared." });
             }} />
           ) : (
-            <button onClick={scrollToVerify} className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-primary text-primary-foreground text-[11px] font-extrabold uppercase tracking-widest shadow-primary active:scale-[0.96] transition-transform">
+            <motion.button 
+              onClick={scrollToVerify} 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-primary text-primary-foreground text-[11px] font-extrabold uppercase tracking-widest shadow-primary active:scale-[0.96] transition-transform">
               <UserCheck size={14} /> Login
-            </button>
+            </motion.button>
+
           )}
         </div>
       </div>
@@ -629,7 +703,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: EASE }}
-            className="inline-flex items-center gap-2 pl-1.5 pr-3.5 py-1.5 rounded-full glass shadow-card text-[10px] md:text-xs font-semibold">
+            className="inline-flex items-center gap-2 pl-1.5 pr-3.5 py-1.5 rounded-full glass shadow-card text-[10px] md:text-xs font-semibold animate-float">
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-foreground text-background text-[9px] md:text-[10px] font-extrabold uppercase tracking-[0.14em]">
               <Crown size={10} /> Official
             </span>
@@ -637,6 +711,7 @@ const Index = () => {
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
             <span className="text-accent font-extrabold">Live</span>
           </motion.div>
+
 
           <motion.a
             href="#proof"
@@ -652,18 +727,19 @@ const Index = () => {
             <ArrowRight size={12} />
           </motion.a>
 
-          <h1 className="mt-6 md:mt-9 text-[2.6rem] leading-[0.98] md:text-[5.2rem] font-display text-foreground">
+          <h1 className="mt-6 md:mt-9 text-[2.6rem] leading-[0.98] md:text-[5.2rem] font-display text-foreground perspective-[1000px]">
             {["Get More.", "Pay Less."].map((line, i) =>
             <motion.span
               key={line}
-              initial={{ opacity: 0, y: 34, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.85, delay: 0.12 + i * 0.14, ease: EASE }}
+              initial={{ opacity: 0, y: 40, rotateX: -20, filter: "blur(12px)" }}
+              animate={{ opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)" }}
+              transition={{ duration: 1.2, delay: 0.15 + i * 0.2, ease: EASE }}
               className={`block ${i === 1 ? "text-gradient" : ""}`}>
                 {line}
               </motion.span>
             )}
           </h1>
+
 
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -714,9 +790,9 @@ const Index = () => {
       <section className="px-4 md:px-6 pb-4">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-2.5 md:gap-3">
           {TRUST_BADGES.map((b, i) =>
-          <Reveal key={b.label} delay={i * 0.06} y={16} className={i === 4 ? "col-span-2 md:col-span-1" : ""}>
-              <div className="h-full card-premium rounded-2xl px-3.5 py-3.5 md:px-4 md:py-4 flex items-center gap-3">
-                <span className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-xl bg-primary/8 text-primary flex items-center justify-center">
+            <Reveal key={b.label} delay={i * 0.08} y={20} scale={0.97} className={i === 4 ? "col-span-2 md:col-span-1" : ""}>
+              <div className="h-full card-premium rounded-2xl px-3.5 py-3.5 md:px-4 md:py-4 flex items-center gap-3 hover:bg-primary/[0.02] transition-colors">
+                <span className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-xl bg-primary/8 text-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                   {b.icon}
                 </span>
                 <div className="min-w-0">
@@ -728,6 +804,7 @@ const Index = () => {
           )}
         </div>
       </section>
+
 
       {/* ─── PARTNERS ─────────────────────────────────────── */}
       <section id="partners" className="py-14 md:py-24 overflow-hidden bg-secondary/60 border-y border-border/70 scroll-mt-36">
@@ -744,11 +821,15 @@ const Index = () => {
         >
           <div className="flex gap-4 md:gap-5 animate-scroll-left whitespace-nowrap will-change-transform w-max">
             {[...PARTNERS, ...PARTNERS].map((src, i) =>
-            <div key={i} className="snap-start flex-shrink-0 h-72 w-52 md:h-[26rem] md:w-80 rounded-3xl overflow-hidden bg-card p-1.5 border border-border shadow-card hover:scale-[1.03] transition-transform duration-500">
+              <motion.div 
+                key={i} 
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="snap-start flex-shrink-0 h-72 w-52 md:h-[26rem] md:w-80 rounded-3xl overflow-hidden bg-card p-1.5 border border-border shadow-card transition-all duration-500">
                 <img src={src} alt="Partner creator" loading="lazy" className="w-full h-full object-cover rounded-[1.25rem]" />
-              </div>
+              </motion.div>
             )}
           </div>
+
         </div>
       </section>
 
@@ -898,17 +979,21 @@ const Index = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 md:gap-5">
             {STEPS.map((step, i) =>
             <Reveal key={step.title} delay={i * 0.08}>
-                <div className="group relative h-full card-premium rounded-3xl p-5 md:p-6 overflow-hidden">
-                  <span aria-hidden className="absolute -top-5 right-1 text-[5.5rem] font-display text-primary/[0.07] leading-none select-none pointer-events-none">
+                <motion.div 
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="group relative h-full card-premium rounded-3xl p-5 md:p-6 overflow-hidden transition-all duration-500">
+                  <span aria-hidden className="absolute -top-5 right-1 text-[5.5rem] font-display text-primary/[0.07] leading-none select-none pointer-events-none group-hover:text-primary/[0.12] transition-colors duration-500">
                     {i + 1}
                   </span>
-                  <div className="relative inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/8 text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <div className="relative inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/8 text-primary mb-4 group-hover:scale-110 group-hover:bg-primary/15 transition-all duration-500">
                     {step.icon}
                   </div>
+
                   <div className="relative text-[9.5px] font-extrabold text-muted-foreground uppercase tracking-[0.2em] mb-1.5">Step {i + 1}</div>
                   <h3 className="relative text-[15px] md:text-base font-extrabold text-foreground mb-1.5">{step.title}</h3>
                   <p className="relative text-muted-foreground text-[12.5px] md:text-sm leading-relaxed">{step.desc}</p>
-                </div>
+                </motion.div>
+
               </Reveal>
             )}
           </div>
@@ -960,10 +1045,13 @@ const Index = () => {
             subtitle="Real feedback from players who top-up with us every day." />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 md:gap-5">
             {REVIEWS.map((review, i) =>
-            <Reveal key={review.name} delay={Math.min(i, 6) * 0.05}>
-                <figure className="h-full card-premium rounded-3xl p-5 flex flex-col">
+            <Reveal key={review.name} delay={Math.min(i, 6) * 0.05} scale={0.96}>
+                <motion.figure 
+                  whileHover={{ y: -5, scale: 1.01 }}
+                  className="h-full card-premium rounded-3xl p-5 flex flex-col transition-all duration-500">
                   <div className="text-amber-400 text-sm mb-2.5" aria-label="5 star rating">★★★★★</div>
                   <blockquote className="text-foreground text-[13px] md:text-sm leading-relaxed flex-grow">"{review.text}"</blockquote>
+
                   <figcaption className="flex items-center gap-2.5 mt-4 pt-4 border-t border-border/70">
                     <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-extrabold">
                       {review.name.charAt(0)}
@@ -973,7 +1061,7 @@ const Index = () => {
                       <CheckCircle2 size={12} /> Verified
                     </span>
                   </figcaption>
-                </figure>
+                </motion.figure>
               </Reveal>
             )}
           </div>
