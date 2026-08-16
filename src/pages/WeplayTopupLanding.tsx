@@ -70,7 +70,8 @@ const WeplayTopupLanding = () => {
           <div className="mt-12 text-center">
             <Link 
               to="/#products" 
-              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-bold hover:shadow-lg transition-all active:scale-95"
+              onClick={() => trackEvent('click_buy_now', { location: 'landing_page_cta' })}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-bold hover:shadow-lg transition-all active:scale-[0.95]"
             >
               Start Your Recharge Now <ArrowRight size={18} />
             </Link>
