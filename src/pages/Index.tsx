@@ -577,9 +577,12 @@ const Index = () => {
           </Link>
         </div>
         
-        <div className="flex-1 flex justify-end">
+        <div className="flex-1 flex justify-end items-center">
           {buyer ? (
-            <ProfileMenu buyer={buyer} onLogout={() => persistBuyer(null)} />
+            <ProfileMenu buyer={buyer} onLogout={() => {
+              persistBuyer(null);
+              toast({ title: "Logged out", description: "Your session on this device has been cleared." });
+            }} />
           ) : (
             <button onClick={scrollToVerify} className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-primary text-primary-foreground text-[11px] font-extrabold uppercase tracking-widest shadow-primary active:scale-[0.96] transition-transform">
               <UserCheck size={14} /> Login
@@ -606,7 +609,6 @@ const Index = () => {
 
       <div className="h-[20px]" />
 
-      {buyer && <ProfileMenu buyer={buyer} onLogout={() => {persistBuyer(null);toast({ title: "Logged out", description: "Your session on this device has been cleared." });}} />}
 
       {/* ─── STEP 1 · VERIFY & LOGIN (top of page until verified) ─────────── */}
       {!buyer && <VerificationPanel buyer={buyer as any} onVerified={persistBuyer} />}
