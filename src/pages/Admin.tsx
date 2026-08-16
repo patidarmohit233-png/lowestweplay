@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNoindex } from "@/hooks/use-noindex";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3 } from "lucide-react";
+import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen } from "lucide-react";
 
 
 type Order = {
@@ -41,10 +41,12 @@ export default function Admin() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [analytics, setAnalytics] = useState<any[]>([]);
+  const [blogs, setBlogs] = useState<any[]>([]);
   const [refreshing, setRefreshing] = useState(false);
-  const [tab, setTab] = useState<"orders" | "customers" | "analytics">("orders");
+  const [tab, setTab] = useState<"orders" | "customers" | "analytics" | "blogs">("orders");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [query, setQuery] = useState("");
+
 
   useEffect(() => {
     document.title = "Admin Dashboard · Lowest Weplay";
@@ -54,19 +56,23 @@ export default function Admin() {
 
   const loadAll = async () => {
     setRefreshing(true);
-    const [o, c, a] = await Promise.all([
+    const [o, c, a, b] = await Promise.all([
       supabase.from("orders").select("*").order("created_at", { ascending: false }),
       supabase.from("customers").select("*").order("created_at", { ascending: false }),
-      supabase.from("analytics_events" as any).select("*").order("created_at", { ascending: false }).limit(200)
+      supabase.from("analytics_events" as any).select("*").order("created_at", { ascending: false }).limit(200),
+      supabase.from("blog_posts").select("*").order("published_at", { ascending: false })
     ]);
     setRefreshing(false);
     
     if (o.error) return toast({ title: "Failed to load orders", description: o.error.message, variant: "destructive" });
     if (c.error) return toast({ title: "Failed to load customers", description: c.error.message, variant: "destructive" });
+    if (b.error) return toast({ title: "Failed to load blogs", description: b.error.message, variant: "destructive" });
     
     setOrders((o.data ?? []) as any[]);
     setCustomers((c.data ?? []) as any[]);
     setAnalytics((a.data ?? []) as any[]);
+    setBlogs((b.data ?? []) as any[]);
+
   };
 
   const changeStatus = async (id: string, status: string) => {
@@ -134,7 +140,7 @@ export default function Admin() {
 
         <div className="flex flex-col md:flex-row md:items-center gap-3 mb-4">
           <div className="inline-flex p-1 rounded-xl bg-secondary/70 border border-border">
-            {(["orders", "customers", "analytics"] as const).map((t) =>
+            {(["orders", "customers", "analytics", "blogs"] as const).map((t) =>
             <button key={t} onClick={() => setTab(t)}
               className={`px-4 py-2 rounded-lg text-[12px] font-bold capitalize transition-all ${tab === t ? "bg-card shadow-card" : "text-muted-foreground"}`}>
                 {t}
@@ -160,7 +166,68 @@ export default function Admin() {
 
         <div className="bg-card border border-border rounded-2xl overflow-hidden">
           <div className="overflow-x-auto">
-            {tab === "orders" ?
+            {tab === "blogs" ? (
+              <div className="p-4">
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-lg font-display">Manage Blog Posts</h2>
+                  <button 
+                    onClick={() => {
+                      const title = prompt("Post Title:");
+                      if (!title) return;
+                      const slug = title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+                      const content = prompt("Post Content (simple text for now):");
+                      const excerpt = prompt("Excerpt:");
+                      
+                      supabase.from("blog_posts").insert({
+                        title, slug, content, excerpt, category: 'Updates'
+                      }).then(({ error }) => {
+                        if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+                        else { toast({ title: "Success" }); loadAll(); }
+                      });
+                    }}
+                    className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-bold flex items-center gap-2"
+                  >
+                    <Plus size={16} /> New Post
+                  </button>
+                </div>
+                <table className="w-full text-sm">
+                  <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
+                    <tr>
+                      <th className="text-left px-4 py-3">Title</th>
+                      <th className="text-left px-4 py-3">Published</th>
+                      <th className="text-left px-4 py-3">Category</th>
+                      <th className="text-right px-4 py-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {blogs.length === 0 && <tr><td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">No posts yet.</td></tr>}
+                    {blogs.map((b) => (
+                      <tr key={b.id} className="border-t border-border/60 hover:bg-secondary/40">
+                        <td className="px-4 py-3 font-semibold">{b.title}</td>
+                        <td className="px-4 py-3 text-muted-foreground">{new Date(b.published_at).toLocaleDateString()}</td>
+                        <td className="px-4 py-3"><span className="px-2 py-0.5 rounded-full bg-secondary text-[10px] font-bold">{b.category}</span></td>
+                        <td className="px-4 py-3 text-right">
+                          <button 
+                            onClick={() => {
+                              if (confirm("Delete this post?")) {
+                                supabase.from("blog_posts").delete().eq("id", b.id).then(({ error }) => {
+                                  if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+                                  else { toast({ title: "Deleted" }); loadAll(); }
+                                });
+                              }
+                            }}
+                            className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : tab === "orders" ?
+
             <table className="w-full text-sm">
                 <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
                   <tr>

@@ -44,6 +44,45 @@ export type Database = {
         }
         Relationships: []
       }
+      blog_posts: {
+        Row: {
+          author: string | null
+          category: string | null
+          content: string
+          excerpt: string | null
+          id: string
+          image_url: string | null
+          published_at: string | null
+          slug: string
+          tags: string[] | null
+          title: string
+        }
+        Insert: {
+          author?: string | null
+          category?: string | null
+          content: string
+          excerpt?: string | null
+          id?: string
+          image_url?: string | null
+          published_at?: string | null
+          slug: string
+          tags?: string[] | null
+          title: string
+        }
+        Update: {
+          author?: string | null
+          category?: string | null
+          content?: string
+          excerpt?: string | null
+          id?: string
+          image_url?: string | null
+          published_at?: string | null
+          slug?: string
+          tags?: string[] | null
+          title?: string
+        }
+        Relationships: []
+      }
       customers: {
         Row: {
           bonus_coins: number

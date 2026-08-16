@@ -1109,6 +1109,8 @@ const Index = () => {
                 <Link to="/refund-policy" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Refund Policy</Link>
                 <Link to="/privacy-policy" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
                 <Link to="/terms-of-service" className="text-[13.5px] text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
+                <Link to="/blog" className="text-[13.5px] font-bold text-accent hover:underline">Official Blog & News</Link>
+
               </nav>
             </div>
           </div>
