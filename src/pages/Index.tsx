@@ -174,6 +174,25 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
   const badge = PRODUCT_BADGES[product.id];
   const discount = Math.round((1 - product.price / product.mrp) * 100);
   const [buying] = useState(false);
+  
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    setRotateX((y - centerY) / 15);
+    setRotateY(-(x - centerX) / 15);
+  };
+
+  const handleMouseLeave = () => {
+    setRotateX(0);
+    setRotateY(0);
+  };
 
   const handleBuy = () => {
     trackEvent('click_buy_now', { product_id: product.id, product_name: product.name });
@@ -187,15 +206,23 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
   return (
     <motion.article
       ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       initial={{ opacity: 0, y: 30, scale: 0.95 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      whileHover={{ y: -8, transition: { duration: 0.3, ease: EASE } }}
+      whileHover={{ 
+        y: -10, 
+        rotateX: rotateX,
+        rotateY: rotateY,
+        transition: { duration: 0.2, ease: "easeOut" } 
+      }}
       transition={{ 
         duration: 0.8, 
         delay: Math.min(index, 8) * 0.08, 
         ease: EASE 
       }}
-      className="group card-premium relative rounded-[1.25rem] md:rounded-[1.75rem] flex flex-col overflow-hidden active:scale-[0.98] transition-all">
+      className="group card-premium relative rounded-[1.25rem] md:rounded-[1.75rem] flex flex-col overflow-hidden active:scale-[0.98] transition-all perspective-[1000px]">
+
 
 
       {/* image */}
