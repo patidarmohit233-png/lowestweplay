@@ -88,9 +88,11 @@ export default function Admin() {
   const filteredOrders = useMemo(() => {
     const q = query.trim().toLowerCase();
     return orders.filter((o) =>
-    (statusFilter === "all" || o.status === statusFilter) && (
-    !q || o.user_id.toLowerCase().includes(q) || o.order_id?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
+      o.game === "WePlay" &&
+      (statusFilter === "all" || o.status === statusFilter) && (
+      !q || o.user_id.toLowerCase().includes(q) || o.order_id?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
     );
+
   }, [orders, statusFilter, query]);
 
   const filteredCustomers = useMemo(() => {
