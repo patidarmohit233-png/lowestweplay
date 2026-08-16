@@ -21,7 +21,7 @@ import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 
 
-type VerifiedBuyer = { weplay_id: string; weplay_name: string };
+type VerifiedBuyer = { game: string; user_id: string; name: string };
 const VERIFY_KEY = "lw_verified_buyer";
 
 const LOGO = "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png";
@@ -300,9 +300,11 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
       return;
     }
     setErrors({});
-    const { error } = await supabase.rpc("upsert_customer", {
-      p_weplay_id: parsed.data.weplay_id,
-      p_weplay_name: parsed.data.weplay_name
+    const { error } = await supabase.from("users").upsert({
+      game: parsed.data.game,
+      user_id: parsed.data.weplay_id,
+      name: parsed.data.weplay_name,
+      last_active: new Date().toISOString()
     });
     if (error) {
       toast({ title: "Verification failed", description: error.message, variant: "destructive" });
