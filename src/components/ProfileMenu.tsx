@@ -25,12 +25,14 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
 
       ]);
       if (!alive) return;
+      const userRow = c as any;
       setStats({
-        total_coins: c?.total_coins ?? 0,
-        bonus_coins: c?.bonus_coins ?? 0,
-        loyalty_tier: c?.loyalty_tier ?? "bronze",
+        total_coins: userRow?.total_coins ?? 0,
+        bonus_coins: userRow?.bonus_coins ?? 0,
+        loyalty_tier: userRow?.loyalty_tier ?? "bronze",
         orders: count ?? 0
       });
+
     })();
     return () => {alive = false;};
   }, [open, buyer.user_id]);
