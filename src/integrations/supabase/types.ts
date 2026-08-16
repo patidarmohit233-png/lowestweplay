@@ -306,6 +306,7 @@ export type Database = {
         Args: { p_weplay_id: string }
         Returns: undefined
       }
+      test_rpc: { Args: never; Returns: string }
       update_order_status: {
         Args: { p_order_id: string; p_status: string }
         Returns: boolean

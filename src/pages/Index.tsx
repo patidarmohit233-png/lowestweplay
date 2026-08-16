@@ -622,13 +622,11 @@ const Index = () => {
 
     <SplashScreen show={showSplash} onComplete={() => {}} />
 
-    {!showSplash && (
-      <AnimatePresence>
-        {!buyer && (
-          <VerificationGate key="gate" onVerified={(b) => persistBuyer(b)} />
-        )}
-      </AnimatePresence>
-    )}
+    <AnimatePresence>
+      {!buyer && !showSplash && (
+        <VerificationGate key="gate" onVerified={(b) => persistBuyer(b)} />
+      )}
+    </AnimatePresence>
 
     <DailyCountdownBar />
 

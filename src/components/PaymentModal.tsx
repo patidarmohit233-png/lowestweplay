@@ -68,17 +68,18 @@ export default function PaymentModal({
     
     // Explicitly listing only verified columns from the physical schema to avoid schema cache issues.
     // Using create_order RPC function instead of direct insert to see if it bypasses the PostgREST cache issue.
+    // Use RPC to bypass local schema cache issues and ensure correct data types
     const { data, error } = await supabase.rpc('create_order', {
       p_weplay_id: buyer.user_id,
       p_weplay_name: buyer.name,
       p_product_id: String(product.id),
       p_product_name: String(product.name),
-      p_price: Number(product.price * quantity),
+      p_price: product.price * quantity,
       p_coins: String(product.coinsAmount * quantity),
-      p_coins_amount: Number(product.coinsAmount * quantity),
-      p_payment_method: String(m),
-      p_upi_id: String(m === "upi" ? assignedUpi : "")
-    } as any);
+      p_coins_amount: product.coinsAmount * quantity,
+      p_payment_method: m,
+      p_upi_id: m === "upi" ? assignedUpi : ""
+    });
     
     setCreating(false);
     if (error || !data || data.length === 0) {
