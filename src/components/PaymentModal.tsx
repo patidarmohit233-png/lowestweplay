@@ -35,18 +35,15 @@ function upiQuery(upiId: string, amount: number, note: string) {
   return `pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(PAYEE)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
 }
 
-type Buyer = { weplay_id: string; weplay_name: string };
+type VerifiedBuyer = { game: string; user_id: string; name: string };
 type Method = "upi" | "razorpay";
 
 export default function PaymentModal({
   product,
   buyer,
   onClose
+}: {product: Product | null;buyer: VerifiedBuyer;onClose: () => void;}) {
 
-
-
-
-}: {product: Product | null;buyer: Buyer;onClose: () => void;}) {
   const [method, setMethod] = useState<Method | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [orderCode, setOrderCode] = useState<string | null>(null);
