@@ -169,8 +169,11 @@ export default function MyAccount() {
             style={{ background: "linear-gradient(135deg, hsl(var(--primary)/0.55), hsl(var(--primary-glow)/0.25), hsl(var(--accent)/0.35))" }}>
               <div className="relative rounded-[1.4rem] md:rounded-[1.9rem] bg-card p-5 md:p-7 shadow-elevated overflow-hidden">
                 <div className="absolute -top-24 -right-16 w-52 h-52 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
-                <div className="relative flex items-start justify-between gap-4 flex-wrap">
-                  <div className="min-w-0">
+                <div className="relative flex items-center justify-between gap-4 flex-wrap">
+                  <div className="w-14 h-14 md:w-20 md:h-20 shrink-0 rounded-[1.2rem] md:rounded-[1.5rem] overflow-hidden border-2 border-primary/20 bg-white shadow-sm">
+                    <img src={"/src/assets/weplay-avatar.png.asset.json" ? "/src/assets/weplay-avatar.png" : ""} alt="WePlay profile" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="min-w-0 flex-1">
                     <div className="text-[9.5px] md:text-[11px] font-extrabold uppercase tracking-[0.2em] text-muted-foreground">My Account</div>
                     <h1 className="text-[1.4rem] md:text-3xl font-display leading-tight mt-1">Welcome back, {profile.name}!</h1>
                     <p className="text-[12px] md:text-[13px] text-muted-foreground mt-2">
