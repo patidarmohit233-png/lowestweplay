@@ -272,7 +272,7 @@ export default function PaymentModal({
                 <div className="mt-4 grid grid-cols-4 gap-2.5">
                   {UPI_APPS.map((app) =>
                   <button key={app.key} onClick={(e) => {e.stopPropagation();payWithApp(app);}} disabled={creating}
-                    aria-label={`Pay ₹${product.price} with ${app.name}`}
+                    aria-label={`Pay ₹${product.price * quantity} with ${app.name}`}
                     className="group flex flex-col items-center gap-1.5 disabled:opacity-60">
                       <span className={`w-full aspect-square rounded-2xl bg-card border grid place-items-center p-2.5 shadow-card transition-all active:scale-[0.94] ${
                     activeApp === app.key ? "border-accent shadow-[0_8px_24px_-10px_hsl(var(--accent)/0.5)]" : "border-border group-hover:border-accent/50"}`}>
@@ -314,7 +314,7 @@ export default function PaymentModal({
                           className="w-[156px] h-[156px] rounded-xl" />
                         </div>
                         <p className="mt-2.5 inline-flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">
-                          <QrCode size={12} /> Scan &amp; pay ₹{product.price}
+                          <QrCode size={12} /> Scan &amp; pay ₹{product.price * quantity}
                         </p>
                       </div>
 
@@ -355,7 +355,7 @@ export default function PaymentModal({
                           <Receipt size={16} />
                         </span>
                         <p className="text-[12px] text-muted-foreground leading-relaxed">
-                          Pay <span className="font-extrabold text-foreground">₹{product.price}</span> using UPI, cards, netbanking or wallets.
+                          Pay <span className="font-extrabold text-foreground">₹{product.price * quantity}</span> using UPI, cards, netbanking or wallets.
                         </p>
                       </div>
 
