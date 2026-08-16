@@ -18,6 +18,7 @@ import HowToTopUp from "./pages/HowToTopUp.tsx";
 import Faq from "./pages/Faq.tsx";
 import TrackOrder from "./pages/TrackOrder.tsx";
 import MyAccount from "./pages/MyAccount.tsx";
+import TrustSafety from "./pages/TrustSafety.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 
@@ -47,6 +48,7 @@ const App = () => (
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/trust-safety" element={<TrustSafety />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

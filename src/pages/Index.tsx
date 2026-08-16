@@ -118,17 +118,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
           
           
-          mne gemini se pucha website k bare mai to ye bolta h - Bhai, seedhi baat bataun toh yeh website bilkul safe nahi hai. Mere hisaab se yeh ek scam ya phishing website hai. Isse door hi raho.
-
-Kyun safe nahi hai, uske main reasons yeh hain:
-
-Official Website Alag Hai: WePlay ki asli aur official website weplayapp.com hai, aur unka original recharge page [weplayapp.com/recharge](https://weplayapp.com/recharge) hai.
-
-Fake Domain: Scammers aksar .shop jaise saste domains kharid kar asli website ki exact copy bana lete hain taaki logo ka paisa aur gaming account chura sakein.
-
-Internet Pe Koi Record Nahi: Google par is weplayrecharge.shop ka koi official existence, reviews, ya trust record nahi hai. Yeh ekdam nayi aur suspicious site lag rahi hai.
-
-Meri advice: Is website par apni WePlay ID, password, ya galti se bhi apne bank/UPI details mat daalna. Agar tumhe recharge karna hi hai, toh hamesha WePlay app ke andar se ya unki official website se hi karo. Saste recharge ke chakkar mein apna account aur paisa risk mein mat daalo.
+          Add a dedicated Trust & Safety page that clearly explains how Lowest Weplay handles ID safety, authentication, refunds, and secure delivery.
         </p>
       )}
     </Reveal>);
@@ -1029,6 +1019,7 @@ const Index = () => {
             <img src={LOGO} alt="Lowest Weplay" loading="lazy" className="w-[130px] h-auto opacity-70" />
             <nav className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-[13px] text-muted-foreground">
               <Link to="/weplay-recharge-topup" className="hover:text-primary font-bold text-foreground transition-colors">WePlay Recharge & Top Up</Link>
+              <Link to="/trust-safety" className="hover:text-primary font-bold text-foreground transition-colors">Trust & Safety</Link>
               <Link to="/weplay-recharge" className="hover:text-primary transition-colors">Recharge</Link>
               <Link to="/weplay-red-packet" className="hover:text-primary transition-colors">Red Packet</Link>
               <Link to="/weplay-top-up-price-list" className="hover:text-primary transition-colors">Price List</Link>
