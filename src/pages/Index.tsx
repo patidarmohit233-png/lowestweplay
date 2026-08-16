@@ -311,7 +311,7 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
       return;
     }
     setErrors({});
-    const { error } = await supabase.from("customers").upsert({
+    const { error } = await supabase.from("users" as any).upsert({
       weplay_id: parsed.data.user_id,
       weplay_name: parsed.data.name || parsed.data.user_id,
       last_active: new Date().toISOString()
