@@ -61,7 +61,7 @@ export default function Admin() {
     setRefreshing(true);
     const [o, c] = await Promise.all([
     supabase.from("orders").select("*").order("created_at", { ascending: false }),
-    supabase.from("users").select("*").order("created_at", { ascending: false })]
+    supabase.from("customers").select("*").order("created_at", { ascending: false })]
 
 
     );
@@ -90,14 +90,14 @@ export default function Admin() {
     return orders.filter((o) =>
       o.game === "WePlay" &&
       (statusFilter === "all" || o.status === statusFilter) && (
-      !q || o.user_id.toLowerCase().includes(q) || o.order_id?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
+      !q || o.weplay_id.toLowerCase().includes(q) || o.order_code?.toLowerCase().includes(q) || (o.transaction_id ?? "").toLowerCase().includes(q))
     );
 
   }, [orders, statusFilter, query]);
 
   const filteredCustomers = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return customers.filter((c) => c.game === "WePlay" && (!q || c.user_id.toLowerCase().includes(q) || c.name.toLowerCase().includes(q)));
+    return customers.filter((c) => !q || c.weplay_id.toLowerCase().includes(q) || c.weplay_name.toLowerCase().includes(q));
   }, [customers, query]);
 
   const revenue = orders.filter((o) => o.status === "completed").reduce((s, o) => s + Number(o.amount || 0), 0);
@@ -188,10 +188,10 @@ export default function Admin() {
                 }
                   {filteredOrders.map((o) =>
                 <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
-                      <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_id}</td>
+                      <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_code}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(o.created_at).toLocaleString()}</td>
                       <td className="px-4 py-3">
-                        <div className="font-semibold">{o.user_id}</div>
+                        <div className="font-semibold">{o.weplay_id}</div>
                       </td>
                       
                       <td className="px-4 py-3 whitespace-nowrap">{o.plan}</td>
@@ -207,7 +207,7 @@ export default function Admin() {
                         <select
                       value={o.status}
                       onChange={(e) => changeStatus(o.id, e.target.value)}
-                      aria-label={`Status for order ${o.order_id}`}
+                      aria-label={`Status for order ${o.order_code}`}
                       className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
                           {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                         </select>
@@ -221,8 +221,8 @@ export default function Admin() {
                 <thead className="bg-secondary/60 text-xs uppercase tracking-widest text-muted-foreground">
                   <tr>
                     
-                    <th className="text-left px-4 py-3">User ID</th>
-                    <th className="text-left px-4 py-3">Name</th>
+                    <th className="text-left px-4 py-3">WePlay ID</th>
+                    <th className="text-left px-4 py-3">WePlay Name</th>
                     <th className="text-left px-4 py-3">Verified on</th>
                     <th className="text-left px-4 py-3">Last active</th>
 
@@ -236,11 +236,11 @@ export default function Admin() {
                   {filteredCustomers.map((c) =>
                 <tr key={c.id} className="border-t border-border/60 hover:bg-secondary/40">
                       
-                      <td className="px-4 py-3 font-semibold">{c.user_id}</td>
-                      <td className="px-4 py-3">{c.name}</td>
+                      <td className="px-4 py-3 font-semibold">{c.weplay_id}</td>
+                      <td className="px-4 py-3">{c.weplay_name}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(c.last_active).toLocaleString()}</td>
-                      <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.user_id === c.user_id && o.game === c.game).length}</td>
+                      <td className="px-4 py-3 text-right font-bold">{orders.filter((o) => o.weplay_id === c.weplay_id).length}</td>
 
                     </tr>
                 )}

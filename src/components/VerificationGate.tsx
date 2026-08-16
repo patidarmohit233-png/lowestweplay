@@ -36,16 +36,14 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
     setLoading(true);
 
     const { data: existingUser } = await supabase
-      .from('users')
+      .from('customers' as any)
       .select('*')
-      .eq('user_id', parsed.data.user_id)
-      .eq('game', parsed.data.game)
+      .eq('weplay_id', parsed.data.user_id)
       .single();
 
-    const { error } = await supabase.from('users').upsert({
-      game: parsed.data.game,
-      user_id: parsed.data.user_id,
-      name: parsed.data.name || parsed.data.user_id,
+    const { error } = await supabase.from('customers' as any).upsert({
+      weplay_id: parsed.data.user_id,
+      weplay_name: parsed.data.name || parsed.data.user_id,
       last_active: new Date().toISOString(),
     });
 
