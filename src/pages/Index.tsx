@@ -646,7 +646,7 @@ const Index = () => {
         
         <div className="flex-shrink-0">
           <Link to="/" className="block active:scale-[0.96] transition-transform py-1">
-            <img src={LOGO} alt="Lowest Weplay" className="h-[64px] md:h-[84px] w-auto drop-shadow-sm" />
+            <img src={LOGO} alt="Lowest Weplay" className="h-[60px] xs:h-[68px] sm:h-[76px] md:h-[90px] lg:h-[100px] w-auto max-w-[50vw] md:max-w-none drop-shadow-sm object-contain" />
           </Link>
         </div>
         
