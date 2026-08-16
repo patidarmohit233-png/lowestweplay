@@ -53,7 +53,9 @@ export type Database = {
           id: string
           image_url: string | null
           published_at: string | null
+          scheduled_at: string | null
           slug: string
+          status: string | null
           tags: string[] | null
           title: string
         }
@@ -65,7 +67,9 @@ export type Database = {
           id?: string
           image_url?: string | null
           published_at?: string | null
+          scheduled_at?: string | null
           slug: string
+          status?: string | null
           tags?: string[] | null
           title: string
         }
@@ -77,7 +81,9 @@ export type Database = {
           id?: string
           image_url?: string | null
           published_at?: string | null
+          scheduled_at?: string | null
           slug?: string
+          status?: string | null
           tags?: string[] | null
           title?: string
         }
