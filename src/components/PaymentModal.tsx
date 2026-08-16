@@ -310,7 +310,7 @@ export default function PaymentModal({
                       {/* QR */}
                       <div className="mt-4 flex flex-col items-center">
                         <div className="p-3.5 bg-card border border-border rounded-[1.5rem] shadow-elevated">
-                          <img src={qrSrc} alt={`UPI QR code to pay ₹${product.price}`} width={156} height={156}
+                          <img src={qrSrc} alt={`UPI QR code to pay ₹${product.price * quantity}`} width={156} height={156}
                           className="w-[156px] h-[156px] rounded-xl" />
                         </div>
                         <p className="mt-2.5 inline-flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">
@@ -327,14 +327,21 @@ export default function PaymentModal({
               {/* OPTION 2 — RAZORPAY */}
               <motion.div
                 whileHover={{ y: -3 }}
-                onClick={() => setMethod((m) => m === "razorpay" ? null : "razorpay")}
+                onClick={() => {
+                  if (quantity > 1) {
+                    toast({ title: "Bulk orders restricted", description: "Quantities greater than 1 are only available via UPI payment.", variant: "warning" });
+                    return;
+                  }
+                  setMethod((m) => m === "razorpay" ? null : "razorpay");
+                }}
                 role="button"
                 aria-expanded={method === "razorpay"}
                 className={`relative cursor-pointer rounded-[1.5rem] border-2 p-4 md:p-5 transition-all backdrop-blur-xl bg-gradient-to-br from-primary/12 via-primary/[0.06] to-card/70 ${
+                quantity > 1 ? "opacity-50 grayscale cursor-not-allowed border-dashed" : 
                 method === "razorpay" ? "border-primary shadow-[0_16px_40px_-18px_hsl(var(--primary)/0.55)]" : "border-primary/25 hover:border-primary/60 shadow-card"}`}>
 
                 <span className="absolute -top-3 left-4 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary text-primary-foreground text-[9px] font-black uppercase tracking-[0.12em] shadow-card">
-                  Cards · Netbanking · Wallets
+                  {quantity > 1 ? "UPI Only for Bulk" : "Cards · Netbanking · Wallets"}
                 </span>
 
                 <div className="flex items-center justify-between gap-3 mt-1">
