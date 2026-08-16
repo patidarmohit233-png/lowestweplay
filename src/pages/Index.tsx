@@ -360,11 +360,11 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
               {buyer && !editing ?
               <div className="relative space-y-3">
                   <div className="rounded-2xl border border-accent/25 bg-accent/8 px-4 py-3">
-                    <p className="text-[13px] md:text-[14.5px] font-extrabold text-foreground">Welcome back, {buyer.weplay_name}! 👋</p>
-                    <p className="text-[11px] md:text-[12px] text-muted-foreground mt-0.5">You're logged in — your WePlay ID is your permanent account ID.</p>
+                    <p className="text-[13px] md:text-[14.5px] font-extrabold text-foreground">Welcome back, {buyer.name}! 👋</p>
+                    <p className="text-[11px] md:text-[12px] text-muted-foreground mt-0.5">You're logged in — your {buyer.game} ID is your permanent account ID.</p>
                   </div>
                   <div className="grid grid-cols-2 gap-2.5 md:gap-3">
-                  {[{ k: "WePlay ID", v: buyer.weplay_id }, { k: "WePlay Name", v: buyer.weplay_name }].map((f) =>
+                  {[{ k: `${buyer.game} ID`, v: buyer.user_id }, { k: "Name", v: buyer.name }].map((f) =>
                 <div key={f.k} className="rounded-2xl border border-border bg-secondary/70 px-3.5 py-3">
                       <div className="text-[8.5px] md:text-[10px] font-extrabold uppercase tracking-[0.18em] text-muted-foreground">{f.k}</div>
                       <div className="text-sm md:text-base font-extrabold text-foreground truncate mt-0.5">{f.v}</div>
@@ -381,23 +381,24 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
 
               <form onSubmit={submit} className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2.5 md:gap-3">
                   <label className="block">
-                    <span className="sr-only">WePlay ID</span>
+                    <span className="sr-only">Player ID</span>
                     <input
-                    value={form.weplay_id}
-                    onChange={(e) => setForm({ ...form, weplay_id: e.target.value })}
-                    placeholder="Enter your WePlay ID"
-                    className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.weplay_id ? "border-destructive" : "border-border"}`} />
-                    {errors.weplay_id && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_id}</span>}
+                    value={form.user_id}
+                    onChange={(e) => setForm({ ...form, user_id: e.target.value })}
+                    placeholder="Enter your ID"
+                    className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.user_id ? "border-destructive" : "border-border"}`} />
+                    {errors.user_id && <span className="text-[11px] text-destructive mt-1 block">{errors.user_id}</span>}
                   </label>
                   <label className="block">
-                    <span className="sr-only">WePlay Name</span>
+                    <span className="sr-only">Name</span>
                     <input
-                    value={form.weplay_name}
-                    onChange={(e) => setForm({ ...form, weplay_name: e.target.value })}
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
                     placeholder="Enter your Name"
-                    className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.weplay_name ? "border-destructive" : "border-border"}`} />
-                    {errors.weplay_name && <span className="text-[11px] text-destructive mt-1 block">{errors.weplay_name}</span>}
+                    className={`w-full px-4 py-3.5 rounded-2xl border bg-secondary/60 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary focus:bg-card transition-all ${errors.name ? "border-destructive" : "border-border"}`} />
+                    {errors.name && <span className="text-[11px] text-destructive mt-1 block">{errors.name}</span>}
                   </label>
+
                   <button
                   type="submit"
                   className="py-3.5 px-6 text-primary-foreground rounded-2xl font-extrabold text-[11.5px] uppercase tracking-[0.14em] flex items-center justify-center gap-2 active:scale-[0.96] transition-all hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.5)]"
