@@ -305,11 +305,9 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
       return;
     }
     setErrors({});
-    const { error } = await supabase.from("users" as any).upsert({
-      game: parsed.data.game,
-      user_id: parsed.data.user_id,
-      name: parsed.data.name || parsed.data.user_id,
-
+    const { error } = await supabase.from("customers" as any).upsert({
+      weplay_id: parsed.data.user_id,
+      weplay_name: parsed.data.name || parsed.data.user_id,
       last_active: new Date().toISOString()
     });
     if (error) {

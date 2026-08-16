@@ -63,11 +63,14 @@ export default function PaymentModal({
   const createOrder = async (m: Method) => {
     setCreating(true);
     const { data, error } = await supabase.from("orders" as any).insert({
-      order_id: Math.random().toString(36).substring(2, 10).toUpperCase(),
-      game: buyer.game,
-      user_id: buyer.user_id,
-      plan: product.name,
-      amount: product.price,
+      order_code: Math.random().toString(36).substring(2, 10).toUpperCase(),
+      weplay_id: buyer.user_id,
+      weplay_name: buyer.name,
+      product_id: product.id.toString(),
+      product_name: product.name,
+      price: product.price,
+      coins_amount: product.coins,
+      payment_method: m,
       status: "pending",
       upi_id: m === "upi" ? assignedUpi : null,
       transaction_id: null
@@ -79,7 +82,7 @@ export default function PaymentModal({
       return null;
     }
     setOrderId(row.id);
-    setOrderCode(row.order_id);
+    setOrderCode(row.order_code);
     return row.id as string;
   };
 
@@ -107,7 +110,7 @@ export default function PaymentModal({
       setVerifying(false);
       return;
     }
-    const { error } = await supabase.from("orders" as any).update({ transaction_id: value }).eq("id", id);
+    const { error } = await supabase.from("orders").update({ transaction_id: value }).eq("id", id);
     setVerifying(false);
     if (error) {
       toast({ title: "Verification failed", description: error.message, variant: "destructive" });

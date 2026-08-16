@@ -43,13 +43,13 @@ export default function TrackOrder() {
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase.rpc("get_customer_orders", { p_weplay_id: value });
+    const { data, error } = await supabase.from("orders").select("*").eq("weplay_id", value).order("created_at", { ascending: false });
     setLoading(false);
     if (error) {
       toast({ title: "Could not load orders", description: error.message, variant: "destructive" });
       return;
     }
-    setOrders((data ?? []) as TrackedOrder[]);
+    setOrders((data ?? []) as any[]);
   };
 
   return (
