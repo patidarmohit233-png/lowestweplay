@@ -161,7 +161,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            bhai jab koi lowestweplay k logo p click kre to wo home page p ajae esa krde system and jo payment krne k bd receipt show hota h and niche box m likha hota h wo ache se visible nhi h to wo bhi thik krde
+                                            bhai footer mai jo disclaimer tha ki hm kisi se affiliated ya sponsered nhi h wo wala disclaimer hat gya y pta nhi kya likha ara h
         </p>
       )}
     </Reveal>);
