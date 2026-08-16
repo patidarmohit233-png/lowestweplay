@@ -462,8 +462,8 @@ function VerificationPanel({ buyer, onVerified }: { buyer: VerifiedBuyer | null;
                 </div> :
 
 
-              <form onSubmit={submit} className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2.5 md:gap-3">
-                  <label className="block">
+              <form onSubmit={submit} className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-3 md:gap-3">
+                  <label className="block w-full">
                     <span className="sr-only">Player ID</span>
                     <input
                     value={form.user_id}
