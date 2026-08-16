@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { User, LogOut, Receipt, Coins, Package, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fmt, tierMeta } from "@/lib/loyalty";
+import weplayAvatarAsset from "@/assets/weplay-avatar.png.asset.json";
+
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
 type Stats = { total_coins: number; bonus_coins: number; loyalty_tier: string; orders: number };
@@ -60,12 +62,13 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
           <X size={18} strokeWidth={2.6} className="text-primary" />
         ) : (
           <img 
-            src="https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png" 
+            src={weplayAvatarAsset.url} 
             alt="WePlay profile" 
-            className="w-full h-full object-contain p-1"
+            className="w-full h-full object-cover"
           />
         )}
       </button>
+
 
 
       <AnimatePresence>
