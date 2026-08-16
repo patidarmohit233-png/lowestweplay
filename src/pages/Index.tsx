@@ -250,7 +250,7 @@ function DailyCountdownBar() {
         animate={{ x: ["-120%", "120%"] }}
         transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.4 }} />
 
-      <div className="relative max-w-7xl mx-auto px-3 py-2 md:py-2.5 flex items-center justify-center gap-2 md:gap-3.5 flex-nowrap">
+      <div className="relative max-w-7xl mx-auto px-3 py-0 h-full flex items-center justify-center gap-2 md:gap-3.5 flex-nowrap">
         <motion.span
           className="text-sm md:text-lg leading-none"
           animate={{ scale: [1, 1.18, 1], rotate: [0, -8, 8, 0] }}
@@ -558,8 +558,9 @@ const Index = () => {
       </AnimatePresence>
     )}
 
-    <header className="fixed top-[44px] md:top-[56px] left-0 right-0 z-50 px-4 md:px-6 pointer-events-none">
-      <div className="max-w-7xl mx-auto flex items-center justify-between pointer-events-auto">
+    <header className="fixed top-[40px] left-0 right-0 z-50 px-4 md:px-6 pointer-events-none transition-all duration-300">
+      <div className="absolute inset-0 bg-background/50 backdrop-blur-xl border-b border-border/40 pointer-events-none" />
+      <div className="relative max-w-7xl mx-auto flex items-center justify-between pointer-events-auto h-[64px] md:h-[80px]">
         <div className="flex-1 flex items-center gap-4">
           <Link to="/weplay-recharge-topup" className="hidden md:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
             <ArrowLeftRight size={13} className="text-primary" /> Buy & Sell ID
@@ -586,6 +587,8 @@ const Index = () => {
         </div>
       </div>
     </header>
+    
+    <div className="h-[104px] md:h-[120px]" />
 
     <div
       aria-hidden={!buyer ? true : undefined}
