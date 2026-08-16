@@ -11,13 +11,12 @@ export default function BlogList() {
 
   useEffect(() => {
     async function fetchPosts() {
+      const now = new Date().toISOString();
       const { data, error } = await supabase
         .from("blog_posts")
         .select("*")
-        .eq("status", "published")
-        .lte("published_at", new Date().toISOString())
+        .or(`status.eq.published,and(status.eq.scheduled,scheduled_at.lte.${now})`)
         .order("published_at", { ascending: false });
-
       
       if (!error && data) {
         setPosts(data);
@@ -26,6 +25,7 @@ export default function BlogList() {
     }
     fetchPosts();
   }, []);
+
 
   return (
     <div className="min-h-screen bg-background">
