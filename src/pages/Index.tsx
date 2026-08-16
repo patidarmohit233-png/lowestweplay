@@ -166,7 +166,8 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
       {/* content */}
       <div className="px-3 pt-2.5 pb-3 md:px-5 md:pt-4 md:pb-5 flex flex-col flex-grow">
         <h3 className="text-[11.5px] md:text-[15px] font-extrabold text-foreground leading-tight line-clamp-1">{product.name}</h3>
-        <p className="text-muted-foreground text-[9.5px] md:text-xs mt-1 mb-2.5 md:mb-4 flex-grow leading-snug line-clamp-2">{product.desc}</p>
+        <Link to="/weplay-recharge-topup" className="text-[9.5px] md:text-[10px] text-primary hover:underline font-bold mb-1 block">WePlay Top Up</Link>
+        <p className="text-muted-foreground text-[9.5px] md:text-xs mt-0 mb-2.5 md:mb-4 flex-grow leading-snug line-clamp-2">{product.desc}</p>
 
         <div className="flex items-end justify-between gap-1 mb-2.5 md:mb-4">
           <div className="flex flex-col">
@@ -1006,7 +1007,8 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-7 mb-8">
             <img src={LOGO} alt="Lowest Weplay" loading="lazy" className="w-[130px] h-auto opacity-70" />
             <nav className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-[13px] text-muted-foreground">
-              <Link to="/weplay-recharge" className="hover:text-primary transition-colors">WePlay Recharge</Link>
+              <Link to="/weplay-recharge-topup" className="hover:text-primary font-bold text-foreground transition-colors">WePlay Recharge & Top Up</Link>
+              <Link to="/weplay-recharge" className="hover:text-primary transition-colors">Recharge</Link>
               <Link to="/weplay-red-packet" className="hover:text-primary transition-colors">Red Packet</Link>
               <Link to="/weplay-top-up-price-list" className="hover:text-primary transition-colors">Price List</Link>
               <Link to="/how-to-top-up-weplay" className="hover:text-primary transition-colors">How to Top Up</Link>
