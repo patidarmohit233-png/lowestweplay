@@ -88,6 +88,7 @@ export default function MyAccount() {
     setOrders(((o ?? []) as any[]).map(x => ({
       ...x,
       order_id: x.order_code || x.id.slice(0, 8),
+      amount: String(x.price || x.amount || "0"),
       plan: x.product_name || x.plan || "Recharge"
     })) as OrderRow[]);
     // keep the session logged-in
