@@ -161,23 +161,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            Meri website mein kuch features thik ho jate hain, fir thodi der baad wapas fail ho jate hain — especially profile, payment verify, admin panel.
-
-Kya yeh ho sakta hai:
-
-1. Supabase RLS policy caching issue?
-
-2. Connection pooling limit?
-
-3. Lovable transient state issue?
-
-Mujhe permanent fix do taake:
-
-- Profile hamesha khule
-
-- Payment verify hamesha ho
-
-- Admin panel hamesha kaam kare
+                                            github k repo p bhi is change ko daldo jisse jaha se bhi deploy h waha bhi change hpjae upi id
         </p>
       )}
     </Reveal>);
