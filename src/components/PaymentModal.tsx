@@ -9,15 +9,9 @@ import { toast } from "@/hooks/use-toast";
 import type { Product } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
 
-export const UPI_IDS = [
-"shubhsharmaa@slc",
-"BHARATPE.9D0G0R0Y6T421308@unitype",
-"lowestweplayrechargee@nyes",
-"lowestweplayy@axl",
-"lowestweplay@ibl",
-"lowestweplayrecharge@ybl"];
+export const UPI_IDS = ["paytm.s2zpbk5@pty"];
 
-export const UPI_ID = UPI_IDS[UPI_IDS.length - 1];
+export const UPI_ID = UPI_IDS[0];
 
 const pickUpiId = () => UPI_IDS[Math.floor(Math.random() * UPI_IDS.length)];
 
