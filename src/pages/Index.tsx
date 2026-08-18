@@ -161,7 +161,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            bhai 479 wale plan h usko ab stocked out krde or bnde ab usko topup na kar pae esa krde website se htaio mat bs use stocked out krde
+                                            us pure plan k upar ek alag sa krde jise wo lage ki han ye stocked out h abhi sirf niche likha ara h
         </p>
       )}
     </Reveal>);
