@@ -8,12 +8,13 @@ export type Product = {
   coins: string;
   coinsAmount: number;
   link: string;
+  isStockedOut?: boolean;
 };
 
 export const PRODUCTS: Product[] = [
-  { id: 1, name: "10K RED PACKET", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804999/Gemini_Generated_Image_yy0rgmyy0rgmyy0r_dfnma9.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", coinsAmount: 10000, coins: "10,000 + 1,000 bonus", link: "https://razorpay.me/@fluxfinds?amount=wwXoG29foDWgJuGJgtb%2BRw%3D%3D" },
+  { id: 1, name: "10K RED PACKET", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804999/Gemini_Generated_Image_yy0rgmyy0rgmyy0r_dfnma9.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", coinsAmount: 10000, coins: "10,000 + 1,000 bonus", link: "https://razorpay.me/@fluxfinds?amount=wwXoG29foDWgJuGJgtb%2BRw%3D%3D", isStockedOut: true },
   { id: 2, name: "50K RED PACKET", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804998/Gemini_Generated_Image_vtkas1vtkas1vtka_oumu7o.png", price: 1299, mrp: 5399, desc: "50,000 coins + 50,000 bonus", coinsAmount: 50000, coins: "50,000 + 50,000 bonus", link: "https://razorpay.me/@fluxfinds?amount=N6UC2nLxOlAFTrRn0HmYgw%3D%3D" },
-  { id: 3, name: "10K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804982/Gemini_Generated_Image_md8zx9md8zx9md8z_yegmmu.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", coinsAmount: 10000, coins: "10,000 + 1,000 bonus", link: "https://razorpay.me/@fluxfinds?amount=wwXoG29foDWgJuGJgtb%2BRw%3D%3D" },
+  { id: 3, name: "10K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804982/Gemini_Generated_Image_md8zx9md8zx9md8z_yegmmu.png", price: 479, mrp: 1199, desc: "10,000 coins + 1000 bonus", coinsAmount: 10000, coins: "10,000 + 1,000 bonus", link: "https://razorpay.me/@fluxfinds?amount=wwXoG29foDWgJuGJgtb%2BRw%3D%3D", isStockedOut: true },
   { id: 4, name: "50K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804978/Gemini_Generated_Image_79nvx179nvx179nv_xg3bis.png", price: 1299, mrp: 5399, desc: "50,000 coins + 5000 bonus + 1 Broad Absolute", coinsAmount: 50000, coins: "50,000 + 5,000 bonus", link: "https://razorpay.me/@fluxfinds?amount=N6UC2nLxOlAFTrRn0HmYgw%3D%3D" },
   { id: 5, name: "100K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804980/Gemini_Generated_Image_si6wdtsi6wdtsi6w_1_ob3o8v.png", price: 2199, mrp: 12000, desc: "1 Lakh coins + 10,000 bonus + 2 Broad Absolute", coinsAmount: 100000, coins: "1,00,000 + 10,000 bonus", link: "https://razorpay.me/@fluxfinds?amount=PJ6ahFrCviFu2k0RR%2FxHaQ%3D%3D" },
   { id: 6, name: "250K GOLD", img: "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773804982/Gemini_Generated_Image_si6wdtsi6wdtsi6w_w9aomo.png", price: 3299, mrp: 27000, desc: "2.5 Lakh coins + 25,000 bonus + 5 Broad Absolute", coinsAmount: 250000, coins: "2,50,000 + 25,000 bonus", link: "https://razorpay.me/@fluxfinds?amount=RjwTDWOTx6cEe8Ttx9EUCw%3D%3D" },
