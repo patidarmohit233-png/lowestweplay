@@ -161,7 +161,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            bhai 479 wale plan h usko ab stocked out krde or bnde ab usko topup na kar pae esa krde website se htaio mat bs use stocked out krde
+                                            us pure plan k upar ek alag sa krde jise wo lage ki han ye stocked out h abhi sirf niche likha ara h
         </p>
       )}
     </Reveal>);
@@ -239,11 +239,23 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
           src={product.img}
           alt={`${product.name} Lowest WePlay top-up pack`}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.1]" />
+          className={`w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.1] ${product.isStockedOut ? 'grayscale contrast-[0.8] opacity-60' : ''}`} />
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-        {badge &&
+        {product.isStockedOut && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px] z-10">
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="bg-destructive text-white px-4 py-2 rounded-lg font-black text-[12px] md:text-sm tracking-tighter shadow-2xl border-2 border-white/20 rotate-[-12deg] uppercase"
+            >
+              Out of Stock
+            </motion.div>
+          </div>
+        )}
+
+        {badge && !product.isStockedOut &&
         <span className={`absolute top-2 left-2 inline-flex items-center gap-1 px-2 py-[3px] md:px-2.5 md:py-1 rounded-full text-[7.5px] md:text-[9.5px] font-extrabold uppercase tracking-[0.12em] backdrop-blur-md border ${
         badge.color === "accent" ?
         "bg-accent/90 text-accent-foreground border-accent/40" :
@@ -254,9 +266,11 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
           </span>
         }
 
-        <span className="absolute bottom-2 left-2 px-2 py-[3px] md:px-2.5 md:py-1 rounded-full bg-foreground/85 backdrop-blur-md text-background text-[8px] md:text-[10px] font-extrabold tracking-wide">
-          {discount}% OFF
-        </span>
+        {!product.isStockedOut && (
+          <span className="absolute bottom-2 left-2 px-2 py-[3px] md:px-2.5 md:py-1 rounded-full bg-foreground/85 backdrop-blur-md text-background text-[8px] md:text-[10px] font-extrabold tracking-wide">
+            {discount}% OFF
+          </span>
+        )}
       </div>
 
       {/* content */}
