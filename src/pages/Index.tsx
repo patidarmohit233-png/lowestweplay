@@ -161,7 +161,7 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
           '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            github k repo p bhi is change ko daldo jisse jaha se bhi deploy h waha bhi change hpjae upi id
+                                            bhai 479 wale plan h usko ab stocked out krde or bnde ab usko topup na kar pae esa krde website se htaio mat bs use stocked out krde
         </p>
       )}
     </Reveal>);
@@ -195,6 +195,14 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
   };
 
   const handleBuy = () => {
+    if (product.isStockedOut) {
+      toast({
+        title: "Stock Out",
+        description: "This pack is currently stocked out. Please choose any other pack.",
+        variant: "destructive",
+      });
+      return;
+    }
     trackEvent('click_buy_now', { product_id: product.id, product_name: product.name });
     if (!buyer) {
       onRequireVerify();
@@ -267,19 +275,21 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
 
         <button
           onClick={handleBuy}
-          disabled={buying}
-          aria-label={`Buy ${product.name}`}
-          className="relative w-full py-2.5 md:py-3.5 rounded-xl md:rounded-2xl font-extrabold text-primary-foreground overflow-hidden active:scale-[0.96] transition-all duration-300 disabled:opacity-70 hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.5)]"
-          style={{ background: "var(--gradient-primary)" }}>
+          disabled={buying || product.isStockedOut}
+          aria-label={product.isStockedOut ? `${product.name} Stocked Out` : `Buy ${product.name}`}
+          className={`relative w-full py-2.5 md:py-3.5 rounded-xl md:rounded-2xl font-extrabold text-primary-foreground overflow-hidden active:scale-[0.96] transition-all duration-300 disabled:opacity-70 ${product.isStockedOut ? 'grayscale cursor-not-allowed' : 'hover:shadow-[0_12px_30px_-8px_hsl(var(--primary)/0.5)]'}`}
+          style={{ background: product.isStockedOut ? "#94a3b8" : "var(--gradient-primary)" }}>
           <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-primary-foreground/25 blur-md animate-shine" />
           <span className="relative z-10 flex items-center justify-center gap-1.5 uppercase tracking-[0.12em] text-[10px] md:text-[12.5px]">
-            {buying ?
-            <><Loader2 size={13} className="animate-spin" /> Processing…</> :
-            buyer ?
-            <>Buy Now <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" /></> :
-
-            <><UserCheck size={13} /> Verify to Buy</>
-            }
+            {product.isStockedOut ? (
+              <>Stocked Out</>
+            ) : buying ? (
+              <><Loader2 size={13} className="animate-spin" /> Processing…</>
+            ) : buyer ? (
+              <>Buy Now <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" /></>
+            ) : (
+              <><UserCheck size={13} /> Verify to Buy</>
+            )}
           </span>
         </button>
       </div>
