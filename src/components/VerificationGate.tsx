@@ -45,12 +45,11 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
         name: parsed.data.name
       };
 
-      // Direct insert as primary method for external database
-      const { error } = await supabase.from('customers').upsert({
-        weplay_id: parsed.data.user_id,
-        weplay_name: parsed.data.name,
-        last_active: new Date().toISOString()
-      }, { onConflict: 'weplay_id' });
+      // Use the security definer RPC to bypass RLS restrictions
+      const { error } = await supabase.rpc('secure_upsert_customer', {
+        p_weplay_id: parsed.data.user_id,
+        p_weplay_name: parsed.data.name
+      });
 
       if (error) {
         console.warn("Database upsert failed, proceeding with local session:", error.message);
