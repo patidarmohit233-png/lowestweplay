@@ -563,14 +563,15 @@ const Index = () => {
     }
   }, [showSplash]);
 
-  useEffect(() => {
-    const s1 = document.createElement("script");
-    s1.id = "chatway";
-    s1.async = true;
-    s1.src = "https://cdn.chatway.app/widget.js?id=tpVsNxrxmjZJ";
-    document.body.appendChild(s1);
-    return () => {document.body.removeChild(s1);};
-  }, []);
+  // Chatway widget removed — public pages no longer load live chat
+  // useEffect(() => {
+  //   const s1 = document.createElement("script");
+  //   s1.id = "chatway";
+  //   s1.async = true;
+  //   s1.src = "https://cdn.chatway.app/widget.js?id=tpVsNxrxmjZJ";
+  //   document.body.appendChild(s1);
+  //   return () => {document.body.removeChild(s1);};
+  // }, []);
 
   return (
     <>
