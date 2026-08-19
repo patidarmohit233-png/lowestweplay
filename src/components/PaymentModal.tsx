@@ -80,17 +80,17 @@ export default function PaymentModal({
     setCreating(true);
     trackEvent('payment_started', { method: m, product_id: product.id, product_name: product.name });
     
-    // Switch back to direct insert as RPC might be missing in external DB
-    const { data, error } = await supabase.from('orders').insert({
-      weplay_id: buyer.user_id,
-      weplay_name: buyer.name || (buyer as any).weplay_name || "Player",
-      product_id: String(product.id),
-      product_name: String(product.name),
-      price: product.price * quantity,
-      coins_amount: product.coinsAmount * quantity,
-      payment_method: m,
-      upi_id: m === "upi" ? assignedUpi : ""
-    }).select().single();
+    // Use the security definer RPC for more secure and reliable order creation
+    const { data, error } = await supabase.rpc('secure_create_order', {
+      p_weplay_id: buyer.user_id,
+      p_weplay_name: buyer.name || (buyer as any).weplay_name || "Player",
+      p_product_id: String(product.id),
+      p_product_name: String(product.name),
+      p_price: product.price * quantity,
+      p_coins_amount: product.coinsAmount * quantity,
+      p_payment_method: m,
+      p_upi_id: m === "upi" ? assignedUpi : null
+    });
     
     setCreating(false);
     if (error || !data) {
