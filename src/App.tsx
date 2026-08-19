@@ -4,6 +4,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
+import Maintenance from "./pages/Maintenance.tsx";
+import { MAINTENANCE_MODE } from "./config/maintenance";
 import ScrollToTop from "./components/ScrollToTop";
 import Admin from "./pages/AdminGate.tsx";
 
