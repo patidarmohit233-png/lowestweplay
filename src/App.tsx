@@ -40,7 +40,7 @@ const App = () => (
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={MAINTENANCE_MODE ? <Maintenance /> : <Index />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin-lowest-shubham" element={<Admin />} />
           <Route path="/admin-lowest" element={<Admin />} />
