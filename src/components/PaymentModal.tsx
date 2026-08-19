@@ -9,11 +9,31 @@ import { toast } from "@/hooks/use-toast";
 import type { Product } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
 
-export const UPI_IDS = ["paytm.s2zpbk5@pty"];
+export const UPI_IDS = [
+  "paytm.s2zpbk5@pty",
+  "weplayrecharge@ybl",
+  "lowestweplay@ybl",
+  "paytm.s2zpbk6@pty",
+  "weplayrecharge2@ybl",
+  "lowestweplay2@ybl"
+];
 
-export const UPI_ID = UPI_IDS[0];
+/**
+ * Picks a UPI ID based on the current day of the week.
+ * This ensures the UPI ID changes daily.
+ */
+const getDailyUpiId = () => {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = now.getTime() - start.getTime();
+  const oneDay = 1000 * 60 * 60 * 24;
+  const dayOfYear = Math.floor(diff / oneDay);
+  return UPI_IDS[dayOfYear % UPI_IDS.length];
+};
 
-const pickUpiId = () => UPI_IDS[Math.floor(Math.random() * UPI_IDS.length)];
+export const UPI_ID = getDailyUpiId();
+
+const pickUpiId = () => getDailyUpiId();
 
 const PAYEE = "Lowest Weplay";
 
