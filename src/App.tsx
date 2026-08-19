@@ -4,6 +4,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
+import Maintenance from "./pages/Maintenance.tsx";
+import { MAINTENANCE_MODE } from "./config/maintenance";
 import ScrollToTop from "./components/ScrollToTop";
 import Admin from "./pages/AdminGate.tsx";
 
@@ -38,7 +40,7 @@ const App = () => (
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={MAINTENANCE_MODE ? <Maintenance /> : <Index />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin-lowest-shubham" element={<Admin />} />
           <Route path="/admin-lowest" element={<Admin />} />
