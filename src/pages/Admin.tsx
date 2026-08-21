@@ -91,8 +91,17 @@ export default function Admin() {
 
   const changeStatus = async (id: string, status: string) => {
     const prev = orders;
-    setOrders((list) => list.map((o) => o.id === id ? { ...o, status } : o));
-    const { error } = await supabase.from("orders").update({ status }).eq("id", id);
+    const patch: Record<string, any> = { status };
+
+    if (status === "failed") {
+      const current = orders.find((o) => o.id === id);
+      const reason = prompt("Reason for failure (this will show on the receipt):", current?.failure_reason || "");
+      if (reason === null) return;
+      patch.failure_reason = reason.trim() || null;
+    }
+
+    setOrders((list) => list.map((o) => o.id === id ? { ...o, ...patch } : o));
+    const { error } = await supabase.from("orders").update(patch as any).eq("id", id);
     if (error) {
       setOrders(prev);
       toast({ title: "Update failed", description: error.message, variant: "destructive" });
@@ -100,6 +109,23 @@ export default function Admin() {
     }
     toast({ title: `Status set to ${status}` });
   };
+
+  const editOrderText = async (o: Order, field: "failure_reason" | "receipt_note") => {
+    const label = field === "failure_reason" ? "Reason for failure" : "Receipt note";
+    const value = prompt(`${label} (shown on the receipt):`, (o[field] as string) || "");
+    if (value === null) return;
+    const patch = { [field]: value.trim() || null } as Record<string, any>;
+    const prev = orders;
+    setOrders((list) => list.map((x) => x.id === o.id ? { ...x, ...patch } : x));
+    const { error } = await supabase.from("orders").update(patch as any).eq("id", o.id);
+    if (error) {
+      setOrders(prev);
+      toast({ title: "Update failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: `${label} saved` });
+  };
+
 
 
   const filteredOrders = useMemo(() => {
