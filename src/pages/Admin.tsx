@@ -364,12 +364,15 @@ export default function Admin() {
                       <th className="text-left px-4 py-3">Paid To (UPI)</th>
                       <th className="text-left px-4 py-3">Txn ID</th>
                       <th className="text-left px-4 py-3">Status</th>
+                      <th className="text-left px-4 py-3">Reason / Note</th>
+                      <th className="text-right px-4 py-3">Receipt</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredOrders.length === 0 &&
-                      <tr><td colSpan={8} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
+                      <tr><td colSpan={10} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
                     }
+
                     {filteredOrders.map((o) =>
                       <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
                         <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_code}</td>
