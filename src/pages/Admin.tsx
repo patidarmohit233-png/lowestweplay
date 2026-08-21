@@ -398,9 +398,39 @@ export default function Admin() {
                             {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                           </select>
                         </td>
+                        <td className="px-4 py-3 max-w-[220px]">
+                          <div className="space-y-1">
+                            {o.failure_reason &&
+                              <div className="text-[11px] font-semibold text-rose-600 flex items-start gap-1">
+                                <AlertTriangle size={12} className="mt-0.5 shrink-0" /> <span className="break-words">{o.failure_reason}</span>
+                              </div>
+                            }
+                            {o.receipt_note &&
+                              <div className="text-[11px] text-muted-foreground break-words">{o.receipt_note}</div>
+                            }
+                            <div className="flex items-center gap-1 pt-0.5">
+                              <button onClick={() => editOrderText(o, "failure_reason")}
+                                className="px-2 py-1 rounded-md border border-border text-[10px] font-bold hover:border-rose-300 hover:text-rose-600">
+                                Reason
+                              </button>
+                              <button onClick={() => editOrderText(o, "receipt_note")}
+                                className="px-2 py-1 rounded-md border border-border text-[10px] font-bold hover:border-primary/40 hover:text-primary inline-flex items-center gap-1">
+                                <Edit3 size={10} /> Note
+                              </button>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <button onClick={() => openReceipt(o)}
+                            title="Download / print receipt"
+                            className="px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-[11px] font-bold inline-flex items-center gap-1.5 active:scale-[0.97]">
+                            <Download size={12} /> Receipt
+                          </button>
+                        </td>
                       </tr>
                     )}
                   </tbody>
+
                 </table>
               </div>
             ) : tab === "analytics" ? (
