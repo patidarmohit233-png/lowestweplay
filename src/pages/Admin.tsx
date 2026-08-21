@@ -23,8 +23,11 @@ type Order = {
   status: string;
   transaction_id: string | null;
   upi_id: string | null;
+  failure_reason?: string | null;
+  receipt_note?: string | null;
   created_at: string;
 };
+
 
 type Customer = {
   weplay_id: string;
