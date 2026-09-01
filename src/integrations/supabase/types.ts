@@ -131,7 +131,6 @@ export type Database = {
           coins_amount: number
           created_at: string
           email: string | null
-          failure_reason: string | null
           id: string
           order_code: string
           payment_method: string
@@ -139,7 +138,6 @@ export type Database = {
           price: number
           product_id: string
           product_name: string
-          receipt_note: string | null
           status: string
           transaction_id: string | null
           updated_at: string
@@ -152,7 +150,6 @@ export type Database = {
           coins_amount?: number
           created_at?: string
           email?: string | null
-          failure_reason?: string | null
           id?: string
           order_code?: string
           payment_method?: string
@@ -160,7 +157,6 @@ export type Database = {
           price: number
           product_id: string
           product_name: string
-          receipt_note?: string | null
           status?: string
           transaction_id?: string | null
           updated_at?: string
@@ -173,7 +169,6 @@ export type Database = {
           coins_amount?: number
           created_at?: string
           email?: string | null
-          failure_reason?: string | null
           id?: string
           order_code?: string
           payment_method?: string
@@ -181,7 +176,6 @@ export type Database = {
           price?: number
           product_id?: string
           product_name?: string
-          receipt_note?: string | null
           status?: string
           transaction_id?: string | null
           updated_at?: string
@@ -256,7 +250,6 @@ export type Database = {
               coins_amount: number
               created_at: string
               email: string | null
-              failure_reason: string | null
               id: string
               order_code: string
               payment_method: string
@@ -264,7 +257,6 @@ export type Database = {
               price: number
               product_id: string
               product_name: string
-              receipt_note: string | null
               status: string
               transaction_id: string | null
               updated_at: string
@@ -333,7 +325,6 @@ export type Database = {
           coins_amount: number
           created_at: string
           email: string | null
-          failure_reason: string | null
           id: string
           order_code: string
           payment_method: string
@@ -341,7 +332,6 @@ export type Database = {
           price: number
           product_id: string
           product_name: string
-          receipt_note: string | null
           status: string
           transaction_id: string | null
           updated_at: string

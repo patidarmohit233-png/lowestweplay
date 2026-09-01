@@ -2,10 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useNoindex } from "@/hooks/use-noindex";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen, FileCode, Clock, CheckCircle, Send, Download, AlertTriangle } from "lucide-react";
+import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen, FileCode, Clock, CheckCircle, Send } from "lucide-react";
 import { generateSitemapXml } from "@/lib/sitemap-generator";
-import { openReceipt } from "@/lib/receipt";
-
 
 
 
@@ -23,11 +21,8 @@ type Order = {
   status: string;
   transaction_id: string | null;
   upi_id: string | null;
-  failure_reason?: string | null;
-  receipt_note?: string | null;
   created_at: string;
 };
-
 
 type Customer = {
   weplay_id: string;
@@ -91,17 +86,8 @@ export default function Admin() {
 
   const changeStatus = async (id: string, status: string) => {
     const prev = orders;
-    const patch: Record<string, any> = { status };
-
-    if (status === "failed") {
-      const current = orders.find((o) => o.id === id);
-      const reason = prompt("Reason for failure (this will show on the receipt):", current?.failure_reason || "");
-      if (reason === null) return;
-      patch.failure_reason = reason.trim() || null;
-    }
-
-    setOrders((list) => list.map((o) => o.id === id ? { ...o, ...patch } : o));
-    const { error } = await supabase.from("orders").update(patch as any).eq("id", id);
+    setOrders((list) => list.map((o) => o.id === id ? { ...o, status } : o));
+    const { error } = await supabase.from("orders").update({ status }).eq("id", id);
     if (error) {
       setOrders(prev);
       toast({ title: "Update failed", description: error.message, variant: "destructive" });
@@ -109,23 +95,6 @@ export default function Admin() {
     }
     toast({ title: `Status set to ${status}` });
   };
-
-  const editOrderText = async (o: Order, field: "failure_reason" | "receipt_note") => {
-    const label = field === "failure_reason" ? "Reason for failure" : "Receipt note";
-    const value = prompt(`${label} (shown on the receipt):`, (o[field] as string) || "");
-    if (value === null) return;
-    const patch = { [field]: value.trim() || null } as Record<string, any>;
-    const prev = orders;
-    setOrders((list) => list.map((x) => x.id === o.id ? { ...x, ...patch } : x));
-    const { error } = await supabase.from("orders").update(patch as any).eq("id", o.id);
-    if (error) {
-      setOrders(prev);
-      toast({ title: "Update failed", description: error.message, variant: "destructive" });
-      return;
-    }
-    toast({ title: `${label} saved` });
-  };
-
 
 
   const filteredOrders = useMemo(() => {
@@ -364,15 +333,12 @@ export default function Admin() {
                       <th className="text-left px-4 py-3">Paid To (UPI)</th>
                       <th className="text-left px-4 py-3">Txn ID</th>
                       <th className="text-left px-4 py-3">Status</th>
-                      <th className="text-left px-4 py-3">Reason / Note</th>
-                      <th className="text-right px-4 py-3">Receipt</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredOrders.length === 0 &&
-                      <tr><td colSpan={10} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
+                      <tr><td colSpan={8} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
                     }
-
                     {filteredOrders.map((o) =>
                       <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
                         <td className="px-4 py-3 font-bold whitespace-nowrap">{o.order_code}</td>
@@ -398,39 +364,9 @@ export default function Admin() {
                             {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                           </select>
                         </td>
-                        <td className="px-4 py-3 max-w-[220px]">
-                          <div className="space-y-1">
-                            {o.failure_reason &&
-                              <div className="text-[11px] font-semibold text-rose-600 flex items-start gap-1">
-                                <AlertTriangle size={12} className="mt-0.5 shrink-0" /> <span className="break-words">{o.failure_reason}</span>
-                              </div>
-                            }
-                            {o.receipt_note &&
-                              <div className="text-[11px] text-muted-foreground break-words">{o.receipt_note}</div>
-                            }
-                            <div className="flex items-center gap-1 pt-0.5">
-                              <button onClick={() => editOrderText(o, "failure_reason")}
-                                className="px-2 py-1 rounded-md border border-border text-[10px] font-bold hover:border-rose-300 hover:text-rose-600">
-                                Reason
-                              </button>
-                              <button onClick={() => editOrderText(o, "receipt_note")}
-                                className="px-2 py-1 rounded-md border border-border text-[10px] font-bold hover:border-primary/40 hover:text-primary inline-flex items-center gap-1">
-                                <Edit3 size={10} /> Note
-                              </button>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 text-right">
-                          <button onClick={() => openReceipt(o)}
-                            title="Download / print receipt"
-                            className="px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-[11px] font-bold inline-flex items-center gap-1.5 active:scale-[0.97]">
-                            <Download size={12} /> Receipt
-                          </button>
-                        </td>
                       </tr>
                     )}
                   </tbody>
-
                 </table>
               </div>
             ) : tab === "analytics" ? (
