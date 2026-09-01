@@ -22,7 +22,7 @@ const HowItWorks = () => {
     },
     {
       title: "Make Payment",
-      desc: "Complete the payment via UPI or Razorpay. For bulk orders, UPI is the preferred and fastest method.",
+      desc: "Complete the payment securely on Razorpay using UPI, cards, net banking or wallets.",
       icon: <CreditCard size={24} />,
       color: "bg-purple-500"
     },
