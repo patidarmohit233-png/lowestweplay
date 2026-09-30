@@ -66,21 +66,41 @@ export default function PaymentModal({
       toast({ title: "Enter a valid code", description: "Paste your Google Play redeem code.", variant: "destructive" });
       return;
     }
-    setVerifying(true);
-    const id = orderId ?? (await createOrder());
-    if (!id) {
-      setVerifying(false);
+    const b = buyer as any;
+    const weplayId = String(b?.user_id || b?.weplay_id || b?.id || "").trim();
+    if (!weplayId) {
+      toast({ title: "Verify your WePlay ID", description: "Please verify your WePlay ID again, then retry.", variant: "destructive" });
       return;
     }
-
-    const { error } = await supabase.
-    from("orders").
-    update({ transaction_id: value }).
-    eq("id", id);
+    setVerifying(true);
+    let id = orderId;
+    let error: any = null;
+    if (!id) {
+      const res = await supabase.rpc('submit_redeem_order' as any, {
+        p_weplay_id: weplayId,
+        p_weplay_name: String(b?.name || b?.weplay_name || "Player"),
+        p_product_id: String(product.id),
+        p_product_name: String(product.name),
+        p_price: Math.round(product.price * quantity),
+        p_coins_amount: Math.round((product.coinsAmount || 0) * quantity),
+        p_redeem_code: value,
+      } as any);
+      error = res.error;
+      const row: any = Array.isArray(res.data) ? res.data[0] : res.data;
+      if (!error && row?.id) {
+        id = row.id;
+        setOrderId(row.id);
+        setOrderCode(row.order_code);
+      }
+    } else {
+      const res = await supabase.from("orders").update({ transaction_id: value }).eq("id", id);
+      error = res.error;
+    }
 
     setVerifying(false);
-    if (error) {
-      toast({ title: "Verification failed", description: error.message, variant: "destructive" });
+    if (error || !id) {
+      console.error("Order submit error:", error);
+      toast({ title: "Verification failed", description: error?.message ?? "Please try again.", variant: "destructive" });
       return;
     }
     setDone(true);
