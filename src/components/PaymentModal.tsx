@@ -9,7 +9,6 @@ import { toast } from "@/hooks/use-toast";
 import type { Product } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
 
-const RAZORPAY_LOGO = "https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg";
 
 type VerifiedBuyer = {game: string;user_id: string;name: string;};
 
@@ -32,7 +31,7 @@ export default function PaymentModal({
   /* Order is created ONLY when the buyer verifies their transaction ID */
   const createOrder = async () => {
     setCreating(true);
-    trackEvent('payment_started', { method: "razorpay", product_id: product.id, product_name: product.name });
+    trackEvent('payment_started', { method: "google_play", product_id: product.id, product_name: product.name });
 
     const { data, error } = await supabase.rpc('secure_create_order', {
       p_weplay_id: buyer.user_id,
@@ -41,7 +40,7 @@ export default function PaymentModal({
       p_product_name: String(product.name),
       p_price: product.price * quantity,
       p_coins_amount: product.coinsAmount * quantity,
-      p_payment_method: "razorpay"
+      p_payment_method: "google_play"
     });
 
     setCreating(false);
@@ -60,14 +59,11 @@ export default function PaymentModal({
     return (data as any).id as string;
   };
 
-  const openRazorpay = () => {
-    window.open(product.link, "_blank", "noopener,noreferrer");
-  };
 
   const verify = async () => {
     const value = txn.trim();
     if (value.length < 4) {
-      toast({ title: "Enter a valid ID", description: "Paste your Razorpay transaction ID.", variant: "destructive" });
+      toast({ title: "Enter a valid code", description: "Paste your Google Play redeem code.", variant: "destructive" });
       return;
     }
     setVerifying(true);
@@ -88,7 +84,7 @@ export default function PaymentModal({
       return;
     }
     setDone(true);
-    trackEvent('payment_verified', { method: "razorpay", order_id: id, order_code: orderCode });
+    trackEvent('payment_verified', { method: "google_play", order_id: id, order_code: orderCode });
     toast({ title: "Payment submitted ✓", description: "We're verifying it — track status with your Lowest WePlay ID." });
   };
 
@@ -154,13 +150,13 @@ export default function PaymentModal({
 
   <div onClick={(e) => e.stopPropagation()} className="mt-4 rounded-2xl border-2 border-warning/50 bg-warning/[0.09] p-3.5">
       <label className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-[0.12em] text-foreground">
-        <Search size={13} strokeWidth={3} /> 🔍 Enter Your Transaction ID
+        <Search size={13} strokeWidth={3} /> 🔍 Enter Google Play Redeem Code
       </label>
       <div className="relative mt-2">
         <input
         value={txn}
         onChange={(e) => setTxn(e.target.value)}
-        placeholder="Type your Razorpay Transaction ID"
+        placeholder="Paste your Google Play redeem code"
         className="w-full pl-4 pr-11 py-3.5 rounded-2xl bg-card border-2 border-warning/50 text-base font-bold text-foreground placeholder:font-semibold placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" />
 
         <Receipt size={17} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground/70 pointer-events-none" />
@@ -175,7 +171,7 @@ export default function PaymentModal({
       </button>
       <p className="mt-2.5 text-[10.5px] text-muted-foreground font-semibold leading-relaxed flex items-start gap-1.5">
         <AlertTriangle size={12} className="text-destructive shrink-0 mt-[1px]" />
-        Please enter your transaction ID after completing payment. Orders without transaction ID will not be processed.
+        Enter the exact redeem code for the full amount. Wrong or used codes will not be processed.
       </p>
     </div>;
 
@@ -275,42 +271,30 @@ export default function PaymentModal({
               </div>
             </div>
 
-            {/* ── RAZORPAY PAYMENT ── */}
+            {/* ── GOOGLE PLAY REDEEM CODE PAYMENT ── */}
             <div className="mt-6">
               <motion.div
                 whileHover={{ y: -3 }}
                 className="relative rounded-[1.5rem] border-2 border-primary/40 p-4 md:p-5 transition-all backdrop-blur-xl bg-gradient-to-br from-primary/12 via-primary/[0.06] to-card/70 shadow-[0_16px_40px_-18px_hsl(var(--primary)/0.45)]">
 
                 <span className="absolute -top-3 left-4 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary text-primary-foreground text-[9px] font-black uppercase tracking-[0.12em] shadow-card">
-                  <ShieldCheck size={10} strokeWidth={3} /> UPI · Cards · Netbanking · Wallets
+                  <ShieldCheck size={10} strokeWidth={3} /> Pay with any UPI app
                 </span>
 
-                <div className="flex items-center justify-between gap-3 mt-1">
-                  <h3 className="text-[15px] md:text-base font-extrabold text-foreground">💳 Razorpay Secure Payment</h3>
-                </div>
+                <h3 className="mt-1 text-[15px] md:text-base font-extrabold text-foreground">🎁 Google Play Redeem Code</h3>
 
-                <div className="mt-4 rounded-2xl bg-card border border-primary/25 p-5 grid place-items-center">
-                  <img src={RAZORPAY_LOGO} alt="Razorpay logo" loading="lazy" className="h-9 w-auto object-contain" />
-                </div>
-
-                <div className="mt-4 rounded-2xl border border-border bg-card/70 p-3.5 flex items-start gap-3">
-                  <span className="w-9 h-9 shrink-0 rounded-xl bg-primary/12 grid place-items-center text-primary">
-                    <Receipt size={16} />
-                  </span>
-                  <p className="text-[12px] text-muted-foreground leading-relaxed">
-                    Pay <span className="font-extrabold text-foreground">₹{product.price * quantity}</span> securely using UPI, cards, netbanking or wallets on Razorpay.
-                  </p>
-                </div>
-
-                <button onClick={(e) => {e.stopPropagation();openRazorpay();}} disabled={creating}
-                className="relative mt-4 w-full py-4 rounded-2xl font-extrabold text-primary-foreground overflow-hidden active:scale-[0.98] transition-transform disabled:opacity-70"
-                style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
-                  <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-primary-foreground/25 blur-md animate-shine" />
-                  <span className="relative z-10 flex items-center justify-center gap-2 uppercase tracking-[0.12em] text-[11.5px]">
-                    {creating ? <Loader2 size={14} className="animate-spin" /> : <CreditCard size={14} />}
-                    Continue to Payment <ArrowRight size={14} />
-                  </span>
-                </button>
+                <ol className="mt-4 space-y-2.5">
+                  {[
+                    <>Open any UPI app (GPay, PhonePe, Paytm etc.)</>,
+                    <>Buy a <span className="font-extrabold text-foreground">Google Play Redeem Code</span> worth <span className="font-extrabold text-primary">₹{product.price * quantity}</span></>,
+                    <>Copy the code and paste it below, then tap <span className="font-extrabold text-foreground">Verify Payment</span></>,
+                  ].map((step, i) =>
+                  <li key={i} className="rounded-2xl border border-border bg-card/70 p-3 flex items-start gap-3">
+                      <span className="w-7 h-7 shrink-0 rounded-lg bg-primary/12 grid place-items-center text-primary text-[12px] font-black">{i + 1}</span>
+                      <p className="text-[12px] text-muted-foreground leading-relaxed">{step}</p>
+                    </li>
+                  )}
+                </ol>
 
                 {renderVerify()}
               </motion.div>
