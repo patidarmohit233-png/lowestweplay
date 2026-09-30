@@ -16,6 +16,11 @@ const CITIES = ["Delhi", "Mumbai", "Lucknow", "Patna", "Jaipur", "Pune", "Indore
 // Exclude the ₹479 packs from the purchase popups
 const POPUP_PRODUCTS = PRODUCTS.filter((p) => p.price !== 479);
 
+const maskedId = () => {
+  const d = () => Math.floor(Math.random() * 10);
+  return `WePlay ID ${1 + Math.floor(Math.random() * 9)}${d()}${d()}****${d()}${d()}`;
+};
+
 const rand = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)];
 
 type Purchase = { key: number; name: string; city: string; plan: string; mins: number };
@@ -46,16 +51,16 @@ export default function LiveSocialProof() {
       keyRef.current += 1;
       setPurchase({
         key: keyRef.current,
-        name: rand(NAMES),
+        name: maskedId(),
         city: rand(CITIES),
         plan: p.name,
         mins: 1 + Math.floor(Math.random() * 9),
       });
-      hideT = setTimeout(() => setPurchase(null), 5200);
-      showT = setTimeout(loop, 5200 + 6000 + Math.random() * 7000);
+      hideT = setTimeout(() => setPurchase(null), 3800);
+      showT = setTimeout(loop, 3800 + 1200 + Math.random() * 2000);
     };
 
-    showT = setTimeout(loop, 4000);
+    showT = setTimeout(loop, 2000);
     return () => {
       clearTimeout(showT);
       clearTimeout(hideT);
@@ -65,7 +70,7 @@ export default function LiveSocialProof() {
   return (
     <>
       <div
-        className="fixed inset-x-0 bottom-0 z-[70] flex flex-col-reverse items-start gap-2 px-3 pb-3 md:flex-row md:items-end md:justify-between md:px-4 md:pb-4 pointer-events-none"
+        className="fixed inset-x-0 bottom-0 z-[70] flex flex-col-reverse items-start gap-2 px-3 pb-3 md:px-4 md:pb-4 pointer-events-none"
         style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}>
 
         {/* purchase popups */}
@@ -84,10 +89,10 @@ export default function LiveSocialProof() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[11px] md:text-sm font-bold text-foreground leading-tight truncate">
-                    {purchase.name} <span className="font-semibold text-muted-foreground">· {purchase.city}</span>
+                    <span className="inline-flex items-center gap-1">{purchase.name}<CheckCircle2 size={11} className="text-emerald-600" aria-label="Verified" /></span> <span className="font-semibold text-muted-foreground">· {purchase.city}</span>
                   </p>
                   <p className="text-[10px] md:text-xs text-muted-foreground leading-tight truncate">
-                    bought <span className="font-bold text-primary">{purchase.plan}</span> · {purchase.mins}m ago
+                    Verified top-up · <span className="font-bold text-primary">{purchase.plan}</span> · {purchase.mins}m ago
                   </p>
                 </div>
               </motion.div>
