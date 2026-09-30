@@ -281,7 +281,14 @@ export default function PaymentModal({
                   <ShieldCheck size={10} strokeWidth={3} /> Pay with any UPI app
                 </span>
 
-                <h3 className="mt-1 text-[15px] md:text-base font-extrabold text-foreground">🎁 Google Play Redeem Code</h3>
+                <h3 className="mt-1 flex items-center gap-2 text-[15px] md:text-base font-extrabold text-foreground">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" alt="" className="h-5 w-5 object-contain" />
+                  Google Play Redeem Code
+                </h3>
+
+                <div className="mt-4 rounded-2xl bg-card border border-primary/25 p-5 grid place-items-center">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Google_Play_2022_logo.svg" alt="Google Play logo" loading="lazy" className="h-10 w-auto object-contain" />
+                </div>
 
                 <ol className="mt-4 space-y-2.5">
                   {[
