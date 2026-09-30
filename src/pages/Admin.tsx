@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNoindex } from "@/hooks/use-noindex";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen, FileCode, Clock, CheckCircle, Send } from "lucide-react";
+import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen, FileCode, Clock, CheckCircle, Send, Eye, Copy, X, Bell } from "lucide-react";
 import { generateSitemapXml } from "@/lib/sitemap-generator";
 
 
@@ -55,6 +55,57 @@ export default function Admin() {
   const [tab, setTab] = useState<"orders" | "customers" | "analytics" | "blogs">("orders");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [query, setQuery] = useState("");
+  const [viewCode, setViewCode] = useState<Order | null>(null);
+  const [newCount, setNewCount] = useState(0);
+  const knownPaid = useRef<Set<string> | null>(null);
+
+  const playAlert = () => {
+    try {
+      const Ctx = (window as any).AudioContext || (window as any).webkitAudioContext;
+      const ctx = new Ctx();
+      [0, 0.25, 0.5].forEach((t) => {
+        const o = ctx.createOscillator(); const g = ctx.createGain();
+        o.frequency.value = 880; o.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(0.25, ctx.currentTime + t);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.2);
+        o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.2);
+      });
+      navigator.vibrate?.([200, 100, 200]);
+    } catch {}
+  };
+
+  const notifyNew = (list: Order[]) => {
+    const paid = list.filter((o) => o.transaction_id);
+    if (knownPaid.current === null) { knownPaid.current = new Set(paid.map((o) => o.id)); return; }
+    const fresh = paid.filter((o) => !knownPaid.current!.has(o.id));
+    if (!fresh.length) return;
+    fresh.forEach((o) => knownPaid.current!.add(o.id));
+    setNewCount((n) => n + fresh.length);
+    playAlert();
+    const f = fresh[0];
+    toast({ title: `🔔 New order received${fresh.length > 1 ? ` (${fresh.length})` : ""}`, description: `${f.product_name} · ₹${f.price} · ID ${f.weplay_id}` });
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification("New order - Lowest WePlay", { body: `${f.product_name} · ₹${f.price}` });
+    }
+  };
+
+  useEffect(() => {
+    if ("Notification" in window && Notification.permission === "default") Notification.requestPermission();
+    const refetch = async () => {
+      const { data } = await supabase.from("orders").select("*").order("created_at", { ascending: false });
+      if (data) { setOrders(data as any[]); notifyNew(data as any[]); }
+    };
+    const ch = supabase.channel("admin-orders")
+      .on("postgres_changes", { event: "*", schema: "public", table: "orders" }, () => refetch())
+      .subscribe();
+    const iv = setInterval(refetch, 20000);
+    return () => { supabase.removeChannel(ch); clearInterval(iv); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    document.title = newCount ? `(${newCount}) New order! · Admin` : "Admin Dashboard · Lowest Weplay";
+  }, [newCount]);
 
 
   useEffect(() => {
@@ -78,6 +129,7 @@ export default function Admin() {
     if (b.error) return toast({ title: "Failed to load blogs", description: b.error.message, variant: "destructive" });
     
     setOrders((o.data ?? []) as any[]);
+    notifyNew((o.data ?? []) as any[]);
     setCustomers((c.data ?? []) as any[]);
     setAnalytics((a.data ?? []) as any[]);
     setBlogs((b.data ?? []) as any[]);
@@ -331,7 +383,7 @@ export default function Admin() {
                       <th className="text-left px-4 py-3">Plan</th>
                       <th className="text-right px-4 py-3">Amount</th>
                       <th className="text-left px-4 py-3">Paid To (UPI)</th>
-                      <th className="text-left px-4 py-3">Txn ID</th>
+                      <th className="text-left px-4 py-3">Redeem Code</th>
                       <th className="text-left px-4 py-3">Status</th>
                     </tr>
                   </thead>
@@ -354,7 +406,13 @@ export default function Admin() {
                             <span className="inline-block px-2 py-1 rounded-md bg-secondary border border-border text-[11px] font-bold break-all">{o.upi_id}</span> :
                             <span className="text-muted-foreground">—</span>}
                         </td>
-                        <td className="px-4 py-3 text-muted-foreground max-w-[160px] truncate">{o.transaction_id || "—"}</td>
+                        <td className="px-4 py-3">
+                          {o.transaction_id ?
+                            <button onClick={() => setViewCode(o)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-[11px] font-bold whitespace-nowrap active:scale-[0.97]">
+                              <Eye size={13} /> View Code
+                            </button> :
+                            <span className="text-muted-foreground">—</span>}
+                        </td>
                         <td className="px-4 py-3">
                           <select
                             value={o.status}
@@ -426,6 +484,29 @@ export default function Admin() {
           </div>
         </div>
       </main>
+    
+      {viewCode &&
+        <div className="fixed inset-0 z-[200] bg-foreground/50 backdrop-blur-sm flex items-end md:items-center justify-center p-0 md:p-6" onClick={() => setViewCode(null)}>
+          <div onClick={(e) => e.stopPropagation()} className="w-full md:max-w-lg bg-card rounded-t-3xl md:rounded-3xl border border-border p-5 md:p-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Google Play Redeem Code</p>
+                <p className="text-sm font-bold mt-1">#{viewCode.order_code} · {viewCode.product_name} · ₹{viewCode.price}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">ID {viewCode.weplay_id} · {viewCode.weplay_name}</p>
+              </div>
+              <button onClick={() => setViewCode(null)} aria-label="Close" className="w-9 h-9 shrink-0 rounded-full bg-secondary grid place-items-center"><X size={16} /></button>
+            </div>
+            <div className="mt-4 rounded-2xl border-2 border-primary/30 bg-secondary/60 p-4 font-mono text-lg md:text-xl font-bold tracking-wider break-all whitespace-pre-wrap select-all text-foreground">
+              {viewCode.transaction_id}
+            </div>
+            <button
+              onClick={async () => { await navigator.clipboard.writeText(viewCode.transaction_id || ""); toast({ title: "Code copied ✓" }); }}
+              className="mt-4 w-full py-3.5 rounded-2xl bg-primary text-primary-foreground font-bold inline-flex items-center justify-center gap-2 active:scale-[0.97]">
+              <Copy size={16} /> Copy Code
+            </button>
+          </div>
+        </div>
+      }
     </div>);
 
 }
