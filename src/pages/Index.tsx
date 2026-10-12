@@ -881,7 +881,7 @@ const Index = () => {
               <iframe
                 width="100%"
                 height="100%"
-                src="https://www.youtube.com/embed/HmUCGgfNFDg?si=a7X3UqHTo0JHV1hM"
+                src="https://www.youtube.com/embed/_1vNwhWRxRs?si=2zy4kM5np8fgnJ5n"
                 title="YouTube video player"
                 frameBorder="0"
                 loading="lazy"
@@ -987,7 +987,7 @@ const Index = () => {
                   width="100%"
                   height="100%"
                   src="https://www.youtube.com/embed/aQeC9LdH-Mk"
-                  title="Proof of lowestweplay carding in Lowestlowestweplay"
+                  title="Proof of Lowest WePlay top-up delivery"
                   frameBorder="0"
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
