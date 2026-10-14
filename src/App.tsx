@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import ScrollToTop from "./components/ScrollToTop";
+import VisitorTracker from "./components/VisitorTracker";
 import Admin from "./pages/AdminGate.tsx";
 
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
@@ -37,6 +38,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
+        <VisitorTracker />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/admin" element={<Admin />} />

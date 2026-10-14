@@ -3,6 +3,7 @@ import { useNoindex } from "@/hooks/use-noindex";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen, FileCode, Clock, CheckCircle, Send, Eye, Copy, X, Bell } from "lucide-react";
+import LiveVisitorsPanel from "@/components/admin/LiveVisitorsPanel";
 import { generateSitemapXml } from "@/lib/sitemap-generator";
 
 
@@ -208,6 +209,7 @@ export default function Admin() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-8">
+        <LiveVisitorsPanel />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           <Stat icon={<Users size={14} />} label="Total users" value={customers.length.toString()} />
           <Stat icon={<Package size={14} />} label="Total orders" value={orders.length.toString()} />
