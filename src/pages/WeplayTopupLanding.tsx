@@ -79,7 +79,7 @@ const WeplayTopupLanding = () => {
         </section>
 
         <section className="mt-16 border-t border-border pt-12">
-          <h2>Why Choose lowestweplayrecharge.shop?</h2>
+          <h2>Why Choose weplayrecharge.shop?</h2>
           <div className="space-y-4">
             {[
               "Official Lowest WePlay Top-Up Partner in India.",

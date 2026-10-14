@@ -87,7 +87,7 @@ const TrustSafety = () => {
           {/* Warning Section */}
           <section className="p-6 rounded-2xl bg-destructive/5 border border-destructive/10 text-center">
             <p className="text-sm font-bold text-destructive italic m-0">
-              Important: Always ensure you are on https://lowestweplayrecharge.shop. Be wary of imitators asking for your login credentials.
+              Important: Always ensure you are on https://www.weplayrecharge.shop. Be wary of imitators asking for your login credentials.
             </p>
           </section>
         </div>

@@ -14,7 +14,7 @@ export const generateSitemapXml = async () => {
     .order("published_at", { ascending: false });
 
 
-  const SITE_URL = "https://lowestweplayrecharge.shop";
+  const SITE_URL = "https://www.weplayrecharge.shop";
   const today = new Date().toISOString().split('T')[0];
 
   const staticRoutes = [
@@ -35,7 +35,6 @@ export const generateSitemapXml = async () => {
     xml += `
   <url>
     <loc>${SITE_URL}${route.path}</loc>
-    <lastmod>${today}</lastmod>
     <changefreq>${route.freq}</changefreq>
     <priority>${route.priority}</priority>
   </url>`;

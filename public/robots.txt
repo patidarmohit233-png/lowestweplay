@@ -70,4 +70,4 @@ Disallow: /admin
 Disallow: /admin-lowest
 Disallow: /admin-lowest-shubham
 
-Sitemap: https://weplayrecharge.shop/sitemap.xml
+Sitemap: https://www.weplayrecharge.shop/sitemap.xml

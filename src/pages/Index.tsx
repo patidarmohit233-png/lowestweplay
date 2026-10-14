@@ -577,17 +577,17 @@ const Index = () => {
     <DailyCountdownBar />
     <Seo
       title="Lowest WePlay Top Up India — Cheapest Lowest WePlay Recharge & Red Packet (100% Safe)"
-      description="Official Lowest WePlay Recharge India. Buy Lowest WePlay coins and Red Packets at the lowest prices. 100% Safe & Instant Lowest WePlay top up, No password required. Trusted by thousands of players on lowestweplayrecharge.shop."
+      description="Official Lowest WePlay Recharge India. Buy Lowest WePlay coins and Red Packets at the lowest prices. 100% Safe & Instant Lowest WePlay top up, No password required. Trusted by thousands of players on weplayrecharge.shop."
       path="/"
       jsonLd={[
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "Lowest Weplay",
-          "url": "https://lowestweplayrecharge.shop/",
+          "url": "https://www.weplayrecharge.shop/",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://lowestweplayrecharge.shop/track-order?id={search_term_string}",
+            "target": "https://www.weplayrecharge.shop/track-order?id={search_term_string}",
             "query-input": "required name=search_term_string"
           }
         },
