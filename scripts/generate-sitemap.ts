@@ -3,7 +3,7 @@
 import { writeFileSync } from "fs";
 import { resolve } from "path";
 
-const BASE_URL = "https://weplayrecharge.shop";
+const BASE_URL = "https://www.weplayrecharge.shop";
 
 interface SitemapEntry {
   path: string;
@@ -14,11 +14,17 @@ interface SitemapEntry {
 // Admin routes (/admin, /admin/auth) are intentionally excluded.
 const entries: SitemapEntry[] = [
   { path: "/", changefreq: "daily", priority: "1.0" },
-  { path: "/weplay-recharge", changefreq: "weekly", priority: "0.9" },
-  { path: "/weplay-red-packet", changefreq: "weekly", priority: "0.9" },
-  { path: "/weplay-top-up-price-list", changefreq: "weekly", priority: "0.9" },
-  { path: "/how-to-top-up-weplay", changefreq: "monthly", priority: "0.8" },
+  { path: "/lowestweplay-recharge", changefreq: "weekly", priority: "0.9" },
+  { path: "/lowestweplay-recharge-topup", changefreq: "weekly", priority: "0.9" },
+  { path: "/lowestweplay-red-packet", changefreq: "weekly", priority: "0.9" },
+  { path: "/lowestweplay-top-up-price-list", changefreq: "weekly", priority: "0.9" },
+  { path: "/how-to-top-up-lowestweplay", changefreq: "monthly", priority: "0.8" },
   { path: "/faq", changefreq: "monthly", priority: "0.7" },
+  { path: "/blog", changefreq: "daily", priority: "0.8" },
+  { path: "/trust-safety", changefreq: "monthly", priority: "0.7" },
+  { path: "/why-us", changefreq: "monthly", priority: "0.6" },
+  { path: "/how-it-works", changefreq: "monthly", priority: "0.6" },
+  { path: "/track-order", changefreq: "monthly", priority: "0.5" },
   { path: "/contact", changefreq: "yearly", priority: "0.5" },
   { path: "/privacy-policy", changefreq: "yearly", priority: "0.3" },
   { path: "/refund-policy", changefreq: "yearly", priority: "0.3" },

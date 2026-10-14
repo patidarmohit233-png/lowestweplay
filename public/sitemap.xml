@@ -1,52 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://weplayrecharge.shop/</loc>
+    <loc>https://www.weplayrecharge.shop/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://weplayrecharge.shop/weplay-recharge</loc>
+    <loc>https://www.weplayrecharge.shop/lowestweplay-recharge</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://weplayrecharge.shop/weplay-red-packet</loc>
+    <loc>https://www.weplayrecharge.shop/lowestweplay-recharge-topup</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://weplayrecharge.shop/weplay-top-up-price-list</loc>
+    <loc>https://www.weplayrecharge.shop/lowestweplay-red-packet</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://weplayrecharge.shop/how-to-top-up-weplay</loc>
+    <loc>https://www.weplayrecharge.shop/lowestweplay-top-up-price-list</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.weplayrecharge.shop/how-to-top-up-lowestweplay</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://weplayrecharge.shop/faq</loc>
+    <loc>https://www.weplayrecharge.shop/faq</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://weplayrecharge.shop/contact</loc>
+    <loc>https://www.weplayrecharge.shop/blog</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.weplayrecharge.shop/trust-safety</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.weplayrecharge.shop/why-us</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.weplayrecharge.shop/how-it-works</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.weplayrecharge.shop/track-order</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.weplayrecharge.shop/contact</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://weplayrecharge.shop/privacy-policy</loc>
+    <loc>https://www.weplayrecharge.shop/privacy-policy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://weplayrecharge.shop/refund-policy</loc>
+    <loc>https://www.weplayrecharge.shop/refund-policy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://weplayrecharge.shop/terms-of-service</loc>
+    <loc>https://www.weplayrecharge.shop/terms-of-service</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
