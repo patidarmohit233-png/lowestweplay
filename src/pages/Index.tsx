@@ -276,7 +276,7 @@ function ProductCard({ product, index, buyer, onRequireVerify, onBuy }: { produc
       {/* content */}
       <div className="px-3 pt-2.5 pb-3 md:px-5 md:pt-4 md:pb-5 flex flex-col flex-grow">
         <h3 className="text-[11.5px] md:text-[15px] font-extrabold text-foreground leading-tight line-clamp-1">{product.name}</h3>
-        <Link to="/lowestweplay-recharge-topup" onClick={() => trackEvent('click_lowestweplay_topup', { product_id: product.id })} className="text-[9.5px] md:text-[10px] text-primary hover:underline font-bold mb-1 block">Lowest WePlay Top Up</Link>
+        <Link to={planPath(product)} className="text-[9.5px] md:text-[10px] text-primary hover:underline font-bold mb-1 block">View plan details</Link>
         <p className="text-muted-foreground text-[9.5px] md:text-xs mt-0 mb-2.5 md:mb-4 flex-grow leading-snug line-clamp-2">{product.desc}</p>
 
         <div className="flex items-end justify-between gap-1 mb-2.5 md:mb-4">
