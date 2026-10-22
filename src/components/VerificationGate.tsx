@@ -120,7 +120,7 @@ export default function VerificationGate({ onVerified }: { onVerified: (b: Verif
                 <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-primary/10 text-primary">
                   <Gamepad2 size={17} />
                 </span>
-                <h1 className="text-[14.5px] md:text-base font-extrabold text-foreground">Enter Lowest WePlay Details</h1>
+                <p className="text-[14.5px] md:text-base font-extrabold text-foreground">Enter Lowest WePlay Details</p>
               </div>
 
               <form onSubmit={submit} className="space-y-4 md:space-y-5">
