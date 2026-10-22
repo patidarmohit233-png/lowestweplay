@@ -7,7 +7,7 @@ const PATH = "/faq";
 const Faq = () => (
   <>
     <Seo
-      title="Lowest WePlay Top-Up FAQ — Delivery, Safety &amp; Refunds"
+      title="Lowest WePlay Top-Up FAQ — Delivery, Safety & Refunds"
       description="Answers to the most common Lowest WePlay top-up questions: delivery time, ID safety, payment methods, pricing and refunds. Support available 24x7."
       path={PATH}
       jsonLd={[

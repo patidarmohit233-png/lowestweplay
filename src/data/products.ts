@@ -54,3 +54,6 @@ export const FAQS = [
     a: "We are an official Lowest WePlay top-up partner with 10,000+ completed orders, 24x7 live chat support and a published refund policy.",
   },
 ];
+
+export const planSlug = (p: Product) => `lowestweplay-${p.name.toLowerCase().replace(/\s+/g, "-")}`;
+export const planPath = (p: Product) => `/plans/${planSlug(p)}`;

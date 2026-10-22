@@ -2,6 +2,7 @@
 
 import { writeFileSync } from "fs";
 import { resolve } from "path";
+import { PRODUCTS, planPath } from "../src/data/products";
 
 const BASE_URL = "https://www.weplayrecharge.shop";
 
@@ -29,6 +30,7 @@ const entries: SitemapEntry[] = [
   { path: "/privacy-policy", changefreq: "yearly", priority: "0.3" },
   { path: "/refund-policy", changefreq: "yearly", priority: "0.3" },
   { path: "/terms-of-service", changefreq: "yearly", priority: "0.3" },
+  ...PRODUCTS.map((p) => ({ path: planPath(p), changefreq: "weekly" as const, priority: "0.8" })),
 ];
 
 function generateSitemap(items: SitemapEntry[]) {
