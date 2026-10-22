@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { PRODUCTS, type Product } from "@/data/products";
+import { PRODUCTS, planPath, type Product } from "@/data/products";
 
 export const CONTENT_LINKS = [
   { to: "/how-it-works", label: "How It Works" },
@@ -28,7 +28,7 @@ export function PriceTable({ items = PRODUCTS }: { items?: Product[] }) {
         <tbody className="text-muted-foreground">
           {items.map((p) => (
             <tr key={p.id} className="border-t border-border">
-              <th scope="row" className="px-4 py-3 font-semibold text-foreground whitespace-nowrap">{p.name}</th>
+              <th scope="row" className="px-4 py-3 font-semibold text-foreground whitespace-nowrap"><Link to={planPath(p)} className="text-primary hover:underline">{p.name}</Link></th>
               <td className="px-4 py-3">{p.desc}</td>
               <td className="px-4 py-3 font-bold text-foreground whitespace-nowrap">₹{p.price}</td>
               <td className="px-4 py-3 whitespace-nowrap">{Math.round((1 - p.price / p.mrp) * 100)}% off ₹{p.mrp}</td>

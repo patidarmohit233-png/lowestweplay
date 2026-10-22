@@ -25,6 +25,7 @@ import WhyUs from "./pages/WhyUs.tsx";
 import HowItWorks from "./pages/HowItWorks.tsx";
 import BlogList from "./pages/BlogList.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
+import PlanPage from "./pages/PlanPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 
@@ -62,6 +63,7 @@ const App = () => (
           <Route path="/trust-safety" element={<TrustSafety />} />
           <Route path="/why-us" element={<WhyUs />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/plans/:slug" element={<PlanPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
 
