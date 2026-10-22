@@ -156,14 +156,6 @@ function SectionHeading({ eyebrow, title, highlight, subtitle }: { eyebrow: stri
       <p className="text-muted-foreground mt-3 text-[13px] md:text-base max-w-md md:max-w-xl mx-auto leading-relaxed">
         {subtitle}
       </p>
-      {subtitle.includes("Pick a coin bundle") && (
-        <p className="sr-only">
-          '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
-                                        
-                                            
-                                            us pure plan k upar ek alag sa krde jise wo lage ki han ye stocked out h abhi sirf niche likha ara h
-        </p>
-      )}
     </Reveal>);
 }
 
@@ -576,8 +568,8 @@ const Index = () => {
     <>
     <DailyCountdownBar />
     <Seo
-      title="Lowest WePlay Top Up India — Cheapest Lowest WePlay Recharge & Red Packet (100% Safe)"
-      description="Official Lowest WePlay Recharge India. Buy Lowest WePlay coins and Red Packets at the lowest prices. 100% Safe & Instant Lowest WePlay top up, No password required. Trusted by thousands of players on weplayrecharge.shop."
+      title="Lowest WePlay Top Up India — Cheapest Coins & Red Packets"
+      description="Official Lowest WePlay recharge in India. Buy coins and Red Packets from ₹479 — instant top-up, 100% ID safe, no password required."
       path="/"
       jsonLd={[
         {
@@ -677,7 +669,7 @@ const Index = () => {
               }
             }}
           >
-            <img src={LOGO} alt="Lowest Weplay" className="h-[60px] xs:h-[68px] sm:h-[76px] md:h-[90px] lg:h-[100px] w-auto max-w-[50vw] md:max-w-none drop-shadow-sm object-contain" />
+            <img src={LOGO} alt="Lowest WePlay — official WePlay coin top-up store" className="h-[60px] xs:h-[68px] sm:h-[76px] md:h-[90px] lg:h-[100px] w-auto max-w-[50vw] md:max-w-none drop-shadow-sm object-contain" />
           </Link>
         </div>
         
@@ -763,7 +755,7 @@ const Index = () => {
           </motion.a>
 
           <h1 className="mt-6 md:mt-9 text-[2.6rem] leading-[0.98] md:text-[5.2rem] font-display text-foreground perspective-[1000px]">
-            {["Get More.", "Pay Less."].map((line, i) =>
+            {["WePlay Top Up.", "Pay Less."].map((line, i) =>
             <motion.span
               key={line}
               initial={{ opacity: 0, y: 40, rotateX: -20, filter: "blur(12px)" }}
@@ -860,7 +852,7 @@ const Index = () => {
                 key={i} 
                 whileHover={{ scale: 1.05, y: -5 }}
                 className="snap-start flex-shrink-0 h-72 w-52 md:h-[26rem] md:w-80 rounded-3xl overflow-hidden bg-card p-1.5 border border-border shadow-card transition-all duration-500">
-                <img src={src} alt="Partner creator" loading="lazy" className="w-full h-full object-cover rounded-[1.25rem]" />
+                <img src={src} alt="Lowest WePlay top-up partner creator" loading="lazy" className="w-full h-full object-cover rounded-[1.25rem]" />
               </motion.div>
             )}
           </div>
@@ -1152,7 +1144,7 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8 mb-16">
             {/* Brand Column */}
             <div className="col-span-1 md:col-span-1">
-              <img src={LOGO} alt="Lowest Weplay" loading="lazy" className="h-[56px] w-auto mb-6 opacity-90" />
+              <img src={LOGO} alt="Lowest WePlay logo" loading="lazy" className="h-[56px] w-auto mb-6 opacity-90" />
               <p className="text-[13px] text-muted-foreground leading-relaxed max-w-xs">
                 Premium Lowest WePlay top-up service dedicated to providing the fastest and safest coin delivery for the Indian gaming community.
               </p>
