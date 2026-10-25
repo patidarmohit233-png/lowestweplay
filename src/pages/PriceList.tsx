@@ -8,8 +8,8 @@ const cheapest = Math.min(...PRODUCTS.map((p) => p.price));
 const PriceList = () => (
   <>
     <Seo
-      title="Lowest WePlay Top-Up Price List 2026 (INR) | Lowest Weplay"
-      description={`Full Lowest WePlay top-up price list in INR — coins, recharge packs and Red Packets from ₹${cheapest}. Compare every pack, bonus and discount in one table.`}
+      title="Lowest WePlay Top-Up Price List 2026 (INR)"
+      description={`Full Lowest WePlay price list in INR — coin, recharge and Red Packet packs from ₹${cheapest}, every bonus compared.`}
       path={PATH}
       jsonLd={[
         {

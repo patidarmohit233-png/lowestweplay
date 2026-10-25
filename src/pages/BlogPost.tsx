@@ -51,8 +51,8 @@ export default function BlogPost() {
   return (
     <div className="min-h-screen bg-background">
       <Seo 
-        title={`${post.title} | Lowest Weplay Official Blog`} 
-        description={post.excerpt}
+        title={`${post.title} | Lowest Weplay`}
+        description={post.excerpt.slice(0, 155)}
         path={`/blog/${slug}`}
       />
 

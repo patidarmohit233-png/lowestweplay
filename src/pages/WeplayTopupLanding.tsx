@@ -11,8 +11,8 @@ const WeplayTopupLanding = () => {
   return (
     <>
       <Seo
-        title="Lowest WePlay Recharge & Top Up India — Cheapest Lowest WePlay Coins (100% Safe)"
-        description="Get the cheapest Lowest WePlay Recharge and Top Up in India. Buy Lowest WePlay coins instantly starting at ₹479. 100% ID safe, official partner, trusted and secure payments."
+        title="Lowest WePlay Recharge & Top Up — Cheapest Coins"
+        description="Get the cheapest Lowest WePlay recharge and top-up in India from ₹479. Instant, 100% ID safe, secure payments."
         path={PATH}
         jsonLd={[
           {

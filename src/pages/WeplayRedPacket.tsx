@@ -7,8 +7,8 @@ const PATH = "/lowestweplay-red-packet";
 const WeplayRedPacket = () => (
   <>
     <Seo
-      title="Lowest WePlay Red Packet Top-Up — Lowest Price in India"
-      description="Buy Lowest WePlay Red Packets from ₹479 with double-bonus coins. Instant delivery to your Lowest WePlay ID, secure Razorpay payment and 24x7 support."
+      title="Lowest WePlay Red Packet Top-Up — Best Price"
+      description="Buy Lowest WePlay Red Packets from ₹479 with bonus coins. Instant delivery to your ID, secure payment, 24×7 support."
       path={PATH}
       jsonLd={[
         {

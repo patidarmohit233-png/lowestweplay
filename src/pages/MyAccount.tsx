@@ -145,8 +145,8 @@ export default function MyAccount() {
   return (
     <div className="min-h-dvh bg-background text-foreground">
       <Seo 
-        title="My Account | Lowest Weplay — Lowest WePlay Recharge History" 
-        description="Access your Lowest Weplay account to track Lowest WePlay coin purchases, loyalty rewards, and milestone progress. View your Lowest WePlay top-up history instantly." 
+        title="My Account | Lowest Weplay"
+        description="View your coin purchases, loyalty rewards and full Lowest WePlay top-up order history."
         path="/my-account" 
       />
 

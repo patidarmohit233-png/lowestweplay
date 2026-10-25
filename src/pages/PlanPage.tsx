@@ -18,8 +18,8 @@ const PlanPage = () => {
   return (
     <>
       <Seo
-        title={`Lowest WePlay ${p.name} — ₹${p.price} (${save}% Off) | Instant Top-Up`}
-        description={`Buy Lowest WePlay ${p.name} for ₹${p.price} instead of ₹${p.mrp}. Get ${p.desc}. Delivered to your WePlay ID in minutes, no password needed.`}
+        title={`Lowest WePlay ${p.name} — ₹${p.price} (${save}% Off)`}
+        description={`Buy ${p.name} for ₹${p.price} instead of ₹${p.mrp}. Delivered to your WePlay ID in minutes, no password needed.`}
         path={path}
         jsonLd={[
           {
