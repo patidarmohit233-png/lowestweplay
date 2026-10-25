@@ -6,8 +6,8 @@ import Seo from "@/components/Seo";
 const TermsOfService = () => (
   <>
   <Seo
-    title="Terms of Service | Official Lowest WePlay Top-Up Rules & Delivery"
-    description="Terms and conditions for buying Lowest WePlay coins at Lowest Weplay. Secure payments, automated delivery timelines, and user responsibilities in India."
+    title="Terms of Service | Lowest WePlay Top-Up Rules"
+    description="Terms for buying Lowest WePlay coins: secure payments, delivery timelines and user responsibilities in India."
     path="/terms-of-service"
   />
 

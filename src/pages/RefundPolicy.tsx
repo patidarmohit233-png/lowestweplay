@@ -6,8 +6,8 @@ import Seo from "@/components/Seo";
 const RefundPolicy = () => (
   <>
   <Seo
-    title="Refund Policy | 100% Satisfaction Guarantee | Lowest Weplay"
-    description="Full refund policy for Lowest WePlay coin top-ups. Learn about eligibility for failed deliveries or restricted IDs. Instant support for all refund requests."
+    title="Refund Policy | Lowest Weplay Guarantee"
+    description="Refund policy for Lowest WePlay coin top-ups — eligibility for failed deliveries and how to request support."
     path="/refund-policy"
   />
 

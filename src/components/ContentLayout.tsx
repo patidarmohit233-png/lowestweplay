@@ -9,6 +9,7 @@ export const CONTENT_LINKS = [
   { to: "/trust-safety", label: "Trust & Safety" },
   { to: "/lowestweplay-recharge", label: "Lowest WePlay Recharge Packs" },
   { to: "/lowestweplay-red-packet", label: "Lowest WePlay Red Packet Top-Up" },
+  { to: "/red-packet-vs-gold-recharge", label: "Red Packet vs Gold Recharge" },
   { to: "/faq", label: "Lowest WePlay Top-Up FAQ" },
 ];
 

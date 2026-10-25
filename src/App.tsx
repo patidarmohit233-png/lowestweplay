@@ -16,6 +16,7 @@ import WeplayRecharge from "./pages/WeplayRecharge.tsx";
 import WeplayTopupLanding from "./pages/WeplayTopupLanding.tsx";
 import WeplayRedPacket from "./pages/WeplayRedPacket.tsx";
 import PriceList from "./pages/PriceList.tsx";
+import RedPacketVsGold from "./pages/RedPacketVsGold.tsx";
 import HowToTopUp from "./pages/HowToTopUp.tsx";
 import Faq from "./pages/Faq.tsx";
 import TrackOrder from "./pages/TrackOrder.tsx";
@@ -54,6 +55,7 @@ const App = () => (
           <Route path="/lowestweplay-recharge-topup" element={<WeplayTopupLanding />} />
           <Route path="/lowestweplay-red-packet" element={<WeplayRedPacket />} />
           <Route path="/lowestweplay-top-up-price-list" element={<PriceList />} />
+          <Route path="/red-packet-vs-gold-recharge" element={<RedPacketVsGold />} />
           <Route path="/how-to-top-up-lowestweplay" element={<HowToTopUp />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />

@@ -10,8 +10,8 @@ const TrustSafety = () => {
   return (
     <>
       <Seo 
-        title="Trust & Safety — Is Lowest Weplay Legit? (100% ID Safe)" 
-        description="Learn how Lowest WePlay ensures 100% safety for your Lowest WePlay account. We never ask for passwords, offer instant delivery, and provide secure payments."
+        title="Trust & Safety — Is Lowest Weplay Legit?"
+        description="How Lowest WePlay keeps your account safe: no passwords, instant delivery and secure payments."
         path={PATH}
       />
       <ContentLayout 

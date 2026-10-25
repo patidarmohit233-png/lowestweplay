@@ -19,6 +19,7 @@ const entries: SitemapEntry[] = [
   { path: "/lowestweplay-recharge-topup", changefreq: "weekly", priority: "0.9" },
   { path: "/lowestweplay-red-packet", changefreq: "weekly", priority: "0.9" },
   { path: "/lowestweplay-top-up-price-list", changefreq: "weekly", priority: "0.9" },
+  { path: "/red-packet-vs-gold-recharge", changefreq: "monthly", priority: "0.8" },
   { path: "/how-to-top-up-lowestweplay", changefreq: "monthly", priority: "0.8" },
   { path: "/faq", changefreq: "monthly", priority: "0.7" },
   { path: "/blog", changefreq: "daily", priority: "0.8" },

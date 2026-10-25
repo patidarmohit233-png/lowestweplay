@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import Admin from "./Admin";
+import Seo from "@/components/Seo";
 import { Lock, User, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "@/hooks/use-toast";
@@ -40,6 +41,7 @@ export default function AdminGate() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+      <Seo title="Admin" description="Admin login" path="/admin" noindex />
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

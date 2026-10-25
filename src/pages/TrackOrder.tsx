@@ -56,8 +56,8 @@ export default function TrackOrder() {
   return (
     <div className="min-h-dvh bg-background text-foreground">
       <Seo
-        title="Track Lowest WePlay Top-Up Order Status | Lowest Weplay"
-        description="Check the live status of your Lowest WePlay recharge or Red Packet order. Enter your Lowest WePlay ID to see delivery progress and transaction details."
+        title="Track Order | Lowest WePlay Top-Up Status"
+        description="Check the live status of your Lowest WePlay recharge or Red Packet order by entering your WePlay ID."
         path="/track-order" />
 
       <header className="border-b border-border/60 bg-card/70 backdrop-blur-xl sticky top-0 z-30">

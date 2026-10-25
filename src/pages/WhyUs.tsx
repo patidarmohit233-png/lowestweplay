@@ -37,8 +37,8 @@ const WhyUs = () => {
   return (
     <>
       <Seo 
-        title="Why Choose Lowest Weplay? — India's Most Trusted Lowest WePlay Top-up" 
-        description="Discover why thousands of Lowest WePlay players trust Lowest WePlay for their recharges. Compare our prices, safety, and speed."
+        title="Why Choose Lowest Weplay — Trusted Top-Up India"
+        description="See why thousands of players trust Lowest WePlay: lowest prices, instant delivery and 100% ID-safe recharges."
         path={PATH}
       />
       <ContentLayout 

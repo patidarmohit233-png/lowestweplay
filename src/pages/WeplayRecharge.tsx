@@ -7,8 +7,8 @@ const PATH = "/lowestweplay-recharge";
 const WeplayRecharge = () => (
   <>
     <Seo
-      title="Lowest WePlay Recharge — Buy Lowest WePlay Coins Online in India"
-      description="Recharge your Lowest WePlay account with 10K to 500K coin packs from ₹479. Instant delivery, official top-up partner, secure UPI and card payments."
+      title="Lowest WePlay Recharge — Buy Coins Online India"
+      description="Recharge with 10K to 500K coin packs from ₹479. Instant delivery to your WePlay ID, secure payments, 24×7 support."
       path={PATH}
       jsonLd={[
         {

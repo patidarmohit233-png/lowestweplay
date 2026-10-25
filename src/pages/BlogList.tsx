@@ -30,8 +30,8 @@ export default function BlogList() {
   return (
     <div className="min-h-screen bg-background">
       <Seo 
-        title="Official Lowest WePlay Blog | News, Tips & Safety Guides" 
-        description="Stay updated with the latest Lowest WePlay news, coin recharge tips, and account safety guides. Official updates from Lowest Weplay."
+        title="Lowest WePlay Blog — News, Tips & Safety Guides"
+        description="Latest Lowest WePlay news, coin recharge tips and account safety guides from the official Lowest Weplay blog."
         path="/blog"
       />
 

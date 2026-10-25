@@ -43,8 +43,8 @@ const HowItWorks = () => {
   return (
     <>
       <Seo 
-        title="How It Works — Step by Step Lowest WePlay Recharge Guide" 
-        description="Learn how to recharge your Lowest WePlay account safely using Lowest WePlay. Follow our 5-step guide to get your coins instantly."
+        title="How It Works — Lowest WePlay Recharge Guide"
+        description="Recharge your Lowest WePlay account safely with our 5-step guide — coins delivered instantly."
         path={PATH}
       />
       <ContentLayout 
