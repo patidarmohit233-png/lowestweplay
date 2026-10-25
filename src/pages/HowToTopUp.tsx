@@ -7,7 +7,7 @@ const HowToTopUp = () => (
   <>
     <Seo
       title="How to Top Up Lowest WePlay Coins — Step-by-Step Guide"
-      description="Learn how to top up Lowest WePlay coins safely: find your Lowest WePlay ID, verify your in-game name, pick a pack and pay. Coins delivered in minutes, no password needed."
+      description="Top up Lowest WePlay coins safely: find your WePlay ID, verify your name, pick a pack and pay. Coins delivered in minutes, no password."
       path={PATH}
       jsonLd={[
         {
