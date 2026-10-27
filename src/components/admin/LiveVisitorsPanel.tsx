@@ -37,10 +37,9 @@ export default function LiveVisitorsPanel() {
 
   useEffect(() => {
     const load = async () => {
-      const since = new Date(Date.now() - 7 * 864e5).toISOString();
-      const { data } = await supabase.from("analytics_events").select("id,weplay_id,url,created_at,metadata")
-        .eq("event_name", "page_view").gte("created_at", since).order("created_at", { ascending: false }).limit(500);
-      setViews((data as View[]) || []);
+      const res = await supabase.rpc("get_recent_analytics" as any, { p_limit: 500 } as any);
+      const data = (Array.isArray(res.data) ? res.data : res.data ? [res.data] : []) as View[];
+      setViews(data || []);
     };
     load();
     const iv = setInterval(load, 15000);

@@ -62,11 +62,13 @@ export default function MyAccount() {
 
   const load = useCallback(async (id: string) => {
     setLoading(true);
-    const [{ data: p, error: pe }, { data: o }] = await Promise.all([
-      (supabase.from("customers" as any).select("*") as any).eq("weplay_id", id).maybeSingle(),
-      (supabase.from("orders" as any).select("*") as any).eq("weplay_id", id).order("created_at", { ascending: false })]
-
-    );
+    const [pRes, oRes] = await Promise.all([
+      supabase.rpc("get_customer_profile" as any, { p_weplay_id: id } as any),
+      supabase.rpc("get_customer_orders" as any, { p_weplay_id: id } as any)
+    ]);
+    const p = (Array.isArray(pRes.data) ? pRes.data[0] : pRes.data) ?? null;
+    const o = (Array.isArray(oRes.data) ? oRes.data : oRes.data ? [oRes.data] : []) as any[];
+    const pe = pRes.error;
 
     setLoading(false);
     const row = p as any;
@@ -76,25 +78,26 @@ export default function MyAccount() {
     }
     setProfile({
       user_id: row.weplay_id,
-      name: row.weplay_name || row.name || "User",
+      name: row.weplay_name || "User",
       game: "Lowest WePlay",
       total_coins: row.total_coins || 0,
       bonus_coins: row.bonus_coins || 0,
       loyalty_tier: row.loyalty_tier || "bronze",
       milestones_reached: row.milestones_reached || [],
-      order_count: (o?.length || 0),
-      completed_count: (o?.filter((x: any) => x.status === "completed").length || 0),
-      total_spent: (o?.filter((x: any) => x.status === "completed").reduce((s: number, x: any) => s + (Number(x.price) || 0), 0) || 0)
+      order_count: row.order_count || 0,
+      completed_count: row.completed_count || 0,
+      total_spent: row.total_spent || 0
     });
     setOrders(((o ?? []) as any[]).map(x => ({
       ...x,
-      order_id: x.order_code || x.id.slice(0, 8),
+      id: x.order_code || x.id || "",
+      order_id: x.order_code || x.id || "",
       amount: String(x.price || x.amount || "0"),
       price: x.price || Number(x.amount) || 0,
       plan: x.product_name || x.plan || "Recharge"
     })) as OrderRow[]);
     // keep the session logged-in
-    localStorage.setItem(VERIFY_KEY, JSON.stringify({ game: "Lowest WePlay", user_id: row.weplay_id, name: row.name }));
+    localStorage.setItem(VERIFY_KEY, JSON.stringify({ game: "Lowest WePlay", user_id: row.weplay_id, name: row.weplay_name }));
 
     // milestone celebration (once per milestone per device)
     const reached: number[] = Array.isArray(row.milestones_reached) ? row.milestones_reached : [];

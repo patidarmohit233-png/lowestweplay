@@ -93,7 +93,10 @@ export default function PaymentModal({
         setOrderCode(row.order_code);
       }
     } else {
-      const res = await supabase.from("orders").update({ transaction_id: value }).eq("id", id);
+      const res = await supabase.rpc("attach_transaction" as any, {
+        p_order_id: id,
+        p_transaction_id: value
+      } as any);
       error = res.error;
     }
 
