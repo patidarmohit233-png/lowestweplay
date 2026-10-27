@@ -261,15 +261,17 @@ export default function Admin() {
                       const content = prompt("Post Content:");
                       const excerpt = prompt("Excerpt:");
                       
-                      supabase.from("blog_posts").insert({
-                        title, 
-                        slug, 
-                        content, 
-                        excerpt, 
-                        category: 'Updates', 
-                        status: 'draft',
-                        author: 'Admin'
-                      }).then(({ error }) => {
+                      supabase.rpc("admin_save_blog_post" as any, {
+                        p_post: {
+                          title,
+                          slug,
+                          content,
+                          excerpt,
+                          category: 'Updates',
+                          status: 'draft',
+                          author: 'Admin'
+                        }
+                      } as any).then(({ error }) => {
                         if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
                         else { toast({ title: "Draft Created" }); loadAll(); }
                       });
@@ -343,7 +345,7 @@ export default function Admin() {
                                       updates.published_at = new Date().toISOString();
                                     }
 
-                                    supabase.from("blog_posts").update(updates).eq("id", b.id).then(({ error }) => {
+                                    supabase.rpc("admin_save_blog_post" as any, { p_post: { id: b.id, ...updates } } as any).then(({ error }) => {
                                       if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
                                       else { toast({ title: `Post ${status}` }); loadAll(); }
                                     });
@@ -357,7 +359,7 @@ export default function Admin() {
                               <button 
                                 onClick={() => {
                                   if (confirm("Delete this post?")) {
-                                    supabase.from("blog_posts").delete().eq("id", b.id).then(({ error }) => {
+                                    supabase.rpc("admin_delete_blog_post" as any, { p_id: b.id } as any).then(({ error }) => {
                                       if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
                                       else { toast({ title: "Deleted" }); loadAll(); }
                                     });
