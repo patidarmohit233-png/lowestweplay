@@ -20,17 +20,14 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
     if (!open) return;
     let alive = true;
     (async () => {
-      const [{ data: c }, { count }] = await Promise.all([
-        supabase.from("customers" as any).select("total_coins,bonus_coins,loyalty_tier").eq("weplay_id", buyer.user_id).maybeSingle(),
-        supabase.from("orders" as any).select("id", { count: "exact", head: true }).eq("weplay_id", buyer.user_id)
-      ]);
+      const res = await supabase.rpc("get_customer_profile" as any, { p_weplay_id: buyer.user_id } as any);
       if (!alive) return;
-      const userRow = c as any;
+      const userRow = (Array.isArray(res.data) ? res.data[0] : res.data) as any;
       setStats({
         total_coins: userRow?.total_coins ?? 0,
         bonus_coins: userRow?.bonus_coins ?? 0,
         loyalty_tier: userRow?.loyalty_tier ?? "bronze",
-        orders: count ?? 0
+        orders: userRow?.order_count ?? 0
       });
 
     })();

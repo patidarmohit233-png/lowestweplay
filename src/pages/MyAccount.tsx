@@ -62,11 +62,13 @@ export default function MyAccount() {
 
   const load = useCallback(async (id: string) => {
     setLoading(true);
-    const [{ data: p, error: pe }, { data: o }] = await Promise.all([
-      (supabase.from("customers" as any).select("*") as any).eq("weplay_id", id).maybeSingle(),
-      (supabase.from("orders" as any).select("*") as any).eq("weplay_id", id).order("created_at", { ascending: false })]
-
-    );
+    const [pRes, oRes] = await Promise.all([
+      supabase.rpc("get_customer_profile" as any, { p_weplay_id: id } as any),
+      supabase.rpc("get_customer_orders" as any, { p_weplay_id: id } as any)
+    ]);
+    const p = (Array.isArray(pRes.data) ? pRes.data[0] : pRes.data) ?? null;
+    const o = (Array.isArray(oRes.data) ? oRes.data : oRes.data ? [oRes.data] : []) as any[];
+    const pe = pRes.error;
 
     setLoading(false);
     const row = p as any;
