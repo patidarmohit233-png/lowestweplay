@@ -557,11 +557,9 @@ const Index = () => {
 
   useEffect(() => {
     const s1 = document.createElement("script");
-    s1.id = "mylivechat";
+    s1.id = "chatway";
     s1.async = true;
-    s1.defer = true;
-    s1.referrerPolicy = "origin";
-    s1.src = "https://www.mylivechat.com/chatbutton.aspx?hccid=15561936";
+    s1.src = "https://cdn.chatway.app/widget.js?id=6oW32GImi1W2";
     document.body.appendChild(s1);
     return () => {document.body.removeChild(s1);};
   }, []);
