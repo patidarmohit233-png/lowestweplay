@@ -93,8 +93,9 @@ export default function Admin() {
   useEffect(() => {
     if ("Notification" in window && Notification.permission === "default") Notification.requestPermission();
     const refetch = async () => {
-      const { data } = await supabase.from("orders").select("*").order("created_at", { ascending: false });
-      if (data) { setOrders(data as any[]); notifyNew(data as any[]); }
+      const res = await supabase.rpc("get_all_orders" as any);
+      const data = (Array.isArray(res.data) ? res.data : res.data ? [res.data] : []) as any[];
+      if (!res.error) { setOrders(data); notifyNew(data); }
     };
     const ch = supabase.channel("admin-orders")
       .on("postgres_changes", { event: "*", schema: "public", table: "orders" }, () => refetch())
@@ -118,10 +119,10 @@ export default function Admin() {
   const loadAll = async () => {
     setRefreshing(true);
     const [o, c, a, b] = await Promise.all([
-      supabase.from("orders").select("*").order("created_at", { ascending: false }),
-      supabase.from("customers").select("*").order("created_at", { ascending: false }),
-      supabase.from("analytics_events").select("*").order("created_at", { ascending: false }).limit(200),
-      supabase.from("blog_posts").select("*").order("published_at", { ascending: false })
+      supabase.rpc("get_all_orders" as any),
+      supabase.rpc("get_all_customers" as any),
+      supabase.rpc("get_recent_analytics" as any, { p_limit: 200 } as any),
+      supabase.rpc("get_all_blog_posts" as any)
     ]);
     setRefreshing(false);
     
@@ -140,7 +141,7 @@ export default function Admin() {
   const changeStatus = async (id: string, status: string) => {
     const prev = orders;
     setOrders((list) => list.map((o) => o.id === id ? { ...o, status } : o));
-    const { error } = await supabase.from("orders").update({ status }).eq("id", id);
+    const { error } = await supabase.rpc("update_order_status" as any, { p_order_id: id, p_status: status } as any);
     if (error) {
       setOrders(prev);
       toast({ title: "Update failed", description: error.message, variant: "destructive" });

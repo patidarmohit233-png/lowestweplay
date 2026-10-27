@@ -78,25 +78,26 @@ export default function MyAccount() {
     }
     setProfile({
       user_id: row.weplay_id,
-      name: row.weplay_name || row.name || "User",
+      name: row.weplay_name || "User",
       game: "Lowest WePlay",
       total_coins: row.total_coins || 0,
       bonus_coins: row.bonus_coins || 0,
       loyalty_tier: row.loyalty_tier || "bronze",
       milestones_reached: row.milestones_reached || [],
-      order_count: (o?.length || 0),
-      completed_count: (o?.filter((x: any) => x.status === "completed").length || 0),
-      total_spent: (o?.filter((x: any) => x.status === "completed").reduce((s: number, x: any) => s + (Number(x.price) || 0), 0) || 0)
+      order_count: row.order_count || 0,
+      completed_count: row.completed_count || 0,
+      total_spent: row.total_spent || 0
     });
     setOrders(((o ?? []) as any[]).map(x => ({
       ...x,
-      order_id: x.order_code || x.id.slice(0, 8),
+      id: x.order_code || x.id || "",
+      order_id: x.order_code || x.id || "",
       amount: String(x.price || x.amount || "0"),
       price: x.price || Number(x.amount) || 0,
       plan: x.product_name || x.plan || "Recharge"
     })) as OrderRow[]);
     // keep the session logged-in
-    localStorage.setItem(VERIFY_KEY, JSON.stringify({ game: "Lowest WePlay", user_id: row.weplay_id, name: row.name }));
+    localStorage.setItem(VERIFY_KEY, JSON.stringify({ game: "Lowest WePlay", user_id: row.weplay_id, name: row.weplay_name }));
 
     // milestone celebration (once per milestone per device)
     const reached: number[] = Array.isArray(row.milestones_reached) ? row.milestones_reached : [];

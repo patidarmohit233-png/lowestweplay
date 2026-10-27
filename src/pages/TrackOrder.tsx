@@ -44,13 +44,24 @@ export default function TrackOrder() {
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase.from("orders" as any).select("*").eq("user_id", value).order("created_at", { ascending: false });
+    const res = await supabase.rpc("get_customer_orders" as any, { p_weplay_id: value } as any);
     setLoading(false);
-    if (error) {
-      toast({ title: "Could not load orders", description: error.message, variant: "destructive" });
+    if (res.error) {
+      toast({ title: "Could not load orders", description: res.error.message, variant: "destructive" });
       return;
     }
-    setOrders((data ?? []) as any[]);
+    const rows = (Array.isArray(res.data) ? res.data : res.data ? [res.data] : []) as any[];
+    setOrders(rows.map((r) => ({
+      id: r.order_code ?? "",
+      order_id: r.order_code ?? "",
+      user_id: value,
+      plan: r.product_name ?? "",
+      amount: String(r.price ?? ""),
+      status: r.status ?? "",
+      transaction_id: r.transaction_id ?? null,
+      upi_id: null,
+      created_at: r.created_at
+    })));
   };
 
   return (
