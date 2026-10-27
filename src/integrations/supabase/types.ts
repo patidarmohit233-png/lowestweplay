@@ -217,10 +217,35 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_delete_blog_post: { Args: { p_id: string }; Returns: boolean }
+      admin_save_blog_post: {
+        Args: { p_post: Json }
+        Returns: {
+          author: string | null
+          category: string | null
+          content: string
+          excerpt: string | null
+          id: string
+          image_url: string | null
+          published_at: string | null
+          scheduled_at: string | null
+          slug: string
+          status: string | null
+          tags: string[] | null
+          title: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "blog_posts"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       attach_transaction: {
         Args: { p_order_id: string; p_transaction_id: string }
         Returns: boolean
       }
+      count_customer_orders: { Args: { p_weplay_id: string }; Returns: number }
       create_order:
         | {
             Args: {
@@ -279,6 +304,79 @@ export type Database = {
               isSetofReturn: true
             }
           }
+      get_all_blog_posts: {
+        Args: never
+        Returns: {
+          author: string | null
+          category: string | null
+          content: string
+          excerpt: string | null
+          id: string
+          image_url: string | null
+          published_at: string | null
+          scheduled_at: string | null
+          slug: string
+          status: string | null
+          tags: string[] | null
+          title: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "blog_posts"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      get_all_customers: {
+        Args: never
+        Returns: {
+          bonus_coins: number
+          created_at: string
+          last_active: string
+          loyalty_tier: string
+          migration_test: string | null
+          milestones_reached: Json
+          total_coins: number
+          weplay_id: string
+          weplay_name: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "customers"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      get_all_orders: {
+        Args: never
+        Returns: {
+          coins: string | null
+          coins_amount: number
+          created_at: string
+          email: string | null
+          failure_reason: string | null
+          id: string
+          order_code: string
+          payment_method: string
+          phone: string | null
+          price: number
+          product_id: string
+          product_name: string
+          receipt_note: string | null
+          status: string
+          transaction_id: string | null
+          updated_at: string
+          upi_id: string | null
+          weplay_id: string
+          weplay_name: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "orders"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       get_customer_orders: {
         Args: { p_weplay_id: string }
         Returns: {
@@ -304,6 +402,16 @@ export type Database = {
           total_spent: number
           weplay_id: string
           weplay_name: string
+        }[]
+      }
+      get_recent_analytics: {
+        Args: { p_limit?: number }
+        Returns: {
+          created_at: string
+          id: string
+          metadata: Json
+          url: string
+          weplay_id: string
         }[]
       }
       has_role: {
