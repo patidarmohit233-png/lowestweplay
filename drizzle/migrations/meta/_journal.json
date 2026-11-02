@@ -15,6 +15,20 @@
       "when": 1793087158973,
       "tag": "0001_grant_execute_secure_reads",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793606893148,
+      "tag": "0002_buy_clicks_fn",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793606919633,
+      "tag": "0003_buy_clicks_fn_fix",
+      "breakpoints": true
     }
   ]
 }

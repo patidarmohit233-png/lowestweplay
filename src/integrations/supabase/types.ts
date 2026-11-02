@@ -377,6 +377,17 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      get_buy_clicks: {
+        Args: { p_limit?: number }
+        Returns: {
+          created_at: string
+          event_name: string
+          id: string
+          metadata: Json
+          url: string
+          weplay_id: string
+        }[]
+      }
       get_customer_orders: {
         Args: { p_weplay_id: string }
         Returns: {
