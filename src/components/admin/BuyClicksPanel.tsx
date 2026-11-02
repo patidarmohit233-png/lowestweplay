@@ -56,7 +56,7 @@ export default function BuyClicksPanel() {
       <div className="flex items-center justify-between mb-3 gap-2">
         <h2 className="font-display text-base inline-flex items-center gap-2">
           <MousePointerClick size={16} /> Plan clicks &amp; payments
-          <span className="text-xs font-normal text-muted-foreground">(7 days)</span>
+          <span className="text-xs font-normal text-muted-foreground">(2 days)</span>
         </h2>
         <div className="relative">
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="WePlay ID / plan"

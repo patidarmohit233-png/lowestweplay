@@ -80,7 +80,7 @@ export default function LiveVisitorsPanel() {
 
       <div className="rounded-2xl border border-border bg-card p-4">
         <div className="flex items-center justify-between mb-3 gap-2">
-          <h2 className="font-display text-base inline-flex items-center gap-2"><History size={16} /> Visit history (7 days)</h2>
+          <h2 className="font-display text-base inline-flex items-center gap-2"><History size={16} /> Visit history (2 days)</h2>
           <div className="relative">
             <Search size={12} className="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="WePlay ID / page"

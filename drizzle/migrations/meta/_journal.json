@@ -29,6 +29,13 @@
       "when": 1793606919633,
       "tag": "0003_buy_clicks_fn_fix",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793607059870,
+      "tag": "0004_analytics_retention_2_days",
+      "breakpoints": true
     }
   ]
 }
