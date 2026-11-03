@@ -319,21 +319,43 @@ export default function MyAccount() {
 
                         <div className="min-w-0"><span className="text-muted-foreground block">Txn ID</span><span className="font-extrabold truncate block">{o.transaction_id || "Not added"}</span></div>
                       </div>
-                      {["hold", "failed", "refunded"].includes(o.status) && o.failure_reason &&
-                        <div className="mt-2.5 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[11.5px] leading-relaxed text-amber-800">
-                          <strong className="font-extrabold uppercase tracking-wide text-[9.5px] block mb-0.5">Reason from team</strong>
-                          {o.failure_reason}
-                        </div>
+                      {o.failure_reason && ["hold", "failed", "refunded", "refund_rejected"].includes(o.status) &&
+                        (() => {
+                          const reasonBox: Record<string, string> = {
+                            hold: "border-amber-200 bg-amber-50 text-amber-800",
+                            failed: "border-rose-200 bg-rose-50 text-rose-800",
+                            refunded: "border-violet-200 bg-violet-50 text-violet-800",
+                            refund_rejected: "border-rose-300 bg-rose-100 text-rose-900"
+                          };
+                          const reasonLabel = o.status === "refunded"
+                            ? "Refund approved · Reason from team"
+                            : o.status === "refund_rejected"
+                            ? "Refund rejected · Reason from team"
+                            : "Reason from team";
+                          return (
+                            <div className={`mt-2.5 rounded-xl border px-3 py-2 text-[11.5px] leading-relaxed ${reasonBox[o.status]}`}>
+                              <strong className="font-extrabold uppercase tracking-wide text-[9.5px] block mb-0.5">{reasonLabel}</strong>
+                              {o.failure_reason}
+                            </div>
+                          );
+                        })()
                       }
-                      {o.refund_requested ?
+                      {o.refund_requested && o.status === "refund_rejected" ?
+                        <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-rose-300 bg-rose-100 text-rose-800 text-[11px] font-extrabold uppercase tracking-wider">
+                          <RotateCcw size={12} /> Refund rejected ✕
+                        </div> :
+                        o.refund_requested ?
                         <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-rose-200 bg-rose-50 text-rose-700 text-[11px] font-extrabold uppercase tracking-wider">
                           <RotateCcw size={12} /> Refund requested · Waiting for team approval
                         </div> :
-                        !["completed", "refunded"].includes(o.status) &&
-                        <button onClick={() => requestRefund(o)}
-                          className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-rose-200 text-rose-600 text-[11px] font-extrabold hover:bg-rose-50 active:scale-[0.97] transition-all">
-                          <RotateCcw size={12} /> Refund Initiate
-                        </button>
+                        !["completed", "refunded", "failed", "refund_rejected"].includes(o.status) &&
+                        <div className="mt-2.5 rounded-xl border border-rose-200 bg-rose-50/60 px-3 py-2.5">
+                          <p className="text-[11px] font-semibold text-rose-800/80 leading-snug">Top-up not delivered? Apply for a refund — the team will review your request.</p>
+                          <button onClick={() => requestRefund(o)}
+                            className="mt-2 inline-flex items-center justify-center gap-2 w-full sm:w-auto px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-rose-50 font-extrabold text-[11px] uppercase tracking-[0.14em] shadow-lg shadow-rose-500/30 active:scale-[0.97] transition-all">
+                            <RotateCcw size={13} /> Request Refund
+                          </button>
+                        </div>
                       }
                     </motion.div>
               )}
