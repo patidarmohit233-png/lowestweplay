@@ -178,6 +178,52 @@ export default function Admin() {
     toast({ title: "Order deleted", description: "Removed from the customer's profile and loyalty coins recalculated." });
   };
 
+  const editReason = async (o: Order) => {
+    const reason = window.prompt(
+      `Edit the reason for order ${o.order_code} — the customer sees this on their profile (edit anytime, not just once):`,
+      o.failure_reason || ""
+    );
+    if (reason === null) return; // admin cancelled
+    if (!reason.trim()) {
+      toast({ title: "Reason cannot be empty", variant: "destructive" });
+      return;
+    }
+    const prev = orders;
+    setOrders((list) => list.map((x) => x.id === o.id ? { ...x, failure_reason: reason.trim() } : x));
+    const { error } = await supabase.rpc("admin_update_refund_reason" as any, { p_order_id: o.id, p_reason: reason } as any);
+    if (error) {
+      setOrders(prev);
+      toast({ title: "Could not save reason", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Reason updated", description: `Customer now sees: ${reason.trim()}` });
+  };
+
+  const reviewRefund = async (o: Order, approve: boolean) => {
+    const action = approve ? "approve" : "reject";
+    const reason = window.prompt(
+      approve
+        ? `Reason for APPROVING the refund of order ${o.order_code} — required, the customer will see this:`
+        : `Reason for REJECTING the refund of order ${o.order_code} — required, the customer will see this:`
+    );
+    if (reason === null) return; // admin cancelled
+    if (!reason.trim()) {
+      toast({ title: "Reason is required", description: `Write a reason to ${action} this refund.`, variant: "destructive" });
+      return;
+    }
+    const prev = orders;
+    setOrders((list) => list.map((x) => x.id === o.id
+      ? { ...x, status: approve ? "refunded" : "refund_rejected", failure_reason: reason.trim(), refund_requested: !approve }
+      : x));
+    const { error } = await supabase.rpc("admin_review_refund" as any, { p_order_id: o.id, p_approve: approve, p_reason: reason } as any);
+    if (error) {
+      setOrders(prev);
+      toast({ title: "Could not review refund", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: approve ? "Refund approved ✓" : "Refund rejected", description: `Customer sees: ${reason.trim()}` });
+  };
+
 
   const filteredOrders = useMemo(() => {
     const q = query.trim().toLowerCase();
