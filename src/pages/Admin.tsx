@@ -39,7 +39,7 @@ type Customer = {
 };
 
 
-const STATUSES = ["pending", "processing", "hold", "completed", "failed"] as const;
+const STATUSES = ["pending", "processing", "hold", "completed", "failed", "refunded"] as const;
 
 const STATUS_STYLES: Record<string, string> = {
   pending: "bg-amber-100 text-amber-700 border-amber-200",
