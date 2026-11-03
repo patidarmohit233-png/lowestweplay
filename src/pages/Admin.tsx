@@ -144,15 +144,37 @@ export default function Admin() {
   };
 
   const changeStatus = async (id: string, status: string) => {
+    let reason: string | null = null;
+    if (["hold", "failed", "refunded"].includes(status)) {
+      const current = orders.find((o) => o.id === id);
+      reason = window.prompt(
+        `Reason for ${status} — the customer will see this on their profile:`,
+        current?.failure_reason || ""
+      );
+      if (reason === null) return; // admin cancelled
+    }
     const prev = orders;
-    setOrders((list) => list.map((o) => o.id === id ? { ...o, status } : o));
-    const { error } = await supabase.rpc("update_order_status" as any, { p_order_id: id, p_status: status } as any);
+    setOrders((list) => list.map((o) => o.id === id ? { ...o, status, failure_reason: reason ?? o.failure_reason } : o));
+    const { error } = await supabase.rpc("update_order_status" as any, { p_order_id: id, p_status: status, p_reason: reason } as any);
     if (error) {
       setOrders(prev);
       toast({ title: "Update failed", description: error.message, variant: "destructive" });
       return;
     }
-    toast({ title: `Status set to ${status}` });
+    toast({ title: `Status set to ${status}`, description: reason ? `Reason saved: ${reason}` : undefined });
+  };
+
+  const deleteOrder = async (o: Order) => {
+    if (!window.confirm(`Delete order ${o.order_code}? This removes it from ${o.weplay_id || "the customer"}'s profile too, and their loyalty coins are recalculated.`)) return;
+    const prev = orders;
+    setOrders((list) => list.filter((x) => x.id !== o.id));
+    const { error } = await supabase.rpc("admin_delete_order" as any, { p_order_id: o.id } as any);
+    if (error) {
+      setOrders(prev);
+      toast({ title: "Delete failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Order deleted", description: "Removed from the customer's profile and loyalty coins recalculated." });
   };
 
 
