@@ -46,7 +46,8 @@ const STATUS_STYLES: Record<string, string> = {
   processing: "bg-sky-100 text-sky-700 border-sky-200",
   hold: "bg-orange-100 text-orange-700 border-orange-200",
   completed: "bg-emerald-100 text-emerald-700 border-emerald-200",
-  failed: "bg-rose-100 text-rose-700 border-rose-200"
+  failed: "bg-rose-100 text-rose-700 border-rose-200",
+  refunded: "bg-violet-100 text-violet-700 border-violet-200"
 };
 
 export default function Admin() {
