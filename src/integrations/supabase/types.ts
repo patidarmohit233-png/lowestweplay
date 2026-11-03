@@ -225,6 +225,10 @@ export type Database = {
     Functions: {
       admin_delete_blog_post: { Args: { p_id: string }; Returns: boolean }
       admin_delete_order: { Args: { p_order_id: string }; Returns: boolean }
+      admin_review_refund: {
+        Args: { p_approve: boolean; p_order_id: string; p_reason: string }
+        Returns: boolean
+      }
       admin_save_blog_post: {
         Args: { p_post: Json }
         Returns: {
@@ -247,6 +251,10 @@ export type Database = {
           isOneToOne: true
           isSetofReturn: false
         }
+      }
+      admin_update_refund_reason: {
+        Args: { p_order_id: string; p_reason: string }
+        Returns: boolean
       }
       attach_transaction: {
         Args: { p_order_id: string; p_transaction_id: string }
