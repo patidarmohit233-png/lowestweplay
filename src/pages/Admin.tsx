@@ -24,6 +24,9 @@ type Order = {
   transaction_id: string | null;
   upi_id: string | null;
   created_at: string;
+  failure_reason?: string | null;
+  refund_requested?: boolean;
+  refund_requested_at?: string | null;
 };
 
 type Customer = {
