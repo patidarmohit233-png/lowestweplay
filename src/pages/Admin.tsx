@@ -418,11 +418,12 @@ export default function Admin() {
                       <th className="text-left px-4 py-3">Paid To (UPI)</th>
                       <th className="text-left px-4 py-3">Redeem Code</th>
                       <th className="text-left px-4 py-3">Status</th>
+                      <th className="text-right px-4 py-3">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredOrders.length === 0 &&
-                      <tr><td colSpan={8} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
+                      <tr><td colSpan={9} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
                     }
                     {filteredOrders.map((o) =>
                       <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
@@ -447,13 +448,29 @@ export default function Admin() {
                             <span className="text-muted-foreground">—</span>}
                         </td>
                         <td className="px-4 py-3">
-                          <select
-                            value={o.status}
-                            onChange={(e) => changeStatus(o.id, e.target.value)}
-                            aria-label={`Status for order ${o.order_code}`}
-                            className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
-                            {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
-                          </select>
+                          <div className="flex flex-col gap-1">
+                            <select
+                              value={o.status}
+                              onChange={(e) => changeStatus(o.id, e.target.value)}
+                              aria-label={`Status for order ${o.order_code}`}
+                              className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
+                              {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                            {o.refund_requested && o.status !== "refunded" &&
+                              <span className="px-2 py-0.5 rounded-full border border-rose-200 bg-rose-50 text-rose-700 text-[9px] font-bold uppercase tracking-wider">Refund requested</span>
+                            }
+                            {o.failure_reason && ["hold", "failed", "refunded"].includes(o.status) &&
+                              <span className="text-[10px] text-muted-foreground max-w-[180px] break-words" title={o.failure_reason}>“{o.failure_reason}”</span>
+                            }
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <button
+                            onClick={() => deleteOrder(o)}
+                            aria-label={`Delete order ${o.order_code}`}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-rose-200 text-rose-600 text-[11px] font-bold hover:bg-rose-50 active:scale-[0.97] transition-all">
+                            <Trash2 size={13} /> Delete
+                          </button>
                         </td>
                       </tr>
                     )}
