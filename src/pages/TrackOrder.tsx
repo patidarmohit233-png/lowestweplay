@@ -24,7 +24,8 @@ export const STATUS_STYLES: Record<string, string> = {
   hold: "bg-orange-100 text-orange-700 border-orange-200",
   completed: "bg-emerald-100 text-emerald-700 border-emerald-200",
   failed: "bg-rose-100 text-rose-700 border-rose-200",
-  refunded: "bg-violet-100 text-violet-700 border-violet-200"
+  refunded: "bg-violet-100 text-violet-700 border-violet-200",
+  refund_rejected: "bg-rose-100 text-rose-700 border-rose-200"
 };
 
 export default function TrackOrder() {

@@ -39,7 +39,7 @@ type Customer = {
 };
 
 
-const STATUSES = ["pending", "processing", "hold", "completed", "failed", "refunded"] as const;
+const STATUSES = ["pending", "processing", "hold", "completed", "failed", "refunded", "refund_rejected"] as const;
 
 const STATUS_STYLES: Record<string, string> = {
   pending: "bg-amber-100 text-amber-700 border-amber-200",
@@ -47,7 +47,8 @@ const STATUS_STYLES: Record<string, string> = {
   hold: "bg-orange-100 text-orange-700 border-orange-200",
   completed: "bg-emerald-100 text-emerald-700 border-emerald-200",
   failed: "bg-rose-100 text-rose-700 border-rose-200",
-  refunded: "bg-violet-100 text-violet-700 border-violet-200"
+  refunded: "bg-violet-100 text-violet-700 border-violet-200",
+  refund_rejected: "bg-rose-100 text-rose-700 border-rose-200"
 };
 
 export default function Admin() {
@@ -175,6 +176,52 @@ export default function Admin() {
       return;
     }
     toast({ title: "Order deleted", description: "Removed from the customer's profile and loyalty coins recalculated." });
+  };
+
+  const editReason = async (o: Order) => {
+    const reason = window.prompt(
+      `Edit the reason for order ${o.order_code} — the customer sees this on their profile (edit anytime, not just once):`,
+      o.failure_reason || ""
+    );
+    if (reason === null) return; // admin cancelled
+    if (!reason.trim()) {
+      toast({ title: "Reason cannot be empty", variant: "destructive" });
+      return;
+    }
+    const prev = orders;
+    setOrders((list) => list.map((x) => x.id === o.id ? { ...x, failure_reason: reason.trim() } : x));
+    const { error } = await supabase.rpc("admin_update_refund_reason" as any, { p_order_id: o.id, p_reason: reason } as any);
+    if (error) {
+      setOrders(prev);
+      toast({ title: "Could not save reason", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Reason updated", description: `Customer now sees: ${reason.trim()}` });
+  };
+
+  const reviewRefund = async (o: Order, approve: boolean) => {
+    const action = approve ? "approve" : "reject";
+    const reason = window.prompt(
+      approve
+        ? `Reason for APPROVING the refund of order ${o.order_code} — required, the customer will see this:`
+        : `Reason for REJECTING the refund of order ${o.order_code} — required, the customer will see this:`
+    );
+    if (reason === null) return; // admin cancelled
+    if (!reason.trim()) {
+      toast({ title: "Reason is required", description: `Write a reason to ${action} this refund.`, variant: "destructive" });
+      return;
+    }
+    const prev = orders;
+    setOrders((list) => list.map((x) => x.id === o.id
+      ? { ...x, status: approve ? "refunded" : "refund_rejected", failure_reason: reason.trim(), refund_requested: !approve }
+      : x));
+    const { error } = await supabase.rpc("admin_review_refund" as any, { p_order_id: o.id, p_approve: approve, p_reason: reason } as any);
+    if (error) {
+      setOrders(prev);
+      toast({ title: "Could not review refund", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: approve ? "Refund approved ✓" : "Refund rejected", description: `Customer sees: ${reason.trim()}` });
   };
 
 
@@ -456,21 +503,50 @@ export default function Admin() {
                               className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
                               {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                             </select>
-                            {o.refund_requested && o.status !== "refunded" &&
+                            {o.refund_requested && !["refunded", "refund_rejected"].includes(o.status) &&
                               <span className="px-2 py-0.5 rounded-full border border-rose-200 bg-rose-50 text-rose-700 text-[9px] font-bold uppercase tracking-wider">Refund requested</span>
                             }
-                            {o.failure_reason && ["hold", "failed", "refunded"].includes(o.status) &&
+                            {o.status === "refund_rejected" &&
+                              <span className="px-2 py-0.5 rounded-full border border-rose-200 bg-rose-50 text-rose-700 text-[9px] font-bold uppercase tracking-wider">Refund rejected</span>
+                            }
+                            {o.failure_reason && ["hold", "failed", "refunded", "refund_rejected"].includes(o.status) &&
                               <span className="text-[10px] text-muted-foreground max-w-[180px] break-words" title={o.failure_reason}>“{o.failure_reason}”</span>
                             }
                           </div>
                         </td>
                         <td className="px-4 py-3 text-right">
-                          <button
-                            onClick={() => deleteOrder(o)}
-                            aria-label={`Delete order ${o.order_code}`}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-rose-200 text-rose-600 text-[11px] font-bold hover:bg-rose-50 active:scale-[0.97] transition-all">
-                            <Trash2 size={13} /> Delete
-                          </button>
+                          <div className="flex flex-col items-end gap-1.5">
+                            {o.refund_requested && !["refunded", "refund_rejected"].includes(o.status) &&
+                              <div className="flex items-center gap-1.5">
+                                <button
+                                  onClick={() => reviewRefund(o, true)}
+                                  aria-label={`Approve refund for order ${o.order_code}`}
+                                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-700 text-[11px] font-bold hover:bg-emerald-100 active:scale-[0.97] transition-all">
+                                  <CheckCircle size={13} /> Approve refund
+                                </button>
+                                <button
+                                  onClick={() => reviewRefund(o, false)}
+                                  aria-label={`Reject refund for order ${o.order_code}`}
+                                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-rose-200 bg-rose-50 text-rose-600 text-[11px] font-bold hover:bg-rose-100 active:scale-[0.97] transition-all">
+                                  <X size={13} /> Reject refund
+                                </button>
+                              </div>
+                            }
+                            <div className="flex items-center gap-1.5">
+                              <button
+                                onClick={() => editReason(o)}
+                                aria-label={`Edit reason for order ${o.order_code}`}
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border text-muted-foreground text-[11px] font-bold hover:bg-secondary active:scale-[0.97] transition-all">
+                                <Edit3 size={13} /> {o.failure_reason ? "Edit reason" : "Add reason"}
+                              </button>
+                              <button
+                                onClick={() => deleteOrder(o)}
+                                aria-label={`Delete order ${o.order_code}`}
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-rose-200 text-rose-600 text-[11px] font-bold hover:bg-rose-50 active:scale-[0.97] transition-all">
+                                <Trash2 size={13} /> Delete
+                              </button>
+                            </div>
+                          </div>
                         </td>
                       </tr>
                     )}
