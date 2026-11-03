@@ -503,10 +503,13 @@ export default function Admin() {
                               className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
                               {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                             </select>
-                            {o.refund_requested && o.status !== "refunded" &&
+                            {o.refund_requested && !["refunded", "refund_rejected"].includes(o.status) &&
                               <span className="px-2 py-0.5 rounded-full border border-rose-200 bg-rose-50 text-rose-700 text-[9px] font-bold uppercase tracking-wider">Refund requested</span>
                             }
-                            {o.failure_reason && ["hold", "failed", "refunded"].includes(o.status) &&
+                            {o.status === "refund_rejected" &&
+                              <span className="px-2 py-0.5 rounded-full border border-rose-200 bg-rose-50 text-rose-700 text-[9px] font-bold uppercase tracking-wider">Refund rejected</span>
+                            }
+                            {o.failure_reason && ["hold", "failed", "refunded", "refund_rejected"].includes(o.status) &&
                               <span className="text-[10px] text-muted-foreground max-w-[180px] break-words" title={o.failure_reason}>“{o.failure_reason}”</span>
                             }
                           </div>
