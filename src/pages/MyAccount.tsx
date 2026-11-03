@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft, Coins, Crown, Gift, Loader2, LogOut, Package,
-  PartyPopper, ShoppingBag, Sparkles, Trophy, UserCheck, Wallet } from
+  PartyPopper, RotateCcw, ShoppingBag, Sparkles, Trophy, UserCheck, Wallet } from
 "lucide-react";
 import Seo from "@/components/Seo";
 import lowestweplayAvatarAsset from "@/assets/lowestweplay-avatar.png.asset.json";
@@ -38,6 +38,8 @@ type OrderRow = {
   status: string;
   transaction_id: string | null;
   created_at: string;
+  failure_reason?: string | null;
+  refund_requested?: boolean;
 };
 
 
