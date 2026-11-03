@@ -24,6 +24,9 @@ type Order = {
   transaction_id: string | null;
   upi_id: string | null;
   created_at: string;
+  failure_reason?: string | null;
+  refund_requested?: boolean;
+  refund_requested_at?: string | null;
 };
 
 type Customer = {
@@ -36,14 +39,15 @@ type Customer = {
 };
 
 
-const STATUSES = ["pending", "processing", "hold", "completed", "failed"] as const;
+const STATUSES = ["pending", "processing", "hold", "completed", "failed", "refunded"] as const;
 
 const STATUS_STYLES: Record<string, string> = {
   pending: "bg-amber-100 text-amber-700 border-amber-200",
   processing: "bg-sky-100 text-sky-700 border-sky-200",
   hold: "bg-orange-100 text-orange-700 border-orange-200",
   completed: "bg-emerald-100 text-emerald-700 border-emerald-200",
-  failed: "bg-rose-100 text-rose-700 border-rose-200"
+  failed: "bg-rose-100 text-rose-700 border-rose-200",
+  refunded: "bg-violet-100 text-violet-700 border-violet-200"
 };
 
 export default function Admin() {
@@ -140,15 +144,37 @@ export default function Admin() {
   };
 
   const changeStatus = async (id: string, status: string) => {
+    let reason: string | null = null;
+    if (["hold", "failed", "refunded"].includes(status)) {
+      const current = orders.find((o) => o.id === id);
+      reason = window.prompt(
+        `Reason for ${status} — the customer will see this on their profile:`,
+        current?.failure_reason || ""
+      );
+      if (reason === null) return; // admin cancelled
+    }
     const prev = orders;
-    setOrders((list) => list.map((o) => o.id === id ? { ...o, status } : o));
-    const { error } = await supabase.rpc("update_order_status" as any, { p_order_id: id, p_status: status } as any);
+    setOrders((list) => list.map((o) => o.id === id ? { ...o, status, failure_reason: reason ?? o.failure_reason } : o));
+    const { error } = await supabase.rpc("update_order_status" as any, { p_order_id: id, p_status: status, p_reason: reason } as any);
     if (error) {
       setOrders(prev);
       toast({ title: "Update failed", description: error.message, variant: "destructive" });
       return;
     }
-    toast({ title: `Status set to ${status}` });
+    toast({ title: `Status set to ${status}`, description: reason ? `Reason saved: ${reason}` : undefined });
+  };
+
+  const deleteOrder = async (o: Order) => {
+    if (!window.confirm(`Delete order ${o.order_code}? This removes it from ${o.weplay_id || "the customer"}'s profile too, and their loyalty coins are recalculated.`)) return;
+    const prev = orders;
+    setOrders((list) => list.filter((x) => x.id !== o.id));
+    const { error } = await supabase.rpc("admin_delete_order" as any, { p_order_id: o.id } as any);
+    if (error) {
+      setOrders(prev);
+      toast({ title: "Delete failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Order deleted", description: "Removed from the customer's profile and loyalty coins recalculated." });
   };
 
 
@@ -392,11 +418,12 @@ export default function Admin() {
                       <th className="text-left px-4 py-3">Paid To (UPI)</th>
                       <th className="text-left px-4 py-3">Redeem Code</th>
                       <th className="text-left px-4 py-3">Status</th>
+                      <th className="text-right px-4 py-3">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredOrders.length === 0 &&
-                      <tr><td colSpan={8} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
+                      <tr><td colSpan={9} className="px-4 py-10 text-center text-muted-foreground">No orders found.</td></tr>
                     }
                     {filteredOrders.map((o) =>
                       <tr key={o.id} className="border-t border-border/60 hover:bg-secondary/40">
@@ -421,13 +448,29 @@ export default function Admin() {
                             <span className="text-muted-foreground">—</span>}
                         </td>
                         <td className="px-4 py-3">
-                          <select
-                            value={o.status}
-                            onChange={(e) => changeStatus(o.id, e.target.value)}
-                            aria-label={`Status for order ${o.order_code}`}
-                            className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
-                            {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
-                          </select>
+                          <div className="flex flex-col gap-1">
+                            <select
+                              value={o.status}
+                              onChange={(e) => changeStatus(o.id, e.target.value)}
+                              aria-label={`Status for order ${o.order_code}`}
+                              className={`px-2 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wider capitalize ${STATUS_STYLES[o.status] ?? "bg-secondary text-muted-foreground border-border"}`}>
+                              {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                            {o.refund_requested && o.status !== "refunded" &&
+                              <span className="px-2 py-0.5 rounded-full border border-rose-200 bg-rose-50 text-rose-700 text-[9px] font-bold uppercase tracking-wider">Refund requested</span>
+                            }
+                            {o.failure_reason && ["hold", "failed", "refunded"].includes(o.status) &&
+                              <span className="text-[10px] text-muted-foreground max-w-[180px] break-words" title={o.failure_reason}>“{o.failure_reason}”</span>
+                            }
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <button
+                            onClick={() => deleteOrder(o)}
+                            aria-label={`Delete order ${o.order_code}`}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-rose-200 text-rose-600 text-[11px] font-bold hover:bg-rose-50 active:scale-[0.97] transition-all">
+                            <Trash2 size={13} /> Delete
+                          </button>
                         </td>
                       </tr>
                     )}

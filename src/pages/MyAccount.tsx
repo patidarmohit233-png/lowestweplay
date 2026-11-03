@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft, Coins, Crown, Gift, Loader2, LogOut, Package,
-  PartyPopper, ShoppingBag, Sparkles, Trophy, UserCheck, Wallet } from
+  PartyPopper, RotateCcw, ShoppingBag, Sparkles, Trophy, UserCheck, Wallet } from
 "lucide-react";
 import Seo from "@/components/Seo";
 import lowestweplayAvatarAsset from "@/assets/lowestweplay-avatar.png.asset.json";
@@ -38,6 +38,8 @@ type OrderRow = {
   status: string;
   transaction_id: string | null;
   created_at: string;
+  failure_reason?: string | null;
+  refund_requested?: boolean;
 };
 
 
@@ -119,6 +121,21 @@ export default function MyAccount() {
     localStorage.removeItem(VERIFY_KEY);
     toast({ title: "Logged out", description: "Verify again anytime with your Lowest WePlay ID." });
     navigate("/");
+  };
+
+  const requestRefund = async (o: OrderRow) => {
+    if (!o.order_code) return;
+    const res = await supabase.rpc("request_refund" as any, { p_order_code: o.order_code, p_weplay_id: activeId } as any);
+    if (res.error) {
+      toast({ title: "Could not request refund", description: res.error.message, variant: "destructive" });
+      return;
+    }
+    if (res.data === false) {
+      toast({ title: "Not eligible", description: "Completed or refunded orders cannot request a refund.", variant: "destructive" });
+      return;
+    }
+    toast({ title: "Refund requested ✓", description: "The team will review your request and update the order soon." });
+    load(activeId);
   };
 
   const purchased = profile?.total_coins ?? 0;
@@ -302,6 +319,22 @@ export default function MyAccount() {
 
                         <div className="min-w-0"><span className="text-muted-foreground block">Txn ID</span><span className="font-extrabold truncate block">{o.transaction_id || "Not added"}</span></div>
                       </div>
+                      {["hold", "failed", "refunded"].includes(o.status) && o.failure_reason &&
+                        <div className="mt-2.5 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[11.5px] leading-relaxed text-amber-800">
+                          <strong className="font-extrabold uppercase tracking-wide text-[9.5px] block mb-0.5">Reason from team</strong>
+                          {o.failure_reason}
+                        </div>
+                      }
+                      {o.refund_requested ?
+                        <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-rose-200 bg-rose-50 text-rose-700 text-[11px] font-extrabold uppercase tracking-wider">
+                          <RotateCcw size={12} /> Refund requested · Waiting for team approval
+                        </div> :
+                        !["completed", "refunded"].includes(o.status) &&
+                        <button onClick={() => requestRefund(o)}
+                          className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-rose-200 text-rose-600 text-[11px] font-extrabold hover:bg-rose-50 active:scale-[0.97] transition-all">
+                          <RotateCcw size={12} /> Refund Initiate
+                        </button>
+                      }
                     </motion.div>
               )}
                 </div>

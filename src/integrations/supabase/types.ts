@@ -140,6 +140,8 @@ export type Database = {
           product_id: string
           product_name: string
           receipt_note: string | null
+          refund_requested: boolean
+          refund_requested_at: string | null
           status: string
           transaction_id: string | null
           updated_at: string
@@ -161,6 +163,8 @@ export type Database = {
           product_id: string
           product_name: string
           receipt_note?: string | null
+          refund_requested?: boolean
+          refund_requested_at?: string | null
           status?: string
           transaction_id?: string | null
           updated_at?: string
@@ -182,6 +186,8 @@ export type Database = {
           product_id?: string
           product_name?: string
           receipt_note?: string | null
+          refund_requested?: boolean
+          refund_requested_at?: string | null
           status?: string
           transaction_id?: string | null
           updated_at?: string
@@ -218,6 +224,7 @@ export type Database = {
     }
     Functions: {
       admin_delete_blog_post: { Args: { p_id: string }; Returns: boolean }
+      admin_delete_order: { Args: { p_order_id: string }; Returns: boolean }
       admin_save_blog_post: {
         Args: { p_post: Json }
         Returns: {
@@ -290,6 +297,8 @@ export type Database = {
               product_id: string
               product_name: string
               receipt_note: string | null
+              refund_requested: boolean
+              refund_requested_at: string | null
               status: string
               transaction_id: string | null
               updated_at: string
@@ -363,6 +372,8 @@ export type Database = {
           product_id: string
           product_name: string
           receipt_note: string | null
+          refund_requested: boolean
+          refund_requested_at: string | null
           status: string
           transaction_id: string | null
           updated_at: string
@@ -393,10 +404,12 @@ export type Database = {
         Returns: {
           coins: string
           created_at: string
+          failure_reason: string
           order_code: string
           payment_method: string
           price: number
           product_name: string
+          refund_requested: boolean
           status: string
           transaction_id: string
         }[]
@@ -436,6 +449,10 @@ export type Database = {
         Args: { p_weplay_id: string }
         Returns: undefined
       }
+      request_refund: {
+        Args: { p_order_code: string; p_weplay_id: string }
+        Returns: boolean
+      }
       secure_create_order: {
         Args: {
           p_coins_amount: number
@@ -461,6 +478,8 @@ export type Database = {
           product_id: string
           product_name: string
           receipt_note: string | null
+          refund_requested: boolean
+          refund_requested_at: string | null
           status: string
           transaction_id: string | null
           updated_at: string
@@ -519,6 +538,8 @@ export type Database = {
           product_id: string
           product_name: string
           receipt_note: string | null
+          refund_requested: boolean
+          refund_requested_at: string | null
           status: string
           transaction_id: string | null
           updated_at: string
@@ -534,10 +555,12 @@ export type Database = {
         }
       }
       test_rpc: { Args: never; Returns: string }
-      update_order_status: {
-        Args: { p_order_id: string; p_status: string }
-        Returns: boolean
-      }
+      update_order_status:
+        | { Args: { p_order_id: string; p_status: string }; Returns: boolean }
+        | {
+            Args: { p_order_id: string; p_reason?: string; p_status: string }
+            Returns: boolean
+          }
       upsert_customer: {
         Args: { p_weplay_id: string; p_weplay_name: string }
         Returns: undefined
