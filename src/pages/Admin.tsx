@@ -515,12 +515,38 @@ export default function Admin() {
                           </div>
                         </td>
                         <td className="px-4 py-3 text-right">
-                          <button
-                            onClick={() => deleteOrder(o)}
-                            aria-label={`Delete order ${o.order_code}`}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-rose-200 text-rose-600 text-[11px] font-bold hover:bg-rose-50 active:scale-[0.97] transition-all">
-                            <Trash2 size={13} /> Delete
-                          </button>
+                          <div className="flex flex-col items-end gap-1.5">
+                            {o.refund_requested && !["refunded", "refund_rejected"].includes(o.status) &&
+                              <div className="flex items-center gap-1.5">
+                                <button
+                                  onClick={() => reviewRefund(o, true)}
+                                  aria-label={`Approve refund for order ${o.order_code}`}
+                                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-700 text-[11px] font-bold hover:bg-emerald-100 active:scale-[0.97] transition-all">
+                                  <CheckCircle size={13} /> Approve refund
+                                </button>
+                                <button
+                                  onClick={() => reviewRefund(o, false)}
+                                  aria-label={`Reject refund for order ${o.order_code}`}
+                                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-rose-200 bg-rose-50 text-rose-600 text-[11px] font-bold hover:bg-rose-100 active:scale-[0.97] transition-all">
+                                  <X size={13} /> Reject refund
+                                </button>
+                              </div>
+                            }
+                            <div className="flex items-center gap-1.5">
+                              <button
+                                onClick={() => editReason(o)}
+                                aria-label={`Edit reason for order ${o.order_code}`}
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border text-muted-foreground text-[11px] font-bold hover:bg-secondary active:scale-[0.97] transition-all">
+                                <Edit3 size={13} /> {o.failure_reason ? "Edit reason" : "Add reason"}
+                              </button>
+                              <button
+                                onClick={() => deleteOrder(o)}
+                                aria-label={`Delete order ${o.order_code}`}
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-rose-200 text-rose-600 text-[11px] font-bold hover:bg-rose-50 active:scale-[0.97] transition-all">
+                                <Trash2 size={13} /> Delete
+                              </button>
+                            </div>
+                          </div>
                         </td>
                       </tr>
                     )}
