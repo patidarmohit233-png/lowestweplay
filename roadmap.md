@@ -1,4 +1,4 @@
-- [ ] Add customer review storage, validation, and approval RPCs.
-- [ ] Add verified-customer review submission and approved review display with 4.9 rating summary.
-- [ ] Add admin review approval/rejection controls.
-- [ ] Verify moderation behavior, rendering, and build diagnostics.
+- [x] Add customer review storage, validation, and approval RPCs.
+- [x] Add verified-customer review submission and approved review display with 4.9 rating summary.
+- [x] Add admin review approval/rejection controls.
+- [x] Verify review validation, submission, admin approval, public display, test cleanup, and build diagnostics.
