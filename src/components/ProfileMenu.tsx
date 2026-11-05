@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { User, LogOut, Receipt, Coins, Package, X } from "lucide-react";
+import { User, LogOut, Receipt, Coins, Package, X, MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fmt, tierMeta } from "@/lib/loyalty";
 import lowestweplayAvatarAsset from "@/assets/lowestweplay-avatar.png.asset.json";
@@ -115,6 +115,10 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
               style={{ background: "var(--gradient-primary)" }}>
                 <Receipt size={14} /> My Orders
               </Link>
+              <a href="https://wa.me/qr/REB67MGOYBTDB1" target="_blank" rel="noreferrer"
+              className="w-full py-3 rounded-2xl bg-secondary border border-border text-foreground font-extrabold text-[11px] uppercase tracking-[0.14em] flex items-center justify-center gap-2 active:scale-[0.97] transition-transform">
+                <MessageCircle size={14} /> WhatsApp 24/7 Support
+              </a>
               <button onClick={() => {setOpen(false);onLogout();}}
               className="w-full py-3 rounded-2xl bg-secondary border border-border text-foreground font-extrabold text-[11px] uppercase tracking-[0.14em] flex items-center justify-center gap-2 active:scale-[0.97] transition-transform">
                 <LogOut size={14} /> Logout
