@@ -89,6 +89,39 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_reviews: {
+        Row: {
+          created_at: string
+          id: string
+          rating: number
+          review_text: string
+          reviewed_at: string | null
+          status: string
+          weplay_id: string
+          weplay_name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          rating: number
+          review_text: string
+          reviewed_at?: string | null
+          status?: string
+          weplay_id: string
+          weplay_name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          rating?: number
+          review_text?: string
+          reviewed_at?: string | null
+          status?: string
+          weplay_id?: string
+          weplay_name?: string
+        }
+        Relationships: []
+      }
       customers: {
         Row: {
           bonus_coins: number
@@ -252,6 +285,10 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      admin_set_customer_review_status: {
+        Args: { p_review_id: string; p_status: string }
+        Returns: boolean
+      }
       admin_update_refund_reason: {
         Args: { p_order_id: string; p_reason: string }
         Returns: boolean
@@ -343,6 +380,19 @@ export type Database = {
           isOneToOne: false
           isSetofReturn: true
         }
+      }
+      get_all_customer_reviews: {
+        Args: never
+        Returns: {
+          created_at: string
+          id: string
+          rating: number
+          review_text: string
+          reviewed_at: string
+          status: string
+          weplay_id: string
+          weplay_name: string
+        }[]
       }
       get_all_customers: {
         Args: never
@@ -436,6 +486,16 @@ export type Database = {
           weplay_name: string
         }[]
       }
+      get_public_customer_reviews: {
+        Args: never
+        Returns: {
+          created_at: string
+          id: string
+          rating: number
+          review_text: string
+          weplay_name: string
+        }[]
+      }
       get_recent_analytics: {
         Args: { p_limit?: number }
         Returns: {
@@ -521,6 +581,10 @@ export type Database = {
           isOneToOne: true
           isSetofReturn: false
         }
+      }
+      submit_customer_review: {
+        Args: { p_rating: number; p_review_text: string; p_weplay_id: string }
+        Returns: string
       }
       submit_redeem_order: {
         Args: {

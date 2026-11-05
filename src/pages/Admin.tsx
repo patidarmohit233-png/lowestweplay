@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNoindex } from "@/hooks/use-noindex";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen, FileCode, Clock, CheckCircle, Send, Eye, Copy, X, Bell } from "lucide-react";
+import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen, FileCode, Clock, CheckCircle, Send, Eye, Copy, X, Bell, Star } from "lucide-react";
 import LiveVisitorsPanel from "@/components/admin/LiveVisitorsPanel";
 import BuyClicksPanel from "@/components/admin/BuyClicksPanel";
 import { generateSitemapXml } from "@/lib/sitemap-generator";
@@ -38,6 +38,17 @@ type Customer = {
   last_active: string;
 };
 
+type CustomerReview = {
+  id: string;
+  weplay_id: string;
+  weplay_name: string;
+  review_text: string;
+  rating: number;
+  status: "pending" | "approved" | "rejected";
+  created_at: string;
+  reviewed_at: string | null;
+};
+
 
 const STATUSES = ["pending", "processing", "hold", "completed", "failed", "refunded", "refund_rejected"] as const;
 
@@ -58,8 +69,9 @@ export default function Admin() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [analytics, setAnalytics] = useState<any[]>([]);
   const [blogs, setBlogs] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<CustomerReview[]>([]);
   const [refreshing, setRefreshing] = useState(false);
-  const [tab, setTab] = useState<"orders" | "customers" | "analytics" | "blogs">("orders");
+  const [tab, setTab] = useState<"orders" | "customers" | "analytics" | "blogs" | "reviews">("orders");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [query, setQuery] = useState("");
   const [viewCode, setViewCode] = useState<Order | null>(null);
@@ -124,11 +136,12 @@ export default function Admin() {
 
   const loadAll = async () => {
     setRefreshing(true);
-    const [o, c, a, b] = await Promise.all([
+    const [o, c, a, b, r] = await Promise.all([
       supabase.rpc("get_all_orders" as any),
       supabase.rpc("get_all_customers" as any),
       supabase.rpc("get_recent_analytics" as any, { p_limit: 200 } as any),
-      supabase.rpc("get_all_blog_posts" as any)
+      supabase.rpc("get_all_blog_posts" as any),
+      supabase.rpc("get_all_customer_reviews")
     ]);
     setRefreshing(false);
     
@@ -141,7 +154,29 @@ export default function Admin() {
     setCustomers((c.data ?? []) as any[]);
     setAnalytics((a.data ?? []) as any[]);
     setBlogs((b.data ?? []) as any[]);
+    if (r.error) {
+      toast({ title: "Failed to load reviews", description: r.error.message, variant: "destructive" });
+    } else {
+      setReviews((r.data ?? []) as CustomerReview[]);
+    }
 
+  };
+
+  const setReviewStatus = async (review: CustomerReview, status: "approved" | "rejected") => {
+    const action = status === "approved" ? "approve" : "reject";
+    if (!window.confirm(`${action === "approve" ? "Publish" : "Reject"} ${review.weplay_name}'s review?`)) return;
+    const previous = reviews;
+    setReviews((items) => items.map((item) => item.id === review.id ? { ...item, status, reviewed_at: new Date().toISOString() } : item));
+    const { error } = await supabase.rpc("admin_set_customer_review_status", {
+      p_review_id: review.id,
+      p_status: status,
+    });
+    if (error) {
+      setReviews(previous);
+      toast({ title: "Could not update review", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: status === "approved" ? "Review approved" : "Review rejected", description: status === "approved" ? "It is now visible on the website." : "It will not be shown publicly." });
   };
 
   const changeStatus = async (id: string, status: string) => {
@@ -295,7 +330,7 @@ export default function Admin() {
 
         <div className="flex flex-col md:flex-row md:items-center gap-3 mb-4">
           <div className="inline-flex p-1 rounded-xl bg-secondary/70 border border-border">
-            {(["orders", "customers", "analytics", "blogs"] as const).map((t) =>
+            {(["orders", "customers", "analytics", "blogs", "reviews"] as const).map((t) =>
             <button key={t} onClick={() => setTab(t)}
               className={`px-4 py-2 rounded-lg text-[12px] font-bold capitalize transition-all ${tab === t ? "bg-card shadow-card" : "text-muted-foreground"}`}>
                 {t}
@@ -321,7 +356,57 @@ export default function Admin() {
 
         <div className="bg-card border border-border rounded-2xl overflow-hidden">
           <div className="overflow-x-auto">
-            {tab === "blogs" ? (
+            {tab === "reviews" ? (
+              <div className="p-4">
+                <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <h2 className="text-xl font-display">Customer Reviews</h2>
+                    <p className="text-xs text-muted-foreground">New reviews remain private until approved.</p>
+                  </div>
+                  <span className="rounded-full border border-warning/30 bg-warning/10 px-3 py-1.5 text-xs font-bold text-warning-foreground">
+                    {reviews.filter((review) => review.status === "pending").length} awaiting review
+                  </span>
+                </div>
+                {reviews.length === 0 ? (
+                  <div className="py-10 text-center text-sm text-muted-foreground">No customer reviews submitted yet.</div>
+                ) : (
+                  <div className="space-y-3">
+                    {reviews.map((review) => (
+                      <article key={review.id} className="rounded-xl border border-border bg-card p-4">
+                        <div className="flex flex-wrap items-start justify-between gap-3">
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <h3 className="font-bold">{review.weplay_name}</h3>
+                              <span className="text-xs text-muted-foreground">ID {review.weplay_id}</span>
+                              <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase ${
+                                review.status === "approved" ? "border-accent/30 bg-accent/10 text-accent" :
+                                review.status === "rejected" ? "border-destructive/30 bg-destructive/10 text-destructive" :
+                                "border-warning/30 bg-warning/10 text-warning-foreground"
+                              }`}>{review.status}</span>
+                            </div>
+                            <div className="mt-2 flex items-center gap-0.5 text-warning" aria-label={`${review.rating} out of 5 stars`}>
+                              {Array.from({ length: 5 }, (_, index) => <Star key={index} size={14} fill={index < review.rating ? "currentColor" : "none"} />)}
+                            </div>
+                            <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed">{review.review_text}</p>
+                            <p className="mt-2 text-[11px] text-muted-foreground">Submitted {new Date(review.created_at).toLocaleString()}</p>
+                          </div>
+                          {review.status === "pending" && (
+                            <div className="flex shrink-0 gap-2">
+                              <button onClick={() => setReviewStatus(review, "approved")} className="inline-flex items-center gap-1.5 rounded-lg border border-accent/30 bg-accent/10 px-3 py-2 text-xs font-bold text-accent hover:bg-accent/15 active:scale-[0.97]">
+                                <CheckCircle size={14} /> Approve
+                              </button>
+                              <button onClick={() => setReviewStatus(review, "rejected")} className="inline-flex items-center gap-1.5 rounded-lg border border-destructive/25 bg-destructive/5 px-3 py-2 text-xs font-bold text-destructive hover:bg-destructive/10 active:scale-[0.97]">
+                                <X size={14} /> Reject
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : tab === "blogs" ? (
               <div className="p-4">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                   <div>
