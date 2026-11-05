@@ -328,7 +328,7 @@ function DailyCountdownBar() {
 
   return (
     <div className="fixed top-0 z-[60] w-full overflow-hidden text-primary-foreground"
-      style={{ background: "linear-gradient(100deg, #14133B 0%, #3B32C4 45%, #6D5BF5 72%, #14133B 100%)", height: "40px" }}>
+      style={{ background: "var(--gradient-diwali)", height: "40px" }}>
 
       <motion.div
         aria-hidden
@@ -346,7 +346,7 @@ function DailyCountdownBar() {
         </motion.span>
 
         <span className="font-display text-[11.5px] md:text-[16px] whitespace-nowrap">
-          <span className="text-[#FDE68A]">70% OFF</span>
+          <span className="text-warning">70% OFF</span>
           <span className="hidden sm:inline text-primary-foreground/85"> · Mega Sale</span>
           <span className="text-primary-foreground/65 font-semibold"> ends in</span>
         </span>
@@ -743,7 +743,7 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
             className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-warning/35 bg-warning/15 px-3 py-1.5 text-[10px] md:text-xs font-extrabold text-warning-foreground">
-            <Sparkles size={13} /> Diwali Special
+            <Sparkles size={13} /> Diwali Celebrations
           </motion.div>
 
 
