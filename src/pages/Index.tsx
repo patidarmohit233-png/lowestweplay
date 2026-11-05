@@ -738,6 +738,14 @@ const Index = () => {
             <span className="text-accent font-extrabold">Live</span>
           </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
+            className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-warning/35 bg-warning/15 px-3 py-1.5 text-[10px] md:text-xs font-extrabold text-warning-foreground">
+            <Sparkles size={13} /> Diwali Special
+          </motion.div>
+
 
           <motion.a
             href="#proof"
