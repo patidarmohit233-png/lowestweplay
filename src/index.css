@@ -134,11 +134,43 @@
     background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
   }
   .diwali-firework {
-    background: repeating-conic-gradient(from 0deg, hsl(var(--diwali-orange) / 0.92) 0deg 3deg, transparent 3deg 16deg);
-    mask-image: radial-gradient(circle, transparent 0 8%, #000 14% 62%, transparent 76%);
-    -webkit-mask-image: radial-gradient(circle, transparent 0 8%, #000 14% 62%, transparent 76%);
-    filter: drop-shadow(0 0 5px hsl(var(--diwali-orange) / 0.4));
+    background:
+      radial-gradient(circle, hsl(var(--warning)) 0 5%, transparent 9%),
+      repeating-conic-gradient(from 0deg, hsl(var(--diwali-orange) / 0.95) 0deg 3deg, transparent 3deg 16deg);
+    mask-image: radial-gradient(circle, transparent 0 4%, #000 10% 72%, transparent 88%);
+    -webkit-mask-image: radial-gradient(circle, transparent 0 4%, #000 10% 72%, transparent 88%);
+    filter: drop-shadow(0 0 7px hsl(var(--diwali-orange) / 0.58));
     animation: firework-pop 3.2s ease-out infinite;
+  }
+  .diwali-diya {
+    position: absolute;
+    display: block;
+    width: 3.25rem;
+    height: 2.75rem;
+    filter: drop-shadow(0 3px 5px hsl(var(--diwali-orange) / 0.2));
+    animation: diya-flicker 2.8s ease-in-out infinite;
+  }
+  .diya-bowl {
+    position: absolute;
+    left: 8%;
+    bottom: 4%;
+    width: 84%;
+    height: 44%;
+    border: 1px solid hsl(var(--warning) / 0.72);
+    border-radius: 10% 10% 55% 55%;
+    background: linear-gradient(180deg, hsl(var(--diwali-orange) / 0.9), hsl(var(--diwali-orange) / 0.55));
+    clip-path: polygon(0 0, 100% 0, 86% 72%, 68% 100%, 32% 100%, 14% 72%);
+  }
+  .diya-flame {
+    position: absolute;
+    left: 42%;
+    top: 2%;
+    width: 20%;
+    height: 47%;
+    border-radius: 70% 25% 65% 35%;
+    background: linear-gradient(180deg, hsl(var(--warning)), hsl(var(--diwali-orange)) 78%);
+    transform: rotate(2deg);
+    box-shadow: 0 0 9px hsl(var(--warning) / 0.65);
   }
 }
 
@@ -184,9 +216,18 @@
 
 @keyframes firework-pop {
   0%, 100% { opacity: 0; transform: scale(0.3) rotate(0deg); }
-  12% { opacity: 0.72; }
-  30% { opacity: 0.58; transform: scale(1.35) rotate(12deg); }
+  12% { opacity: 0.9; }
+  30% { opacity: 0.74; transform: scale(1.35) rotate(12deg); }
   58% { opacity: 0; transform: scale(1.7) rotate(24deg); }
+}
+
+@keyframes diya-flicker {
+  0%, 100% { opacity: 0.82; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diwali-firework, .diwali-diya { animation: none; }
 }
 
 /* Aurora float */
