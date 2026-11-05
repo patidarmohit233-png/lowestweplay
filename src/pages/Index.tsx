@@ -17,6 +17,7 @@ import Seo, { SITE_URL } from "@/components/Seo";
 import { PRODUCTS as ALL_PRODUCTS, FAQS, planPath } from "@/data/products";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import CustomerReviewPanel from "@/components/CustomerReviewPanel";
 import { z } from "zod";
 
 
@@ -67,19 +68,6 @@ const STEPS = [
 { icon: <UserCheck size={22} />, title: "Verify Player", desc: "Enter Lowest WePlay ID & name — no password ever." },
 { icon: <CreditCard size={22} />, title: "Secure Payment", desc: "Pay via UPI, cards or wallets on Razorpay." },
 { icon: <Download size={22} />, title: "Instant Delivery", desc: "Coins land in your account within minutes." }];
-
-
-const REVIEWS = [
-{ name: "Rahul", text: "Very nice this website is very good for your lowestweplay life dont wast your money come hare and enjoy" },
-{ name: "Ankit G", text: "Maine 50K RED PACKET liya tha. Payment ke baad 10 minute tak kuch nahi aaya toh thoda tension hua. Phir support se baat ki aur 2 minute mein coins aa gaye. Good service" },
-{ name: "Eren R", text: "Bhai kya mst website hai phle trust nhi hua tha but ab roj topup karta hu yahi se" },
-{ name: "Deepak Kumar", text: "Pehle lag raha tha scam hoga kyunki ID maang rahe the. But unhone bola sirf ID chahiye password nahi. Safe hai bhai" },
-{ name: "Neha Jhaal", text: "Raat 1 baje order kiya tha, socha tha kal subah tak wait karna padega coins aa gaye. Trusted website hai" },
-{ name: "Amit Tiwari", text: "Sabse sasta recharge yahi mila. Ab yahi se lunga hamesha." },
-{ name: "Rohit Yadav", text: "Bhai pehle dar lag raha tha par 2 min mein recharge aa gaya. Highly recommended!" },
-{ name: "Sneha", text: "Best experience, trusted hai guys go for it" },
-{ name: "Akash007", text: "Legit site hai, coins turant credit ho gaye account mein." },
-{ name: "Priya S", text: "ID dalte time dar lag raha tha, support se baat ki unhone bola 100% safe hai. 5 minute mein coins aa gaye." }];
 
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -589,8 +577,7 @@ const Index = () => {
           "applicationCategory": "GameApplication",
           "aggregateRating": {
             "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "10450"
+            "ratingValue": "4.9"
 
           },
           "offers": {
@@ -1105,29 +1092,8 @@ const Index = () => {
             eyebrow="Reviews"
             title="Loved By"
             highlight="Gamers"
-            subtitle="Real feedback from players who top-up with us every day." />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 md:gap-5">
-            {REVIEWS.map((review, i) =>
-            <Reveal key={review.name} delay={Math.min(i, 6) * 0.05} scale={0.96}>
-                <motion.figure 
-                  whileHover={{ y: -5, scale: 1.01 }}
-                  className="h-full card-premium rounded-3xl p-5 flex flex-col transition-all duration-500">
-                  <div className="text-amber-400 text-sm mb-2.5" aria-label="5 star rating">★★★★★</div>
-                  <blockquote className="text-foreground text-[13px] md:text-sm leading-relaxed flex-grow">"{review.text}"</blockquote>
-
-                  <figcaption className="flex items-center gap-2.5 mt-4 pt-4 border-t border-border/70">
-                    <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-extrabold">
-                      {review.name.charAt(0)}
-                    </span>
-                    <span className="text-[12.5px] font-bold text-foreground">{review.name}</span>
-                    <span className="ml-auto inline-flex items-center gap-1 text-accent text-[10px] font-extrabold">
-                      <CheckCircle2 size={12} /> Verified
-                    </span>
-                  </figcaption>
-                </motion.figure>
-              </Reveal>
-            )}
-          </div>
+            subtitle="Read approved feedback from verified players and share your own top-up experience." />
+          <CustomerReviewPanel buyer={buyer ? { user_id: buyer.user_id, name: buyer.name } : null} />
         </div>
       </section>
 
