@@ -327,13 +327,13 @@ function DailyCountdownBar() {
   const pad = (n: number) => String(n).padStart(2, "0");
 
   return (
-    <div className="fixed top-0 z-[60] w-full overflow-hidden text-primary-foreground"
+    <div className="fixed top-0 z-[60] w-full overflow-hidden text-foreground"
       style={{ background: "var(--gradient-diwali)", height: "40px" }}>
 
       <motion.div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.24) 50%, transparent 62%)" }}
+        style={{ background: "linear-gradient(105deg, transparent 38%, hsl(var(--primary-foreground) / 0.55) 50%, transparent 62%)" }}
         animate={{ x: ["-120%", "120%"] }}
         transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.4 }} />
 
@@ -346,16 +346,16 @@ function DailyCountdownBar() {
         </motion.span>
 
         <span className="font-display text-[11.5px] md:text-[16px] whitespace-nowrap">
-          <span className="text-warning">70% OFF</span>
-          <span className="hidden sm:inline text-primary-foreground/85"> · Mega Sale</span>
-          <span className="text-primary-foreground/65 font-semibold"> ends in</span>
+          <span className="text-warning-foreground">70% OFF</span>
+          <span className="hidden sm:inline text-foreground/85"> · Mega Sale</span>
+          <span className="text-foreground/65 font-semibold"> ends in</span>
         </span>
 
         <div className="flex items-center gap-1 md:gap-1.5">
           {[{ val: pad(time.h), label: "H" }, { val: pad(time.m), label: "M" }, { val: pad(time.s), label: "S" }].map((t, i) =>
           <div key={t.label} className="flex items-center gap-1 md:gap-1.5">
-              <div className="relative flex flex-col items-center justify-center min-w-[29px] md:min-w-[40px] px-1 md:px-2 py-1 md:py-1.5 rounded-lg md:rounded-xl border border-primary-foreground/25"
-              style={{ background: "rgba(255,255,255,0.13)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.28)" }}>
+              <div className="relative flex flex-col items-center justify-center min-w-[29px] md:min-w-[40px] px-1 md:px-2 py-1 md:py-1.5 rounded-lg md:rounded-xl border border-foreground/15"
+              style={{ background: "hsl(var(--card) / 0.5)", boxShadow: "inset 0 1px 0 hsl(var(--primary-foreground) / 0.55)" }}>
                 <AnimatePresence mode="popLayout" initial={false}>
                   <motion.span
                   key={t.val}
@@ -367,16 +367,16 @@ function DailyCountdownBar() {
                     {t.val}
                   </motion.span>
                 </AnimatePresence>
-                <span className="text-[6.5px] md:text-[8.5px] font-bold tracking-[0.2em] text-primary-foreground/60 leading-none mt-0.5">{t.label}</span>
+                <span className="text-[6.5px] md:text-[8.5px] font-bold tracking-[0.2em] text-foreground/60 leading-none mt-0.5">{t.label}</span>
               </div>
-              {i < 2 && <span className="text-primary-foreground/40 font-bold text-[11px]">:</span>}
+              {i < 2 && <span className="text-foreground/45 font-bold text-[11px]">:</span>}
             </div>
           )}
         </div>
 
         <motion.a
           href="#products"
-          className="hidden sm:inline-flex items-center gap-1 text-[11px] font-extrabold uppercase tracking-[0.12em] px-3 py-1.5 rounded-full bg-primary-foreground text-primary whitespace-nowrap"
+          className="hidden sm:inline-flex items-center gap-1 text-[11px] font-extrabold uppercase tracking-[0.12em] px-3 py-1.5 rounded-full bg-primary text-primary-foreground whitespace-nowrap"
           whileHover={{ scale: 1.06 }}
           whileTap={{ scale: 0.96 }}>
           Claim Now <ArrowRight size={12} />
@@ -723,6 +723,11 @@ const Index = () => {
           style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.16), transparent 62%)" }} />
         <div className="absolute top-28 -right-40 w-[440px] h-[440px] rounded-full pointer-events-none animate-aurora"
           style={{ background: "radial-gradient(circle, hsl(var(--primary-glow)/0.16), transparent 65%)", animationDelay: "-7s" }} />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <span className="diwali-firework absolute left-[12%] top-[25%] h-9 w-9" />
+          <span className="diwali-firework absolute right-[14%] top-[18%] h-12 w-12" style={{ animationDelay: "1.2s" }} />
+          <span className="diwali-firework absolute right-[24%] bottom-[18%] h-7 w-7" style={{ animationDelay: "2.4s" }} />
+        </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
