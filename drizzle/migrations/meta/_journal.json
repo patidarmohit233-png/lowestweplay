@@ -57,6 +57,13 @@
       "when": 1793888144930,
       "tag": "0007_customer_reviews_moderation",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793888601430,
+      "tag": "0008_restrict_review_moderation_to_pending",
+      "breakpoints": true
     }
   ]
 }
