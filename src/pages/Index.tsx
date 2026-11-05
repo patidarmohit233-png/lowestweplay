@@ -724,9 +724,10 @@ const Index = () => {
         <div className="absolute top-28 -right-40 w-[440px] h-[440px] rounded-full pointer-events-none animate-aurora"
           style={{ background: "radial-gradient(circle, hsl(var(--primary-glow)/0.16), transparent 65%)", animationDelay: "-7s" }} />
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <span className="diwali-firework absolute left-[12%] top-[25%] h-9 w-9" />
-          <span className="diwali-firework absolute right-[14%] top-[18%] h-12 w-12" style={{ animationDelay: "1.2s" }} />
-          <span className="diwali-firework absolute right-[24%] bottom-[18%] h-7 w-7" style={{ animationDelay: "2.4s" }} />
+          <span className="diwali-firework absolute left-[12%] top-[25%] h-10 w-10" />
+          <span className="diwali-firework absolute right-[14%] top-[18%] h-12 w-12" style={{ animationDelay: "1.1s" }} />
+          <span className="diwali-firework absolute left-[28%] bottom-[15%] h-8 w-8" style={{ animationDelay: "2.1s" }} />
+          <span className="diwali-firework absolute right-[24%] bottom-[18%] h-9 w-9" style={{ animationDelay: "0.6s" }} />
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -929,6 +930,10 @@ const Index = () => {
 
       {/* ─── PRODUCTS ─────────────────────────────────────── */}
       <section id="products" className="relative py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <span className="diwali-firework absolute left-[5%] top-[12%] h-9 w-9" style={{ animationDelay: "0.8s" }} />
+          <span className="diwali-firework absolute right-[7%] bottom-[14%] h-10 w-10" style={{ animationDelay: "2s" }} />
+        </div>
         <div className="max-w-7xl mx-auto relative z-10">
           {/* verified users see their player card right above the packages */}
           {buyer && <VerificationPanel buyer={buyer} onVerified={persistBuyer} />}
@@ -976,7 +981,11 @@ const Index = () => {
       </section>
 
       {/* ─── PROOF OF DELIVERY ────────────────────────────── */}
-      <section id="proof" className="py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
+      <section id="proof" className="relative py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <span className="diwali-firework absolute left-[8%] top-[16%] h-9 w-9" style={{ animationDelay: "1.5s" }} />
+          <span className="diwali-firework absolute right-[8%] bottom-[13%] h-10 w-10" style={{ animationDelay: "0.3s" }} />
+        </div>
         <div className="max-w-4xl mx-auto">
           <SectionHeading
             eyebrow="Trust"
