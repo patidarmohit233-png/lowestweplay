@@ -724,10 +724,16 @@ const Index = () => {
         <div className="absolute top-28 -right-40 w-[440px] h-[440px] rounded-full pointer-events-none animate-aurora"
           style={{ background: "radial-gradient(circle, hsl(var(--primary-glow)/0.16), transparent 65%)", animationDelay: "-7s" }} />
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <span className="diwali-firework absolute left-[12%] top-[25%] h-10 w-10" />
-          <span className="diwali-firework absolute right-[14%] top-[18%] h-12 w-12" style={{ animationDelay: "1.1s" }} />
-          <span className="diwali-firework absolute left-[28%] bottom-[15%] h-8 w-8" style={{ animationDelay: "2.1s" }} />
-          <span className="diwali-firework absolute right-[24%] bottom-[18%] h-9 w-9" style={{ animationDelay: "0.6s" }} />
+          <span className="diwali-firework absolute left-[7%] top-[24%] h-14 w-14" />
+          <span className="diwali-firework absolute right-[7%] top-[18%] h-16 w-16" style={{ animationDelay: "1.1s" }} />
+          <span className="diwali-firework absolute left-[12%] bottom-[13%] h-12 w-12" style={{ animationDelay: "2.1s" }} />
+          <span className="diwali-firework absolute right-[11%] bottom-[15%] h-14 w-14" style={{ animationDelay: "0.6s" }} />
+          <span className="diwali-diya bottom-[7%] left-[5%]">
+            <span className="diya-flame" /><span className="diya-bowl" />
+          </span>
+          <span className="diwali-diya bottom-[7%] right-[5%]" style={{ animationDelay: "1.2s" }}>
+            <span className="diya-flame" /><span className="diya-bowl" />
+          </span>
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -933,6 +939,12 @@ const Index = () => {
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
           <span className="diwali-firework absolute left-[5%] top-[12%] h-9 w-9" style={{ animationDelay: "0.8s" }} />
           <span className="diwali-firework absolute right-[7%] bottom-[14%] h-10 w-10" style={{ animationDelay: "2s" }} />
+          <span className="diwali-diya left-[2%] top-[43%]">
+            <span className="diya-flame" /><span className="diya-bowl" />
+          </span>
+          <span className="diwali-diya right-[2%] top-[43%]" style={{ animationDelay: "1.4s" }}>
+            <span className="diya-flame" /><span className="diya-bowl" />
+          </span>
         </div>
         <div className="max-w-7xl mx-auto relative z-10">
           {/* verified users see their player card right above the packages */}
@@ -985,6 +997,9 @@ const Index = () => {
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
           <span className="diwali-firework absolute left-[8%] top-[16%] h-9 w-9" style={{ animationDelay: "1.5s" }} />
           <span className="diwali-firework absolute right-[8%] bottom-[13%] h-10 w-10" style={{ animationDelay: "0.3s" }} />
+          <span className="diwali-diya bottom-[5%] left-[3%]">
+            <span className="diya-flame" /><span className="diya-bowl" />
+          </span>
         </div>
         <div className="max-w-4xl mx-auto">
           <SectionHeading
