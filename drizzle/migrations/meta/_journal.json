@@ -64,6 +64,13 @@
       "when": 1793888601430,
       "tag": "0008_restrict_review_moderation_to_pending",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793945213713,
+      "tag": "0009_one_review_per_weplay_id",
+      "breakpoints": true
     }
   ]
 }
