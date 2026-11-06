@@ -2,3 +2,4 @@
 - [x] Add verified-customer review submission and approved review display with 4.9 rating summary.
 - [x] Add admin review approval/rejection controls.
 - [x] Verify review validation, submission, admin approval, public display, test cleanup, and build diagnostics.
+- [ ] Review newly uploaded prompt and incorporate its requested change into this update.
