@@ -506,6 +506,7 @@ export type Database = {
           weplay_id: string
         }[]
       }
+      has_customer_review: { Args: { p_weplay_id: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
