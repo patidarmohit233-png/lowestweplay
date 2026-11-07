@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AlertTriangle, Check, Gamepad2, Gift, Loader2, ShieldCheck, ShoppingBag, Ticket, X, Zap } from "lucide-react";
+import { AlertTriangle, Check, CheckCircle2, Loader2, ShieldCheck, Ticket, X, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -10,11 +10,39 @@ import { PAYMENT_METHODS, type PaymentMethodId } from "@/lib/payment-methods";
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
 
-const METHOD_ICONS = {
-  google_play: Gamepad2,
-  amazon_pay_egift: ShoppingBag,
-  flipkart_egift: Gift,
-} satisfies Record<PaymentMethodId, typeof Gamepad2>;
+function VoucherBrandMark({ methodId }: { methodId: PaymentMethodId }) {
+  if (methodId === "google_play") {
+    return (
+      <span aria-hidden="true" className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-secondary text-primary">
+        <svg viewBox="0 0 32 32" className="h-8 w-8" fill="none">
+          <path d="M7 4.8c-.5.3-.8.9-.8 1.6v19.2c0 .7.3 1.3.8 1.6L18.5 16 7 4.8Z" fill="currentColor" />
+          <path d="m20.1 14.4-3.2-3.1-7.2-7L20.1 14.4Z" fill="currentColor" opacity=".68" />
+          <path d="m9.7 27.7 7.2-7 3.2-3.1L9.7 27.7Z" fill="currentColor" opacity=".82" />
+          <path d="m25.5 14.1-4.2-2.4-3.5 3.4 3.5 3.4 4.2-2.4c1-.6 1-1.4 0-2Z" fill="currentColor" opacity=".52" />
+        </svg>
+      </span>
+    );
+  }
+
+  if (methodId === "amazon_pay_egift") {
+    return (
+      <span aria-hidden="true" className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-lg bg-secondary text-[9px] font-black leading-none text-foreground">
+        <span className="text-[10px]">amazon</span>
+        <span className="mt-1 flex items-center gap-0.5 text-primary"><span>pay</span><svg viewBox="0 0 22 7" className="h-2 w-5" fill="none"><path d="M1 1.2c5.5 4.4 13.2 4.6 19.5.3M17 1.3l3.7.2-.9 2.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+      </span>
+    );
+  }
+
+  return (
+    <span aria-hidden="true" className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-secondary text-primary">
+      <svg viewBox="0 0 32 32" className="h-8 w-8" fill="none">
+        <path d="M7 10.5h18l-1.5 16h-15L7 10.5Z" fill="currentColor" opacity=".18" />
+        <path d="M11.5 12V9a4.5 4.5 0 0 1 9 0v3M7 10.5h18l-1.5 16h-15L7 10.5Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+        <path d="M13 16h7.5v2.4H15.8v2H20v2.2h-4.2v3H13V16Z" fill="currentColor" />
+      </svg>
+    </span>
+  );
+}
 
 export default function PaymentModal({
   product,
@@ -114,10 +142,9 @@ export default function PaymentModal({
 
             {!done ? <>
               <section>
-                <h3 className="text-sm font-extrabold text-foreground">Choose how to pay</h3>
-                <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                <h3 className="text-sm font-extrabold text-foreground">Choose a voucher</h3>
+                <div className="mt-3 grid grid-cols-1 gap-2.5">
                   {PAYMENT_METHODS.map((method) => {
-                    const Icon = METHOD_ICONS[method.id];
                     const active = selectedMethod === method.id;
                     return (
                       <Button
@@ -126,9 +153,13 @@ export default function PaymentModal({
                         variant={active ? "default" : "outline"}
                         aria-pressed={active}
                         onClick={() => { setSelectedMethod(method.id); setVoucherCode(""); }}
-                        className={`h-auto min-h-20 flex-col whitespace-normal px-2 py-3 text-center text-xs leading-snug ${active ? "ring-2 ring-primary ring-offset-2" : ""}`}>
-                        <Icon size={19} />
-                        <span>{method.shortLabel}</span>
+                        className={`h-auto min-h-[76px] justify-start gap-3 whitespace-normal rounded-lg px-3 py-3 text-left ${active ? "ring-2 ring-primary ring-offset-2" : ""}`}>
+                        <VoucherBrandMark methodId={method.id} />
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-extrabold leading-snug">{method.shortLabel}</span>
+                          <span className={`mt-1 block text-xs font-medium ${active ? "text-primary-foreground/80" : "text-muted-foreground"}`}>Gift voucher · ₹{amount.toLocaleString("en-IN")}</span>
+                        </span>
+                        {active && <CheckCircle2 size={19} className="shrink-0" aria-label="Selected" />}
                       </Button>
                     );
                   })}
@@ -141,17 +172,24 @@ export default function PaymentModal({
                 className="space-y-4 border-t border-border pt-4">
                 <div>
                   <h3 className="flex items-center gap-2 text-sm font-extrabold text-foreground"><Ticket size={16} className="text-primary" /> {selected.label}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{selected.instructions}</p>
-                  <p className="mt-2 text-xs font-bold text-foreground">Voucher amount must be exactly ₹{amount.toLocaleString("en-IN")}.</p>
+                  <p className="mt-1 text-xs font-semibold text-muted-foreground">Buy a voucher worth exactly ₹{amount.toLocaleString("en-IN")}.</p>
                 </div>
+                <ol className="space-y-2">
+                  {selected.steps.map((step, index) => (
+                    <li key={step} className="flex items-start gap-3 rounded-md border border-border bg-secondary/40 px-3 py-2.5">
+                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-primary/10 text-xs font-extrabold text-primary">{index + 1}</span>
+                      <span className="pt-0.5 text-xs leading-relaxed text-foreground">{step}</span>
+                    </li>
+                  ))}
+                </ol>
                 <div>
-                  <label htmlFor="voucher-code" className="mb-1.5 block text-xs font-bold text-foreground">Paste voucher code</label>
+                  <label htmlFor="voucher-code" className="mb-1.5 block text-xs font-bold text-foreground">Paste your voucher code</label>
                   <input
                     id="voucher-code" value={voucherCode} onChange={(event) => setVoucherCode(event.target.value)}
                     placeholder="Enter the full voucher code" autoComplete="off" spellCheck={false}
                     className="w-full rounded-md border border-input bg-background px-3 py-3 text-base font-semibold text-foreground placeholder:font-normal placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
                 </div>
-                <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground"><AlertTriangle size={14} className="mt-0.5 shrink-0 text-warning" /> Submit only a valid, unused voucher for the exact amount. Your order is created when you select Verify Payment.</p>
+                <p role="alert" className="flex items-start gap-2 rounded-md border border-warning/40 bg-warning/10 p-3 text-xs font-semibold leading-relaxed text-warning-foreground"><AlertTriangle size={15} className="mt-0.5 shrink-0" /> Invalid, already-used, or wrong-value voucher codes will not be accepted. Check the code and amount carefully before submitting.</p>
                 <Button onClick={verify} disabled={verifying || !voucherCode.trim()} className="w-full py-6 text-sm font-extrabold uppercase active:scale-[0.98]">
                   {verifying ? <Loader2 size={16} className="animate-spin" /> : <Zap size={16} />}
                   Verify Payment

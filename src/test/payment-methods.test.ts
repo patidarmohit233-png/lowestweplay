@@ -21,4 +21,12 @@ describe("checkout voucher options", () => {
     expect(paymentMethodLabel("amazon_pay_egift")).toBe("Amazon Pay e-gift card");
     expect(paymentMethodLabel("flipkart_egift")).toBe("Flipkart e-gift voucher");
   });
+
+  it("gives each voucher a purchase, retrieve, and paste instruction", () => {
+    for (const method of PAYMENT_METHODS) {
+      expect(method.steps).toHaveLength(3);
+      expect(method.steps[0]).toMatch(/exact amount/i);
+      expect(method.steps[2]).toMatch(/paste/i);
+    }
+  });
 });
