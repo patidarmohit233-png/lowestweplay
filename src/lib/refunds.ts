@@ -1,0 +1,1 @@
+export const isRefundRestrictedPrice = (price: number) => price === 479;
