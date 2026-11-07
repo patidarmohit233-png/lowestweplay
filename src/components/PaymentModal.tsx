@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AlertTriangle, Check, CreditCard, Gamepad2, Gift, Loader2, ShieldCheck, ShoppingBag, Ticket, X, Zap } from "lucide-react";
+import { AlertTriangle, Check, Gamepad2, Gift, Loader2, ShieldCheck, ShoppingBag, Ticket, X, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
