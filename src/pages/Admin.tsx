@@ -191,10 +191,10 @@ export default function Admin() {
     }
     const prev = orders;
     setOrders((list) => list.map((o) => o.id === id ? { ...o, status, failure_reason: reason ?? o.failure_reason } : o));
-    const { error } = await supabase.rpc("update_order_status" as any, { p_order_id: id, p_status: status, p_reason: reason } as any);
-    if (error) {
+    const { data, error } = await supabase.rpc("update_order_status" as any, { p_order_id: id, p_status: status, p_reason: reason } as any);
+    if (error || data === false) {
       setOrders(prev);
-      toast({ title: "Update failed", description: error.message, variant: "destructive" });
+      toast({ title: "Update failed", description: data === false ? "₹479 plans cannot be marked as refunded." : error?.message ?? "Please try again.", variant: "destructive" });
       return;
     }
     toast({ title: `Status set to ${status}`, description: reason ? `Reason saved: ${reason}` : undefined });
@@ -250,10 +250,10 @@ export default function Admin() {
     setOrders((list) => list.map((x) => x.id === o.id
       ? { ...x, status: approve ? "refunded" : "refund_rejected", failure_reason: reason.trim(), refund_requested: !approve }
       : x));
-    const { error } = await supabase.rpc("admin_review_refund" as any, { p_order_id: o.id, p_approve: approve, p_reason: reason } as any);
-    if (error) {
+    const { data, error } = await supabase.rpc("admin_review_refund" as any, { p_order_id: o.id, p_approve: approve, p_reason: reason } as any);
+    if (error || data === false) {
       setOrders(prev);
-      toast({ title: "Could not review refund", description: error.message, variant: "destructive" });
+      toast({ title: "Could not review refund", description: data === false ? "Refund approvals are unavailable for ₹479 plans." : error?.message ?? "Please try again.", variant: "destructive" });
       return;
     }
     toast({ title: approve ? "Refund approved ✓" : "Refund rejected", description: `Customer sees: ${reason.trim()}` });

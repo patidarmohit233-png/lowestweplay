@@ -47,7 +47,7 @@ export const FAQS = [
   },
   {
     q: "Can I get a refund?",
-    a: "Yes — if coins were not delivered, the wrong amount arrived, or your payment was charged without the order being processed. See the refund policy for full details.",
+    a: "Refund requests may be reviewed for eligible orders. The ₹479 plans are not recommended and are not eligible for refund requests. See the refund policy for full details.",
   },
   {
     q: "Is Lowest Weplay legit?",

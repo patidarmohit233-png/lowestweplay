@@ -10,6 +10,7 @@ import lowestweplayAvatarAsset from "@/assets/lowestweplay-avatar.png.asset.json
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { MILESTONES, fmt, nextMilestone, tierMeta } from "@/lib/loyalty";
+import { isRefundRestrictedOrder } from "@/lib/refunds";
 import { STATUS_STYLES } from "@/pages/TrackOrder";
 
 const VERIFY_KEY = "lw_verified_buyer";
@@ -125,6 +126,10 @@ export default function MyAccount() {
 
   const requestRefund = async (o: OrderRow) => {
     if (!o.order_code) return;
+    if (isRefundRestrictedOrder(o.price, o.plan)) {
+      toast({ title: "Refund unavailable", description: "The ₹479 pack is not recommended, as stated in our video.", variant: "destructive" });
+      return;
+    }
     const res = await supabase.rpc("request_refund" as any, { p_order_code: o.order_code, p_weplay_id: activeId } as any);
     if (res.error) {
       toast({ title: "Could not request refund", description: res.error.message, variant: "destructive" });
@@ -340,6 +345,11 @@ export default function MyAccount() {
                           );
                         })()
                       }
+                      {isRefundRestrictedOrder(o.price, o.plan) && !o.refund_requested &&
+                        <div className="mt-2.5 rounded-xl border border-warning/30 bg-warning/10 px-3 py-2.5 text-warning-foreground">
+                          <p className="text-[11px] font-semibold leading-snug">This ₹479 pack is not recommended, as stated in our video. Refund requests are unavailable for this plan.</p>
+                        </div>
+                      }
                       {o.refund_requested && o.status === "refund_rejected" ?
                         <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-rose-300 bg-rose-100 text-rose-800 text-[11px] font-extrabold uppercase tracking-wider">
                           <RotateCcw size={12} /> Refund rejected ✕
@@ -348,7 +358,7 @@ export default function MyAccount() {
                         <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-rose-200 bg-rose-50 text-rose-700 text-[11px] font-extrabold uppercase tracking-wider">
                           <RotateCcw size={12} /> Refund requested · Waiting for team approval
                         </div> :
-                        !["completed", "refunded", "failed", "refund_rejected"].includes(o.status) &&
+                        !isRefundRestrictedOrder(o.price, o.plan) && !["completed", "refunded", "failed", "refund_rejected"].includes(o.status) &&
                         <div className="mt-2.5 rounded-xl border border-rose-200 bg-rose-50/60 px-3 py-2.5">
                           <p className="text-[11px] font-semibold text-rose-800/80 leading-snug">Top-up not delivered? Apply for a refund — the team will review your request.</p>
                           <button onClick={() => requestRefund(o)}

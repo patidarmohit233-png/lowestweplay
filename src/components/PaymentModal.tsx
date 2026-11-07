@@ -155,7 +155,7 @@ export default function PaymentModal({
       "bg-indigo-50 border-indigo-200 text-indigo-900"}`
       }>
           {isLessRecommended ?
-        "We have already stated in our videos and policies that we do not recommend this ₹479 pack. Please choose any other pack besides the ₹479 one, and we will process it immediately." :
+        "As stated in our video, this ₹479 pack is not recommended. Refund requests are not available for this plan. Please choose another pack if you prefer." :
 
         "Your order will be processed within 10-30 minutes. Thank you for choosing Lowest Weplay!"
         }
