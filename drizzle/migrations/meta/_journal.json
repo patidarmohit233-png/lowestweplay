@@ -113,13 +113,6 @@
       "when": 1794030900177,
       "tag": "0015_add_voucher_payment_options",
       "breakpoints": true
-    },
-    {
-      "idx": 16,
-      "version": "7",
-      "when": 1794032082787,
-      "tag": "0016_secure_upi_order_submission",
-      "breakpoints": true
     }
   ]
 }

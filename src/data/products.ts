@@ -39,7 +39,7 @@ export const FAQS = [
   },
   {
     q: "Which payment methods are supported?",
-    a: "Pay securely by UPI using PhonePe, Google Pay, or Paytm on the payment page. We never ask for your UPI PIN or OTP.",
+    a: "Choose Google Play redeem code, Amazon Pay e-gift card, or Flipkart e-gift voucher at checkout. The voucher amount must match the package price, and the unused code is checked before the order is processed.",
   },
   {
     q: "Why are your prices lower than in-game prices?",
