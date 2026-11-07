@@ -127,7 +127,7 @@ export default function MyAccount() {
   const requestRefund = async (o: OrderRow) => {
     if (!o.order_code) return;
     if (isRefundRestrictedPrice(o.price)) {
-      toast({ title: "Refund unavailable", description: "The ₹479 pack is not recommended, as stated in our video." , variant: "destructive" });
+      toast({ title: "Refund unavailable", description: "The ₹479 pack is not recommended, as stated in our video.", variant: "destructive" });
       return;
     }
     const res = await supabase.rpc("request_refund" as any, { p_order_code: o.order_code, p_weplay_id: activeId } as any);

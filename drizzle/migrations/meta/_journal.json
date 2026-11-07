@@ -85,6 +85,13 @@
       "when": 1794029849600,
       "tag": "0011_block_refunds_for_479_plans",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1794029938877,
+      "tag": "0012_prevent_479_refund_approval",
+      "breakpoints": true
     }
   ]
 }
