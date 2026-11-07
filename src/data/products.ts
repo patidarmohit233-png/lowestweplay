@@ -39,7 +39,7 @@ export const FAQS = [
   },
   {
     q: "Which payment methods are supported?",
-    a: "Choose Google Play redeem code, Amazon Pay e-gift card, or Flipkart e-gift voucher at checkout. The voucher amount must match the package price, and the unused code is checked before the order is processed.",
+    a: "All payments go through Razorpay — UPI, debit and credit cards, net banking and wallets. We never store card or UPI details.",
   },
   {
     q: "Why are your prices lower than in-game prices?",

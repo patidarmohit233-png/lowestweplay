@@ -6,7 +6,6 @@ import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plu
 import LiveVisitorsPanel from "@/components/admin/LiveVisitorsPanel";
 import BuyClicksPanel from "@/components/admin/BuyClicksPanel";
 import { generateSitemapXml } from "@/lib/sitemap-generator";
-import { paymentMethodLabel } from "@/lib/payment-methods";
 
 
 
@@ -23,7 +22,6 @@ type Order = {
   coins_amount?: number;
   status: string;
   transaction_id: string | null;
-  payment_method?: string | null;
   upi_id: string | null;
   created_at: string;
   failure_reason?: string | null;
@@ -549,8 +547,8 @@ export default function Admin() {
                       <th className="text-left px-4 py-3">User ID</th>
                       <th className="text-left px-4 py-3">Plan</th>
                       <th className="text-right px-4 py-3">Amount</th>
-                      <th className="text-left px-4 py-3">Payment option</th>
-                      <th className="text-left px-4 py-3">Voucher code</th>
+                      <th className="text-left px-4 py-3">Paid To (UPI)</th>
+                      <th className="text-left px-4 py-3">Redeem Code</th>
                       <th className="text-left px-4 py-3">Status</th>
                       <th className="text-right px-4 py-3">Actions</th>
                     </tr>
@@ -569,16 +567,17 @@ export default function Admin() {
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap">{o.product_name}</td>
                         <td className="px-4 py-3 text-right font-bold font-price">₹{o.price}</td>
-                        <td className="px-4 py-3 text-xs font-semibold">{paymentMethodLabel(o.payment_method)}</td>
+                        <td className="px-4 py-3 max-w-[190px]">
+                          {o.upi_id ?
+                            <span className="inline-block px-2 py-1 rounded-md bg-secondary border border-border text-[11px] font-bold break-all">{o.upi_id}</span> :
+                            <span className="text-muted-foreground">—</span>}
+                        </td>
                         <td className="px-4 py-3">
-                          <div className="flex flex-col items-start gap-1">
-                            {o.transaction_id ?
-                              <button onClick={() => setViewCode(o)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-[11px] font-bold whitespace-nowrap active:scale-[0.97]">
-                                <Eye size={13} /> View Code
-                              </button> :
-                              <span className="text-muted-foreground">—</span>}
-                            <span className="text-[10px] text-muted-foreground">{paymentMethodLabel(o.payment_method)}</span>
-                          </div>
+                          {o.transaction_id ?
+                            <button onClick={() => setViewCode(o)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-[11px] font-bold whitespace-nowrap active:scale-[0.97]">
+                              <Eye size={13} /> View Code
+                            </button> :
+                            <span className="text-muted-foreground">—</span>}
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex flex-col gap-1">
@@ -702,7 +701,7 @@ export default function Admin() {
           <div onClick={(e) => e.stopPropagation()} className="w-full md:max-w-lg bg-card rounded-t-3xl md:rounded-3xl border border-border p-5 md:p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{paymentMethodLabel(viewCode.payment_method)}</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Google Play Redeem Code</p>
                 <p className="text-sm font-bold mt-1">#{viewCode.order_code} · {viewCode.product_name} · ₹{viewCode.price}</p>
                 <p className="text-xs text-muted-foreground mt-0.5">ID {viewCode.weplay_id} · {viewCode.weplay_name}</p>
               </div>

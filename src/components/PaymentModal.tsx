@@ -1,219 +1,347 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AlertTriangle, Check, CheckCircle2, Loader2, ShieldCheck, Ticket, X, Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import {
+  X, Zap, Check, Loader2, ArrowRight,
+  CreditCard, AlertTriangle, Receipt, Search, ShieldCheck } from
+"lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import type { Product } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
-import { PAYMENT_METHODS, type PaymentMethodId } from "@/lib/payment-methods";
 
-type VerifiedBuyer = { game: string; user_id: string; name: string };
 
-function VoucherBrandMark({ methodId }: { methodId: PaymentMethodId }) {
-  if (methodId === "google_play") {
-    return (
-      <span aria-hidden="true" className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-secondary text-primary">
-        <svg viewBox="0 0 32 32" className="h-8 w-8" fill="none">
-          <path d="M7 4.8c-.5.3-.8.9-.8 1.6v19.2c0 .7.3 1.3.8 1.6L18.5 16 7 4.8Z" fill="currentColor" />
-          <path d="m20.1 14.4-3.2-3.1-7.2-7L20.1 14.4Z" fill="currentColor" opacity=".68" />
-          <path d="m9.7 27.7 7.2-7 3.2-3.1L9.7 27.7Z" fill="currentColor" opacity=".82" />
-          <path d="m25.5 14.1-4.2-2.4-3.5 3.4 3.5 3.4 4.2-2.4c1-.6 1-1.4 0-2Z" fill="currentColor" opacity=".52" />
-        </svg>
-      </span>
-    );
-  }
-
-  if (methodId === "amazon_pay_egift") {
-    return (
-      <span aria-hidden="true" className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-lg bg-secondary text-[9px] font-black leading-none text-foreground">
-        <span className="text-[10px]">amazon</span>
-        <span className="mt-1 flex items-center gap-0.5 text-primary"><span>pay</span><svg viewBox="0 0 22 7" className="h-2 w-5" fill="none"><path d="M1 1.2c5.5 4.4 13.2 4.6 19.5.3M17 1.3l3.7.2-.9 2.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
-      </span>
-    );
-  }
-
-  return (
-    <span aria-hidden="true" className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-secondary text-primary">
-      <svg viewBox="0 0 32 32" className="h-8 w-8" fill="none">
-        <path d="M7 10.5h18l-1.5 16h-15L7 10.5Z" fill="currentColor" opacity=".18" />
-        <path d="M11.5 12V9a4.5 4.5 0 0 1 9 0v3M7 10.5h18l-1.5 16h-15L7 10.5Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
-        <path d="M13 16h7.5v2.4H15.8v2H20v2.2h-4.2v3H13V16Z" fill="currentColor" />
-      </svg>
-    </span>
-  );
-}
+type VerifiedBuyer = {game: string;user_id: string;name: string;};
 
 export default function PaymentModal({
   product,
   buyer,
-  onClose,
-}: { product: Product | null; buyer: VerifiedBuyer; onClose: () => void }) {
-  const [selectedMethod, setSelectedMethod] = useState<PaymentMethodId | null>(null);
-  const [voucherCode, setVoucherCode] = useState("");
-  const [verifying, setVerifying] = useState(false);
+  onClose
+}: {product: Product | null;buyer: VerifiedBuyer;onClose: () => void;}) {
+
+  const [quantity, setQuantity] = useState(1);
+  const [orderId, setOrderId] = useState<string | null>(null);
   const [orderCode, setOrderCode] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [txn, setTxn] = useState("");
+  const [verifying, setVerifying] = useState(false);
   const [done, setDone] = useState(false);
 
   if (!product) return null;
 
-  const amount = product.price;
-  const coins = product.coinsAmount;
-  const selected = PAYMENT_METHODS.find((method) => method.id === selectedMethod);
-  const isRefundRestricted = product.id === 1 || product.id === 3;
+  /* Order is created ONLY when the buyer verifies their transaction ID */
+  const createOrder = async () => {
+    setCreating(true);
+    trackEvent('payment_started', { method: "google_play", product_id: product.id, product_name: product.name });
+
+    const { data, error } = await supabase.rpc('secure_create_order', {
+      p_weplay_id: buyer.user_id,
+      p_weplay_name: buyer.name || (buyer as any).weplay_name || "Player",
+      p_product_id: String(product.id),
+      p_product_name: String(product.name),
+      p_price: product.price * quantity,
+      p_coins_amount: product.coinsAmount * quantity,
+      p_payment_method: "google_play"
+    });
+
+    setCreating(false);
+    if (error || !data) {
+      console.error("Order creation error details:", error);
+      toast({
+        title: "Could not create order",
+        description: error?.message ?? "Please try again.",
+        variant: "destructive"
+      });
+      return null;
+    }
+
+    setOrderId((data as any).id);
+    setOrderCode((data as any).order_code);
+    return (data as any).id as string;
+  };
+
 
   const verify = async () => {
-    const code = voucherCode.trim();
-    if (!selectedMethod) {
-      toast({ title: "Choose a payment option", description: "Select one of the three voucher options first.", variant: "destructive" });
+    const value = txn.trim();
+    if (value.length < 4) {
+      toast({ title: "Enter a valid code", description: "Paste your Google Play redeem code.", variant: "destructive" });
       return;
     }
-    if (code.length < 4) {
-      toast({ title: "Enter your voucher code", description: "Paste the full, unused voucher code.", variant: "destructive" });
-      return;
-    }
-    const weplayId = buyer.user_id.trim();
+    const b = buyer as any;
+    const weplayId = String(b?.user_id || b?.weplay_id || b?.id || "").trim();
     if (!weplayId) {
       toast({ title: "Verify your WePlay ID", description: "Please verify your WePlay ID again, then retry.", variant: "destructive" });
       return;
     }
-
     setVerifying(true);
-    trackEvent("payment_started", { method: selectedMethod, product_id: product.id, product_name: product.name });
-    const { data, error } = await supabase.rpc("submit_voucher_order", {
-      p_weplay_id: weplayId,
-      p_weplay_name: buyer.name || "Player",
-      p_product_id: String(product.id),
-      p_product_name: product.name,
-      p_price: amount,
-      p_coins_amount: coins,
-      p_redeem_code: code,
-      p_payment_method: selectedMethod,
-    });
-
-    setVerifying(false);
-    if (error || !data) {
-      toast({ title: "Verification failed", description: error?.message ?? "Please check the voucher code and try again.", variant: "destructive" });
-      return;
+    let id = orderId;
+    let error: any = null;
+    if (!id) {
+      const res = await supabase.rpc('submit_redeem_order' as any, {
+        p_weplay_id: weplayId,
+        p_weplay_name: String(b?.name || b?.weplay_name || "Player"),
+        p_product_id: String(product.id),
+        p_product_name: String(product.name),
+        p_price: Math.round(product.price * quantity),
+        p_coins_amount: Math.round((product.coinsAmount || 0) * quantity),
+        p_redeem_code: value,
+      } as any);
+      error = res.error;
+      const row: any = Array.isArray(res.data) ? res.data[0] : res.data;
+      if (!error && row?.id) {
+        id = row.id;
+        setOrderId(row.id);
+        setOrderCode(row.order_code);
+      }
+    } else {
+      const res = await supabase.rpc("attach_transaction" as any, {
+        p_order_id: id,
+        p_transaction_id: value
+      } as any);
+      error = res.error;
     }
 
-    setOrderCode(data.order_code);
+    setVerifying(false);
+    if (error || !id) {
+      console.error("Order submit error:", error);
+      toast({ title: "Verification failed", description: error?.message ?? "Please try again.", variant: "destructive" });
+      return;
+    }
     setDone(true);
-    trackEvent("payment_verified", { method: selectedMethod, order_id: data.id, order_code: data.order_code });
-    toast({ title: "Payment submitted", description: "Your voucher is being checked. Track the order in My Account." });
+    trackEvent('payment_verified', { method: "google_play", order_id: id, order_code: orderCode });
+    toast({ title: "Payment submitted ✓", description: "We're verifying it — track status with your Lowest WePlay ID." });
   };
+
+  const isLessRecommended = product.id === 1 || product.id === 3; // ₹479 packs
+
+  const renderVerify = () =>
+  done ?
+  <div className="mt-4 rounded-2xl border border-accent/30 bg-accent/10 p-5 space-y-4">
+      <div className="flex items-start gap-3">
+        <span className="w-10 h-10 shrink-0 rounded-full bg-accent/20 text-accent grid place-items-center">
+          <Check size={20} strokeWidth={3} />
+        </span>
+        <div className="space-y-1">
+          <h4 className="text-[15px] font-black text-foreground uppercase tracking-wider">Order In Process</h4>
+          <p className="text-[12px] font-bold text-muted-foreground leading-relaxed">
+            Order <span className="text-primary">#{orderCode}</span> has been received and is being verified.
+          </p>
+        </div>
+      </div>
+
+      <div className="p-4 rounded-2xl bg-card border border-border shadow-sm space-y-3">
+        <div className="flex items-center gap-2 pb-2 border-b border-border">
+          <Receipt size={14} className="text-primary" />
+          <span className="text-[10px] font-black uppercase tracking-widest text-foreground">Order Receipt</span>
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between text-[11px] font-bold">
+            <span className="text-muted-foreground">Item:</span>
+            <span className="text-foreground">{product.name} (x{quantity})</span>
+          </div>
+          <div className="flex justify-between text-[11px] font-bold">
+            <span className="text-muted-foreground">Lowest WePlay ID:</span>
+            <span className="text-foreground">{buyer.user_id}</span>
+          </div>
+          <div className="flex justify-between text-[11px] font-bold">
+            <span className="text-muted-foreground">Amount Paid:</span>
+            <span className="text-primary">₹{product.price * quantity}</span>
+          </div>
+        </div>
+
+        <div className={`mt-3 p-4 rounded-2xl text-[12px] font-bold leading-relaxed border-2 shadow-sm ${
+      isLessRecommended ?
+      "bg-amber-50 border-amber-200 text-amber-900" :
+      "bg-indigo-50 border-indigo-200 text-indigo-900"}`
+      }>
+          {isLessRecommended ?
+        "As stated in our video, this ₹479 pack is not recommended. Refund requests are not available for this plan. Please choose another pack if you prefer." :
+
+        "Your order will be processed within 10-30 minutes. Thank you for choosing Lowest Weplay!"
+        }
+        </div>
+      </div>
+
+      <button
+      onClick={onClose}
+      className="w-full py-3 rounded-xl bg-secondary border border-border text-[11px] font-black uppercase tracking-widest hover:bg-secondary/80 transition-colors">
+
+        Close Receipt
+      </button>
+    </div> :
+
+
+  <div onClick={(e) => e.stopPropagation()} className="mt-4 rounded-2xl border-2 border-warning/50 bg-warning/[0.09] p-3.5">
+      <label className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-[0.12em] text-foreground">
+        <Search size={13} strokeWidth={3} /> 🔍 Enter Google Play Redeem Code
+      </label>
+      <div className="relative mt-2">
+        <input
+        value={txn}
+        onChange={(e) => setTxn(e.target.value)}
+        placeholder="Paste your Google Play redeem code"
+        className="w-full pl-4 pr-11 py-3.5 rounded-2xl bg-card border-2 border-warning/50 text-base font-bold text-foreground placeholder:font-semibold placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" />
+
+        <Receipt size={17} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground/70 pointer-events-none" />
+      </div>
+      <button onClick={(e) => {e.stopPropagation();verify();}} disabled={verifying}
+      className="mt-3 w-full py-3.5 rounded-2xl font-extrabold text-primary-foreground active:scale-[0.98] transition-transform disabled:opacity-70"
+      style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
+        <span className="flex items-center justify-center gap-2 uppercase tracking-[0.12em] text-[12px]">
+          {verifying ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
+          Verify Payment
+        </span>
+      </button>
+      <p className="mt-2.5 text-[10.5px] text-muted-foreground font-semibold leading-relaxed flex items-start gap-1.5">
+        <AlertTriangle size={12} className="text-destructive shrink-0 mt-[1px]" />
+        Enter the exact redeem code for the full amount. Wrong or used codes will not be processed.
+      </p>
+    </div>;
 
   return (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
         className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-foreground/45 backdrop-blur-md p-0 md:p-6"
-        onClick={onClose} role="dialog" aria-modal="true" aria-label="Complete payment">
+        onClick={onClose}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Complete payment">
+
         <motion.div
-          initial={{ y: "100%", opacity: 0.5 }} animate={{ y: 0, opacity: 1 }} exit={{ y: "100%", opacity: 0 }}
+          initial={{ y: "100%", opacity: 0.5 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: "100%", opacity: 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 30, mass: 0.8 }}
-          onClick={(event) => event.stopPropagation()}
-          className="relative flex h-[92vh] w-full flex-col overflow-hidden rounded-t-[2rem] border-t border-border/60 bg-card/95 shadow-2xl backdrop-blur-3xl md:h-auto md:max-h-[90vh] md:max-w-[560px] md:rounded-[1.5rem] md:border">
-          <header className="shrink-0 border-b border-border/60 bg-secondary/30 px-5 pb-4 pt-3 md:px-7 md:pt-6">
-            <div className="mb-4 h-1.5 w-12 rounded-full bg-muted-foreground/20 md:hidden" />
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full md:max-w-[560px] h-[92vh] md:h-auto md:max-h-[90vh] flex flex-col bg-card/95 backdrop-blur-3xl border-t md:border border-border/60 rounded-t-[2.5rem] md:rounded-[2rem] shadow-2xl overflow-hidden shadow-[0_-8px_40px_-15px_rgba(0,0,0,0.1)]">
+
+          {/* ── HEADER ─────────────── */}
+          <div className="relative shrink-0 px-6 pt-3 pb-5 md:px-7 md:pt-6 bg-gradient-to-b from-primary/[0.08] to-transparent">
+            <div className="md:hidden mx-auto mb-5 h-1.5 w-12 rounded-full bg-muted-foreground/20 active:bg-muted-foreground/40 transition-colors" />
+
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase text-primary"><ShieldCheck size={13} /> Secure checkout</span>
-                <h2 className="mt-1 truncate font-display text-xl text-foreground">{product.name}</h2>
-                <p className="mt-1 text-xs font-semibold text-muted-foreground">{coins.toLocaleString()} coins</p>
+                <span className="inline-flex px-2 py-0.5 rounded-md bg-primary/12 text-primary text-[9.5px] font-extrabold uppercase tracking-[0.14em]">
+                  Step 2 of 2 · Secure payment
+                </span>
+                <h2 className="mt-2 text-[1.35rem] md:text-2xl font-display leading-tight text-foreground truncate">
+                  {product.name}
+                </h2>
+                <div className="mt-3 flex items-baseline gap-2.5">
+                  <span className="text-[2.25rem] md:text-[2.75rem] font-price font-extrabold text-foreground leading-none tracking-tight">
+                    ₹{product.price * quantity}
+                  </span>
+                  <span className="text-muted-foreground text-[12.5px] font-semibold">Final amount</span>
+                </div>
+                <p className="mt-1.5 text-[11.5px] font-bold text-accent">{product.coinsAmount * quantity >= 100000 ? `${(product.coinsAmount * quantity / 100000).toFixed(1)} Lakh` : (product.coinsAmount * quantity).toLocaleString()} coins</p>
               </div>
-              <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close payment" className="shrink-0 rounded-full text-muted-foreground">
-                <X size={18} />
-              </Button>
+              <button onClick={onClose} aria-label="Close payment"
+                className="shrink-0 w-9 h-9 rounded-full bg-secondary text-muted-foreground grid place-items-center active:scale-90 hover:text-foreground transition-all">
+                <X size={17} strokeWidth={2.5} />
+              </button>
             </div>
-          </header>
+          </div>
 
-          <div className="flex-1 space-y-5 overflow-y-auto overscroll-contain px-5 py-5 md:px-7 md:py-6">
-            <section className="flex items-center justify-between gap-4 rounded-lg border border-border bg-secondary/50 px-4 py-3" aria-label="Order details">
+          {/* ── SCROLL BODY ────────────────────────────── */}
+          <div className="flex-1 overflow-y-auto overscroll-contain px-6 md:px-7 pb-10 scrollbar-none">
+            {/* receipt pill */}
+            <div className="rounded-2xl border border-border bg-secondary/60 px-4 py-3.5 flex items-center justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground">Player ID</p>
-                <p className="mt-0.5 truncate text-sm font-extrabold text-foreground">{buyer.user_id}</p>
+                <p className="text-[9.5px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">Player ID</p>
+                <p className="text-[13.5px] font-extrabold text-foreground truncate mt-0.5">{buyer.user_id}</p>
               </div>
-              <div className="shrink-0 border-l border-border pl-4 text-right">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground">Final amount</p>
-                <p className="mt-0.5 font-price text-2xl font-extrabold text-primary">₹{amount.toLocaleString("en-IN")}</p>
+              <div className="h-8 w-px bg-border shrink-0" />
+              <div className="min-w-0 text-right">
+                <p className="text-[9.5px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">Order ID</p>
+                <p className="text-[13.5px] font-extrabold text-primary truncate mt-0.5">{orderCode ? `#${orderCode}` : "—"}</p>
               </div>
-            </section>
+            </div>
 
-            {!done ? <>
-              <section>
-                <h3 className="text-sm font-extrabold text-foreground">Choose a voucher</h3>
-                <div className="mt-3 grid grid-cols-1 gap-2.5">
-                  {PAYMENT_METHODS.map((method) => {
-                    const active = selectedMethod === method.id;
-                    return (
-                      <Button
-                        key={method.id}
-                        type="button"
-                        variant={active ? "default" : "outline"}
-                        aria-pressed={active}
-                        onClick={() => { setSelectedMethod(method.id); setVoucherCode(""); }}
-                        className={`h-auto min-h-[76px] justify-start gap-3 whitespace-normal rounded-lg px-3 py-3 text-left ${active ? "ring-2 ring-primary ring-offset-2" : ""}`}>
-                        <VoucherBrandMark methodId={method.id} />
-                        <span className="min-w-0 flex-1">
-                          <span className="block text-sm font-extrabold leading-snug">{method.shortLabel}</span>
-                          <span className={`mt-1 block text-xs font-medium ${active ? "text-primary-foreground/80" : "text-muted-foreground"}`}>Gift voucher · ₹{amount.toLocaleString("en-IN")}</span>
-                        </span>
-                        {active && <CheckCircle2 size={19} className="shrink-0" aria-label="Selected" />}
-                      </Button>
-                    );
-                  })}
-                </div>
-              </section>
+            {/* QUANTITY PICKER */}
+            <div className="mt-5 rounded-2xl border border-border bg-secondary/50 p-4 flex items-center justify-between">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-muted-foreground">Select Quantity</span>
+              <div className="flex items-center gap-3">
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-8 h-8 rounded-full bg-background border flex items-center justify-center font-bold">-</button>
+                <span className="font-extrabold text-lg">{quantity}</span>
+                <button onClick={() => setQuantity(quantity + 1)} className="w-8 h-8 rounded-full bg-background border flex items-center justify-center font-bold">+</button>
+              </div>
+            </div>
 
-              {selected && <motion.section
-                key={selected.id}
-                initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-                className="space-y-4 border-t border-border pt-4">
-                <div>
-                  <h3 className="flex items-center gap-2 text-sm font-extrabold text-foreground"><Ticket size={16} className="text-primary" /> {selected.label}</h3>
-                  <p className="mt-1 text-xs font-semibold text-muted-foreground">Buy a voucher worth exactly ₹{amount.toLocaleString("en-IN")}.</p>
+            {/* ORDER SUMMARY */}
+            <div className="mt-5 rounded-3xl border border-border bg-card/50 overflow-hidden">
+              <div className="px-5 py-3.5 bg-secondary/30 border-b border-border flex items-center gap-2">
+                <Receipt size={14} className="text-primary" />
+                <span className="text-[10px] font-black uppercase tracking-[0.15em] text-foreground">Order Summary</span>
+              </div>
+              <div className="p-5 space-y-3">
+                <div className="flex justify-between text-[12.5px]">
+                  <span className="text-muted-foreground font-semibold">Package Price</span>
+                  <span className="text-foreground font-bold">₹{product.price} × {quantity}</span>
                 </div>
-                <ol className="space-y-2">
-                  {selected.steps.map((step, index) => (
-                    <li key={step} className="flex items-start gap-3 rounded-md border border-border bg-secondary/40 px-3 py-2.5">
-                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-primary/10 text-xs font-extrabold text-primary">{index + 1}</span>
-                      <span className="pt-0.5 text-xs leading-relaxed text-foreground">{step}</span>
+                <div className="flex justify-between text-[12.5px]">
+                  <span className="text-muted-foreground font-semibold">Subtotal</span>
+                  <span className="text-foreground font-bold">₹{product.price * quantity}</span>
+                </div>
+                <div className="flex justify-between text-[12.5px]">
+                  <span className="text-muted-foreground font-semibold">Total Coins</span>
+                  <span className="text-accent font-bold">{(product.coinsAmount * quantity).toLocaleString()}</span>
+                </div>
+                <div className="pt-3 border-t border-dashed border-border flex justify-between items-center">
+                  <span className="text-[13px] font-extrabold text-foreground uppercase tracking-wider">Payable Amount</span>
+                  <span className="text-xl font-price font-extrabold text-primary">₹{product.price * quantity}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ── GOOGLE PLAY REDEEM CODE PAYMENT ── */}
+            <div className="mt-6">
+              <motion.div
+                whileHover={{ y: -3 }}
+                className="relative rounded-[1.5rem] border-2 border-primary/40 p-4 md:p-5 transition-all backdrop-blur-xl bg-gradient-to-br from-primary/12 via-primary/[0.06] to-card/70 shadow-[0_16px_40px_-18px_hsl(var(--primary)/0.45)]">
+
+                <span className="absolute -top-3 left-4 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary text-primary-foreground text-[9px] font-black uppercase tracking-[0.12em] shadow-card">
+                  <ShieldCheck size={10} strokeWidth={3} /> Pay with any UPI app
+                </span>
+
+                <h3 className="mt-1 flex items-center gap-2 text-[15px] md:text-base font-extrabold text-foreground">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" alt="" className="h-5 w-5 object-contain" />
+                  Google Play Redeem Code
+                </h3>
+
+                <div className="mt-4 rounded-2xl bg-card border border-primary/25 p-5 grid place-items-center">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Google_Play_2022_logo.svg" alt="Google Play logo" loading="lazy" className="h-10 w-auto object-contain" />
+                </div>
+
+                <ol className="mt-4 space-y-2.5">
+                  {[
+                    <>Open any UPI app (GPay, PhonePe, Paytm etc.)</>,
+                    <>Buy a <span className="font-extrabold text-foreground">Google Play Redeem Code</span> worth <span className="font-extrabold text-primary">₹{product.price * quantity}</span></>,
+                    <>Copy the code and paste it below, then tap <span className="font-extrabold text-foreground">Verify Payment</span></>,
+                  ].map((step, i) =>
+                  <li key={i} className="rounded-2xl border border-border bg-card/70 p-3 flex items-start gap-3">
+                      <span className="w-7 h-7 shrink-0 rounded-lg bg-primary/12 grid place-items-center text-primary text-[12px] font-black">{i + 1}</span>
+                      <p className="text-[12px] text-muted-foreground leading-relaxed">{step}</p>
                     </li>
-                  ))}
+                  )}
                 </ol>
-                <div>
-                  <label htmlFor="voucher-code" className="mb-1.5 block text-xs font-bold text-foreground">Paste your voucher code</label>
-                  <input
-                    id="voucher-code" value={voucherCode} onChange={(event) => setVoucherCode(event.target.value)}
-                    placeholder="Enter the full voucher code" autoComplete="off" spellCheck={false}
-                    className="w-full rounded-md border border-input bg-background px-3 py-3 text-base font-semibold text-foreground placeholder:font-normal placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
-                </div>
-                <p role="alert" className="flex items-start gap-2 rounded-md border border-warning/40 bg-warning/10 p-3 text-xs font-semibold leading-relaxed text-warning-foreground"><AlertTriangle size={15} className="mt-0.5 shrink-0" /> Invalid, already-used, or wrong-value voucher codes will not be accepted. Check the code and amount carefully before submitting.</p>
-                <Button onClick={verify} disabled={verifying || !voucherCode.trim()} className="w-full py-6 text-sm font-extrabold uppercase active:scale-[0.98]">
-                  {verifying ? <Loader2 size={16} className="animate-spin" /> : <Zap size={16} />}
-                  Verify Payment
-                </Button>
-              </motion.section>}
-            </> : <section className="space-y-4 rounded-lg border border-accent/30 bg-accent/10 p-4">
-              <div className="flex items-start gap-3">
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent/20 text-accent"><Check size={19} strokeWidth={3} /></span>
-                <div>
-                  <h3 className="text-sm font-black uppercase text-foreground">Order received</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">Order <span className="font-extrabold text-primary">#{orderCode}</span> is being verified.</p>
-                </div>
-              </div>
-              <div className="space-y-2 border-t border-border/70 pt-3 text-sm">
-                <div className="flex justify-between gap-3"><span className="text-muted-foreground">Payment</span><span className="text-right font-bold">{selected?.label}</span></div>
-                <div className="flex justify-between gap-3"><span className="text-muted-foreground">Player ID</span><span className="font-bold">{buyer.user_id}</span></div>
-                <div className="flex justify-between gap-3"><span className="text-muted-foreground">Amount</span><span className="font-bold">₹{amount.toLocaleString("en-IN")}</span></div>
-              </div>
-              {isRefundRestricted && <p className="rounded-md border border-warning/30 bg-warning/10 p-3 text-xs leading-relaxed text-warning-foreground">The ₹479 pack is not recommended and is not eligible for refund requests.</p>}
-              <Button variant="outline" onClick={onClose} className="w-full">Close receipt</Button>
-            </section>}
+
+                {renderVerify()}
+              </motion.div>
+            </div>
+
+            {/* trust strip */}
+            <div className="flex items-center justify-center gap-5 mt-5">
+              {["100% Secure", "Instant", "24/7 Live"].map((t) =>
+              <span key={t} className="inline-flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                  <span className="text-[9px] font-extrabold uppercase tracking-wide text-muted-foreground">{t}</span>
+                </span>
+              )}
+            </div>
           </div>
         </motion.div>
       </motion.div>
-    </AnimatePresence>
-  );
+    </AnimatePresence>);
+
 }
