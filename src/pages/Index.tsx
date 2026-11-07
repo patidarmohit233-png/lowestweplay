@@ -29,9 +29,9 @@ const VERIFY_KEY = "lw_verified_buyer";
 const LOGO = "https://res.cloudinary.com/dptwx8vd3/image/upload/v1773805014/Gemini_Generated_Image_qxp195qxp195qxp1-removebg-preview_whlc08.png";
 
 const PRODUCT_BADGES: Record<number, { text: string; icon: React.ReactNode; color: "primary" | "accent" | "warning" }> = {
-  1: { text: "NOT RECOMMENDED", icon: <ShieldCheck size={11} />, color: "warning" },
+  1: { text: "LESS RECOMMENDED", icon: <ShieldCheck size={11} />, color: "warning" },
   2: { text: "BEST SELLER", icon: <Flame size={11} />, color: "accent" },
-  3: { text: "NOT RECOMMENDED", icon: <ShieldCheck size={11} />, color: "warning" },
+  3: { text: "LESS RECOMMENDED", icon: <ShieldCheck size={11} />, color: "warning" },
   4: { text: "HOT DEAL", icon: <Flame size={11} />, color: "accent" },
   5: { text: "MOST VALUE", icon: <Sparkles size={11} />, color: "primary" },
   6: { text: "TOP CHOICE", icon: <Crown size={11} />, color: "accent" },

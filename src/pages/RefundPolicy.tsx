@@ -76,7 +76,7 @@ const RefundPolicy = () => (
           <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-accent" /> 4. ₹479 Pack Refund Condition
           </h2>
-          <p>The ₹479 packages are not recommended, as stated in our video. Refund requests are not available for these packages.</p>
+          <p>For the ₹479 package, you may be required to purchase an additional pack before we can attempt processing. If the top-up still cannot be completed even after purchasing the additional pack, we will issue a refund.</p>
         </section>
 
         <section className="p-6 rounded-2xl bg-card border border-border">
