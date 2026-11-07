@@ -3,19 +3,19 @@ export const PAYMENT_METHODS = [
     id: "google_play",
     label: "Google Play redeem code",
     shortLabel: "Google Play",
-    instructions: "Buy an unused Google Play gift code for the exact amount shown. Do not redeem it yourself; paste the full code below.",
+    instructions: "Buy a Google Play gift code for the exact amount shown. Do not redeem it in your own account. Copy the full code and paste it below for the team to review.",
   },
   {
     id: "amazon_pay_egift",
     label: "Amazon Pay e-gift card",
     shortLabel: "Amazon Pay",
-    instructions: "Buy an unused Amazon Pay e-gift card for the exact amount shown. Keep the voucher unredeemed and paste its code below.",
+    instructions: "Buy an Amazon Pay e-gift card for the exact amount shown. Do not add it to your own account. Copy the full voucher code and paste it below for the team to review.",
   },
   {
     id: "flipkart_egift",
     label: "Flipkart e-gift voucher",
     shortLabel: "Flipkart",
-    instructions: "Buy an unused Flipkart e-gift voucher for the exact amount shown. Keep the voucher unredeemed and paste its code below.",
+    instructions: "Buy a Flipkart e-gift voucher for the exact amount shown. Do not add it to your own account. Copy the full code and paste it below for the team to review.",
   },
 ] as const;
 
