@@ -5,6 +5,7 @@ import { Search, Loader2, Package, ArrowLeft, LogIn } from "lucide-react";
 import Seo from "@/components/Seo";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { paymentMethodLabel } from "@/lib/payment-methods";
 
 type TrackedOrder = {
   id: string;
@@ -14,6 +15,7 @@ type TrackedOrder = {
   amount: string;
   status: string;
   transaction_id: string | null;
+  payment_method: string | null;
   upi_id: string | null;
   created_at: string;
 };
@@ -61,6 +63,7 @@ export default function TrackOrder() {
       amount: String(r.price ?? ""),
       status: r.status ?? "",
       transaction_id: r.transaction_id ?? null,
+      payment_method: r.payment_method ?? null,
       upi_id: null,
       created_at: r.created_at
     })));
@@ -139,6 +142,7 @@ export default function TrackOrder() {
                   <div><span className="text-muted-foreground block">Status</span><span className="font-extrabold uppercase">{o.status}</span></div>
                   <div className="min-w-0"><span className="text-muted-foreground block">Txn ID</span><span className="font-extrabold truncate block">{o.transaction_id || "Not added"}</span></div>
                 </div>
+                <p className="mt-2 text-[11px] text-muted-foreground">Payment: <span className="font-bold text-foreground">{paymentMethodLabel(o.payment_method)}</span></p>
               </motion.div>
           )}
           </div>

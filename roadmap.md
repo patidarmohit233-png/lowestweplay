@@ -4,4 +4,4 @@
 - [x] Verify review validation, submission, admin approval, public display, test cleanup, and build diagnostics.
 - [ ] Restore historical review text above current approved reviews, move the submission form above review cards, and enforce one review per WePlay ID.
 - [x] Mark ₹479 plans NOT RECOMMENDED, remove their refund request option, enforce the restriction in the database, and align the refund policy.
-- [ ] Simplify checkout to player ID, final price, and Google Play, Amazon Pay e-gift, or Flipkart e-gift selection; show payment-specific instructions and submit the voucher code with the order.
+- [x] Simplify checkout to player ID and final price, remove quantity/order-summary controls, and support Google Play, Amazon Pay e-gift, or Flipkart e-gift with payment-specific instructions and stored voucher type.

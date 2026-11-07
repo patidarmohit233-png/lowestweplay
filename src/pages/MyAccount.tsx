@@ -12,6 +12,7 @@ import { toast } from "@/hooks/use-toast";
 import { MILESTONES, fmt, nextMilestone, tierMeta } from "@/lib/loyalty";
 import { isRefundRestrictedOrder } from "@/lib/refunds";
 import { STATUS_STYLES } from "@/pages/TrackOrder";
+import { paymentMethodLabel } from "@/lib/payment-methods";
 
 const VERIFY_KEY = "lw_verified_buyer";
 const CELEBRATED_KEY = "lw_celebrated_milestones";
@@ -38,6 +39,7 @@ type OrderRow = {
   amount?: string;
   status: string;
   transaction_id: string | null;
+  payment_method?: string | null;
   created_at: string;
   failure_reason?: string | null;
   refund_requested?: boolean;
@@ -97,6 +99,7 @@ export default function MyAccount() {
       order_id: x.order_code || x.id || "",
       amount: String(x.price || x.amount || "0"),
       price: x.price || Number(x.amount) || 0,
+      payment_method: x.payment_method || null,
       plan: x.product_name || x.plan || "Recharge"
     })) as OrderRow[]);
     // keep the session logged-in
@@ -318,12 +321,13 @@ export default function MyAccount() {
                           {o.status}
                         </span>
                       </div>
-                      <div className="mt-3 grid grid-cols-3 gap-2 text-[11px]">
+                      <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] sm:grid-cols-3">
                         <div><span className="text-muted-foreground block">Amount</span><span className="font-extrabold">₹{o.price}</span></div>
                         <div><span className="text-muted-foreground block">Status</span><span className="font-extrabold uppercase">{o.status}</span></div>
 
                         <div className="min-w-0"><span className="text-muted-foreground block">Txn ID</span><span className="font-extrabold truncate block">{o.transaction_id || "Not added"}</span></div>
                       </div>
+                      <p className="mt-2 text-[11px] text-muted-foreground">Payment: <span className="font-bold text-foreground">{paymentMethodLabel(o.payment_method)}</span></p>
                       {o.failure_reason && ["hold", "failed", "refunded", "refund_rejected"].includes(o.status) &&
                         (() => {
                           const reasonBox: Record<string, string> = {
