@@ -7,7 +7,7 @@ import type { Product } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
 import { AMAZON_PAY_EGIFT_LABEL, AMAZON_PAY_EGIFT_METHOD } from "@/lib/payment-methods";
 import amazonVoucherImage from "@/assets/amazon-pay-egift-card.jpg.asset.json";
-import phonePeGuideImage from "@/assets/phonepe-amazon-guide-v2.jpg.asset.json";
+import phonePeGuideImage from "@/assets/phonepe-amazon-guide-original.jpg.asset.json";
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
 
@@ -238,7 +238,7 @@ export default function PaymentModal({
                       <img
                         src={phonePeGuideImage.url}
                         onError={(event) => { event.currentTarget.src = "/phonepe-amazon-gift-card-guide.jpg"; }}
-                        alt="PhonePe Amazon Pay gift card purchase steps with placeholders for your own voucher code"
+                        alt="PhonePe steps for purchasing an Amazon Pay e-voucher"
                         loading="lazy"
                         className="-mx-2 mt-3 w-[calc(100%+1rem)] max-w-none rounded-xl border border-border"
                       />
