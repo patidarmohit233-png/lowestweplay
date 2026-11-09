@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { User, LogOut, Receipt, Coins, Package, X, MessageCircle } from "lucide-react";
+import { User, LogOut, Receipt, Coins, Package, X, MessageCircle, Phone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fmt, tierMeta } from "@/lib/loyalty";
 import lowestweplayAvatarAsset from "@/assets/lowestweplay-avatar.png.asset.json";
@@ -116,8 +116,19 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
                 <Receipt size={14} /> My Orders
               </Link>
               <a href="https://wa.me/qr/REB67MGOYBTDB1" target="_blank" rel="noreferrer"
-              className="w-full py-3 rounded-2xl bg-secondary border border-border text-foreground font-extrabold text-[11px] uppercase tracking-[0.14em] flex items-center justify-center gap-2 active:scale-[0.97] transition-transform">
-                <MessageCircle size={14} /> WhatsApp 24/7 Support
+              aria-label="Chat with 24/7 support on WhatsApp"
+              className="w-full rounded-2xl border border-accent/30 bg-accent/10 px-3 py-3 text-left text-foreground active:scale-[0.97] transition-transform">
+                <span className="flex items-center gap-3">
+                  <span className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full bg-accent text-accent-foreground shadow-sm">
+                    <MessageCircle size={23} strokeWidth={2.2} />
+                    <Phone size={10} strokeWidth={3} className="absolute" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[11px] font-extrabold uppercase tracking-[0.1em]">WhatsApp Support</span>
+                    <span className="mt-0.5 block text-[10px] font-semibold text-muted-foreground">24/7 · Chat with our team</span>
+                  </span>
+                  <span className="h-2 w-2 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                </span>
               </a>
               <button onClick={() => {setOpen(false);onLogout();}}
               className="w-full py-3 rounded-2xl bg-secondary border border-border text-foreground font-extrabold text-[11px] uppercase tracking-[0.14em] flex items-center justify-center gap-2 active:scale-[0.97] transition-transform">
