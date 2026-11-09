@@ -7,6 +7,7 @@ import type { Product } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
 import { AMAZON_PAY_EGIFT_LABEL, AMAZON_PAY_EGIFT_METHOD } from "@/lib/payment-methods";
 import amazonVoucherImage from "@/assets/amazon-pay-egift-card.jpg.asset.json";
+import phonePeGuideImage from "@/assets/phonepe-amazon-gift-card-guide.jpg.asset.json";
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
 
@@ -234,6 +235,12 @@ export default function PaymentModal({
                         <li>Choose <strong className="text-foreground">₹{totalPrice}</strong> and complete payment.</li>
                         <li>Open the gift card, copy its code, and paste it above before submitting.</li>
                       </ol>
+                      <img
+                        src={phonePeGuideImage.url}
+                        alt="PhonePe Amazon Pay e-voucher instructions with voucher number and PIN hidden"
+                        loading="lazy"
+                        className="mt-3 w-full rounded-xl border border-border"
+                      />
                     </div>
                   )}
                 </div>
