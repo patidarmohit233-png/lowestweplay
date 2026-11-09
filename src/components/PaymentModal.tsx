@@ -237,6 +237,7 @@ export default function PaymentModal({
                       </ol>
                       <img
                         src={phonePeGuideImage.url}
+                        onError={(event) => { event.currentTarget.src = "/phonepe-amazon-gift-card-guide.jpg"; }}
                         alt="PhonePe Amazon Pay e-voucher instructions with voucher number and PIN hidden"
                         loading="lazy"
                         className="mt-3 w-full rounded-xl border border-border"
