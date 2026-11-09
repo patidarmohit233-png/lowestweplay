@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import type { Product } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
-import { AMAZON_PAY_EGIFT_LABEL, AMAZON_PAY_EGIFT_METHOD, AMAZON_PAY_VOUCHER_CODE_LENGTH, isValidAmazonPayVoucherPin } from "@/lib/payment-methods";
+import { AMAZON_PAY_EGIFT_LABEL, AMAZON_PAY_EGIFT_METHOD, AMAZON_PAY_VOUCHER_CODE_LENGTH, isValidAmazonPayVoucherCode } from "@/lib/payment-methods";
 import amazonVoucherImage from "@/assets/amazon-pay-egift-card.jpg.asset.json";
 import phonePeGuideImage from "@/assets/phonepe-amazon-guide-original-masked.jpg.asset.json";
 
@@ -34,7 +34,7 @@ export default function PaymentModal({
   const totalCoins = product.coinsAmount * quantity;
   const verify = async () => {
     const code = txn.trim();
-    if (!isValidAmazonPayVoucherPin(code)) {
+    if (!isValidAmazonPayVoucherCode(code)) {
       toast({ title: "Enter a valid voucher code", description: "The Amazon Pay voucher code must contain exactly 14 letters or numbers.", variant: "destructive" });
       return;
     }
@@ -218,7 +218,7 @@ export default function PaymentModal({
                     <Receipt size={17} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground/70" />
                   </div>
                   <p id="amazon-voucher-code-hint" className="mt-1.5 text-[11px] font-semibold text-muted-foreground">Enter exactly 14 letters or numbers. Other characters are removed.</p>
-                  <button type="button" onClick={verify} disabled={verifying || !isValidAmazonPayVoucherPin(txn.trim())} className="mt-3 w-full rounded-2xl py-3.5 font-extrabold text-primary-foreground transition-transform active:scale-[0.98] disabled:opacity-70" style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
+                  <button type="button" onClick={verify} disabled={verifying || !isValidAmazonPayVoucherCode(txn.trim())} className="mt-3 w-full rounded-2xl py-3.5 font-extrabold text-primary-foreground transition-transform active:scale-[0.98] disabled:opacity-70" style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
                     <span className="flex items-center justify-center gap-2 text-[12px] uppercase">
                       {verifying ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
                       {verifying ? "Submitting for review…" : "Submit for verification"}
