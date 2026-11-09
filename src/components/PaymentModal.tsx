@@ -7,7 +7,7 @@ import type { Product } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
 import { AMAZON_PAY_EGIFT_LABEL, AMAZON_PAY_EGIFT_METHOD } from "@/lib/payment-methods";
 import amazonVoucherImage from "@/assets/amazon-pay-egift-card.jpg.asset.json";
-import phonePeGuideImage from "@/assets/phonepe-amazon-gift-card-guide.jpg.asset.json";
+import phonePeGuideImage from "@/assets/phonepe-amazon-guide-v2.jpg.asset.json";
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
 
