@@ -2,4 +2,4 @@
 - [x] Add verified-customer review submission and approved review display with 4.9 rating summary.
 - [x] Add admin review approval/rejection controls.
 - [x] Verify review validation, submission, admin approval, public display, test cleanup, and build diagnostics.
-- [ ] Restore historical review text above current approved reviews, move the submission form above review cards, and enforce one review per WePlay ID.
+- [x] Restore historical review text, place review submission above reviews, and enforce one lifetime review per case-insensitive WePlay ID.
