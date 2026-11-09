@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AlertTriangle, Check, Loader2, Receipt, Search, ShieldCheck, ShoppingBag, X, Zap } from "lucide-react";
+const VOUCHER_IMG = "https://i.ibb.co/vFjK3Mn/3n-HZVOd-GHMTPI16t-OAFm7yw58-F2x1-BKHRv1t-Ym-NIdmx9o-BQI.png";
+import { AlertTriangle, BookOpen, Check, Loader2, Receipt, Search, ShieldCheck, ShoppingBag, X, Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import type { Product } from "@/data/products";
@@ -23,6 +24,7 @@ export default function PaymentModal({
   const [txn, setTxn] = useState("");
   const [verifying, setVerifying] = useState(false);
   const [done, setDone] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
 
   if (!product) return null;
 
@@ -144,7 +146,23 @@ export default function PaymentModal({
                 <ShoppingBag size={16} className="text-primary" />
                 <h3 className="text-sm font-extrabold">{AMAZON_PAY_EGIFT_LABEL}</h3>
               </div>
-              <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">Pay with an Amazon Pay e-Gift Card voucher code. Your submitted code is reviewed by our team before the top-up is processed.</p>
+              <img src={VOUCHER_IMG} alt="Amazon Pay e-Gift Card voucher" loading="lazy" className="mt-3 w-full rounded-2xl border border-border object-cover" />
+              <p className="mt-3 text-[12px] leading-relaxed text-muted-foreground">Buy an Amazon Pay e-Gift Card of <strong className="text-foreground">₹{totalPrice}</strong>, then paste its code below.</p>
+              <button type="button" onClick={() => setShowGuide((v) => !v)} className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-primary/40 bg-primary/10 py-3 text-[12px] font-black uppercase text-primary transition-transform active:scale-[0.97]">
+                <BookOpen size={15} /> {showGuide ? "Hide instructions" : "Instructions (PhonePe)"}
+              </button>
+              {showGuide && (
+                <div className="mt-3 rounded-2xl border border-border bg-secondary/60 p-4">
+                  <p className="text-[12px] font-black uppercase text-foreground">Steps in PhonePe</p>
+                  <ol className="mt-2 list-decimal space-y-1.5 pl-5 text-[12px] leading-relaxed text-muted-foreground">
+                    <li>Open <strong className="text-foreground">PhonePe</strong> and search <strong className="text-foreground">"Amazon Pay Gift Card"</strong> (Gift Cards section).</li>
+                    <li>Enter amount <strong className="text-foreground">₹{totalPrice}</strong> and pay.</li>
+                    <li>Open the purchased gift card and copy the <strong className="text-foreground">voucher code</strong>.</li>
+                    <li>Come back here, paste the code and tap <strong className="text-foreground">Submit voucher</strong>.</li>
+                  </ol>
+                  <img src={VOUCHER_IMG} alt="Amazon Pay e-Gift Card example" loading="lazy" className="mt-3 w-full rounded-xl border border-border" />
+                </div>
+              )}
 
               <ol className="mt-4 space-y-2.5">
                 <li className="flex items-start gap-3 rounded-2xl border border-border bg-card/70 p-3">
