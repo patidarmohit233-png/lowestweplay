@@ -4,3 +4,4 @@
 - [x] Verify review validation, submission, admin approval, public display, test cleanup, and build diagnostics.
 - [x] Restore historical review text, place review submission above reviews, and enforce one lifetime review per case-insensitive WePlay ID.
 - [x] Accept exactly 14 alphanumeric Amazon Pay voucher characters and keep redeemable details masked in the PhonePe guide image.
+- [x] Normalize formatted Amazon Pay voucher pastes (including hyphens and spaces) before enforcing the 14-character rule.

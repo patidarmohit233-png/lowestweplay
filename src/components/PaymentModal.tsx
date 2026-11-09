@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import type { Product } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
-import { AMAZON_PAY_EGIFT_LABEL, AMAZON_PAY_EGIFT_METHOD, AMAZON_PAY_VOUCHER_CODE_LENGTH, isValidAmazonPayVoucherCode } from "@/lib/payment-methods";
+import { AMAZON_PAY_EGIFT_LABEL, AMAZON_PAY_EGIFT_METHOD, normalizeAmazonPayVoucherCode, isValidAmazonPayVoucherCode } from "@/lib/payment-methods";
 import amazonVoucherImage from "@/assets/amazon-pay-egift-card.jpg.asset.json";
 import phonePeGuideImage from "@/assets/phonepe-amazon-guide-original-masked.jpg.asset.json";
 
@@ -204,20 +204,19 @@ export default function PaymentModal({
                     <input
                       id="amazon-voucher-code"
                       value={txn}
-                      onChange={(event) => setTxn(event.target.value.replace(/[^A-Za-z0-9]/g, "").slice(0, AMAZON_PAY_VOUCHER_CODE_LENGTH))}
+                      onChange={(event) => setTxn(normalizeAmazonPayVoucherCode(event.target.value))}
                       placeholder="Enter the 14-character code"
                       autoComplete="off"
                       inputMode="text"
                       type="text"
                       spellCheck={false}
-                      maxLength={AMAZON_PAY_VOUCHER_CODE_LENGTH}
                       pattern="[A-Za-z0-9]{14}"
                       aria-describedby="amazon-voucher-code-hint"
                       className="w-full rounded-2xl border-2 border-warning/50 bg-card py-3.5 pl-4 pr-11 text-base font-bold text-foreground placeholder:font-semibold placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                     />
                     <Receipt size={17} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground/70" />
                   </div>
-                  <p id="amazon-voucher-code-hint" className="mt-1.5 text-[11px] font-semibold text-muted-foreground">Enter exactly 14 letters or numbers. Other characters are removed.</p>
+                  <p id="amazon-voucher-code-hint" className="mt-1.5 text-[11px] font-semibold text-muted-foreground">Enter 14 letters or numbers. Hyphens and spaces are removed automatically.</p>
                   <button type="button" onClick={verify} disabled={verifying || !isValidAmazonPayVoucherCode(txn.trim())} className="mt-3 w-full rounded-2xl py-3.5 font-extrabold text-primary-foreground transition-transform active:scale-[0.98] disabled:opacity-70" style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
                     <span className="flex items-center justify-center gap-2 text-[12px] uppercase">
                       {verifying ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
