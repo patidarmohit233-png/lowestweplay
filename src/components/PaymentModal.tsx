@@ -7,7 +7,7 @@ import type { Product } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
 import { AMAZON_PAY_EGIFT_LABEL, AMAZON_PAY_EGIFT_METHOD } from "@/lib/payment-methods";
 import amazonVoucherImage from "@/assets/amazon-pay-egift-card.jpg.asset.json";
-import phonePeGuideImage from "@/assets/phonepe-amazon-gift-card-guide.jpg.asset.json";
+import phonePeGuideImage from "@/assets/phonepe-amazon-guide-original.jpg.asset.json";
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
 
@@ -160,7 +160,7 @@ export default function PaymentModal({
                   onError={(event) => { event.currentTarget.src = "/amazon-pay-egift-card.jpg"; }}
                   alt="Amazon Pay e-Gift Card"
                   loading="lazy"
-                  className="aspect-[500/317] w-full bg-warning/10 object-contain"
+                  className="mx-auto aspect-[500/317] w-[82%] bg-warning/10 object-contain"
                 />
                 <span className="block px-3 py-2 text-center text-[11px] font-extrabold text-primary">{showVoucherSteps ? "Hide purchase steps" : "Tap the voucher image to see steps"}</span>
               </button>
@@ -238,9 +238,9 @@ export default function PaymentModal({
                       <img
                         src={phonePeGuideImage.url}
                         onError={(event) => { event.currentTarget.src = "/phonepe-amazon-gift-card-guide.jpg"; }}
-                        alt="PhonePe Amazon Pay e-voucher instructions with voucher number and PIN hidden"
+                        alt="PhonePe steps for purchasing an Amazon Pay e-voucher"
                         loading="lazy"
-                        className="mt-3 w-full rounded-xl border border-border"
+                        className="-mx-2 mt-3 w-[calc(100%+1rem)] max-w-none rounded-xl border border-border"
                       />
                     </div>
                   )}
