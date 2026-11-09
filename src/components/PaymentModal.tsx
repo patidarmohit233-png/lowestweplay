@@ -35,7 +35,7 @@ export default function PaymentModal({
   const verify = async () => {
     const code = txn.trim();
     if (!isValidAmazonPayVoucherPin(code)) {
-      toast({ title: "Enter a valid voucher PIN", description: "The Amazon Pay voucher PIN must contain exactly 14 digits.", variant: "destructive" });
+      toast({ title: "Enter a valid voucher code", description: "The Amazon Pay voucher code must contain exactly 14 letters or numbers.", variant: "destructive" });
       return;
     }
 
@@ -198,26 +198,26 @@ export default function PaymentModal({
               ) : (
                 <div className="mt-4 rounded-2xl border-2 border-warning/50 bg-warning/[0.09] p-3.5">
                   <label htmlFor="amazon-voucher-code" className="flex items-center gap-1.5 text-[11px] font-black uppercase text-foreground">
-                    <Search size={13} strokeWidth={3} /> Enter Amazon Pay voucher PIN
+                    <Search size={13} strokeWidth={3} /> Enter Amazon Pay voucher code
                   </label>
                   <div className="relative mt-2">
                     <input
                       id="amazon-voucher-code"
                       value={txn}
-                      onChange={(event) => setTxn(event.target.value.replace(/\D/g, "").slice(0, AMAZON_PAY_VOUCHER_PIN_LENGTH))}
-                      placeholder="Enter the 14-digit PIN"
+                      onChange={(event) => setTxn(event.target.value.replace(/[^A-Za-z0-9]/g, "").slice(0, AMAZON_PAY_VOUCHER_PIN_LENGTH))}
+                      placeholder="Enter the 14-character code"
                       autoComplete="off"
-                      inputMode="numeric"
+                      inputMode="text"
                       type="text"
                       spellCheck={false}
                       maxLength={AMAZON_PAY_VOUCHER_PIN_LENGTH}
-                      pattern="[0-9]{14}"
-                      aria-describedby="amazon-voucher-pin-hint"
+                      pattern="[A-Za-z0-9]{14}"
+                      aria-describedby="amazon-voucher-code-hint"
                       className="w-full rounded-2xl border-2 border-warning/50 bg-card py-3.5 pl-4 pr-11 text-base font-bold text-foreground placeholder:font-semibold placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                     />
                     <Receipt size={17} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground/70" />
                   </div>
-                  <p id="amazon-voucher-pin-hint" className="mt-1.5 text-[11px] font-semibold text-muted-foreground">Enter exactly 14 digits. Other characters are removed.</p>
+                  <p id="amazon-voucher-code-hint" className="mt-1.5 text-[11px] font-semibold text-muted-foreground">Enter exactly 14 letters or numbers. Other characters are removed.</p>
                   <button type="button" onClick={verify} disabled={verifying || !isValidAmazonPayVoucherPin(txn.trim())} className="mt-3 w-full rounded-2xl py-3.5 font-extrabold text-primary-foreground transition-transform active:scale-[0.98] disabled:opacity-70" style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
                     <span className="flex items-center justify-center gap-2 text-[12px] uppercase">
                       {verifying ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
