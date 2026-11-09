@@ -2,6 +2,10 @@ export const AMAZON_PAY_EGIFT_METHOD = "amazon_pay_egift" as const;
 export const AMAZON_PAY_EGIFT_LABEL = "Amazon Pay e-Gift Voucher";
 export const AMAZON_PAY_VOUCHER_CODE_LENGTH = 14;
 
+export function normalizeAmazonPayVoucherCode(value: string) {
+  return value.replace(/[^A-Za-z0-9]/g, "").slice(0, AMAZON_PAY_VOUCHER_CODE_LENGTH);
+}
+
 export function isValidAmazonPayVoucherCode(code: string) {
   return /^[A-Za-z0-9]{14}$/.test(code);
 }
