@@ -1,6 +1,6 @@
 export const AMAZON_PAY_EGIFT_METHOD = "amazon_pay_egift" as const;
 export const AMAZON_PAY_EGIFT_LABEL = "Amazon Pay e-Gift Voucher";
-export const AMAZON_PAY_VOUCHER_PIN_LENGTH = 14;
+export const AMAZON_PAY_VOUCHER_CODE_LENGTH = 14;
 
 export function isValidAmazonPayVoucherPin(pin: string) {
   return /^[A-Za-z0-9]{14}$/.test(pin);

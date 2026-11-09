@@ -4,7 +4,7 @@ import { isValidAmazonPayVoucherPin } from "@/lib/payment-methods";
 describe("Amazon Pay voucher PIN validation", () => {
   it("accepts exactly 14 letters and/or digits", () => {
     expect(isValidAmazonPayVoucherPin("12345678901234")).toBe(true);
-    expect(isValidAmazonPayVoucherPin("TQ4H3BJ43R-TEXY".replace("-", ""))).toBe(true);
+    expect(isValidAmazonPayVoucherPin("TQ4H3BJ43RTEXY")).toBe(true);
     expect(isValidAmazonPayVoucherPin("AbC123xYz45678")).toBe(true);
   });
 
