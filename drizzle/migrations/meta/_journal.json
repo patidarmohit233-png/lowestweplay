@@ -92,6 +92,13 @@
       "when": 1794216073666,
       "tag": "0012_validate_amazon_pay_voucher_pin",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1794217762142,
+      "tag": "0013_accept_alphanumeric_amazon_pay_codes",
+      "breakpoints": true
     }
   ]
 }
