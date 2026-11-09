@@ -7,7 +7,7 @@ import type { Product } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
 import { AMAZON_PAY_EGIFT_LABEL, AMAZON_PAY_EGIFT_METHOD, AMAZON_PAY_VOUCHER_PIN_LENGTH, isValidAmazonPayVoucherPin } from "@/lib/payment-methods";
 import amazonVoucherImage from "@/assets/amazon-pay-egift-card.jpg.asset.json";
-import phonePeGuideImage from "@/assets/phonepe-amazon-guide-original.jpg.asset.json";
+import phonePeGuideImage from "@/assets/phonepe-amazon-guide-v2.jpg.asset.json";
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
 
@@ -244,7 +244,7 @@ export default function PaymentModal({
                         onError={(event) => { event.currentTarget.src = "/phonepe-amazon-gift-card-guide.jpg"; }}
                         alt="PhonePe steps for purchasing an Amazon Pay e-voucher"
                         loading="lazy"
-                        className="-mx-2 mt-3 w-[calc(100%+1rem)] max-w-none rounded-xl border border-border"
+                        className="relative left-1/2 mt-3 block w-[calc(100vw-2rem)] max-w-[32rem] -translate-x-1/2 rounded-xl border border-border sm:left-0 sm:w-full sm:max-w-none sm:translate-x-0"
                       />
                     </div>
                   )}
