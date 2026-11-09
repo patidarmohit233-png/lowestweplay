@@ -15,6 +15,19 @@ type CustomerReview = {
 
 type VerifiedBuyer = { user_id: string; name: string };
 
+const EARLIER_REVIEWS = [
+  { name: "Rahul", text: "Very nice this website is very good for your weplay life dont wast your money come hare and enjoy" },
+  { name: "Ankit G", text: "Maine 50K RED PACKET liya tha. Payment ke baad 10 minute tak kuch nahi aaya toh thoda tension hua. Phir support se baat ki aur 2 minute mein coins aa gaye. Good service" },
+  { name: "Eren R", text: "Bhai kya mst website hai phle trust nhi hua tha but ab roj topup karta hu yahi se" },
+  { name: "Deepak Kumar", text: "Pehle lag raha tha scam hoga kyunki ID maang rahe the. But unhone bola sirf ID chahiye password nahi. Safe hai bhai" },
+  { name: "Neha Jhaal", text: "Raat 1 baje order kiya tha, socha tha kal subah tak wait karna padega coins aa gaye. Trusted website hai" },
+  { name: "Amit Tiwari", text: "Sabse sasta recharge yahi mila. Ab yahi se lunga hamesha." },
+  { name: "Rohit Yadav", text: "Bhai pehle dar lag raha tha par 2 min mein recharge aa gaya. Highly recommended!" },
+  { name: "Sneha", text: "Best experience, trusted hai guys go for it" },
+  { name: "Akash007", text: "Legit site hai, coins turant credit ho gaye account mein." },
+  { name: "Priya S", text: "ID dalte time dar lag raha tha, support se baat ki unhone bola 100% safe hai. 5 minute mein coins aa gaye." },
+];
+
 export default function CustomerReviewPanel({ buyer }: { buyer: VerifiedBuyer | null }) {
   const [reviews, setReviews] = useState<CustomerReview[]>([]);
   const [rating, setRating] = useState(5);
@@ -77,34 +90,6 @@ export default function CustomerReviewPanel({ buyer }: { buyer: VerifiedBuyer | 
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex items-center justify-center py-10 text-muted-foreground" aria-label="Loading reviews">
-          <Loader2 size={20} className="animate-spin" />
-        </div>
-      ) : reviews.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 md:gap-5">
-          {reviews.map((review) => (
-            <article key={review.id} className="card-premium rounded-2xl p-5 flex flex-col">
-              <div className="flex items-center gap-1 text-warning mb-3" aria-label={`${review.rating} out of 5 stars`}>
-                {Array.from({ length: 5 }, (_, index) => (
-                  <Star key={index} size={14} fill={index < review.rating ? "currentColor" : "none"} strokeWidth={1.75} />
-                ))}
-              </div>
-              <blockquote className="text-foreground text-[13px] md:text-sm leading-relaxed flex-grow">“{review.review_text}”</blockquote>
-              <footer className="mt-4 pt-3 border-t border-border/70 flex items-center justify-between gap-3">
-                <span className="text-[12.5px] font-bold text-foreground">{review.weplay_name}</span>
-                <span className="inline-flex items-center gap-1 text-accent text-[10px] font-extrabold"><CheckCircle2 size={12} /> Verified</span>
-              </footer>
-            </article>
-          ))}
-        </div>
-      ) : (
-        <div className="rounded-2xl border border-border bg-card/70 py-8 text-center text-sm text-muted-foreground">
-          <MessageSquareText className="mx-auto mb-2 text-primary" size={22} />
-          Approved customer reviews will appear here.
-        </div>
-      )}
-
       <div className="mt-6 rounded-2xl border border-border bg-card p-4 md:p-5">
         <h3 className="font-display text-base md:text-lg">Share your experience</h3>
         {!buyer ? (
@@ -151,6 +136,44 @@ export default function CustomerReviewPanel({ buyer }: { buyer: VerifiedBuyer | 
               {submitting ? "Sending…" : "Submit for approval"}
             </Button>
           </form>
+        )}
+      </div>
+
+      <div className="mt-7">
+        <h3 className="mb-4 font-display text-base md:text-lg">Customer reviews</h3>
+        {loading ? (
+          <div className="flex items-center justify-center py-10 text-muted-foreground" aria-label="Loading reviews">
+            <Loader2 size={20} className="animate-spin" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 md:gap-5">
+            {EARLIER_REVIEWS.map((review) => (
+              <article key={`earlier-${review.name}`} className="card-premium flex flex-col rounded-2xl p-5">
+                <div className="mb-3 flex items-center gap-1 text-warning" aria-label="5 out of 5 stars">
+                  {Array.from({ length: 5 }, (_, index) => <Star key={index} size={14} fill="currentColor" strokeWidth={1.75} />)}
+                </div>
+                <blockquote className="flex-grow text-[13px] leading-relaxed text-foreground md:text-sm">“{review.text}”</blockquote>
+                <footer className="mt-4 flex items-center justify-between gap-3 border-t border-border/70 pt-3">
+                  <span className="text-[12.5px] font-bold text-foreground">{review.name}</span>
+                  <span className="text-[10px] font-bold text-muted-foreground">Earlier review</span>
+                </footer>
+              </article>
+            ))}
+            {reviews.map((review) => (
+              <article key={review.id} className="card-premium flex flex-col rounded-2xl p-5">
+                <div className="mb-3 flex items-center gap-1 text-warning" aria-label={`${review.rating} out of 5 stars`}>
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <Star key={index} size={14} fill={index < review.rating ? "currentColor" : "none"} strokeWidth={1.75} />
+                  ))}
+                </div>
+                <blockquote className="flex-grow text-[13px] leading-relaxed text-foreground md:text-sm">“{review.review_text}”</blockquote>
+                <footer className="mt-4 flex items-center justify-between gap-3 border-t border-border/70 pt-3">
+                  <span className="text-[12.5px] font-bold text-foreground">{review.weplay_name}</span>
+                  <span className="inline-flex items-center gap-1 text-[10px] font-extrabold text-accent"><CheckCircle2 size={12} /> Verified</span>
+                </footer>
+              </article>
+            ))}
+          </div>
         )}
       </div>
     </div>
