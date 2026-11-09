@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-const VOUCHER_IMG = "https://i.ibb.co/vFjK3Mn/3n-HZVOd-GHMTPI16t-OAFm7yw58-F2x1-BKHRv1t-Ym-NIdmx9o-BQI.png";
+const VOUCHER_IMG = "/amazon-pay-egift-card.jpg";
 import { AlertTriangle, BookOpen, Check, Loader2, Receipt, Search, ShieldCheck, ShoppingBag, X, Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
