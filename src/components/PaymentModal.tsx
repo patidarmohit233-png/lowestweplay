@@ -25,6 +25,7 @@ export default function PaymentModal({
   const [verifying, setVerifying] = useState(false);
   const [done, setDone] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
+  const [showVoucherSteps, setShowVoucherSteps] = useState(false);
 
   if (!product) return null;
 
@@ -146,38 +147,27 @@ export default function PaymentModal({
                 <ShoppingBag size={16} className="text-primary" />
                 <h3 className="text-sm font-extrabold">{AMAZON_PAY_EGIFT_LABEL}</h3>
               </div>
-              <img src={VOUCHER_IMG} alt="Amazon Pay e-Gift Card voucher" loading="lazy" className="mt-3 w-full rounded-2xl border border-border object-cover" />
-              <p className="mt-3 text-[12px] leading-relaxed text-muted-foreground">Buy an Amazon Pay e-Gift Card of <strong className="text-foreground">₹{totalPrice}</strong>, then paste its code below.</p>
-              <button type="button" onClick={() => setShowGuide((v) => !v)} className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-primary/40 bg-primary/10 py-3 text-[12px] font-black uppercase text-primary transition-transform active:scale-[0.97]">
-                <BookOpen size={15} /> {showGuide ? "Hide instructions" : "Instructions (PhonePe)"}
+              <button
+                type="button"
+                onClick={() => setShowVoucherSteps((visible) => !visible)}
+                aria-expanded={showVoucherSteps}
+                aria-label="Show Amazon Pay e-Gift Card steps"
+                className="mt-3 block w-full overflow-hidden rounded-2xl border-2 border-border bg-background text-left transition-transform active:scale-[0.99]"
+              >
+                <img src={VOUCHER_IMG} alt="Amazon Pay e-Gift Card voucher" loading="lazy" className="w-full object-cover" />
+                <span className="block px-3 py-2 text-center text-[11px] font-extrabold text-primary">{showVoucherSteps ? "Hide purchase steps" : "Tap the voucher image to see steps"}</span>
               </button>
-              {showGuide && (
+              <p className="mt-3 text-[12px] leading-relaxed text-muted-foreground">Buy an Amazon Pay e-Gift Card for <strong className="text-foreground">₹{totalPrice}</strong>, then enter its code below.</p>
+              {showVoucherSteps && (
                 <div className="mt-3 rounded-2xl border border-border bg-secondary/60 p-4">
-                  <p className="text-[12px] font-black uppercase text-foreground">Steps in PhonePe</p>
+                  <p className="text-[12px] font-black uppercase text-foreground">After buying your voucher</p>
                   <ol className="mt-2 list-decimal space-y-1.5 pl-5 text-[12px] leading-relaxed text-muted-foreground">
-                    <li>Open <strong className="text-foreground">PhonePe</strong> and search <strong className="text-foreground">"Amazon Pay Gift Card"</strong> (Gift Cards section).</li>
-                    <li>Enter amount <strong className="text-foreground">₹{totalPrice}</strong> and pay.</li>
-                    <li>Open the purchased gift card and copy the <strong className="text-foreground">voucher code</strong>.</li>
-                    <li>Come back here, paste the code and tap <strong className="text-foreground">Submit voucher</strong>.</li>
+                    <li>Choose an Amazon Pay e-Gift Card for <strong className="text-foreground">₹{totalPrice}</strong>.</li>
+                    <li>Complete the purchase and open the gift card details.</li>
+                    <li>Copy its voucher code, then paste it in the box below.</li>
                   </ol>
-                  <img src={VOUCHER_IMG} alt="Amazon Pay e-Gift Card example" loading="lazy" className="mt-3 w-full rounded-xl border border-border" />
                 </div>
               )}
-
-              <ol className="mt-4 space-y-2.5">
-                <li className="flex items-start gap-3 rounded-2xl border border-border bg-card/70 p-3">
-                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-primary/12 text-[12px] font-black text-primary">1</span>
-                  <p className="text-[12px] leading-relaxed text-muted-foreground">Get an Amazon Pay e-Gift Card for <strong className="text-foreground">₹{totalPrice}</strong> from Amazon.</p>
-                </li>
-                <li className="flex items-start gap-3 rounded-2xl border border-border bg-card/70 p-3">
-                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-primary/12 text-[12px] font-black text-primary">2</span>
-                  <p className="text-[12px] leading-relaxed text-muted-foreground">Copy the voucher code from the gift card details or delivery message.</p>
-                </li>
-                <li className="flex items-start gap-3 rounded-2xl border border-border bg-card/70 p-3">
-                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-primary/12 text-[12px] font-black text-primary">3</span>
-                  <p className="text-[12px] leading-relaxed text-muted-foreground">Paste the code below and select <strong className="text-foreground">Submit voucher</strong>.</p>
-                </li>
-              </ol>
 
               {done ? (
                 <div className="mt-4 space-y-4 rounded-2xl border border-accent/30 bg-accent/10 p-5">
@@ -227,6 +217,19 @@ export default function PaymentModal({
                     <AlertTriangle size={12} className="mt-[1px] shrink-0 text-destructive" />
                     Check the code before submitting. Submission sends it to our team for review; it does not automatically check the voucher balance with Amazon.
                   </p>
+                  <button type="button" onClick={() => setShowGuide((visible) => !visible)} aria-expanded={showGuide} className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-primary/40 bg-primary/10 py-3 text-[12px] font-black uppercase text-primary transition-transform active:scale-[0.97]">
+                    <BookOpen size={15} /> {showGuide ? "Hide PhonePe instructions" : "PhonePe purchase instructions"}
+                  </button>
+                  {showGuide && (
+                    <div className="mt-3 rounded-2xl border border-border bg-secondary/60 p-4">
+                      <p className="text-[12px] font-black uppercase text-foreground">Buy through PhonePe</p>
+                      <ol className="mt-2 list-decimal space-y-1.5 pl-5 text-[12px] leading-relaxed text-muted-foreground">
+                        <li>Open <strong className="text-foreground">PhonePe</strong> and search for <strong className="text-foreground">Amazon Pay Gift Card</strong> in Gift Cards.</li>
+                        <li>Choose <strong className="text-foreground">₹{totalPrice}</strong> and complete payment.</li>
+                        <li>Open the gift card, copy its code, and paste it above before submitting.</li>
+                      </ol>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
