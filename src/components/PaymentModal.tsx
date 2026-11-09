@@ -198,7 +198,7 @@ export default function PaymentModal({
               ) : (
                 <div className="mt-4 rounded-2xl border-2 border-warning/50 bg-warning/[0.09] p-3.5">
                   <label htmlFor="amazon-voucher-code" className="flex items-center gap-1.5 text-[11px] font-black uppercase text-foreground">
-                    <Search size={13} strokeWidth={3} /> Enter Amazon Pay voucher code
+                    <Search size={13} strokeWidth={3} /> Enter Amazon Pay voucher PIN
                   </label>
                   <div className="relative mt-2">
                     <input
