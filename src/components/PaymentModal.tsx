@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-const VOUCHER_IMG = "/amazon-pay-egift-card.jpg";
 import { AlertTriangle, BookOpen, Check, Loader2, Receipt, Search, ShieldCheck, ShoppingBag, X, Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import type { Product } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
 import { AMAZON_PAY_EGIFT_LABEL, AMAZON_PAY_EGIFT_METHOD } from "@/lib/payment-methods";
+import amazonVoucherImage from "@/assets/amazon-pay-egift-card.jpg.asset.json";
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
 
@@ -154,7 +154,7 @@ export default function PaymentModal({
                 aria-label="Show Amazon Pay e-Gift Card steps"
                 className="mt-3 block w-full overflow-hidden rounded-2xl border-2 border-border bg-background text-left transition-transform active:scale-[0.99]"
               >
-                <img src={VOUCHER_IMG} alt="Amazon Pay e-Gift Card voucher" loading="lazy" className="w-full object-cover" />
+                <img src={amazonVoucherImage.url} alt="Amazon Pay e-Gift Card" loading="lazy" className="aspect-[500/317] w-full bg-warning/10 object-contain" />
                 <span className="block px-3 py-2 text-center text-[11px] font-extrabold text-primary">{showVoucherSteps ? "Hide purchase steps" : "Tap the voucher image to see steps"}</span>
               </button>
               <p className="mt-3 text-[12px] leading-relaxed text-muted-foreground">Buy an Amazon Pay e-Gift Card for <strong className="text-foreground">₹{totalPrice}</strong>, then enter its code below.</p>
