@@ -210,7 +210,7 @@ export default function PaymentModal({
                   <button type="button" onClick={verify} disabled={verifying} className="mt-3 w-full rounded-2xl py-3.5 font-extrabold text-primary-foreground transition-transform active:scale-[0.98] disabled:opacity-70" style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-primary)" }}>
                     <span className="flex items-center justify-center gap-2 text-[12px] uppercase">
                       {verifying ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
-                      {verifying ? "Submitting voucher…" : "Submit voucher"}
+                      {verifying ? "Submitting for review…" : "Submit for verification"}
                     </span>
                   </button>
                   <p className="mt-2.5 flex items-start gap-1.5 text-[10.5px] font-semibold leading-relaxed text-muted-foreground">
