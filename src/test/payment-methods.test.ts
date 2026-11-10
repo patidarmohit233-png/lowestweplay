@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isValidAmazonPayVoucherCode, normalizeAmazonPayVoucherCode } from "@/lib/payment-methods";
+import { extractAmazonPayVoucherCode, isValidAmazonPayVoucherCode, normalizeAmazonPayVoucherCode } from "@/lib/payment-methods";
 
 describe("Amazon Pay voucher code validation", () => {
   it("accepts exactly 14 letters and/or digits", () => {
@@ -33,5 +33,15 @@ describe("Amazon Pay voucher code validation", () => {
   it("removes whitespace and caps normalized input at 14 characters", () => {
     expect(normalizeAmazonPayVoucherCode("  TQ4H 3BJ43R TEXY  ")).toBe("TQ4H3BJ43RTEXY");
     expect(normalizeAmazonPayVoucherCode("TQ4H3BJ43RTEXT9")).toBe("TQ4H3BJ43RTEXT");
+  });
+
+  it("extracts the voucher code from pasted details and ignores a labeled PIN", () => {
+    const code = extractAmazonPayVoucherCode("Amazon Pay Gift Card Code: TQ4H-3BJ43R-TEXY\nPIN: 1234");
+    expect(code).toBe("TQ4H3BJ43RTEXY");
+    expect(isValidAmazonPayVoucherCode(code)).toBe(true);
+  });
+
+  it("extracts a plain code from labeled, multi-line voucher details", () => {
+    expect(extractAmazonPayVoucherCode("Voucher Code\nAbC123xYz45678\nPIN: 9876")).toBe("AbC123xYz45678");
   });
 });
