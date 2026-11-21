@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import Admin from "./Admin";
 import Seo from "@/components/Seo";
-import { Lock, User, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Lock, User } from "lucide-react";
+import { motion } from "framer-motion";
 import { toast } from "@/hooks/use-toast";
 
 export default function AdminGate() {

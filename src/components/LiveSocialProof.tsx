@@ -3,14 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Eye, CheckCircle2 } from "lucide-react";
 import { PRODUCTS } from "@/data/products";
 
-const NAMES = [
-  "Rahul S.", "Aman K.", "Priya M.", "Sahil V.", "Rohit D.", "Ankit R.",
-  "Neha J.", "Karan B.", "Vikas T.", "Simran K.", "Arjun P.", "Deepak N.",
-  "Ritik G.", "Pooja S.", "Manish Y.", "Harsh L.", "Sneha A.", "Yash C.",
-  "Abhishek M.", "Tanya R.", "Nikhil W.", "Kunal S.", "Ayush B.", "Farhan Q.",
-  "Gaurav H.", "Ishaan D.", "Jatin M.", "Kabir S.", "Lakshay P.", "Mohit V.",
-];
-
 const CITIES = ["Delhi", "Mumbai", "Lucknow", "Patna", "Jaipur", "Pune", "Indore", "Surat", "Kolkata", "Bhopal", "Chandigarh", "Hyderabad"];
 
 // Exclude the ₹479 packs from the purchase popups

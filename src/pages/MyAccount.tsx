@@ -6,7 +6,6 @@ import {
   PartyPopper, RotateCcw, ShoppingBag, Sparkles, Trophy, UserCheck, Wallet } from
 "lucide-react";
 import Seo from "@/components/Seo";
-import lowestweplayAvatarAsset from "@/assets/lowestweplay-avatar.png.asset.json";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { MILESTONES, fmt, nextMilestone, tierMeta } from "@/lib/loyalty";

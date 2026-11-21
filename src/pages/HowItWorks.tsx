@@ -1,4 +1,3 @@
-import React from 'react';
 import Seo from "@/components/Seo";
 import ContentLayout from "@/components/ContentLayout";
 import { UserCheck, CreditCard, Clock, CheckCircle2, ShieldCheck } from "lucide-react";

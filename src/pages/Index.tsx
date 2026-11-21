@@ -4,7 +4,7 @@ import { motion, useInView, useScroll, useSpring, AnimatePresence } from "framer
 import {
   ShieldCheck, Zap, Lock, Trophy, MessageSquare, Package,
   ArrowRight, Search, CreditCard, Download, CheckCircle2,
-  Sparkles, Star, Crown, Flame, UserCheck, Loader2, Pencil, PlayCircle,
+  Sparkles, Crown, Flame, UserCheck, Loader2, Pencil, PlayCircle,
   ArrowLeftRight, ExternalLink, Snowflake } from
 "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
@@ -22,7 +22,6 @@ import { z } from "zod";
 
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
-type Buyer = { lowestweplay_id: string; lowestweplay_name: string };
 const VERIFY_KEY = "lw_verified_buyer";
 
 
@@ -71,8 +70,6 @@ const STEPS = [
 
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-const SOFT_EASE = [0.25, 0.1, 0.25, 1] as const;
-const BOUNCE_EASE = [0.34, 1.56, 0.64, 1] as const;
 
 /* ── Reveal wrapper ───────────────────────────────────── */
 function Reveal({ 

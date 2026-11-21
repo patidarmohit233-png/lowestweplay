@@ -1,8 +1,5 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import ScrollToTop from "./components/ScrollToTop";
 import VisitorTracker from "./components/VisitorTracker";
@@ -31,48 +28,41 @@ import NotFound from "./pages/NotFound.tsx";
 
 
 
-const queryClient = new QueryClient();
-
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <VisitorTracker />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/admin-lowest-shubham" element={<Admin />} />
-          <Route path="/admin-lowest" element={<Admin />} />
-          <Route path="/track-order" element={<TrackOrder />} />
-          <Route path="/my-account" element={<MyAccount />} />
-          <Route path="/blog" element={<BlogList />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-
-          <Route path="/lowestweplay-recharge" element={<WeplayRecharge />} />
-          <Route path="/lowestweplay-recharge-topup" element={<WeplayTopupLanding />} />
-          <Route path="/lowestweplay-red-packet" element={<WeplayRedPacket />} />
-          <Route path="/lowestweplay-top-up-price-list" element={<PriceList />} />
-          <Route path="/red-packet-vs-gold-recharge" element={<RedPacketVsGold />} />
-          <Route path="/how-to-top-up-lowestweplay" element={<HowToTopUp />} />
-          <Route path="/faq" element={<Faq />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/refund-policy" element={<RefundPolicy />} />
-          <Route path="/terms-of-service" element={<TermsOfService />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/trust-safety" element={<TrustSafety />} />
-          <Route path="/why-us" element={<WhyUs />} />
-          <Route path="/how-it-works" element={<HowItWorks />} />
-          <Route path="/plans/:slug" element={<PlanPage />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <>
+    <Toaster />
+    <BrowserRouter>
+      <ScrollToTop />
+      <VisitorTracker />
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin-lowest-shubham" element={<Admin />} />
+        <Route path="/admin-lowest" element={<Admin />} />
+        <Route path="/track-order" element={<TrackOrder />} />
+        <Route path="/my-account" element={<MyAccount />} />
+        <Route path="/blog" element={<BlogList />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/lowestweplay-recharge" element={<WeplayRecharge />} />
+        <Route path="/lowestweplay-recharge-topup" element={<WeplayTopupLanding />} />
+        <Route path="/lowestweplay-red-packet" element={<WeplayRedPacket />} />
+        <Route path="/lowestweplay-top-up-price-list" element={<PriceList />} />
+        <Route path="/red-packet-vs-gold-recharge" element={<RedPacketVsGold />} />
+        <Route path="/how-to-top-up-lowestweplay" element={<HowToTopUp />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/refund-policy" element={<RefundPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/trust-safety" element={<TrustSafety />} />
+        <Route path="/why-us" element={<WhyUs />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/plans/:slug" element={<PlanPage />} />
+        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  </>
 );
 
 export default App;

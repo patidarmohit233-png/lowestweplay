@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { User, LogOut, Receipt, Coins, Package, X, MessageCircle, Phone } from "lucide-react";
+import { LogOut, Receipt, Coins, Package, X, MessageCircle, Phone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fmt, tierMeta } from "@/lib/loyalty";
-import lowestweplayAvatarAsset from "@/assets/lowestweplay-avatar.png.asset.json";
 
 
 type VerifiedBuyer = { game: string; user_id: string; name: string };
@@ -43,8 +42,6 @@ export default function ProfileMenu({ buyer, onLogout }: { buyer: VerifiedBuyer;
   }, []);
 
   const tier = tierMeta(stats?.loyalty_tier ?? "bronze");
-  const initials = buyer?.name?.trim()?.slice(0, 1).toUpperCase() || "P";
-
   return (
     <div ref={ref} className="relative z-[70] flex items-center justify-center">
       <button

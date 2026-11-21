@@ -1,8 +1,6 @@
-import React from 'react';
 import Seo from "@/components/Seo";
 import ContentLayout from "@/components/ContentLayout";
 import { ShieldCheck, Lock, Zap, RefreshCcw, UserCheck, CreditCard } from "lucide-react";
-import { motion } from "framer-motion";
 
 const TrustSafety = () => {
   const PATH = "/trust-safety";

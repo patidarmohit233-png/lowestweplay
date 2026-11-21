@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNoindex } from "@/hooks/use-noindex";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen, FileCode, Clock, CheckCircle, Send, Eye, Copy, X, Bell, Star } from "lucide-react";
+import { Loader2, RefreshCw, Search, Users, Package, IndianRupee, BarChart3, Plus, Trash2, Edit3, BookOpen, FileCode, Clock, CheckCircle, Send, Eye, Copy, X, Star } from "lucide-react";
 import LiveVisitorsPanel from "@/components/admin/LiveVisitorsPanel";
 import BuyClicksPanel from "@/components/admin/BuyClicksPanel";
 import { generateSitemapXml } from "@/lib/sitemap-generator";

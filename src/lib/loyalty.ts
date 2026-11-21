@@ -12,13 +12,6 @@ export const MILESTONES: { coins: number; reward: number; label: string }[] = [
   { coins: 500000, reward: 50000, label: "500K Legend" },
 ];
 
-export function tierOf(total: number): Tier {
-  if (total >= 500001) return "platinum";
-  if (total >= 100001) return "gold";
-  if (total >= 50001) return "silver";
-  return "bronze";
-}
-
 export function tierMeta(tier: string) {
   return TIERS.find((t) => t.key === tier) ?? TIERS[0];
 }
