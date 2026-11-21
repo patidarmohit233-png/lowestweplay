@@ -543,7 +543,7 @@ const Index = () => {
     const s1 = document.createElement("script");
     s1.id = "chatway";
     s1.async = true;
-    s1.src = "https://cdn.chatway.app/widget.js?id=6oW32GImi1W2";
+    s1.src = "https://cdn.chatway.app/widget.js?id=5ZkzXRTVUff7";
     document.body.appendChild(s1);
     return () => {document.body.removeChild(s1);};
   }, []);
