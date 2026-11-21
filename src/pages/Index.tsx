@@ -5,7 +5,7 @@ import {
   ShieldCheck, Zap, Lock, Trophy, MessageSquare, Package,
   ArrowRight, Search, CreditCard, Download, CheckCircle2,
   Sparkles, Star, Crown, Flame, UserCheck, Loader2, Pencil, PlayCircle,
-  ArrowLeftRight, ExternalLink } from
+  ArrowLeftRight, ExternalLink, Snowflake } from
 "lucide-react";
 import SplashScreen from "@/components/SplashScreen";
 import PaymentModal from "@/components/PaymentModal";
@@ -316,7 +316,7 @@ function DailyCountdownBar() {
 
   return (
     <div className="fixed top-0 z-[60] w-full overflow-hidden text-foreground"
-      style={{ background: "var(--gradient-diwali)", height: "40px" }}>
+      style={{ background: "var(--gradient-winter)", height: "40px" }}>
 
       <motion.div
         aria-hidden
@@ -328,14 +328,14 @@ function DailyCountdownBar() {
       <div className="relative max-w-7xl mx-auto px-3 py-0 h-full flex items-center justify-center gap-2 md:gap-3.5 flex-nowrap">
         <motion.span
           className="text-sm md:text-lg leading-none"
-          animate={{ scale: [1, 1.18, 1], rotate: [0, -8, 8, 0] }}
+          animate={{ y: [0, 2, 0], rotate: [0, 12, 0] }}
           transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}>
-          🔥
+          <Snowflake size={16} aria-hidden="true" />
         </motion.span>
 
         <span className="font-display text-[11.5px] md:text-[16px] whitespace-nowrap">
           <span className="text-warning-foreground">70% OFF</span>
-          <span className="hidden sm:inline text-foreground/85"> · Mega Sale</span>
+          <span className="hidden sm:inline text-foreground/85"> · Winter Special</span>
           <span className="text-foreground/65 font-semibold"> ends in</span>
         </span>
 
@@ -710,18 +710,7 @@ const Index = () => {
           style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.16), transparent 62%)" }} />
         <div className="absolute top-28 -right-40 w-[440px] h-[440px] rounded-full pointer-events-none animate-aurora"
           style={{ background: "radial-gradient(circle, hsl(var(--primary-glow)/0.16), transparent 65%)", animationDelay: "-7s" }} />
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <span className="diwali-firework absolute left-[7%] top-[24%] h-14 w-14" />
-          <span className="diwali-firework absolute right-[7%] top-[18%] h-16 w-16" style={{ animationDelay: "1.1s" }} />
-          <span className="diwali-firework absolute left-[12%] bottom-[13%] h-12 w-12" style={{ animationDelay: "2.1s" }} />
-          <span className="diwali-firework absolute right-[11%] bottom-[15%] h-14 w-14" style={{ animationDelay: "0.6s" }} />
-          <span className="diwali-diya bottom-[7%] left-[5%]">
-            <span className="diya-flame" /><span className="diya-bowl" />
-          </span>
-          <span className="diwali-diya bottom-[7%] right-[5%]" style={{ animationDelay: "1.2s" }}>
-            <span className="diya-flame" /><span className="diya-bowl" />
-          </span>
-        </div>
+        <div aria-hidden="true" className="winter-snowfall pointer-events-none absolute inset-0 overflow-hidden" />
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
@@ -741,8 +730,8 @@ const Index = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
-            className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-warning/35 bg-warning/15 px-3 py-1.5 text-[10px] md:text-xs font-extrabold text-warning-foreground">
-            <Sparkles size={13} /> Diwali Celebrations
+            className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-[10px] md:text-xs font-extrabold text-primary">
+            <Snowflake size={13} /> Winter Special
           </motion.div>
 
 
@@ -923,16 +912,7 @@ const Index = () => {
 
       {/* ─── PRODUCTS ─────────────────────────────────────── */}
       <section id="products" className="relative py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <span className="diwali-firework absolute left-[5%] top-[12%] h-9 w-9" style={{ animationDelay: "0.8s" }} />
-          <span className="diwali-firework absolute right-[7%] bottom-[14%] h-10 w-10" style={{ animationDelay: "2s" }} />
-          <span className="diwali-diya left-[2%] top-[43%]">
-            <span className="diya-flame" /><span className="diya-bowl" />
-          </span>
-          <span className="diwali-diya right-[2%] top-[43%]" style={{ animationDelay: "1.4s" }}>
-            <span className="diya-flame" /><span className="diya-bowl" />
-          </span>
-        </div>
+        <div aria-hidden="true" className="winter-snowfall pointer-events-none absolute inset-0 overflow-hidden" />
         <div className="max-w-7xl mx-auto relative z-10">
           {/* verified users see their player card right above the packages */}
           {buyer && <VerificationPanel buyer={buyer} onVerified={persistBuyer} />}
@@ -981,14 +961,8 @@ const Index = () => {
 
       {/* ─── PROOF OF DELIVERY ────────────────────────────── */}
       <section id="proof" className="relative py-14 md:py-24 px-4 md:px-6 scroll-mt-36">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <span className="diwali-firework absolute left-[8%] top-[16%] h-9 w-9" style={{ animationDelay: "1.5s" }} />
-          <span className="diwali-firework absolute right-[8%] bottom-[13%] h-10 w-10" style={{ animationDelay: "0.3s" }} />
-          <span className="diwali-diya bottom-[5%] left-[3%]">
-            <span className="diya-flame" /><span className="diya-bowl" />
-          </span>
-        </div>
-        <div className="max-w-4xl mx-auto">
+        <div aria-hidden="true" className="winter-snowfall pointer-events-none absolute inset-0 overflow-hidden" />
+        <div className="relative z-10 max-w-4xl mx-auto">
           <SectionHeading
             eyebrow="Trust"
             title="Proof of"

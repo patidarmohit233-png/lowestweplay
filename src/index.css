@@ -25,7 +25,8 @@
     --destructive-foreground: 0 0% 100%;
     --warning: 42 96% 50%;
     --warning-foreground: 30 40% 12%;
-    --diwali-orange: 28 92% 56%;
+    --winter-ice: 198 88% 76%;
+    --winter-frost: 176 70% 82%;
     --border: 232 20% 92%;
     --input: 232 20% 91%;
     --ring: 245 75% 56%;
@@ -42,7 +43,7 @@
     --gradient-mesh: radial-gradient(at 12% 8%, hsl(245 75% 56% / 0.10) 0px, transparent 45%),
                      radial-gradient(at 88% 4%, hsl(39 92% 56% / 0.12) 0px, transparent 48%),
                      radial-gradient(at 70% 90%, hsl(160 84% 38% / 0.06) 0px, transparent 50%);
-    --gradient-diwali: linear-gradient(105deg, hsl(27 90% 76%), hsl(35 92% 70%), hsl(23 88% 74%), hsl(39 90% 77%));
+    --gradient-winter: linear-gradient(105deg, hsl(var(--winter-ice)), hsl(var(--winter-frost)), hsl(205 78% 86%), hsl(var(--winter-ice)));
     --noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
 }
@@ -133,44 +134,15 @@
     height: 1px;
     background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
   }
-  .diwali-firework {
-    background:
-      radial-gradient(circle, hsl(var(--warning)) 0 5%, transparent 9%),
-      repeating-conic-gradient(from 0deg, hsl(var(--diwali-orange) / 0.95) 0deg 3deg, transparent 3deg 16deg);
-    mask-image: radial-gradient(circle, transparent 0 4%, #000 10% 72%, transparent 88%);
-    -webkit-mask-image: radial-gradient(circle, transparent 0 4%, #000 10% 72%, transparent 88%);
-    filter: drop-shadow(0 0 7px hsl(var(--diwali-orange) / 0.58));
-    animation: firework-pop 3.2s ease-out infinite;
-  }
-  .diwali-diya {
-    position: absolute;
-    display: block;
-    width: 3.25rem;
-    height: 2.75rem;
-    filter: drop-shadow(0 3px 5px hsl(var(--diwali-orange) / 0.2));
-    animation: diya-flicker 2.8s ease-in-out infinite;
-  }
-  .diya-bowl {
-    position: absolute;
-    left: 8%;
-    bottom: 4%;
-    width: 84%;
-    height: 44%;
-    border: 1px solid hsl(var(--warning) / 0.72);
-    border-radius: 10% 10% 55% 55%;
-    background: linear-gradient(180deg, hsl(var(--diwali-orange) / 0.9), hsl(var(--diwali-orange) / 0.55));
-    clip-path: polygon(0 0, 100% 0, 86% 72%, 68% 100%, 32% 100%, 14% 72%);
-  }
-  .diya-flame {
-    position: absolute;
-    left: 42%;
-    top: 2%;
-    width: 20%;
-    height: 47%;
-    border-radius: 70% 25% 65% 35%;
-    background: linear-gradient(180deg, hsl(var(--warning)), hsl(var(--diwali-orange)) 78%);
-    transform: rotate(2deg);
-    box-shadow: 0 0 9px hsl(var(--warning) / 0.65);
+  .winter-snowfall {
+    z-index: 0;
+    opacity: 0.58;
+    background-image:
+      radial-gradient(2px 2px at 24px 32px, hsl(var(--winter-ice) / 0.9) 98%, transparent),
+      radial-gradient(2.5px 2.5px at 118px 84px, hsl(var(--winter-frost) / 0.85) 98%, transparent),
+      radial-gradient(1.5px 1.5px at 62px 152px, hsl(var(--winter-ice) / 0.7) 98%, transparent);
+    background-size: 180px 220px, 240px 280px, 150px 190px;
+    animation: snowfall 16s linear infinite;
   }
 }
 
@@ -214,20 +186,13 @@
 }
 .animate-gentle-glow { animation: gentle-glow 3.4s ease-in-out infinite; }
 
-@keyframes firework-pop {
-  0%, 100% { opacity: 0; transform: scale(0.3) rotate(0deg); }
-  12% { opacity: 0.9; }
-  30% { opacity: 0.74; transform: scale(1.35) rotate(12deg); }
-  58% { opacity: 0; transform: scale(1.7) rotate(24deg); }
-}
-
-@keyframes diya-flicker {
-  0%, 100% { opacity: 0.82; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(-2px); }
+@keyframes snowfall {
+  from { background-position: 0 0, 0 0, 0 0; }
+  to { background-position: 0 220px, 0 280px, 0 190px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .diwali-firework, .diwali-diya { animation: none; }
+  .winter-snowfall { animation: none; }
 }
 
 /* Aurora float */
