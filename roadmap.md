@@ -1,6 +1,8 @@
 - [x] Remove confirmed-unused source files, asset pointers, scratch scripts, and dead declarations.
 - [x] Remove orphaned UI wrappers and unused global providers/dependencies.
 - [x] Verify build, tests, and homepage, checkout, admin, and account flows; retain Android support and payment fallbacks.
+- [x] Sweep reachable screens, checkout/admin flows, background jobs, and database functions for remaining confirmed-unused code.
+- [x] Keep legacy public order/payment RPCs for compatibility because live deployment versions are unconfirmed.
 
 - [x] Add customer review storage, validation, and approval RPCs.
 - [x] Add verified-customer review submission and approved review display with 4.9 rating summary.
