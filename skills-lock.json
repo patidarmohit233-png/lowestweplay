@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "skills": {
+    "antislop": {
+      "source": "miqdadbadjuber/anti-slop",
+      "commit": "7f6a03df2931c12cb244dc4ab14ee4866b0ac2ba",
+      "sourceType": "github",
+      "skillPath": "skills/antislop/SKILL.md",
+      "computedHash": "4edc2d79b9dc05d48cef291ccda1d5ea5d832d5a67030e843f4f40280ae650fe"
+    }
+  }
+}
