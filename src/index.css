@@ -27,6 +27,7 @@
     --warning-foreground: 30 40% 12%;
     --winter-ice: 198 88% 76%;
     --winter-frost: 176 70% 82%;
+    --winter-snow: 198 78% 58%;
     --border: 232 20% 92%;
     --input: 232 20% 91%;
     --ring: 245 75% 56%;
@@ -136,13 +137,18 @@
   }
   .winter-snowfall {
     z-index: 0;
-    opacity: 0.58;
+    opacity: 0.68;
     background-image:
-      radial-gradient(2px 2px at 24px 32px, hsl(var(--winter-ice) / 0.9) 98%, transparent),
-      radial-gradient(2.5px 2.5px at 118px 84px, hsl(var(--winter-frost) / 0.85) 98%, transparent),
-      radial-gradient(1.5px 1.5px at 62px 152px, hsl(var(--winter-ice) / 0.7) 98%, transparent);
-    background-size: 180px 220px, 240px 280px, 150px 190px;
-    animation: snowfall 16s linear infinite;
+      radial-gradient(3px 3px at 24px 32px, hsl(var(--winter-snow) / 0.88) 98%, transparent),
+      radial-gradient(4px 4px at 118px 84px, hsl(var(--winter-snow) / 0.78) 98%, transparent),
+      radial-gradient(2px 2px at 62px 152px, hsl(var(--winter-ice) / 0.95) 98%, transparent),
+      radial-gradient(5px 5px at 92px 205px, hsl(var(--winter-snow) / 0.64) 98%, transparent),
+      radial-gradient(2.5px 2.5px at 153px 44px, hsl(var(--winter-ice) / 0.82) 98%, transparent),
+      radial-gradient(3.5px 3.5px at 211px 76px, hsl(var(--winter-snow) / 0.72) 98%, transparent),
+      radial-gradient(2px 2px at 47px 188px, hsl(var(--winter-snow) / 0.78) 98%, transparent);
+    background-size: 283px 463px, 371px 537px, 439px 367px, 317px 593px, 487px 419px, 359px 487px, 523px 641px;
+    background-position: 12px 18px, 91px 121px, 153px 49px, 228px 264px, 47px 198px, 180px 339px, 321px 68px;
+    animation: snowfall 13s linear infinite;
   }
 }
 
@@ -187,8 +193,8 @@
 .animate-gentle-glow { animation: gentle-glow 3.4s ease-in-out infinite; }
 
 @keyframes snowfall {
-  from { background-position: 0 0, 0 0, 0 0; }
-  to { background-position: 0 220px, 0 280px, 0 190px; }
+  from { background-position: 12px 18px, 91px 121px, 153px 49px, 228px 264px, 47px 198px, 180px 339px, 321px 68px; }
+  to { background-position: 12px 481px, 91px 658px, 153px 416px, 228px 857px, 47px 617px, 180px 826px, 321px 709px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
