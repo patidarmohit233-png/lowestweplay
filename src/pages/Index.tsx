@@ -865,7 +865,7 @@ const Index = () => {
               <iframe
                 width="100%"
                 height="100%"
-                src="https://www.youtube.com/embed/_1vNwhWRxRs?si=2zy4kM5np8fgnJ5n"
+                src="https://www.youtube.com/embed/M7a8qgFIi0s?si=w0JrtidZH-A5tYzd"
                 title="YouTube video player"
                 frameBorder="0"
                 loading="lazy"

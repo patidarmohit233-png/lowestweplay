@@ -11,3 +11,5 @@
 - [x] Restore historical review text, place review submission above reviews, and enforce one lifetime review per case-insensitive WePlay ID.
 - [x] Accept exactly 14 alphanumeric Amazon Pay voucher characters and keep redeemable details masked in the PhonePe guide image.
 - [x] Normalize formatted Amazon Pay voucher pastes (including hyphens and spaces) before enforcing the 14-character rule.
+- [x] Set the homepage demo video to the user-confirmed YouTube embed and verify it in the homepage preview.
+- [x] Re-check the reported `src/lib/utils.ts` TypeScript error; the current type-check completes without errors.
