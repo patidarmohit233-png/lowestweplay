@@ -92,7 +92,7 @@ TOP PARTNERS CAROUSEL with auto-slide (every 3 seconds):
 
 Embed this YouTube video:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/wGYGm31bhZM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/M7a8qgFIi0s?si=w0JrtidZH-A5tYzd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## CHAT WIDGET
 
