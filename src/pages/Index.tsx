@@ -633,9 +633,9 @@ const Index = () => {
       <div className="absolute inset-0 bg-background/95 backdrop-blur-3xl border-b border-border/70 pointer-events-none shadow-sm" />
       <div className="relative max-w-7xl mx-auto flex items-center justify-between pointer-events-auto min-h-[72px] h-auto py-2 md:py-3">
         <div className="flex-1 hidden md:flex items-center gap-4">
-          <Link to="/lowestweplay-recharge-topup" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
+          <a href="https://weplayescrow.lovable.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
             <ArrowLeftRight size={13} className="text-primary" /> Buy & Sell ID
-          </Link>
+          </a>
           <Link to="/trust-safety" className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-card/70 backdrop-blur-xl border border-border/60 text-[11px] font-extrabold text-foreground uppercase tracking-widest hover:bg-card transition-colors">
             <ShieldCheck size={13} className="text-primary" /> Trust & Safety
           </Link>
@@ -882,7 +882,7 @@ const Index = () => {
         <div className="max-w-4xl mx-auto">
           <Reveal>
             <a
-              href="https://lowestweplayescrow.lovable.app/"
+              href="https://weplayescrow.lovable.app"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-3 md:gap-4 rounded-2xl border border-accent/25 bg-accent/[0.06] px-4 py-3.5 md:px-6 md:py-4 backdrop-blur-xl active:scale-[0.98] transition-transform">
