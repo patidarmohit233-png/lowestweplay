@@ -1,0 +1,4 @@
+git clone --bare https://github.com/sharmashubh3224/lowestweplay.git
+cd lowestweplay.git
+# Apne GitHub par ek naya empty repo banayein, fir push karein:
+git push --mirror https://github.com/<APNA_USERNAME>/<NAYA_REPO_NAME>.git
